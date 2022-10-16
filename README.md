@@ -1,7 +1,7 @@
 
 # React Native Boilerplate
 
-A simple react-native project that used by @arkana to develop mobile apps.
+A simple react-native project that used by @Arsyal to develop mobile apps.
 
 
 ## Installed Components
@@ -25,7 +25,7 @@ Install with yarn
     
 ## Authors
 
-- [@febfeb](https://www.gitlab.com/febfeb)
+- [@ArsyalRaka02](https://www.gitlab.com/ArsyalRaka02)
 
 
 ## License
