@@ -25,7 +25,7 @@ Install with yarn
     
 ## Authors
 
-- [@ArsyalRaka02](https://www.gitlab.com/ArsyalRaka02)
+- [@ArsyalRaka](https://www.gitlab.com/ArsyalRaka)
 
 
 ## License
