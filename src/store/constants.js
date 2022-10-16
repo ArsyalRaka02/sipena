@@ -1,0 +1,7 @@
+export const SET_USER = 'SET_USER';
+export const SET_SPLASH_SCREEN = 'SET_SPLASH_SCREEN';
+export const SET_CART = 'SET_CART';
+export const SET_CUSTOMER_DATA = 'SET_CUSTOMER_DATA';
+export const SET_PRINTER_ID = 'SET_PRINTER_ID';
+export const SET_ORDER_STATUS_RULES = 'SET_ORDER_STATUS_RULES';
+export const SET_LOCK_SCREEN = 'SET_LOCK_SCREEN';

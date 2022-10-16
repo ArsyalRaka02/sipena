@@ -1,0 +1,175 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="id.sipena.app"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="21"
+9        android:targetSdkVersion="30" />
+10
+11    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+11-->/Users/macbook/Projects/ReactNative/sipena/android/app/src/debug/AndroidManifest.xml:5:5-77
+11-->/Users/macbook/Projects/ReactNative/sipena/android/app/src/debug/AndroidManifest.xml:5:22-75
+12    <uses-permission android:name="android.permission.INTERNET" />
+12-->/Users/macbook/Projects/ReactNative/sipena/android/app/src/main/AndroidManifest.xml:4:5-67
+12-->/Users/macbook/Projects/ReactNative/sipena/android/app/src/main/AndroidManifest.xml:4:22-64
+13    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+13-->/Users/macbook/Projects/ReactNative/sipena/android/app/src/main/AndroidManifest.xml:5:5-81
+13-->/Users/macbook/Projects/ReactNative/sipena/android/app/src/main/AndroidManifest.xml:5:22-78
+14    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+14-->/Users/macbook/Projects/ReactNative/sipena/android/app/src/main/AndroidManifest.xml:6:5-79
+14-->/Users/macbook/Projects/ReactNative/sipena/android/app/src/main/AndroidManifest.xml:6:22-76
+15    <uses-permission android:name="android.permission.CAMERA" />
+15-->/Users/macbook/Projects/ReactNative/sipena/android/app/src/main/AndroidManifest.xml:7:5-65
+15-->/Users/macbook/Projects/ReactNative/sipena/android/app/src/main/AndroidManifest.xml:7:22-62
+16    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+16-->/Users/macbook/Projects/ReactNative/sipena/android/app/src/main/AndroidManifest.xml:8:5-80
+16-->/Users/macbook/Projects/ReactNative/sipena/android/app/src/main/AndroidManifest.xml:8:22-77
+17    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+17-->/Users/macbook/Projects/ReactNative/sipena/android/app/src/main/AndroidManifest.xml:9:5-81
+17-->/Users/macbook/Projects/ReactNative/sipena/android/app/src/main/AndroidManifest.xml:9:22-78
+18    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+18-->/Users/macbook/Projects/ReactNative/sipena/android/app/src/main/AndroidManifest.xml:10:4-78
+18-->/Users/macbook/Projects/ReactNative/sipena/android/app/src/main/AndroidManifest.xml:10:21-75
+19    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+19-->[com.facebook.flipper:flipper:0.99.0] /Users/macbook/.gradle/caches/transforms-3/df7b208c45426f45016d16c0c3a6a059/transformed/jetified-flipper-0.99.0/AndroidManifest.xml:16:5-76
+19-->[com.facebook.flipper:flipper:0.99.0] /Users/macbook/.gradle/caches/transforms-3/df7b208c45426f45016d16c0c3a6a059/transformed/jetified-flipper-0.99.0/AndroidManifest.xml:16:22-73
+20
+21    <queries>
+21-->[:react-native-image-crop-picker] /Users/macbook/Projects/ReactNative/sipena/node_modules/react-native-image-crop-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-13:15
+22        <intent>
+22-->[:react-native-image-crop-picker] /Users/macbook/Projects/ReactNative/sipena/node_modules/react-native-image-crop-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-12:18
+23            <action android:name="android.media.action.IMAGE_CAPTURE" />
+23-->[:react-native-image-crop-picker] /Users/macbook/Projects/ReactNative/sipena/node_modules/react-native-image-crop-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-73
+23-->[:react-native-image-crop-picker] /Users/macbook/Projects/ReactNative/sipena/node_modules/react-native-image-crop-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:11:21-70
+24        </intent>
+25    </queries>
+26
+27    <uses-feature
+27-->[com.google.android.gms:play-services-maps:17.0.0] /Users/macbook/.gradle/caches/transforms-3/fc6a87e250e06e8147e523a4fb7c89f3/transformed/jetified-play-services-maps-17.0.0/AndroidManifest.xml:26:5-28:35
+28        android:glEsVersion="0x00020000"
+28-->[com.google.android.gms:play-services-maps:17.0.0] /Users/macbook/.gradle/caches/transforms-3/fc6a87e250e06e8147e523a4fb7c89f3/transformed/jetified-play-services-maps-17.0.0/AndroidManifest.xml:27:9-41
+29        android:required="true" />
+29-->[com.google.android.gms:play-services-maps:17.0.0] /Users/macbook/.gradle/caches/transforms-3/fc6a87e250e06e8147e523a4fb7c89f3/transformed/jetified-play-services-maps-17.0.0/AndroidManifest.xml:28:9-32
+30
+31    <application
+31-->/Users/macbook/Projects/ReactNative/sipena/android/app/src/main/AndroidManifest.xml:12:5-31:19
+32        android:name="id.sipena.app.MainApplication"
+32-->/Users/macbook/Projects/ReactNative/sipena/android/app/src/main/AndroidManifest.xml:14:7-38
+33        android:allowBackup="false"
+33-->/Users/macbook/Projects/ReactNative/sipena/android/app/src/main/AndroidManifest.xml:18:7-34
+34        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+34-->[androidx.core:core:1.5.0] /Users/macbook/.gradle/caches/transforms-3/540dbfb90b248d7b59cd154497c15f99/transformed/core-1.5.0/AndroidManifest.xml:24:18-86
+35        android:debuggable="true"
+36        android:icon="@mipmap/ic_launcher"
+36-->/Users/macbook/Projects/ReactNative/sipena/android/app/src/main/AndroidManifest.xml:16:7-41
+37        android:label="@string/app_name"
+37-->/Users/macbook/Projects/ReactNative/sipena/android/app/src/main/AndroidManifest.xml:15:7-39
+38        android:roundIcon="@mipmap/ic_launcher_round"
+38-->/Users/macbook/Projects/ReactNative/sipena/android/app/src/main/AndroidManifest.xml:17:7-52
+39        android:theme="@style/AppTheme"
+39-->/Users/macbook/Projects/ReactNative/sipena/android/app/src/main/AndroidManifest.xml:19:7-38
+40        android:usesCleartextTraffic="true" >
+40-->/Users/macbook/Projects/ReactNative/sipena/android/app/src/main/AndroidManifest.xml:13:7-42
+41        <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
+41-->/Users/macbook/Projects/ReactNative/sipena/android/app/src/debug/AndroidManifest.xml:11:9-86
+41-->/Users/macbook/Projects/ReactNative/sipena/android/app/src/debug/AndroidManifest.xml:11:19-83
+42        <activity
+42-->/Users/macbook/Projects/ReactNative/sipena/android/app/src/main/AndroidManifest.xml:20:7-30:18
+43            android:name="id.sipena.app.MainActivity"
+43-->/Users/macbook/Projects/ReactNative/sipena/android/app/src/main/AndroidManifest.xml:21:9-37
+44            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode"
+44-->/Users/macbook/Projects/ReactNative/sipena/android/app/src/main/AndroidManifest.xml:23:9-86
+45            android:label="@string/app_name"
+45-->/Users/macbook/Projects/ReactNative/sipena/android/app/src/main/AndroidManifest.xml:22:9-41
+46            android:launchMode="singleTask"
+46-->/Users/macbook/Projects/ReactNative/sipena/android/app/src/main/AndroidManifest.xml:24:9-40
+47            android:windowSoftInputMode="adjustResize" >
+47-->/Users/macbook/Projects/ReactNative/sipena/android/app/src/main/AndroidManifest.xml:25:9-51
+48            <intent-filter>
+48-->/Users/macbook/Projects/ReactNative/sipena/android/app/src/main/AndroidManifest.xml:26:9-29:25
+49                <action android:name="android.intent.action.MAIN" />
+49-->/Users/macbook/Projects/ReactNative/sipena/android/app/src/main/AndroidManifest.xml:27:13-65
+49-->/Users/macbook/Projects/ReactNative/sipena/android/app/src/main/AndroidManifest.xml:27:21-62
+50
+51                <category android:name="android.intent.category.LAUNCHER" />
+51-->/Users/macbook/Projects/ReactNative/sipena/android/app/src/main/AndroidManifest.xml:28:13-73
+51-->/Users/macbook/Projects/ReactNative/sipena/android/app/src/main/AndroidManifest.xml:28:23-70
+52            </intent-filter>
+53        </activity>
+54
+55        <provider
+55-->[:react-native-image-crop-picker] /Users/macbook/Projects/ReactNative/sipena/node_modules/react-native-image-crop-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:18:9-26:20
+56            android:name="com.reactnative.ivpusic.imagepicker.IvpusicImagePickerFileProvider"
+56-->[:react-native-image-crop-picker] /Users/macbook/Projects/ReactNative/sipena/node_modules/react-native-image-crop-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:19:13-94
+57            android:authorities="id.sipena.app.provider"
+57-->[:react-native-image-crop-picker] /Users/macbook/Projects/ReactNative/sipena/node_modules/react-native-image-crop-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:20:13-60
+58            android:exported="false"
+58-->[:react-native-image-crop-picker] /Users/macbook/Projects/ReactNative/sipena/node_modules/react-native-image-crop-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:21:13-37
+59            android:grantUriPermissions="true" >
+59-->[:react-native-image-crop-picker] /Users/macbook/Projects/ReactNative/sipena/node_modules/react-native-image-crop-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:22:13-47
+60            <meta-data
+60-->[:react-native-image-crop-picker] /Users/macbook/Projects/ReactNative/sipena/node_modules/react-native-image-crop-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:23:13-25:78
+61                android:name="android.support.FILE_PROVIDER_PATHS"
+61-->[:react-native-image-crop-picker] /Users/macbook/Projects/ReactNative/sipena/node_modules/react-native-image-crop-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:24:17-67
+62                android:resource="@xml/ivpusic_imagepicker_provider_paths" />
+62-->[:react-native-image-crop-picker] /Users/macbook/Projects/ReactNative/sipena/node_modules/react-native-image-crop-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:25:17-75
+63        </provider>
+64
+65        <activity
+65-->[:react-native-image-crop-picker] /Users/macbook/Projects/ReactNative/sipena/node_modules/react-native-image-crop-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:28:9-30:72
+66            android:name="com.yalantis.ucrop.UCropActivity"
+66-->[:react-native-image-crop-picker] /Users/macbook/Projects/ReactNative/sipena/node_modules/react-native-image-crop-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:29:13-60
+67            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+67-->[:react-native-image-crop-picker] /Users/macbook/Projects/ReactNative/sipena/node_modules/react-native-image-crop-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:30:13-69
+68
+69        <provider
+69-->[:react-native-webview] /Users/macbook/Projects/ReactNative/sipena/node_modules/react-native-webview/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-18:20
+70            android:name="com.reactnativecommunity.webview.RNCWebViewFileProvider"
+70-->[:react-native-webview] /Users/macbook/Projects/ReactNative/sipena/node_modules/react-native-webview/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-83
+71            android:authorities="id.sipena.app.fileprovider"
+71-->[:react-native-webview] /Users/macbook/Projects/ReactNative/sipena/node_modules/react-native-webview/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:12:13-64
+72            android:exported="false"
+72-->[:react-native-webview] /Users/macbook/Projects/ReactNative/sipena/node_modules/react-native-webview/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:13:13-37
+73            android:grantUriPermissions="true" >
+73-->[:react-native-webview] /Users/macbook/Projects/ReactNative/sipena/node_modules/react-native-webview/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:14:13-47
+74            <meta-data
+74-->[:react-native-image-crop-picker] /Users/macbook/Projects/ReactNative/sipena/node_modules/react-native-image-crop-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:23:13-25:78
+75                android:name="android.support.FILE_PROVIDER_PATHS"
+75-->[:react-native-image-crop-picker] /Users/macbook/Projects/ReactNative/sipena/node_modules/react-native-image-crop-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:24:17-67
+76                android:resource="@xml/file_provider_paths" />
+76-->[:react-native-image-crop-picker] /Users/macbook/Projects/ReactNative/sipena/node_modules/react-native-image-crop-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:25:17-75
+77        </provider>
+78
+79        <meta-data
+79-->[com.github.bumptech.glide:okhttp3-integration:4.12.0] /Users/macbook/.gradle/caches/transforms-3/7b4ebcd5b4aff9e01b5235f48d47d4b4/transformed/jetified-okhttp3-integration-4.12.0/AndroidManifest.xml:11:9-13:43
+80            android:name="com.bumptech.glide.integration.okhttp3.OkHttpGlideModule"
+80-->[com.github.bumptech.glide:okhttp3-integration:4.12.0] /Users/macbook/.gradle/caches/transforms-3/7b4ebcd5b4aff9e01b5235f48d47d4b4/transformed/jetified-okhttp3-integration-4.12.0/AndroidManifest.xml:12:13-84
+81            android:value="GlideModule" /> <!-- Needs to be explicitly declared on P+ -->
+81-->[com.github.bumptech.glide:okhttp3-integration:4.12.0] /Users/macbook/.gradle/caches/transforms-3/7b4ebcd5b4aff9e01b5235f48d47d4b4/transformed/jetified-okhttp3-integration-4.12.0/AndroidManifest.xml:13:13-40
+82        <uses-library
+82-->[com.google.android.gms:play-services-maps:17.0.0] /Users/macbook/.gradle/caches/transforms-3/fc6a87e250e06e8147e523a4fb7c89f3/transformed/jetified-play-services-maps-17.0.0/AndroidManifest.xml:33:9-35:40
+83            android:name="org.apache.http.legacy"
+83-->[com.google.android.gms:play-services-maps:17.0.0] /Users/macbook/.gradle/caches/transforms-3/fc6a87e250e06e8147e523a4fb7c89f3/transformed/jetified-play-services-maps-17.0.0/AndroidManifest.xml:34:13-50
+84            android:required="false" />
+84-->[com.google.android.gms:play-services-maps:17.0.0] /Users/macbook/.gradle/caches/transforms-3/fc6a87e250e06e8147e523a4fb7c89f3/transformed/jetified-play-services-maps-17.0.0/AndroidManifest.xml:35:13-37
+85
+86        <activity
+86-->[com.google.android.gms:play-services-base:17.0.0] /Users/macbook/.gradle/caches/transforms-3/197aafdaca714ffb9edd95fe82ca0ad4/transformed/jetified-play-services-base-17.0.0/AndroidManifest.xml:23:9-26:75
+87            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+87-->[com.google.android.gms:play-services-base:17.0.0] /Users/macbook/.gradle/caches/transforms-3/197aafdaca714ffb9edd95fe82ca0ad4/transformed/jetified-play-services-base-17.0.0/AndroidManifest.xml:24:13-79
+88            android:exported="false"
+88-->[com.google.android.gms:play-services-base:17.0.0] /Users/macbook/.gradle/caches/transforms-3/197aafdaca714ffb9edd95fe82ca0ad4/transformed/jetified-play-services-base-17.0.0/AndroidManifest.xml:25:13-37
+89            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+89-->[com.google.android.gms:play-services-base:17.0.0] /Users/macbook/.gradle/caches/transforms-3/197aafdaca714ffb9edd95fe82ca0ad4/transformed/jetified-play-services-base-17.0.0/AndroidManifest.xml:26:13-72
+90
+91        <meta-data
+91-->[com.google.android.gms:play-services-basement:17.0.0] /Users/macbook/.gradle/caches/transforms-3/0e3d0c4f5635e0c3c0cfa0e0064e8f7e/transformed/jetified-play-services-basement-17.0.0/AndroidManifest.xml:23:9-25:69
+92            android:name="com.google.android.gms.version"
+92-->[com.google.android.gms:play-services-basement:17.0.0] /Users/macbook/.gradle/caches/transforms-3/0e3d0c4f5635e0c3c0cfa0e0064e8f7e/transformed/jetified-play-services-basement-17.0.0/AndroidManifest.xml:24:13-58
+93            android:value="@integer/google_play_services_version" />
+93-->[com.google.android.gms:play-services-basement:17.0.0] /Users/macbook/.gradle/caches/transforms-3/0e3d0c4f5635e0c3c0cfa0e0064e8f7e/transformed/jetified-play-services-basement-17.0.0/AndroidManifest.xml:25:13-66
+94    </application>
+95
+96</manifest>
