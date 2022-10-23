@@ -20,7 +20,7 @@ export default function SplashScreen(props) {
     return (
         <SafeAreaView style={styles.screen}>
             <Text style={styles.center}>
-                Arkana Technology
+                Smart School
             </Text>
         </SafeAreaView>
     );

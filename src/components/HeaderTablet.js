@@ -62,9 +62,9 @@ export default function HeaderTablet(props) {
             <SafeAreaView style={{ backgroundColor: color.primary }} />
             <View style={{ backgroundColor: color.primary, height: SCREEN_HEIGHT / 4 }}>
                 <View style={styles.container}>
-                    <View style={styles.containerProfile}>
+                    <TouchableOpacity activeOpacity={1} onPress={props.iconProfile} style={styles.containerProfile}>
                         {/* <Image /> */}
-                    </View>
+                    </TouchableOpacity>
                     <View style={styles.containerText}>
                         <Text {...props} numberOfLines={1} style={props.textProfile}>Afsyus Raka Arsyal Desga Riansyah</Text>
                         <Text {...props} style={props.textAlamat}>Jl.Kandangan Gunung No.18</Text>

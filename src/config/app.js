@@ -4,6 +4,6 @@ export default {
     TIMEOUT: 10000,
     EXAMPLE_EMAIL: "admin",
     EXAMPLE_PASSWORD: "admin",
-    APP_NAME: "Arkana Technology",
-    NAME: "Arkana Technology",
+    APP_NAME: "Smart School",
+    NAME: "Smart School",
 }

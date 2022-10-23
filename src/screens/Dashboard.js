@@ -9,12 +9,13 @@ import Button from '../components/Button';
 import moment from 'moment';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
+import { useNavigation } from '@react-navigation/native';
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
 export default function Dashboard(props) {
-
+    const navigation = useNavigation()
     const [isOpenCard, setisOpenCard] = useState(false)
 
     const btnOpenCard = useCallback(() => {
@@ -74,6 +75,9 @@ export default function Dashboard(props) {
                 textHeader={app.NAME}
                 textProfile={styles.txtProfile}
                 textAlamat={styles.txtProfile}
+                iconProfile={() => {
+                    navigation.navigate("Profile")
+                }}
             />
 
             <View style={styles.menuDashboard}>

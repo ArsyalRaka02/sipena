@@ -10,6 +10,7 @@ import SplashScreen from "../screens/SplashScreen";
 import Login from "../screens/Login";
 import Dashboard from "../screens/Dashboard";
 import UpdateHarga from "../screens/UpdateHarga";
+import Profile from "../screens/Profile";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -45,8 +46,9 @@ const HomeNavigator = () => {
 const DashboardStack = () => {
     return (
         <Stack.Navigator initialRouteName="HomeStack" screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="HomeStack" component={HomeNavigator} />
-            <Stack.Screen name="UpdateHarga" component={UpdateHarga} />
+            <Stack.Screen name="Dashboard" component={Dashboard} />
+            <Stack.Screen name="Profile" component={Profile} />
+            {/* <Stack.Screen name="UpdateHarga" component={UpdateHarga} /> */}
         </Stack.Navigator>
     );
 }
