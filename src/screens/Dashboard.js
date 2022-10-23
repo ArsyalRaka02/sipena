@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { View, Text, Dimensions, TouchableOpacity, ImageBackground, Image } from 'react-native';
+import { View, Text, Dimensions, TouchableOpacity, ImageBackground, Image, ScrollView } from 'react-native';
 import HeaderTablet from '../components/HeaderTablet';
 import app from '../config/app';
 import { fonts } from '../utils/fonts';
@@ -71,33 +71,74 @@ export default function Dashboard(props) {
 
     return (
         <View style={styles.container}>
-            <HeaderTablet
-                textHeader={app.NAME}
-                textProfile={styles.txtProfile}
-                textAlamat={styles.txtProfile}
-                iconProfile={() => {
-                    navigation.navigate("Profile")
-                }}
-            />
+            <View style={{ flex: 1 }}>
+                <ScrollView>
+                    <HeaderTablet
+                        textHeader={app.NAME}
+                        textProfile={styles.txtProfile}
+                        textAlamat={styles.txtProfile}
+                        iconProfile={() => {
+                            navigation.navigate("Profile")
+                        }}
+                    />
+                    <View style={{ zIndex: 1 }}>
+                        <View style={styles.menuDashboard}>
+                            {
+                                data.map((item, ilist) => {
+                                    return (
+                                        <>
+                                            <View style={styles.menuChild}>
+                                                <View style={[styles.menuIcon, {
+                                                    backgroundColor: item.warna,
+                                                }]}>
+                                                    <Image source={item.image} style={{ width: 18, height: 18 }} />
+                                                </View>
+                                                <Text style={{ textAlign: 'center', fontSize: 12, fontFamily: fonts.inter, marginVertical: 12, flex: 1 }}>{item.name}</Text>
+                                            </View>
+                                        </>
+                                    )
+                                })
+                            }
+                        </View>
+                    </View>
 
-            <View style={styles.menuDashboard}>
-                {
-                    data.map((item, ilist) => {
-                        return (
-                            <>
-                                <View style={styles.menuChild}>
-                                    <View style={[styles.menuIcon, {
-                                        backgroundColor: item.warna,
-                                    }]}>
-                                        <Image source={item.image} style={{ width: 18, height: 18 }} />
-                                    </View>
-                                    <Text style={{ textAlign: 'center', fontSize: 12, fontFamily: fonts.inter, marginVertical: 12, flex: 1 }}>{item.name}</Text>
+                    <View style={{ paddingHorizontal: 20 }}>
+                        <View style={{ flexDirection: 'row', marginVertical: 20 }}>
+                            <Text style={[styles.txtBoldGlobal]}>Jadwal hari ini</Text>
+                            <View style={{ flex: 1 }} />
+                            <Text style={[styles.txtGlobal, { color: "#75B4FF" }]}>Selengkapnya</Text>
+                        </View>
+                        <View style={styles.containerJadwal}>
+                            <Text style={[styles.txtBoldGlobal]}>Matematika</Text>
+                            <View style={{ flex: 1 }} />
+                            <Ionicons name="time-outline" size={24} color={color.black} />
+                            <Text style={[styles.txtGlobal, { marginLeft: 12 }]}>01.00 - 02.00</Text>
+                        </View>
+
+                        <View style={{ flexDirection: 'row', marginVertical: 20 }}>
+                            <Text style={[styles.txtBoldGlobal]}>Berita</Text>
+                            <View style={{ flex: 1 }} />
+                            <Text style={[styles.txtGlobal, { color: "#75B4FF" }]}>Selengkapnya</Text>
+                        </View>
+                        <View style={{ backgroundColor: color.white, padding: 8, width: SCREEN_WIDTH / 2.0, flexDirection: 'column', borderRadius: 12 }}>
+                            <View style={{ height: SCREEN_HEIGHT / 7, overflow: 'hidden' }}>
+                                <Image source={require("../assets/images/no-image.png")} style={styles.img} resizeMode="cover" />
+                            </View>
+                            <View style={{ marginVertical: 12 }}>
+                                <Text style={[styles.txtBoldGlobal]}>judul Berita</Text>
+                                <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center' }}>
+                                    <Ionicons name="eye-outline" size={18} color={color.black} style={{ marginRight: 8 }} />
+                                    <Text style={[styles.txtGlobal]}>Vision berita</Text>
                                 </View>
-                            </>
-                        )
-                    })
-                }
-            </View>
+                                <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center' }}>
+                                    <Ionicons name="time-outline" size={18} color={color.black} style={{ marginRight: 8 }} />
+                                    <Text style={[styles.txtGlobal]}>Tanggal berita</Text>
+                                </View>
+                            </View>
+                        </View>
+                    </View>
+                </ScrollView>
+            </View >
         </View >
     );
 }
@@ -106,6 +147,10 @@ const styles = {
     container: {
         backgroundColor: "transparent",
         flex: 1,
+    },
+    img: {
+        with: "100%",
+        height: "100%"
     },
     mainContainer: {
         backgroundColor: color.primary,
@@ -132,9 +177,9 @@ const styles = {
         marginHorizontal: 20,
         backgroundColor: color.white,
         paddingVertical: 12,
-        // marginTop: -95,
-        top: 90,
-        position: "absolute",
+        marginTop: -110,
+        // top: 90,
+        // position: "absolute",
         justifyContent: 'space-between',
         flexWrap: 'wrap',
         flexDirection: 'row',
@@ -154,5 +199,18 @@ const styles = {
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 50
+    },
+    txtGlobal: {
+        fontFamily: fonts.inter,
+        fontSize: 14,
+        color: color.black
+    },
+    txtBoldGlobal: {
+        fontFamily: fonts.interBold,
+        fontSize: 17,
+        color: color.black
+    },
+    containerJadwal: {
+        flexDirection: 'row', backgroundColor: color.white, borderRadius: 12, padding: 14, alignItems: 'center'
     }
 }
