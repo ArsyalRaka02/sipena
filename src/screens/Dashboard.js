@@ -118,14 +118,20 @@ export default function Dashboard(props) {
                         <View style={{ flexDirection: 'row', marginVertical: 20 }}>
                             <Text style={[styles.txtBoldGlobal]}>Berita</Text>
                             <View style={{ flex: 1 }} />
-                            <Text style={[styles.txtGlobal, { color: "#75B4FF" }]}>Selengkapnya</Text>
+                            <TouchableOpacity activeOpacity={1} onPress={() => {
+                                navigation.navigate("ListBerita")
+                            }}>
+                                <Text style={[styles.txtGlobal, { color: "#75B4FF" }]}>Selengkapnya</Text>
+                            </TouchableOpacity>
                         </View>
+
+                        {/* berita */}
                         <View style={{ backgroundColor: color.white, padding: 8, width: SCREEN_WIDTH / 2.0, flexDirection: 'column', borderRadius: 12 }}>
-                            <View style={{ height: SCREEN_HEIGHT / 7, overflow: 'hidden' }}>
+                            <View style={{ height: SCREEN_HEIGHT / 7, overflow: 'hidden', borderRadius: 12 }}>
                                 <Image source={require("../assets/images/no-image.png")} style={styles.img} resizeMode="cover" />
                             </View>
                             <View style={{ marginVertical: 12 }}>
-                                <Text style={[styles.txtBoldGlobal]}>judul Berita</Text>
+                                <Text style={[styles.txtBoldGlobal, { marginBottom: 6 }]}>judul Berita</Text>
                                 <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center' }}>
                                     <Ionicons name="eye-outline" size={18} color={color.black} style={{ marginRight: 8 }} />
                                     <Text style={[styles.txtGlobal]}>Vision berita</Text>
@@ -137,6 +143,7 @@ export default function Dashboard(props) {
                             </View>
                         </View>
                     </View>
+                    <View style={{ height: 40 }} />
                 </ScrollView>
             </View >
         </View >
@@ -177,7 +184,7 @@ const styles = {
         marginHorizontal: 20,
         backgroundColor: color.white,
         paddingVertical: 12,
-        marginTop: -110,
+        marginTop: -90,
         // top: 90,
         // position: "absolute",
         justifyContent: 'space-between',

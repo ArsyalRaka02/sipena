@@ -17,7 +17,7 @@ export default function HeaderBack(props) {
                     onPress={() => {
                         props.onBack != null && props.onBack();
                     }}>
-                    <FontAwesome name='angle-left' size={20} color={color.white} />
+                    <FontAwesome name='angle-left' size={24} color={color.white} />
                 </TouchableOpacity>
 
                 <View style={{ flex: 1 }}>
@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
     container: {
         paddingHorizontal: 20,
         paddingVertical: 10,
+        backgroundColor: color.primary
     },
     row: {
         flexDirection: 'row',
@@ -51,7 +52,7 @@ const styles = StyleSheet.create({
         width: 40,
         height: 40,
         borderColor: color.white,
-        borderWidth: 1,
+        // borderWidth: 1,
         justifyContent: "center",
         alignItems: "center",
         marginRight: 10,

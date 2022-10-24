@@ -11,6 +11,7 @@ import Login from "../screens/Login";
 import Dashboard from "../screens/Dashboard";
 import UpdateHarga from "../screens/UpdateHarga";
 import Profile from "../screens/Profile";
+import ListBerita from "../screens/ListBerita";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -48,6 +49,7 @@ const DashboardStack = () => {
         <Stack.Navigator initialRouteName="HomeStack" screenOptions={{ headerShown: false }}>
             <Stack.Screen name="Dashboard" component={Dashboard} />
             <Stack.Screen name="Profile" component={Profile} />
+            <Stack.Screen name="ListBerita" component={ListBerita} />
             {/* <Stack.Screen name="UpdateHarga" component={UpdateHarga} /> */}
         </Stack.Navigator>
     );
