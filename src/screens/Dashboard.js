@@ -30,42 +30,50 @@ export default function Dashboard(props) {
         {
             name: "Jadwal",
             image: require("../assets/sipena/jadwal.png"),
-            warna: color.menuBlue
+            warna: color.menuBlue,
+            page: "ListJadwal"
         },
         {
             name: "Absen Siswa",
             image: require("../assets/sipena/absen.png"),
-            warna: color.menuGreen
+            warna: color.menuGreen,
+            page: "ListAbsen"
         },
         {
             name: "Keuangan",
             image: require("../assets/sipena/Frame.png"),
-            warna: color.menuPurple
+            warna: color.menuPurple,
+            page: "ListKeuangan"
         },
         {
             name: "Rapot",
             image: require("../assets/sipena/rapot.png"),
-            warna: color.menuYellow
+            warna: color.menuYellow,
+            page: "ListRaport"
         },
         {
             name: "Pinjam Fasilitas",
             image: require("../assets/sipena/pinjam.png"),
-            warna: color.menuOrange
+            warna: color.menuOrange,
+            page: ""
         },
         {
             name: "Perpustakaan",
             image: require("../assets/sipena/perpus.png"),
-            warna: color.menuBlueOrca
+            warna: color.menuBlueOrca,
+            page: ""
         },
         {
             name: "Koperasi Sekolah",
             image: require("../assets/sipena/koperasi.png"),
-            warna: color.menuBrown
+            warna: color.menuBrown,
+            page: ""
         },
         {
             name: "Semua",
             image: require("../assets/sipena/semua.png"),
-            warna: color.menuPink
+            warna: color.menuPink,
+            page: ""
         }
     ]
 
@@ -87,14 +95,18 @@ export default function Dashboard(props) {
                                 data.map((item, ilist) => {
                                     return (
                                         <>
-                                            <View style={styles.menuChild}>
+                                            <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                if (item.page != "") {
+                                                    navigation.navigate(item.page)
+                                                }
+                                            }} style={styles.menuChild}>
                                                 <View style={[styles.menuIcon, {
                                                     backgroundColor: item.warna,
                                                 }]}>
                                                     <Image source={item.image} style={{ width: 18, height: 18 }} />
                                                 </View>
                                                 <Text style={{ textAlign: 'center', fontSize: 12, fontFamily: fonts.inter, marginVertical: 12, flex: 1 }}>{item.name}</Text>
-                                            </View>
+                                            </TouchableOpacity>
                                         </>
                                     )
                                 })

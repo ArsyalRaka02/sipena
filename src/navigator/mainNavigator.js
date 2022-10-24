@@ -12,6 +12,10 @@ import Dashboard from "../screens/Dashboard";
 import UpdateHarga from "../screens/UpdateHarga";
 import Profile from "../screens/Profile";
 import ListBerita from "../screens/ListBerita";
+import ListJadwal from "../screens/ListJadwal";
+import ListAbsen from "../screens/ListAbsen";
+import ListKeuangan from "../screens/ListKeuangan";
+import ListRaport from "../screens/ListRaport";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -49,7 +53,16 @@ const DashboardStack = () => {
         <Stack.Navigator initialRouteName="HomeStack" screenOptions={{ headerShown: false }}>
             <Stack.Screen name="Dashboard" component={Dashboard} />
             <Stack.Screen name="Profile" component={Profile} />
+
             <Stack.Screen name="ListBerita" component={ListBerita} />
+
+            <Stack.Screen name="ListJadwal" component={ListJadwal} />
+
+            <Stack.Screen name="ListAbsen" component={ListAbsen} />
+
+            <Stack.Screen name="ListKeuangan" component={ListKeuangan} />
+
+            <Stack.Screen name="ListRaport" component={ListRaport} />
             {/* <Stack.Screen name="UpdateHarga" component={UpdateHarga} /> */}
         </Stack.Navigator>
     );
