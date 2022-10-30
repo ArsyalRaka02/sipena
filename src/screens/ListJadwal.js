@@ -24,9 +24,35 @@ export default function ListJadwal(props) {
                     <Text style={styles.txtHeader}>Jadwal</Text>
                 </HeaderBack>
                 <View style={{ padding: 20, flex: 1 }}>
-                   
+                    <View style={{ backgroundColor: color.menuGreen, alignItems: 'center', flexDirection: 'row', paddingVertical: 16, paddingHorizontal: 20, borderRadius: 12 }}>
+                        <Ionicons name={"calendar-outline"} size={24} color={color.primary} />
+                        <Text style={[styles.txtGlobalBold, { color: color.primary, marginLeft: 16 }]}>Kelas 10 IPA 1</Text>
+                    </View>
+                    <View style={{ flex: 1 }}>
+                        <ScrollView>
+                            <ListPelajaran />
+                        </ScrollView>
+                    </View>
                 </View>
             </SafeAreaView>
+        </>
+    )
+}
+
+function ListPelajaran() {
+    return (
+        <>
+            <View style={{ marginVertical: 12 }}>
+                <Text style={[styles.txtGlobalBold]}>Senin</Text>
+            </View>
+            <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: color.white, paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12 }}>
+                <Text>Matematika</Text>
+                <View style={{ flex: 1 }} />
+                <View style={{ flexDirection: 'row' }}>
+                    <Ionicons name="time-outline" size={20} color={color.black} style={{ marginRight: 12 }} />
+                    <Text style={[styles.txtGlobal]}>07.00-09.00</Text>
+                </View>
+            </View>
         </>
     )
 }
