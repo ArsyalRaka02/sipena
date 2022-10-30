@@ -11,8 +11,25 @@ import { fonts } from '../utils/fonts'
 const SCREEN_HEIGHT = Dimensions.get("window").height
 const SCREEN_WIDTH = Dimensions.get("window").width
 
+const menu = [
+    {
+        name: 'SPP',
+        icon: "reader-outline"
+    },
+    {
+        name: 'Pembayaran Buku',
+        icon: "receipt-outline"
+    },
+    {
+        name: 'Tabungan',
+        icon: "document-text-outline"
+    },
+]
+
 export default function ListKeuangan(props) {
     const navigation = useNavigation()
+
+
     return (
         <>
             <SafeAreaView style={styles.container}>
@@ -24,7 +41,19 @@ export default function ListKeuangan(props) {
                     <Text style={styles.txtHeader}>Keuangan</Text>
                 </HeaderBack>
                 <View style={{ padding: 20, flex: 1 }}>
-                   
+                    {
+                        menu.map((item, iMenu) => {
+                            return (
+                                <>
+                                    <View style={{ flexDirection: 'row', paddingVertical: 16, paddingHorizontal: 20, borderRadius: 12, backgroundColor: color.white }}>
+                                        <Ionicons name={item.icon} size={24} color={color.primary} />
+                                        <Text style={[styles.txtGlobalBold, { marginLeft: 12, color: color.black }]}>{item.name}</Text>
+                                    </View>
+                                    <View style={{ height: 20 }} />
+                                </>
+                            )
+                        })
+                    }
                 </View>
             </SafeAreaView>
         </>
