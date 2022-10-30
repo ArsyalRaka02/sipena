@@ -61,7 +61,7 @@ export default function Dashboard(props) {
             name: "Perpustakaan",
             image: require("../assets/sipena/perpus.png"),
             warna: color.menuBlueOrca,
-            page: ""
+            page: "ListPerpustakaan"
         },
         {
             name: "Koperasi Sekolah",
