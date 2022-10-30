@@ -18,6 +18,7 @@ import ListKeuangan from "../screens/ListKeuangan";
 import ListRaport from "../screens/ListRaport";
 import ListPinjamFasilitas from "../screens/ListPinjamFasilitas";
 import ListPerpustakaan from "../screens/ListPerpustakaan";
+import ListKoperasi from "../screens/ListKoperasi";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -69,6 +70,8 @@ const DashboardStack = () => {
             <Stack.Screen name="ListPinjamFasilitas" component={ListPinjamFasilitas} />
 
             <Stack.Screen name="ListPerpustakaan" component={ListPerpustakaan} />
+
+            <Stack.Screen name="ListKoperasi" component={ListKoperasi} />
             {/* <Stack.Screen name="UpdateHarga" component={UpdateHarga} /> */}
         </Stack.Navigator>
     );

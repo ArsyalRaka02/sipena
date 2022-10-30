@@ -67,7 +67,7 @@ export default function Dashboard(props) {
             name: "Koperasi Sekolah",
             image: require("../assets/sipena/koperasi.png"),
             warna: color.menuBrown,
-            page: ""
+            page: "ListKoperasi"
         },
         {
             name: "Semua",
@@ -118,7 +118,11 @@ export default function Dashboard(props) {
                         <View style={{ flexDirection: 'row', marginVertical: 20 }}>
                             <Text style={[styles.txtBoldGlobal]}>Jadwal hari ini</Text>
                             <View style={{ flex: 1 }} />
-                            <Text style={[styles.txtGlobal, { color: "#75B4FF" }]}>Selengkapnya</Text>
+                            <TouchableOpacity activeOpacity={1} onPress={() => {
+                                navigation.navigate("ListJadwal")
+                            }}>
+                                <Text style={[styles.txtGlobal, { color: "#75B4FF" }]}>Selengkapnya</Text>
+                            </TouchableOpacity>
                         </View>
                         <View style={styles.containerJadwal}>
                             <Text style={[styles.txtBoldGlobal]}>Matematika</Text>
