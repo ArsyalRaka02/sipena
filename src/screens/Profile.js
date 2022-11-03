@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import color from '../utils/color';
 import { fonts } from '../utils/fonts';
 import Ionicons from 'react-native-vector-icons/Ionicons'
+import BottomTab from '../components/ButtomTab';
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
@@ -123,6 +124,9 @@ export default function Profile(props) {
                         </View>
                     </View>
                 </ScrollView>
+                <BottomTab selected={1} onClick={(event) => {
+                    navigation.navigate(event)
+                }} />
             </View>
         </View >
     );

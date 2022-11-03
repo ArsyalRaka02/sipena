@@ -10,6 +10,7 @@ import moment from 'moment';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { useNavigation } from '@react-navigation/native';
+import BottomTab from '../components/ButtomTab';
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
@@ -161,6 +162,9 @@ export default function Dashboard(props) {
                     </View>
                     <View style={{ height: 40 }} />
                 </ScrollView>
+                <BottomTab selected={0} onClick={(event) => {
+                    navigation.navigate(event)
+                }} />
             </View >
         </View >
     );
