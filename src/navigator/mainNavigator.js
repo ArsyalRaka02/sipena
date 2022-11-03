@@ -20,6 +20,9 @@ import ListPinjamFasilitas from "../screens/ListPinjamFasilitas";
 import ListPerpustakaan from "../screens/ListPerpustakaan";
 import ListKoperasi from "../screens/ListKoperasi";
 import IsiSaldo from "../screens/IsiSaldo";
+import ListSpp from "../screens/ListSpp";
+import ListTabungan from "../screens/ListTabungan";
+import ListPembayaranBuku from "../screens/LIstPembayaranBuku";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -65,6 +68,9 @@ const DashboardStack = () => {
             <Stack.Screen name="ListAbsen" component={ListAbsen} />
 
             <Stack.Screen name="ListKeuangan" component={ListKeuangan} />
+            <Stack.Screen name="ListSpp" component={ListSpp} />
+            <Stack.Screen name="ListTabungan" component={ListTabungan} />
+            <Stack.Screen name="ListPembayaranBuku" component={ListPembayaranBuku} />
 
             <Stack.Screen name="ListRaport" component={ListRaport} />
 

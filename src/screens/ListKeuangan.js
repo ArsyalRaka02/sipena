@@ -14,15 +14,18 @@ const SCREEN_WIDTH = Dimensions.get("window").width
 const menu = [
     {
         name: 'SPP',
-        icon: "reader-outline"
+        icon: "reader-outline",
+        page: "ListSpp"
     },
     {
         name: 'Pembayaran Buku',
-        icon: "receipt-outline"
+        icon: "receipt-outline",
+        page: "ListPembayaranBuku"
     },
     {
         name: 'Tabungan',
-        icon: "document-text-outline"
+        icon: "document-text-outline",
+        page: "ListTabungan"
     },
 ]
 
@@ -45,10 +48,12 @@ export default function ListKeuangan(props) {
                         menu.map((item, iMenu) => {
                             return (
                                 <>
-                                    <View style={{ flexDirection: 'row', paddingVertical: 16, paddingHorizontal: 20, borderRadius: 12, backgroundColor: color.white }}>
+                                    <TouchableOpacity activeOpacity={1} onPress={() => {
+                                        navigation.navigate(item.page)
+                                    }} style={{ flexDirection: 'row', paddingVertical: 16, paddingHorizontal: 20, borderRadius: 12, backgroundColor: color.white }}>
                                         <Ionicons name={item.icon} size={24} color={color.primary} />
                                         <Text style={[styles.txtGlobalBold, { marginLeft: 12, color: color.black }]}>{item.name}</Text>
-                                    </View>
+                                    </TouchableOpacity>
                                     <View style={{ height: 20 }} />
                                 </>
                             )
