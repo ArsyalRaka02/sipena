@@ -27,19 +27,21 @@ export default function Profile(props) {
                             {/* <Image /> */}
                         </View>
                     </View>
-                    <View style={{ backgroundColor: color.black, position: 'absolute', alignSelf: 'center', top: 120 }}>
-                        <Text style={[styles.txtGlobalWhite, { alignSelf: 'center' }]}>Saldo Dompent</Text>
-                        <Text style={[styles.txtGlobalWhite, { alignSelf: 'center' }]}>RP 200.000</Text>
-                        <View style={{ backgroundColor: color.white, alignItems: 'center', marginHorizontal: 20, borderRadius: 8, marginTop: 8 }}>
+                    <View style={{ position: 'absolute', alignSelf: 'center', top: 120 }}>
+                        <Text style={[styles.txtGlobalWhite, { alignSelf: 'center', fontSize: 12 }]}>Saldo Dompent</Text>
+                        <Text style={[styles.txtGlobalWhite, { alignSelf: 'center', fontFamily: fonts.interBold, fontSize: 18 }]}>RP 200.000</Text>
+                        <TouchableOpacity activeOpacity={1} onPress={() => {
+                            navigation.navigate("IsiSaldo")
+                        }} style={{ backgroundColor: color.white, alignItems: 'center', marginHorizontal: 20, borderRadius: 8, marginTop: 8 }}>
                             <Text style={[styles.txtIsi, { color: color.primary, paddingVertical: 8, paddingHorizontal: 10 }]}>Isi Saldo</Text>
-                        </View>
+                        </TouchableOpacity>
                     </View>
 
                     {/* content */}
                     <View style={{ zIndex: 1 }}>
                         <View style={styles.containerBoxWhite}>
                             <View style={{ flex: 1, paddingHorizontal: 20 }}>
-                                <Text style={[styles.txtBio, { marginTop: 8, marginBottom: 18 }]}>Biodata</Text>
+                                <Text style={[styles.txtBio, { marginTop: 4, marginBottom: 18 }]}>Biodata</Text>
                                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                     <Text style={styles.txtTitle}>NIS</Text>
                                     <View style={{ flex: 1 }} />
