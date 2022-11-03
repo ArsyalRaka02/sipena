@@ -1,5 +1,6 @@
 export default {
     primary: "#58ACF9",
+    primaryRGBA: "rgba(88, 172, 249, 0.1)",
     white: "#FFFFFF",
     black: "#000000",
     black25: "#cccccc",

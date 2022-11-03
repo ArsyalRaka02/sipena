@@ -24,7 +24,7 @@ export default function ListJadwal(props) {
                     <Text style={styles.txtHeader}>Jadwal</Text>
                 </HeaderBack>
                 <View style={{ padding: 20, flex: 1 }}>
-                    <View style={{ backgroundColor: color.menuGreen, alignItems: 'center', flexDirection: 'row', paddingVertical: 16, paddingHorizontal: 20, borderRadius: 12 }}>
+                    <View style={{ backgroundColor: color.primaryRGBA, alignItems: 'center', flexDirection: 'row', paddingVertical: 16, paddingHorizontal: 20, borderRadius: 12 }}>
                         <Ionicons name={"calendar-outline"} size={24} color={color.primary} />
                         <Text style={[styles.txtGlobalBold, { color: color.primary, marginLeft: 16 }]}>Kelas 10 IPA 1</Text>
                     </View>
