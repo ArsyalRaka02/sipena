@@ -73,7 +73,7 @@ export default function HeaderTablet(props) {
                         <Ionicons name="notifications" size={24} color={color.white} />
                     </TouchableOpacity>
                 </View>
-                <Image source={require("../assets/sipena/backgroundDashboard.png")} style={{ height: "100%", width: "100%", position: 'absolute', }} resizeMode="cover" />
+                <Image source={require("../assets/sipena/p.png")} style={{ height: "100%", width: "100%", position: 'absolute', tintColor: color.whiteColorRgba }} resizeMode="cover" />
             </View>
         </>
     )

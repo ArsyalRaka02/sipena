@@ -17,8 +17,9 @@ export default function Profile(props) {
                 <ScrollView>
                     {/* background */}
                     <View style={styles.containerHeaderBox}>
-                        <Image source={require("../assets/sipena/backgroundDashboard.png")} style={{ height: "100%", width: "100%", position: 'absolute', }} resizeMode="cover" />
+                        <Image source={require("../assets/sipena/backgroundDashboard.png")} style={{ height: "100%", width: "100%", position: 'absolute', tintColor: color.white }} resizeMode="cover" />
                     </View>
+
 
                     {/* foto profile */}
                     <View style={styles.containerHeaderBoxProfile}>
@@ -26,12 +27,19 @@ export default function Profile(props) {
                             {/* <Image /> */}
                         </View>
                     </View>
+                    <View style={{ backgroundColor: color.black, position: 'absolute', alignSelf: 'center', top: 120 }}>
+                        <Text style={[styles.txtGlobalWhite, { alignSelf: 'center' }]}>Saldo Dompent</Text>
+                        <Text style={[styles.txtGlobalWhite, { alignSelf: 'center' }]}>RP 200.000</Text>
+                        <View style={{ backgroundColor: color.white, alignItems: 'center', marginHorizontal: 20, borderRadius: 8, marginTop: 8 }}>
+                            <Text style={[styles.txtIsi, { color: color.primary, paddingVertical: 8, paddingHorizontal: 10 }]}>Isi Saldo</Text>
+                        </View>
+                    </View>
 
                     {/* content */}
                     <View style={{ zIndex: 1 }}>
                         <View style={styles.containerBoxWhite}>
                             <View style={{ flex: 1, paddingHorizontal: 20 }}>
-                                <Text style={[styles.txtBio, { marginTop: 12, marginBottom: 18 }]}>Biodata</Text>
+                                <Text style={[styles.txtBio, { marginTop: 8, marginBottom: 18 }]}>Biodata</Text>
                                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                     <Text style={styles.txtTitle}>NIS</Text>
                                     <View style={{ flex: 1 }} />
@@ -130,14 +138,14 @@ const styles = {
         borderRadius: 50,
     },
     containerHeaderBox: {
-        height: SCREEN_HEIGHT / 4,
+        height: SCREEN_HEIGHT / 3,
         backgroundColor: color.primary,
     },
     containerHeaderBoxProfile: {
         position: 'absolute', top: 20, alignSelf: 'center', zIndex: 10
     },
     containerBoxWhite: {
-        position: 'relative', top: -70, marginHorizontal: 20, zIndex: 100, backgroundColor: color.white, borderRadius: 12, paddingVertical: 18
+        position: 'relative', top: -50, marginHorizontal: 20, zIndex: 100, backgroundColor: color.white, borderRadius: 12, paddingVertical: 18
     },
     txtBio: {
         fontFamily: fonts.interBold, fontSize: 18, color: color.black
