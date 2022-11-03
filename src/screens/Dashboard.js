@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { View, Text, Dimensions, TouchableOpacity, ImageBackground, Image, ScrollView } from 'react-native';
+import { View, Text, Dimensions, TouchableOpacity, ImageBackground, Image, ScrollView, StatusBar } from 'react-native';
 import HeaderTablet from '../components/HeaderTablet';
 import app from '../config/app';
 import { fonts } from '../utils/fonts';
@@ -80,6 +80,7 @@ export default function Dashboard(props) {
 
     return (
         <View style={styles.container}>
+            <StatusBar backgroundColor={color.primary} barStyle='light-content' />
             <View style={{ flex: 1 }}>
                 <ScrollView>
                     <HeaderTablet

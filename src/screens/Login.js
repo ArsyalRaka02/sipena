@@ -3,6 +3,7 @@ import {
     View,
     Text,
     StyleSheet,
+    StatusBar
 } from "react-native"
 import { useDispatch } from "react-redux";
 import { SafeAreaView } from "react-native-safe-area-context"
@@ -42,6 +43,7 @@ export default function Login({ navigation }) {
 
     return (
         <SafeAreaView style={styles.container}>
+            <StatusBar backgroundColor={color.primary} barStyle='light-content' />
             <View style={styles.content}>
                 <Text style={styles.titleName}>{app.NAME}</Text>
 
