@@ -64,6 +64,7 @@ export default function HeaderTablet(props) {
                 <View style={styles.container}>
                     <TouchableOpacity activeOpacity={1} onPress={props.iconProfile} style={styles.containerProfile}>
                         {/* <Image /> */}
+                        <Ionicons name="person-outline" size={24} color={color.black} />
                     </TouchableOpacity>
                     <View style={styles.containerText}>
                         <Text {...props} numberOfLines={1} style={props.textProfile}>Afsyus Raka Arsyal Desga Riansyah</Text>
@@ -89,7 +90,11 @@ const styles = {
         paddingHorizontal: 20,
     },
     containerProfile: {
-        backgroundColor: color.gray,
+        borderWidth: 1,
+        borderColor: color.gray,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: color.white,
         width: 50, height: 50,
         borderRadius: 50
     },

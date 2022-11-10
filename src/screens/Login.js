@@ -3,7 +3,9 @@ import {
     View,
     Text,
     StyleSheet,
-    StatusBar
+    StatusBar,
+    Image,
+    Dimensions
 } from "react-native"
 import { useDispatch } from "react-redux";
 import { SafeAreaView } from "react-native-safe-area-context"
@@ -17,6 +19,9 @@ import TextInputIcon from "../components/TextInputIcon";
 import { fonts } from "../utils/fonts"
 
 
+const SCREEN_HEIGHT = Dimensions.get("window").height;
+const SCREEN_WIDTH = Dimensions.get("window").width;
+
 export default function Login({ navigation }) {
     const dispatch = useDispatch();
     const [isLoading, setLoading] = useState(false);
@@ -26,6 +31,7 @@ export default function Login({ navigation }) {
     const login = useCallback(() => {
         // setLoading(true);
         dispatch(setUser(""));
+        console.log("ini tes")
         // let data = { username, password };
         // HttpRequest.login(data).then((res) => {
         //     console.log("Res", res.data);
@@ -44,10 +50,24 @@ export default function Login({ navigation }) {
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar backgroundColor={color.primary} barStyle='light-content' />
-            <View style={styles.content}>
-                <Text style={styles.titleName}>{app.NAME}</Text>
 
-                <Text style={styles.label}>Username</Text>
+            <View style={{ flexDirection: 'column', position: 'relative' }}>
+                <View style={styles.containerHeaderBox}>
+                    <Image source={require("../assets/sipena/triangle.png")} style={{ height: "100%", width: "100%", position: 'absolute', tintColor: color.white }} resizeMode="cover" />
+                </View>
+                <View style={{ width: SCREEN_WIDTH, height: SCREEN_HEIGHT / 5, backgroundColor: color.primary, position: 'relative', top: -150, zIndex: 100 }}>
+                    <Image source={require("../assets/sipena/segitiga.png")} style={{ height: "100%", width: "100%", position: 'absolute', tintColor: color.white }} resizeMode="cover" />
+                </View>
+                <View style={{ position: 'absolute', top: 200, left: 0, right: 0, bottom: 0, alignItems: 'center', zIndex: 100 }}>
+                    <Text style={[styles.label, { fontSize: 28, color: color.primary }]}>Masuk</Text>
+                </View>
+                <View style={{ position: 'absolute', top: 50, left: 0, right: 0, bottom: 0, alignItems: 'center' }}>
+                    <Text style={[styles.label, { fontSize: 28, color: color.white }]}>SIPENA</Text>
+                </View>
+            </View>
+
+            <View style={styles.content}>
+                <Text style={styles.label}>Email</Text>
                 <TextInputIcon
                     placeholder="Username"
                     value={username}
@@ -80,6 +100,7 @@ const styles = StyleSheet.create({
         backgroundColor: color.white,
     },
     content: {
+        marginTop: -100,
         padding: 20,
     },
     titleName: {
@@ -91,9 +112,10 @@ const styles = StyleSheet.create({
         marginBottom: 24,
     },
     label: {
-        fontSize: 13,
-        fontFamily: fonts.montserratReguler,
+        fontSize: 18,
+        fontFamily: fonts.interBold,
         marginBottom: 5,
+        color: color.primary
     },
 
     bottomWrap: {
@@ -142,6 +164,12 @@ const styles = StyleSheet.create({
     checkBox: {
         width: 24, height: 24
     },
+    box: {
+        backgroundColor: color.white,
+        width: SCREEN_WIDTH,
+        height: SCREEN_HEIGHT / 2,
+        borderRadius: 30
+    },
     txtForgotPassword: {
         fontSize: 16,
         textAlign: 'right',
@@ -154,5 +182,10 @@ const styles = StyleSheet.create({
         marginLeft: 8,
         color: color.Neutral80,
         fontFamily: fonts.montserratReguler
-    }
+    },
+    containerHeaderBox: {
+        height: SCREEN_HEIGHT / 3,
+        backgroundColor: color.primary,
+        position: 'relative',
+    },
 });

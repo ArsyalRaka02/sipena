@@ -23,6 +23,9 @@ import IsiSaldo from "../screens/IsiSaldo";
 import ListSpp from "../screens/ListSpp";
 import ListTabungan from "../screens/ListTabungan";
 import ListPembayaranBuku from "../screens/LIstPembayaranBuku";
+import SppPembayaran from "../screens/SppPembayaran";
+import PembayaranBuku from "../screens/PembayaranBuku";
+import PembayaranTabungan from "../screens/PembayaranTabungan";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -69,8 +72,12 @@ const DashboardStack = () => {
 
             <Stack.Screen name="ListKeuangan" component={ListKeuangan} />
             <Stack.Screen name="ListSpp" component={ListSpp} />
+            <Stack.Screen name="SppPembayaran" component={SppPembayaran} />
             <Stack.Screen name="ListTabungan" component={ListTabungan} />
             <Stack.Screen name="ListPembayaranBuku" component={ListPembayaranBuku} />
+            <Stack.Screen name="PembayaranBuku" component={PembayaranBuku} />
+            <Stack.Screen name="PembayaranTabungan" component={PembayaranTabungan} />
+
 
             <Stack.Screen name="ListRaport" component={ListRaport} />
 

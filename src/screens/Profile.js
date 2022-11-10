@@ -5,12 +5,15 @@ import color from '../utils/color';
 import { fonts } from '../utils/fonts';
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import BottomTab from '../components/ButtomTab';
+import { useDispatch } from 'react-redux';
+import { setUser } from "../store/actions"
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
 export default function Profile(props) {
     const navigation = useNavigation()
+    const dispatch = useDispatch();
 
     return (
         <View style={styles.container}>
@@ -26,6 +29,7 @@ export default function Profile(props) {
                     <View style={styles.containerHeaderBoxProfile}>
                         <View style={styles.containerProfile}>
                             {/* <Image /> */}
+                            <Ionicons name="person-outline" size={40} color={color.black} />
                         </View>
                     </View>
                     <View style={{ position: 'absolute', alignSelf: 'center', top: 120 }}>
@@ -113,10 +117,14 @@ export default function Profile(props) {
                                 </View>
 
                                 <View style={{ flex: 1, flexDirection: 'row', marginBottom: 12 }}>
-                                    <View style={{ backgroundColor: color.danger, flexDirection: 'row', paddingHorizontal: 25, paddingVertical: 6, alignItems: 'center', justifyContent: 'center', borderRadius: 12 }}>
+                                    <TouchableOpacity activeOpacity={1} onPress={() => {
+                                        dispatch(setUser(null));
+                                        navigation.popToTop()
+                                        navigation.navigate("Auth")
+                                    }} style={{ backgroundColor: color.danger, flexDirection: 'row', paddingHorizontal: 25, paddingVertical: 6, alignItems: 'center', justifyContent: 'center', borderRadius: 12 }}>
                                         <Ionicons name="log-out-outline" size={24} color={color.white} />
                                         <Text style={[styles.txtGlobalWhite, { marginLeft: 8 }]}>Keluar</Text>
-                                    </View>
+                                    </TouchableOpacity>
                                     <View style={{ flex: 1 }} />
                                 </View>
 
@@ -138,7 +146,9 @@ const styles = {
         flex: 1,
     },
     containerProfile: {
-        backgroundColor: color.gray,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: color.white,
         width: 90,
         height: 90,
         borderRadius: 50,
