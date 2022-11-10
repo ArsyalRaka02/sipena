@@ -26,25 +26,25 @@ export default function ListRaport(props) {
                 <View style={{ padding: 20, flex: 1 }}>
 
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <View style={styles.childContainer}>
+                        <View style={[styles.childContainer]}>
                             <View style={{ flexDirection: 'column' }}>
-                                <Text>Kelas</Text>
-                                <Text>11 IPA 1</Text>
+                                <Text style={[styles.txtGlobalBold, { fontSize: 13, color: color.primary }]}>Kelas</Text>
+                                <Text style={[styles.txtGlobalBold, { fontSize: 13, color: color.primary }]}>11 IPA 1</Text>
                             </View>
                             <View style={{ flexDirection: 'column' }}>
-                                <Text>Rata-rata</Text>
-                                <Text>80</Text>
+                                <Text style={[styles.txtGlobalBold, { fontSize: 13, color: color.primary }]}>Rata-rata</Text>
+                                <Text style={[styles.txtGlobalBold, { fontSize: 13, color: color.primary }]}>80</Text>
                             </View>
                         </View>
                         <View style={{ width: 30 }} />
                         <View style={styles.childContainer}>
                             <View style={{ flexDirection: 'column' }}>
-                                <Text>Kelas</Text>
-                                <Text>11 IPA 1</Text>
+                                <Text style={[styles.txtGlobal]}>Kelas</Text>
+                                <Text style={[styles.txtGlobalBold, { fontSize: 13 }]}>11 IPA 1</Text>
                             </View>
                             <View style={{ flexDirection: 'column' }}>
-                                <Text>Rata-rata</Text>
-                                <Text>80</Text>
+                                <Text style={[styles.txtGlobal]}>Rata-rata</Text>
+                                <Text style={[styles.txtGlobalBold, { fontSize: 13 }]}>80</Text>
                             </View>
                         </View>
                     </View>
