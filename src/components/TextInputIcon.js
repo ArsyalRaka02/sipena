@@ -14,6 +14,7 @@ export default function TextInputIcon(props) {
     let isSecureTextEntry = props.secureTextEntry ?? false;
     let jenisIcons = props.jenisIcons ?? "MaterialCommunityIcons";
     let jenisIconsRight = props.jenisIconsRight ?? "MaterialCommunityIcons";
+    let iconColor = props.iconColor ?? color.Neutral10
 
     const togglePassword = useCallback(() => {
         setShowPassword(!showPassword);
@@ -26,22 +27,22 @@ export default function TextInputIcon(props) {
                     <>
                         {
                             jenisIcons == "MaterialCommunityIcons" && (
-                                <MaterialCommunityIcons name={props.iconName} size={20} color={color.Neutral10} style={styles.iconLeft} />
+                                <MaterialCommunityIcons name={props.iconName} size={20} color={iconColor} style={styles.iconLeft} />
                             )
                         }
                         {
                             jenisIcons == "FontAwesome5" && (
-                                <FontAwesome5 name={props.iconName} size={20} color={color.Neutral10} style={styles.iconLeft} />
+                                <FontAwesome5 name={props.iconName} size={20} color={iconColor} style={styles.iconLeft} />
                             )
                         }
                         {
                             jenisIcons == "FontAwesome" && (
-                                <FontAwesome name={props.iconName} size={20} color={color.Neutral10} style={styles.iconLeft} />
+                                <FontAwesome name={props.iconName} size={20} color={iconColor} style={styles.iconLeft} />
                             )
                         }
                         {
                             jenisIcons == "Ionicons" && (
-                                <Ionicons name={props.iconName} size={20} color={color.Neutral10} style={styles.iconLeft} />
+                                <Ionicons name={props.iconName} size={20} color={iconColor} style={styles.iconLeft} />
                             )
                         }
 
@@ -49,17 +50,17 @@ export default function TextInputIcon(props) {
 
                         {
                             jenisIconsRight == "MaterialCommunityIcons" && (
-                                <MaterialCommunityIcons name={props.iconNameRight} size={20} color={color.Neutral10} style={styles.iconRight} />
+                                <MaterialCommunityIcons name={props.iconNameRight} size={20} color={iconColor} style={styles.iconRight} />
                             )
                         }
                         {
                             jenisIconsRight == "FontAwesome5" && (
-                                <FontAwesome5 name={props.iconNameRight} size={20} color={color.Neutral10} style={styles.iconRight} />
+                                <FontAwesome5 name={props.iconNameRight} size={20} color={iconColor} style={styles.iconRight} />
                             )
                         }
                         {
                             jenisIconsRight == "Ionicons" && (
-                                <Ionicons name={props.iconNameRight} size={20} color={color.Neutral10} style={styles.iconRight} />
+                                <Ionicons name={props.iconNameRight} size={20} color={iconColor} style={styles.iconRight} />
                             )
                         }
                     </>

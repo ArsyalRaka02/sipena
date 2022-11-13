@@ -26,6 +26,12 @@ import ListPembayaranBuku from "../screens/LIstPembayaranBuku";
 import SppPembayaran from "../screens/SppPembayaran";
 import PembayaranBuku from "../screens/PembayaranBuku";
 import PembayaranTabungan from "../screens/PembayaranTabungan";
+import Perpustakaan from "../screens/Perpustakaan";
+import PerpustakaanKehilanganBuku from "../screens/PerpustakaanKehilanganBuku";
+import PerpustakaanKembaliBuku from "../screens/PerpustakaanKembaliBuku";
+import PerpustakaanSumbangBuku from "../screens/PerpustakaanSumbangBuku";
+import DetailPerpustakaan from "../screens/DetailPerpustakaan";
+import KeranjangDetailBuku from "../screens/KeranjangDetailBuku";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -84,6 +90,12 @@ const DashboardStack = () => {
             <Stack.Screen name="ListPinjamFasilitas" component={ListPinjamFasilitas} />
 
             <Stack.Screen name="ListPerpustakaan" component={ListPerpustakaan} />
+            <Stack.Screen name="Perpustakaan" component={Perpustakaan} />
+            <Stack.Screen name="DetailPerpustakaan" component={DetailPerpustakaan} />
+            <Stack.Screen name="KeranjangDetailBuku" component={KeranjangDetailBuku} />
+            <Stack.Screen name="PerpustakaanKehilanganBuku" component={PerpustakaanKehilanganBuku} />
+            <Stack.Screen name="PerpustakaanKembaliBuku" component={PerpustakaanKembaliBuku} />
+            <Stack.Screen name="PerpustakaanSumbangBuku" component={PerpustakaanSumbangBuku} />
 
             <Stack.Screen name="ListKoperasi" component={ListKoperasi} />
 

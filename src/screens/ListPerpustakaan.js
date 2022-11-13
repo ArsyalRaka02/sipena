@@ -14,19 +14,23 @@ const SCREEN_WIDTH = Dimensions.get("window").width
 const menu = [
     {
         name: 'Pinjam Buku',
-        icon: "reader-outline"
+        icon: "reader-outline",
+        page: "Perpustakaan"
     },
     {
         name: 'Kembalikan Buku',
-        icon: "reader-outline"
+        icon: "reader-outline",
+        page: "PerpustakaanKembaliBuku"
     },
     {
         name: 'Sumbang Buku',
-        icon: "reader-outline"
+        icon: "reader-outline",
+        page: "PerpustakaanSumbangBuku"
     },
     {
         name: 'Kehilangan Buku',
-        icon: "reader-outline"
+        icon: "reader-outline",
+        page: "PerpustakaanKehilanganBuku"
     },
 ]
 
@@ -47,10 +51,12 @@ export default function ListPerpustakaan(props) {
                         menu.map((item, iMenu) => {
                             return (
                                 <>
-                                    <View style={{ flexDirection: 'row', paddingVertical: 16, paddingHorizontal: 20, borderRadius: 12, backgroundColor: color.white }}>
+                                    <TouchableOpacity activeOpacity={1} onPress={() => {
+                                        navigation.navigate(item.page)
+                                    }} style={{ flexDirection: 'row', paddingVertical: 16, paddingHorizontal: 20, borderRadius: 12, backgroundColor: color.white }}>
                                         <Ionicons name={item.icon} size={24} color={color.primary} />
                                         <Text style={[styles.txtGlobalBold, { marginLeft: 12, color: color.black }]}>{item.name}</Text>
-                                    </View>
+                                    </TouchableOpacity>
                                     <View style={{ height: 20 }} />
                                 </>
                             )
