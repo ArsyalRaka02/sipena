@@ -7,6 +7,7 @@ import NoData from './NoData';
 import defaultTheme from './Theme';
 import color from '../utils/color';
 import Ionicons from 'react-native-vector-icons/dist/Ionicons';
+import { fonts } from '../utils/fonts';
 
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 const SCREEN_WIDTH = Dimensions.get('window').width;
@@ -21,6 +22,7 @@ export default function Combobox(props) {
     let isShowLeftIcons = props.showLeftIcons ?? false;
     let jenisIcons = props.jenisIcons ?? "MaterialCommunityIcons";
     let jenisIconsRight = props.jenisIconsRight ?? "MaterialCommunityIcons";
+    let placeholderLabel = props.placeholder
 
     const [isShowPicker, setShowPicker] = useState(false);
     const [search, setSearch] = useState('');
@@ -158,7 +160,7 @@ export default function Combobox(props) {
 
             {
                 props.label != null && (
-                    <Text style={[styles.label, theme.labelStyle]}>{props.label}</Text>
+                    <Text style={[styles.label, theme.labelStyle, { fontFamily: fonts.poppinsReguler, fontSize: 12 }]}>{props.label}</Text>
                 )
             }
             {
@@ -183,7 +185,7 @@ export default function Combobox(props) {
                                     <Ionicons name={props.iconName} size={20} style={[styles.leftIcon, theme.leftIconStyle]} />
                                 )
                             }
-                            <Text style={[styles.textContent, theme.textContentStyle]}>{selectedItem ? selectedItem.label : '(Please Select)'}</Text>
+                            <Text style={[styles.textContent, theme.textContentStyle]}>{selectedItem ? selectedItem.label : placeholderLabel}</Text>
                             {
                                 jenisIconsRight == "MaterialCommunityIcons" && (
                                     <MaterialCommunityIcons name={props.iconNameRight} size={20} style={[styles.rightIcon, theme.rightIconStyle]} />
@@ -210,7 +212,7 @@ export default function Combobox(props) {
                         <TouchableOpacity onPress={openPicker}
                             activeOpacity={0.7}
                             style={[styles.pickerWrapper, theme.boxStyle]}>
-                            <Text style={[styles.textContent, theme.textContentStyle]}>{selectedItem ? selectedItem.label : '(Please Select)'}</Text>
+                            <Text style={[styles.textContent, theme.textContentStyle, { fontFamily: fonts.poppinsReguler, fontSize: 12 }]}>{selectedItem ? selectedItem.label : placeholderLabel}</Text>
                             {
                                 jenisIconsRight == "MaterialCommunityIcons" && (
                                     <MaterialCommunityIcons name={props.iconNameRight} size={20} style={[styles.rightIcon, theme.rightIconStyle]} />
@@ -246,7 +248,7 @@ const styles = {
         //backgroundColor: 'blue',
     },
     pickerWrapper: {
-        height: 50,
+        height: 46,
         borderColor: "#ccc",
         borderWidth: 1,
         borderRadius: 10,
