@@ -46,7 +46,7 @@ export default function ListOsis(props) {
                         listMenu.map((item, iList) => {
                             return (
                                 <>
-                                    <View style={{ backgroundColor: color.white, borderRadius: 12, flexDirection: 'row', paddingHorizontal: 10, paddingVertical: 20 }}>
+                                    <View style={{ backgroundColor: color.white, borderRadius: 12, flexDirection: 'row', paddingHorizontal: 10, paddingVertical: 14 }}>
                                         <View style={{ height: 24, width: 24, marginHorizontal: 12 }}>
                                             <Image source={item.image} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
                                         </View>
