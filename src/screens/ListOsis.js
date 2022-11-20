@@ -19,12 +19,12 @@ const listMenu = [
     },
     {
         name: "Daftar OSIS",
-        page: "KegiatanOsis",
+        page: "DaftarOsis",
         image: require("../assets/sipena/profile-add.png")
     },
     {
         name: "Anggota OSIS",
-        page: "KegiatanOsis",
+        page: "AnggotaOsis",
         image: require("../assets/sipena/profile-2user.png")
     },
 ]
@@ -46,12 +46,14 @@ export default function ListOsis(props) {
                         listMenu.map((item, iList) => {
                             return (
                                 <>
-                                    <View style={{ backgroundColor: color.white, borderRadius: 12, flexDirection: 'row', paddingHorizontal: 10, paddingVertical: 14 }}>
+                                    <TouchableOpacity activeOpacity={1} onPress={() => {
+                                        navigation.navigate(item.page)
+                                    }} style={{ backgroundColor: color.white, borderRadius: 12, flexDirection: 'row', paddingHorizontal: 10, paddingVertical: 14 }}>
                                         <View style={{ height: 24, width: 24, marginHorizontal: 12 }}>
                                             <Image source={item.image} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
                                         </View>
                                         <Text style={[styles.txtGlobalBold, { fontSize: 14, color: color.black }]}>{item.name}</Text>
-                                    </View>
+                                    </TouchableOpacity>
                                     <View style={{ height: 20 }} />
                                 </>
                             )

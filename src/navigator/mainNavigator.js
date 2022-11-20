@@ -34,6 +34,9 @@ import DetailPerpustakaan from "../screens/DetailPerpustakaan";
 import KeranjangDetailBuku from "../screens/KeranjangDetailBuku";
 import DashboardSemuaList from "../screens/DashboardSemuaList";
 import ListOsis from "../screens/ListOsis";
+import AnggotaOsis from "../screens/AnggotaOsis";
+import DaftarOsis from "../screens/DaftarOsis";
+import KegiatanOsis from "../screens/KegiatanOsis";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -105,6 +108,10 @@ const DashboardStack = () => {
             <Stack.Screen name="IsiSaldo" component={IsiSaldo} />
 
             <Stack.Screen name="ListOsis" component={ListOsis} />
+            <Stack.Screen name="AnggotaOsis" component={AnggotaOsis} />
+            <Stack.Screen name="DaftarOsis" component={DaftarOsis} />
+            <Stack.Screen name="KegiatanOsis" component={KegiatanOsis} />
+
             {/* <Stack.Screen name="UpdateHarga" component={UpdateHarga} /> */}
         </Stack.Navigator>
     );
