@@ -26,7 +26,7 @@ const defaultYear = moment().format("YYYY");
 export default function DatePicker(props) {
     const mode = props.mode || 'date';
     const format = props.format || 'YYYY-MM-DD';
-    const displayFormat = props.displayFormat || 'dddd, DD MMM YYYY';
+    const displayFormat = props.displayFormat || 'DD MMM YYYY';
     const value = props.value;
 
     const [show, setShow] = useState(false);
@@ -175,6 +175,7 @@ export default function DatePicker(props) {
                                     </TouchableOpacity>
                                 </View>
                                 <Calendar
+                                    initialDate={currentDate}
                                     current={currentDate}
                                     markedDates={markedDates}
                                     onDayPress={(day) => {
@@ -190,6 +191,8 @@ export default function DatePicker(props) {
                                         textDisabledColor: color.gray,
                                         monthTextColor: color.black,
                                     }}
+                                    minDate={props.minDate}
+                                    maxDate={props.maxDate}
                                 />
                             </>
                         )}
@@ -390,21 +393,21 @@ const styles = {
         // borderWidth: 1,
         borderRadius: 12,
         paddingHorizontal: 15,
-        paddingVertical: 15,
+        paddingVertical: 10,
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: '#F6F6F6',
     },
 
     label: {
-        fontSize: 14,
+        fontSize: 12,
         color: Color.black,
         marginBottom: 5,
     },
     text: {
         color: Color.black,
         marginTop: 3,
-        fontSize: 16,
+        fontSize: 12,
     },
     titleText: {
         color: Color.black,
@@ -458,7 +461,7 @@ const styles = {
         marginLeft: 5,
     },
     pickerItemYear: {
-        backgroundColor: Color.black,
+        backgroundColor: Color.white,
         paddingHorizontal: 10,
         paddingVertical: 5,
         borderRadius: 5,

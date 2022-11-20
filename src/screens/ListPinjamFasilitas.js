@@ -7,12 +7,40 @@ import { useNavigation } from '@react-navigation/native'
 import TextInputIcon from '../components/TextInputIcon'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { fonts } from '../utils/fonts'
+import Combobox from '../components/Combobox'
+import DatePicker from '../components/DatePicker'
+import Button from '../components/Button'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height
 const SCREEN_WIDTH = Dimensions.get("window").width
 
+const listFasilitas = [
+    {
+        id: "ruang komputer",
+        label: "ruang komputer"
+    }
+]
+
 export default function ListPinjamFasilitas(props) {
     const navigation = useNavigation()
+
+    const [selectedFasilitas, setSelectedFasilitas] = useState(null)
+    const [tanggalPinjaman, setTanggalPinjaman] = useState(new Date())
+    const [jamAwal, setJamAwal] = useState(new Date())
+    const [jamAkhir, setJamAkhir] = useState(new Date())
+
+    const toggleSetDay = useCallback((day) => {
+        setTanggalPinjaman(day)
+    }, [tanggalPinjaman])
+
+    const toggleSetWaktuAwal = useCallback((day) => {
+        setJamAwal(day)
+    }, [jamAwal])
+
+    const toggleSetWaktuAkhir = useCallback((day) => {
+        setJamAkhir(day)
+    }, [jamAkhir])
+
     return (
         <>
             <SafeAreaView style={styles.container}>
@@ -33,6 +61,87 @@ export default function ListPinjamFasilitas(props) {
                             <Text style={[styles.txtGlobal, { fontSize: 13 }]}>Tunggu persetujuan admin ketika sudah konfirmasi</Text>
                         </View>
                     </View>
+
+                    <ScrollView>
+                        <View style={{ marginVertical: 10 }}>
+                            <View style={{ height: 20 }} />
+                            <Text style={[styles.txtGlobalBold, { fontSize: 14, color: color.black, marginBottom: 10 }]}>Fasilitas</Text>
+
+                            <Combobox
+                                value={selectedFasilitas}
+                                placeholder="Silahkan Pilih Fasilitas"
+                                theme={{
+                                    boxStyle: {
+                                        backgroundColor: color.white,
+                                        borderColor: color.Neutral20,
+                                    },
+                                    leftIconStyle: {
+                                        color: color.Neutral10,
+                                        marginRight: 14
+                                    },
+                                    rightIconStyle: {
+                                        color: color.Neutral10,
+                                    },
+                                }}
+                                jenisIconsRight="Ionicons"
+                                iconNameRight="caret-down-outline"
+                                showLeftIcons={false}
+                                data={listFasilitas}
+                                onChange={(val) => {
+                                    setSelectedFasilitas(val);
+                                }}
+                            />
+                            <View style={{ height: 20 }} />
+                            <Text style={[styles.txtGlobalBold, { fontSize: 14, color: color.black, marginBottom: 10 }]}>Tanggal Pinjaman</Text>
+                            <DatePicker
+                                style={{ backgroundColor: color.white }}
+                                format='YYYY-MM-DD'
+                                displayFormat='DD MMM YYYY'
+                                nameLabel="tanggal"
+                                value={tanggalPinjaman}
+                                onChange={(tanggal) => {
+                                    toggleSetDay(tanggal)
+                                }}
+                            />
+                            <View style={{ height: 20 }} />
+                            <View style={{ flexDirection: 'row' }}>
+                                <View style={{ flex: 1 }}>
+                                    <Text style={[styles.txtGlobalBold, { fontSize: 14, color: color.black, marginBottom: 10 }]}>Jam Mulai</Text>
+                                    <DatePicker
+                                        style={{ backgroundColor: color.white }}
+                                        mode="time"
+                                        format='HH:ss'
+                                        displayFormat='HH:ss'
+                                        nameLabel="jam mulai"
+                                        value={jamAwal}
+                                        onChange={(tanggal) => {
+                                            toggleSetWaktuAwal(tanggal)
+                                        }}
+                                    />
+                                </View>
+                                <View style={{ width: 20 }} />
+                                <View style={{ flex: 1 }}>
+                                    <Text style={[styles.txtGlobalBold, { fontSize: 14, color: color.black, marginBottom: 10 }]}>Jam Akhir</Text>
+                                    <DatePicker
+                                        style={{ backgroundColor: color.white }}
+                                        mode="time"
+                                        format='HH:ss'
+                                        displayFormat='HH:ss'
+                                        nameLabel="jam akhir"
+                                        value={jamAkhir}
+                                        onChange={(tanggal) => {
+                                            toggleSetWaktuAkhir(tanggal)
+                                        }}
+                                    />
+                                </View>
+                            </View>
+                        </View>
+                    </ScrollView>
+                </View>
+                <View style={{ backgroundColor: color.white, paddingTop: 40, paddingBottom: 20, paddingHorizontal: 20 }}>
+                    <Button>
+                        Ajukan Peminjaman
+                    </Button>
                 </View>
             </SafeAreaView>
         </>
