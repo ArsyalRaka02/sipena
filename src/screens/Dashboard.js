@@ -74,7 +74,7 @@ export default function Dashboard(props) {
             name: "Semua",
             image: require("../assets/sipena/semua.png"),
             warna: color.menuPink,
-            page: ""
+            page: "DashboardSemuaList"
         }
     ]
 
