@@ -8,12 +8,23 @@ import TextInputIcon from '../components/TextInputIcon'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { fonts } from '../utils/fonts'
 import Button from '../components/Button'
+import Combobox from '../components/Combobox'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height
 const SCREEN_WIDTH = Dimensions.get("window").width
 
+const listBulan = [
+    {
+        id: "Agustus",
+        label: "Agustus"
+    }
+]
+
 export default function PembayaranTabungan(props) {
     const navigation = useNavigation()
+
+    const [selectedBulan, setSelectedBulan] = useState(null)
+
     return (
         <>
             <SafeAreaView style={styles.container}>
@@ -26,12 +37,22 @@ export default function PembayaranTabungan(props) {
                 </HeaderBack>
                 <View style={{ padding: 20, flex: 1 }}>
                     <ScrollView>
+                        <Text style={[styles.txtGlobalBold, { fontSize: 16, color: color.black, marginVertical: 12 }]}>Saldo Anda</Text>
+                        <TextInputIcon
+                            editable={false}
+                            value={"50.000"}
+                            wrapperStyle={{ backgroundColor: color.themeGray, borderColor: color.themeGray }}
+                        />
+                        <Text style={[styles.txtGlobalBold, { fontSize: 16, color: color.black, marginVertical: 12 }]}>Nominal Pembayaran</Text>
+                        <TextInputIcon
+                            editable={true}
+                            value={"50.000"}
+                            // wrapperStyle={{ backgroundColor: color.themeGray, borderColor: color.themeGray }}
+                        />
                     </ScrollView>
                 </View>
-                <View style={{ paddingHorizontal: 20, paddingBottom: 10 }}>
-                    <Button
-
-                    >
+                <View style={{ backgroundColor: color.white, paddingTop: 40, paddingBottom: 20, paddingHorizontal: 20 }}>
+                    <Button>
                         Bayar Sekarang
                     </Button>
                 </View>
