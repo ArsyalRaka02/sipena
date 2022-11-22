@@ -91,8 +91,8 @@ const styles = {
         color: color.white,
         fontFamily: fonts.interBold,
     },
-    txtGlobal: { fontSize: 14, fontFamily: fonts.inter },
-    txtGlobalBold: { fontSize: 16, fontFamily: fonts.interBold },
+    txtGlobal: { fontSize: 12, fontFamily: fonts.inter },
+    txtGlobalBold: { fontSize: 15, fontFamily: fonts.interBold },
     containerList: { backgroundColor: color.white, flexDirection: 'row', padding: 10, borderRadius: 12, alignItems: 'center' },
     childImage: { width: SCREEN_WIDTH / 5, height: SCREEN_HEIGHT / 10, borderRadius: 12, overflow: "hidden" },
     childContent: { flexDirection: 'column', flex: 1, marginLeft: 12 }

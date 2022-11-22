@@ -53,6 +53,28 @@ function ListPelajaran() {
                     <Text style={[styles.txtGlobal]}>07.00-09.00</Text>
                 </View>
             </View>
+            <View style={{ marginVertical: 12 }}>
+                <Text style={[styles.txtGlobalBold]}>Selasa</Text>
+            </View>
+            <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: color.white, paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12 }}>
+                <Text>Matematika</Text>
+                <View style={{ flex: 1 }} />
+                <View style={{ flexDirection: 'row' }}>
+                    <Ionicons name="time-outline" size={20} color={color.black} style={{ marginRight: 12 }} />
+                    <Text style={[styles.txtGlobal]}>07.00-09.00</Text>
+                </View>
+            </View>
+            <View style={{ marginVertical: 12 }}>
+                <Text style={[styles.txtGlobalBold]}>Rabu</Text>
+            </View>
+            <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: color.white, paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12 }}>
+                <Text>Matematika</Text>
+                <View style={{ flex: 1 }} />
+                <View style={{ flexDirection: 'row' }}>
+                    <Ionicons name="time-outline" size={20} color={color.black} style={{ marginRight: 12 }} />
+                    <Text style={[styles.txtGlobal]}>07.00-09.00</Text>
+                </View>
+            </View>
         </>
     )
 }
@@ -67,6 +89,7 @@ const styles = {
         color: color.white,
         fontFamily: fonts.interBold,
     },
-    txtGlobal: { fontSize: 14, fontFamily: fonts.inter },
-    txtGlobalBold: { fontSize: 16, fontFamily: fonts.interBold },
+
+    txtGlobal: { fontSize: 13, fontFamily: fonts.inter },
+    txtGlobalBold: { fontSize: 15, fontFamily: fonts.interBold },
 }

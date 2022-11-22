@@ -67,8 +67,8 @@ export default function HeaderTablet(props) {
                         <Ionicons name="person-outline" size={24} color={color.black} />
                     </TouchableOpacity>
                     <View style={styles.containerText}>
-                        <Text {...props} numberOfLines={1} style={props.textProfile}>Afsyus Raka Arsyal Desga Riansyah</Text>
-                        <Text {...props} style={props.textAlamat}>Jl.Kandangan Gunung No.18</Text>
+                        <Text {...props} numberOfLines={1} style={props.textProfile}>Nama User</Text>
+                        <Text {...props} style={props.textAlamat}>Alamat User</Text>
                     </View>
                     <TouchableOpacity style={styles.menuRight} onPress={props.iconRight} activeOpacity={0.8}>
                         <Ionicons name="notifications" size={24} color={color.white} />

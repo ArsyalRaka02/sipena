@@ -11,7 +11,7 @@ import { fonts } from '../utils/fonts'
 const SCREEN_HEIGHT = Dimensions.get("window").height
 const SCREEN_WIDTH = Dimensions.get("window").width
 
-export default function AnggotaOsis(props) {
+export default function ListEkstrakulikuler(props) {
     const navigation = useNavigation()
     return (
         <>
@@ -21,7 +21,7 @@ export default function AnggotaOsis(props) {
                         navigation.goBack()
                     }}
                 >
-                    <Text style={styles.txtHeader}>Anggota Osis</Text>
+                    <Text style={styles.txtHeader}>Kegiatan Ekstrakulikuler</Text>
                 </HeaderBack>
                 <View style={{ padding: 20, flex: 1 }}>
                     <TextInputIcon
@@ -29,7 +29,7 @@ export default function AnggotaOsis(props) {
                         wrapperStyle={{ backgroundColor: color.white, borderWidth: 0, paddingHorizontal: 10 }}
                         jenisIcons={"Ionicons"}
                         iconName={"search-outline"}
-                        placeholder="Nama Anggota"
+                        placeholder="Nama Kegiatan"
                     />
                     <View style={{ height: 20 }} />
                     <ScrollView>
@@ -44,16 +44,22 @@ export default function AnggotaOsis(props) {
 function ListCard() {
     let data = [
         {
-            nama: "Apin",
-            kelas: "10 IPA 2"
+            nama: "Basket",
+            jadwal_awal: "07.00",
+            jadwal_akhir: "22.00",
+            tanggal: "2022-11-22"
         },
         {
-            nama: "Arsyal",
-            kelas: "10 IPA 2"
+            nama: "Sepak Bola",
+            jadwal_awal: "07.00",
+            jadwal_akhir: "22.00",
+            tanggal: "2022-08-22"
         },
         {
-            nama: "Falah",
-            kelas: "10 IPA 2"
+            nama: "Futsal",
+            jadwal_awal: "07.00",
+            jadwal_akhir: "22.00",
+            tanggal: "2022-11-22"
         },
     ]
     return (
@@ -62,9 +68,17 @@ function ListCard() {
                 data.map((item, iList) => {
                     return (
                         <>
-                            <View style={{ flexDirection: 'row', flex: 1, backgroundColor: color.white, borderRadius: 12, padding: 18, }}>
+                            <View style={{ flexDirection: 'column', flex: 1, backgroundColor: color.white, borderRadius: 12, padding: 12 }}>
                                 <Text style={[styles.txtGlobalBold, { flex: 1 }]}>{item.nama}</Text>
-                                <Text style={[styles.txtGlobal]}>Kelas {item.kelas}</Text>
+                                <View style={{ flexDirection: "row", alignItems: 'center' }}>
+                                    <Text style={[styles.txtGlobal, { flex: 1 }]}>{item.tanggal}</Text>
+                                    <View style={{ flexDirection: "row", alignItems: 'center' }}>
+                                        <Ionicons name="time-outline" size={20} color={color.black} />
+                                        <Text style={[styles.txtGlobal]}>{item.jadwal_awal}</Text>
+                                        <Text style={[styles.txtGlobal]}> - </Text>
+                                        <Text style={[styles.txtGlobal]}>{item.jadwal_akhir}</Text>
+                                    </View>
+                                </View>
                             </View>
                             <View style={{ height: 20 }} />
                         </>
@@ -86,5 +100,6 @@ const styles = {
         fontFamily: fonts.interBold,
     },
     txtGlobal: { fontSize: 13, fontFamily: fonts.inter },
-    txtGlobalBold: { fontSize: 15, fontFamily: fonts.interBold }
+    txtGlobalBold: { fontSize: 15, fontFamily: fonts.interBold },
 }
+

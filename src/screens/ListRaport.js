@@ -7,6 +7,7 @@ import { useNavigation } from '@react-navigation/native'
 import TextInputIcon from '../components/TextInputIcon'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { fonts } from '../utils/fonts'
+import { Item } from 'react-native-paper/lib/typescript/components/List/List'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height
 const SCREEN_WIDTH = Dimensions.get("window").width
@@ -63,16 +64,47 @@ export default function ListRaport(props) {
 }
 
 function ListPelajaran() {
+    let data = [
+        {
+            name: 'Matematika',
+            nilai: "90"
+        },
+        {
+            name: 'Bahasa Indoensia',
+            nilai: "90"
+        },
+        {
+            name: 'Bahasa Inggris',
+            nilai: "90"
+        },
+        {
+            name: 'Sejarah Indonesia',
+            nilai: "90"
+        },
+        {
+            name: 'Informatika',
+            nilai: "90"
+        },
+    ]
     return (
         <>
-            <View style={{ backgroundColor: color.white, paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12, flexDirection: "row", alignItems: 'center' }}>
-                <Text style={[styles.txtGlobalBold, { flex: 1 }]}>Matematika</Text>
-                <View style={{ flexDirection: 'row', marginRight: 18 }}>
-                    <Text style={[styles.txtGlobal]}>Nilai : </Text>
-                    <Text style={[styles.txtGlobalBold]}>80</Text>
-                </View>
-                <Ionicons name="chevron-down-outline" size={24} color={color.black} />
-            </View>
+            {
+                data.map((item, iList) => {
+                    return (
+                        <>
+                            <View style={{ backgroundColor: color.white, paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12, flexDirection: "row", alignItems: 'center' }}>
+                                <Text style={[styles.txtGlobalBold, { flex: 1 }]}>{item.name}</Text>
+                                <View style={{ flexDirection: 'row', marginRight: 18 }}>
+                                    <Text style={[styles.txtGlobal]}>Nilai : </Text>
+                                    <Text style={[styles.txtGlobalBold]}>{item.nilai}</Text>
+                                </View>
+                                <Ionicons name="chevron-down-outline" size={24} color={color.black} />
+                            </View>
+                            <View style={{ height: 20 }} />
+                        </>
+                    )
+                })
+            }
         </>
     )
 }
@@ -87,8 +119,9 @@ const styles = {
         color: color.white,
         fontFamily: fonts.interBold,
     },
-    txtGlobal: { fontSize: 14, fontFamily: fonts.inter },
-    txtGlobalBold: { fontSize: 16, fontFamily: fonts.interBold },
+
+    txtGlobal: { fontSize: 13, fontFamily: fonts.inter },
+    txtGlobalBold: { fontSize: 15, fontFamily: fonts.interBold },
     childContainer: {
         backgroundColor: color.white,
         flexDirection: "row",

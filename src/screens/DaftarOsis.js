@@ -7,6 +7,7 @@ import { useNavigation } from '@react-navigation/native'
 import TextInputIcon from '../components/TextInputIcon'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { fonts } from '../utils/fonts'
+import Button from '../components/Button'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height
 const SCREEN_WIDTH = Dimensions.get("window").width
@@ -24,7 +25,22 @@ export default function DaftarOsis(props) {
                     <Text style={styles.txtHeader}>Daftar Osis</Text>
                 </HeaderBack>
                 <View style={{ padding: 20, flex: 1 }}>
+                    <ScrollView>
+                        <Text style={[styles.txtGlobalBold, { fontSize: 14, color: color.black, marginVertical: 10 }]}>NIS</Text>
+                        <TextInputIcon
+                            value={"Nis"}
+                        />
+                        <Text style={[styles.txtGlobalBold, { fontSize: 14, color: color.black, marginVertical: 10 }]}>Nama</Text>
+                        <TextInputIcon
+                            value={"Nama"}
+                        />
+                    </ScrollView>
+                </View>
 
+                <View style={{ backgroundColor: color.white, paddingTop: 40, paddingBottom: 20, paddingHorizontal: 20 }}>
+                    <Button>
+                        Daftar Sekarang
+                    </Button>
                 </View>
             </SafeAreaView>
         </>
@@ -41,6 +57,6 @@ const styles = {
         color: color.white,
         fontFamily: fonts.interBold,
     },
-    txtGlobal: { fontSize: 14, fontFamily: fonts.inter },
-    txtGlobalBold: { fontSize: 16, fontFamily: fonts.interBold },
+    txtGlobal: { fontSize: 13, fontFamily: fonts.inter },
+    txtGlobalBold: { fontSize: 15, fontFamily: fonts.interBold }
 }

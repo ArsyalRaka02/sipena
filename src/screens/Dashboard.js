@@ -107,7 +107,7 @@ export default function Dashboard(props) {
                                                 }]}>
                                                     <Image source={item.image} style={{ width: 18, height: 18 }} />
                                                 </View>
-                                                <Text style={{ textAlign: 'center', fontSize: 12, fontFamily: fonts.inter, marginVertical: 12, flex: 1 }}>{item.name}</Text>
+                                                <Text style={{ textAlign: 'center', fontSize: 10, fontFamily: fonts.inter, marginVertical: 12, flex: 1 }}>{item.name}</Text>
                                             </TouchableOpacity>
                                         </>
                                     )
@@ -126,8 +126,23 @@ export default function Dashboard(props) {
                                 <Text style={[styles.txtGlobal, { color: "#75B4FF" }]}>Selengkapnya</Text>
                             </TouchableOpacity>
                         </View>
+
                         <View style={styles.containerJadwal}>
                             <Text style={[styles.txtBoldGlobal]}>Matematika</Text>
+                            <View style={{ flex: 1 }} />
+                            <Ionicons name="time-outline" size={24} color={color.black} />
+                            <Text style={[styles.txtGlobal, { marginLeft: 12 }]}>01.00 - 02.00</Text>
+                        </View>
+                        <View style={{ height: 20 }} />
+                        <View style={styles.containerJadwal}>
+                            <Text style={[styles.txtBoldGlobal]}>Bahasa Indonesia</Text>
+                            <View style={{ flex: 1 }} />
+                            <Ionicons name="time-outline" size={24} color={color.black} />
+                            <Text style={[styles.txtGlobal, { marginLeft: 12 }]}>01.00 - 02.00</Text>
+                        </View>
+                        <View style={{ height: 20 }} />
+                        <View style={styles.containerJadwal}>
+                            <Text style={[styles.txtBoldGlobal]}>Bahasa Inggris</Text>
                             <View style={{ flex: 1 }} />
                             <Ionicons name="time-outline" size={24} color={color.black} />
                             <Text style={[styles.txtGlobal, { marginLeft: 12 }]}>01.00 - 02.00</Text>
@@ -144,21 +159,59 @@ export default function Dashboard(props) {
                         </View>
 
                         {/* berita */}
-                        <View style={{ backgroundColor: color.white, padding: 8, width: SCREEN_WIDTH / 2.0, flexDirection: 'column', borderRadius: 12 }}>
-                            <View style={{ height: SCREEN_HEIGHT / 7, overflow: 'hidden', borderRadius: 12 }}>
-                                <Image source={require("../assets/images/no-image.png")} style={styles.img} resizeMode="cover" />
-                            </View>
-                            <View style={{ marginVertical: 12 }}>
-                                <Text style={[styles.txtBoldGlobal, { marginBottom: 6 }]}>judul Berita</Text>
-                                <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center' }}>
-                                    <Ionicons name="eye-outline" size={18} color={color.black} style={{ marginRight: 8 }} />
-                                    <Text style={[styles.txtGlobal]}>Vision berita</Text>
+                        <View style={{ flexDirection: 'row' }}>
+                            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                                <View style={{ backgroundColor: color.white, padding: 8, width: SCREEN_WIDTH / 2.0, flexDirection: 'column', borderRadius: 12 }}>
+                                    <View style={{ height: SCREEN_HEIGHT / 7, overflow: 'hidden', borderRadius: 12 }}>
+                                        <Image source={require("../assets/sipena/candi-penataran.png")} style={styles.img} resizeMode="cover" />
+                                    </View>
+                                    <View style={{ marginVertical: 12 }}>
+                                        <Text style={[styles.txtBoldGlobal, { marginBottom: 6 }]}>judul Berita</Text>
+                                        <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center' }}>
+                                            <Ionicons name="eye-outline" size={18} color={color.black} style={{ marginRight: 8 }} />
+                                            <Text style={[styles.txtGlobal]}>Vision berita</Text>
+                                        </View>
+                                        <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center' }}>
+                                            <Ionicons name="time-outline" size={18} color={color.black} style={{ marginRight: 8 }} />
+                                            <Text style={[styles.txtGlobal]}>Tanggal berita</Text>
+                                        </View>
+                                    </View>
                                 </View>
-                                <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center' }}>
-                                    <Ionicons name="time-outline" size={18} color={color.black} style={{ marginRight: 8 }} />
-                                    <Text style={[styles.txtGlobal]}>Tanggal berita</Text>
+                                <View style={{ width: 20 }} />
+                                <View style={{ backgroundColor: color.white, padding: 8, width: SCREEN_WIDTH / 2.0, flexDirection: 'column', borderRadius: 12 }}>
+                                    <View style={{ height: SCREEN_HEIGHT / 7, overflow: 'hidden', borderRadius: 12 }}>
+                                        <Image source={require("../assets/sipena/candi-penataran.png")} style={styles.img} resizeMode="cover" />
+                                    </View>
+                                    <View style={{ marginVertical: 12 }}>
+                                        <Text style={[styles.txtBoldGlobal, { marginBottom: 6 }]}>judul Berita</Text>
+                                        <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center' }}>
+                                            <Ionicons name="eye-outline" size={18} color={color.black} style={{ marginRight: 8 }} />
+                                            <Text style={[styles.txtGlobal]}>Vision berita</Text>
+                                        </View>
+                                        <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center' }}>
+                                            <Ionicons name="time-outline" size={18} color={color.black} style={{ marginRight: 8 }} />
+                                            <Text style={[styles.txtGlobal]}>Tanggal berita</Text>
+                                        </View>
+                                    </View>
                                 </View>
-                            </View>
+                                <View style={{ width: 20 }} />
+                                <View style={{ backgroundColor: color.white, padding: 8, width: SCREEN_WIDTH / 2.0, flexDirection: 'column', borderRadius: 12 }}>
+                                    <View style={{ height: SCREEN_HEIGHT / 7, overflow: 'hidden', borderRadius: 12 }}>
+                                        <Image source={require("../assets/sipena/candi-penataran.png")} style={styles.img} resizeMode="cover" />
+                                    </View>
+                                    <View style={{ marginVertical: 12 }}>
+                                        <Text style={[styles.txtBoldGlobal, { marginBottom: 6 }]}>judul Berita</Text>
+                                        <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center' }}>
+                                            <Ionicons name="eye-outline" size={18} color={color.black} style={{ marginRight: 8 }} />
+                                            <Text style={[styles.txtGlobal]}>Vision berita</Text>
+                                        </View>
+                                        <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center' }}>
+                                            <Ionicons name="time-outline" size={18} color={color.black} style={{ marginRight: 8 }} />
+                                            <Text style={[styles.txtGlobal]}>Tanggal berita</Text>
+                                        </View>
+                                    </View>
+                                </View>
+                            </ScrollView>
                         </View>
                     </View>
                     <View style={{ height: 40 }} />
@@ -230,12 +283,12 @@ const styles = {
     },
     txtGlobal: {
         fontFamily: fonts.inter,
-        fontSize: 14,
+        fontSize: 13,
         color: color.black
     },
     txtBoldGlobal: {
         fontFamily: fonts.interBold,
-        fontSize: 17,
+        fontSize: 15,
         color: color.black
     },
     containerJadwal: {

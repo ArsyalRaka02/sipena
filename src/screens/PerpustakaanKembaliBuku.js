@@ -113,6 +113,7 @@ const styles = {
         color: color.white,
         fontFamily: fonts.interBold,
     },
-    txtGlobal: { fontSize: 14, fontFamily: fonts.inter },
-    txtGlobalBold: { fontSize: 16, fontFamily: fonts.interBold },
+    
+    txtGlobal: { fontSize: 13, fontFamily: fonts.inter },
+    txtGlobalBold: { fontSize: 15, fontFamily: fonts.interBold },
 }

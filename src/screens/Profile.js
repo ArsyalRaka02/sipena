@@ -76,7 +76,7 @@ export default function Profile(props) {
                                 <View style={styles.underline} />
 
                                 <View style={{ flexDirection: 'row', alignItems: 'center', overflow: 'hidden' }}>
-                                    <Text style={styles.txtTitle}>Tempat Tanggal lahir</Text>
+                                    <Text style={styles.txtTitle}>Tempat lahir</Text>
                                     <View style={{ flex: 1 }} />
                                     <Text style={styles.txtIsi}>ini adalah tempat tanggal lahir</Text>
                                 </View>
@@ -164,13 +164,13 @@ const styles = {
         position: 'relative', top: -50, marginHorizontal: 20, zIndex: 100, backgroundColor: color.white, borderRadius: 12, paddingVertical: 18
     },
     txtBio: {
-        fontFamily: fonts.interBold, fontSize: 18, color: color.black
+        fontFamily: fonts.interBold, fontSize: 16, color: color.black
     },
     txtTitle: {
-        fontFamily: fonts.interBold, fontSize: 14, color: color.black
+        fontFamily: fonts.interBold, fontSize: 12, color: color.black
     },
     txtIsi: {
-        fontFamily: fonts.inter, fontSize: 14, color: color.black
+        fontFamily: fonts.inter, fontSize: 13, color: color.black
     },
     underline: {
         borderBottomWidth: 0.8, borderBottomColor: color.gray, marginVertical: 12
