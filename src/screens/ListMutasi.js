@@ -42,8 +42,10 @@ export default function ListMutasi(props) {
                 </View>
 
                 <View style={{ backgroundColor: color.white, paddingTop: 40, paddingBottom: 20, paddingHorizontal: 20 }}>
-                    <Button>
-                        Ajukan Peminjaman
+                    <Button activeOpacity={1} onPress={() => {
+                        navigation.navigate("FormMutasi")
+                    }}>
+                        Ajukan Mutasi
                     </Button>
                 </View>
             </SafeAreaView>

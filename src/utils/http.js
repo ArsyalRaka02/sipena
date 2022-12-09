@@ -20,9 +20,19 @@ const request = () => {
     });
 }
 
+const requestTypeFormData = () => {
+    return axios.create({
+        baseURL: AppConfig.BASE_URL,
+        timeout: AppConfig.TIMEOUT,
+        headers: {
+            "content-type": "multipart/form-data"
+        }
+    });
+}
+
 const requestWithAuth = (useFormData = false) => {
-    let user = store.getState().user;
-    console.log("Token", user.token);
+    // let user = store.getState().user;
+    // console.log("Token", user.token);
 
     return axios.create({
         baseURL: AppConfig.BASE_URL,
@@ -30,7 +40,7 @@ const requestWithAuth = (useFormData = false) => {
         headers: {
             "Accept": "application/json",
             "Content-Type": (useFormData ? "application/x-www-form-urlencoded" : "application/json"),
-            "token": user.token,
+            // "token": user.token,
         }
     });
 }
@@ -39,6 +49,13 @@ export const HttpRequest = {
     login(data) {
         return request().post("/login", data);
     },
+
+    mutasiSiswaPost(data) {
+        return requestTypeFormData().post("/simpanmutasisiswa", data)
+    },
+    listMutasiSiswa() {
+        return request().get("/iistmutasisiswa")
+    }
 };
 
 export const FormDataConverter = {

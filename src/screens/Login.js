@@ -17,7 +17,7 @@ import app from "../config/app"
 import { setUser } from "../store/actions"
 import TextInputIcon from "../components/TextInputIcon";
 import { fonts } from "../utils/fonts"
-
+import responseStatus from "../utils/responseStatus";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
@@ -29,29 +29,30 @@ export default function Login({ navigation }) {
     const [password, setPassword] = useState(__DEV__ ? app.EXAMPLE_PASSWORD : "");
 
     const login = useCallback(() => {
-        // setLoading(true);
-        dispatch(setUser(""));
-        console.log("ini tes")
-        // let data = { username, password };
-        // HttpRequest.login(data).then((res) => {
-        //     console.log("Res", res.data);
-        //     Toast.showSuccess("Login Success");
-        //     setLoading(false);
-
-        //     dispatch(setUser(""));
-        // }).catch((err) => {
-        //     console.log(err, err.response);
-        //     Toast.showError(err.response.data.message);
-        //     setLoading(false);
-        // });
-        // }, [username, password]);
-    }, []);
+        setLoading(true);
+        let data = { username, password };
+        HttpRequest.login(data).then((res) => {
+            let result = res.data
+            if (result.success == responseStatus.INSERT_SUKSES) {
+                Toast.showSuccess("Berhasil Login")
+                dispatch(setUser(res.data.data));
+            }
+            if (result.success == responseStatus.INSERT_GAGAL) {
+                Toast.showError("Email/Password Salah")
+            }
+            setLoading(false);
+        }).catch((err) => {
+            console.log(err, err.response);
+            Toast.showError(err.response.data.message);
+            setLoading(false);
+        });
+    }, [username, password]);
 
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar backgroundColor={color.primary} barStyle='light-content' />
 
-            <View style={{ flexDirection: 'column', position: 'relative' }}>
+            <View style={{ flexDirection: 'column', position: 'relative', zIndex: -100 }}>
                 <View style={styles.containerHeaderBox}>
                     <Image source={require("../assets/sipena/triangle.png")} style={{ height: "100%", width: "100%", position: 'absolute', tintColor: color.white }} resizeMode="cover" />
                 </View>
@@ -72,6 +73,7 @@ export default function Login({ navigation }) {
                     placeholder="Username"
                     value={username}
                     onChangeText={setUsername}
+                    wrapperStyle={{ borderWidth: 1, borderColor: color.gray }}
                     containerStyle={styles.input} />
 
                 <Text style={styles.label}>Password</Text>
@@ -81,6 +83,7 @@ export default function Login({ navigation }) {
                     value={password}
                     onChangeText={setPassword}
                     secureTextEntry={true}
+                    wrapperStyle={{ borderWidth: 1, borderColor: color.gray }}
                     containerStyle={styles.input} />
 
                 <Button

@@ -1,0 +1,12 @@
+export default {
+    INSERT_SUKSES: 1,
+    INSERT_GAGAL: 2,
+
+    UPDATE_SUKSES: 3,
+    UPDATE_GAGAL: 4,
+
+    DELETE_SUKSES: 5,
+    DELETE_GAGAL: 6,
+
+    STATUS_ISTIMEWA: 7
+}

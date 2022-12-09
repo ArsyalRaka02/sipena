@@ -39,6 +39,7 @@ import DaftarOsis from "../screens/DaftarOsis";
 import KegiatanOsis from "../screens/KegiatanOsis";
 import ListMutasi from "../screens/ListMutasi";
 import ListEkstrakulikuler from "../screens/ListEkstrakulikuler";
+import FormMutasi from "../screens/FormMutasi";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -115,6 +116,7 @@ const DashboardStack = () => {
             <Stack.Screen name="KegiatanOsis" component={KegiatanOsis} />
 
             <Stack.Screen name="ListMutasi" component={ListMutasi} />
+            <Stack.Screen name="FormMutasi" component={FormMutasi} />
             <Stack.Screen name="ListEkstrakulikuler" component={ListEkstrakulikuler} />
 
             {/* <Stack.Screen name="UpdateHarga" component={UpdateHarga} /> */}
