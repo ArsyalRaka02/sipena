@@ -37,25 +37,8 @@ export default function HeaderTablet(props) {
     });
 
     useEffect(() => {
-        // console.log("User", user);
+
     }, [user]);
-
-    const gantiShift = useCallback(() => {
-        setIsLoading(true);
-        HttpRequest.changeShift({ pin: value }).then((res) => {
-            setIsLoading(false);
-
-            dispatch(setUser(res.data));
-            Toast.showSuccess("Anda berhasil login");
-
-            setShowLogoutModal(false);
-            setShowPinInputModal(false);
-        }).catch((err) => {
-            console.log(err);
-            Toast.showError(err.response.data.message);
-            setIsLoading(false);
-        });
-    }, [value]);
 
     return (
         <>
@@ -67,8 +50,8 @@ export default function HeaderTablet(props) {
                         <Ionicons name="person-outline" size={24} color={color.black} />
                     </TouchableOpacity>
                     <View style={styles.containerText}>
-                        <Text {...props} numberOfLines={1} style={props.textProfile}>Nama User</Text>
-                        <Text {...props} style={props.textAlamat}>Alamat User</Text>
+                        <Text {...props} numberOfLines={1} style={props.textProfile}>{user?.nama}</Text>
+                        <Text {...props} style={props.textAlamat}>Role: {user?.rolenama}</Text>
                     </View>
                     <TouchableOpacity style={styles.menuRight} onPress={props.iconRight} activeOpacity={0.8}>
                         <Ionicons name="notifications" size={24} color={color.white} />

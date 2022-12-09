@@ -7,6 +7,7 @@ import ImagePicker, { ImageOrVideo } from "react-native-image-crop-picker"
 import moment from 'moment';
 import { HttpRequest } from '../utils/http';
 import Toast from './Toast';
+import ImageResizer from 'react-native-image-resizer';
 
 export default function UploadImageView(props) {
     const [image, setImage] = useState(null);
@@ -21,14 +22,21 @@ export default function UploadImageView(props) {
         ImagePicker.openPicker({
             width: 400,
             height: 400,
-            cropping: true
+            cropping: false
         }).then(image => {
-            console.log("Image", image);
+            console.log("Image pick", image);
             setImage(image.path);
-
-            if (props.onSelectImage) {
-                props.onSelectImage(image.path);
-            }
+            ImageResizer.createResizedImage(image.path, 1000, 1000, 'JPEG', 100, 0)
+                .then(response => {
+                    if (props.onSelectImage) {
+                        props.onSelectImage(response.uri);
+                    }
+                    console.log("rez", response)
+                })
+                .catch(err => {
+                    console.log("er", err)
+                    Toast.showError("Gagal mengkompresi gambar");
+                });
         })
     }, []);
 
@@ -36,10 +44,10 @@ export default function UploadImageView(props) {
         ImagePicker.openCamera({
             width: 400,
             height: 400,
-            cropping: true,
+            cropping: false,
             useFrontCamera: false,
         }).then(image => {
-            console.log("Image", image);
+            console.log("Image res", image);
             uploadImage(image.path)
             // setImage(image.path);
 
@@ -76,29 +84,33 @@ export default function UploadImageView(props) {
     }, []);
 
     const uploadImage = useCallback((image) => {
-        setIsUploading(true);
+        // setIsUploading(true);
         let formData = new FormData();
         formData.append('file', {
             name: 'image-' + moment().format('YYYY-MM-DD-HH-mm-ss') + '.jpg',
             type: 'image/jpeg',
             uri: image,
-            //uri: Platform.OS == "android" ? newImageUri : response.uri.replace('file://', ''),
+            // uri: Platform.OS == "android" ? newImageUri : response.uri.replace('file://', ''),
         });
 
-        HttpRequest.uploadImage(formData).then(res => {
-            setIsUploading(false);
-            console.log("Response", res, res.data.path);
-            let path = res.data.path;
-            // setImage(path);
+        if (props.onSelectImage) {
+            props.onSelectImage(path);
+        }
 
-            if (props.onSelectImage) {
-                props.onSelectImage(path);
-            }
-        }).catch(error => {
-            console.log("Error", error, error.response);
-            Toast.showError('Gagal mengupload gambar');
-            setIsUploading(false);
-        });
+        // HttpRequest.uploadImage(formData).then(res => {
+        //     setIsUploading(false);
+        //     console.log("Response", res, res.data.path);
+        //     let path = res.data.path;
+        //     // setImage(path);
+
+        //     if (props.onSelectImage) {
+        //         props.onSelectImage(path);
+        //     }
+        // }).catch(error => {
+        //     console.log("Error", error, error.response);
+        //     Toast.showError('Gagal mengupload gambar');
+        //     setIsUploading(false);
+        // });
     }, [props.onSelectImage]);
 
     if (props.renderDisplay != null) {
