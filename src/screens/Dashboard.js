@@ -11,6 +11,10 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Entypo from 'react-native-vector-icons/Entypo';
 import { useNavigation } from '@react-navigation/native';
 import BottomTab from '../components/ButtomTab';
+import { HttpRequest } from '../utils/http';
+import NoData from '../components/NoData';
+import responseStatus from '../utils/responseStatus';
+import Toast from '../components/Toast';
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
@@ -18,6 +22,9 @@ const SCREEN_WIDTH = Dimensions.get("window").width;
 export default function Dashboard(props) {
     const navigation = useNavigation()
     const [isOpenCard, setisOpenCard] = useState(false)
+
+    const [listJadwal, setListJadwal] = useState([])
+    const [listBerita, setListBerita] = useState([])
 
     const btnOpenCard = useCallback(() => {
         setisOpenCard(!isOpenCard)
@@ -78,6 +85,45 @@ export default function Dashboard(props) {
         }
     ]
 
+    useEffect(() => {
+        loadListJadwal()
+        loadBerita()
+    }, [])
+
+    const loadListJadwal = useCallback(async () => {
+        try {
+            let data = await HttpRequest.listMataPelajaran()
+            let result = data.data.data
+            let status = data.data.status
+            if (status == responseStatus.INSERT_SUKSES) {
+                setListJadwal(result)
+            }
+            if (status == responseStatus.INSERT_GAGAL) {
+                Toast.showError("Gagal mendapatkan list jadwal")
+                setListJadwal([])
+            }
+            console.log("ini adalah jadwal matapelajaran", result)
+        } catch (error) {
+            console.log("err", error, error.response)
+        }
+    }, [listJadwal])
+
+    const loadBerita = useCallback(async () => {
+        try {
+            let data = await HttpRequest.listBerita("kelas")
+            let result = data.data.data
+            let status = data.data.status
+            if (status == responseStatus.INSERT_SUKSES) {
+                setListBerita(result)
+            }
+            if (status == responseStatus.INSERT_GAGAL) {
+                setListBerita([])
+            }
+        } catch (error) {
+            console.log("ini adalah list beita", error)
+        }
+    }, [listBerita])
+
     return (
         <View style={styles.container}>
             <StatusBar backgroundColor={color.primary} barStyle='light-content' />
@@ -126,8 +172,32 @@ export default function Dashboard(props) {
                                 <Text style={[styles.txtGlobal, { color: "#75B4FF" }]}>Selengkapnya</Text>
                             </TouchableOpacity>
                         </View>
+                        {
+                            listJadwal.length == 0 && (
+                                <>
+                                    <NoData>Tidak ada jadwal</NoData>
+                                </>
+                            )
+                        }
+                        {
+                            listJadwal.length > 0 && (
+                                listJadwal.map((item, iJadwal) => {
+                                    return (
+                                        <>
+                                            <View style={styles.containerJadwal}>
+                                                <Text style={[styles.txtBoldGlobal]}>{item.nama}</Text>
+                                                <View style={{ flex: 1 }} />
+                                                <Ionicons name="time-outline" size={24} color={color.black} />
+                                                <Text style={[styles.txtGlobal, { marginLeft: 12 }]}>Jam Belum diketahui</Text>
+                                            </View>
+                                            <View style={{ height: 20 }} />
+                                        </>
+                                    )
+                                })
+                            )
+                        }
 
-                        <View style={styles.containerJadwal}>
+                        {/* <View style={styles.containerJadwal}>
                             <Text style={[styles.txtBoldGlobal]}>Matematika</Text>
                             <View style={{ flex: 1 }} />
                             <Ionicons name="time-outline" size={24} color={color.black} />
@@ -146,7 +216,7 @@ export default function Dashboard(props) {
                             <View style={{ flex: 1 }} />
                             <Ionicons name="time-outline" size={24} color={color.black} />
                             <Text style={[styles.txtGlobal, { marginLeft: 12 }]}>01.00 - 02.00</Text>
-                        </View>
+                        </View> */}
 
                         <View style={{ flexDirection: 'row', marginVertical: 20 }}>
                             <Text style={[styles.txtBoldGlobal]}>Berita</Text>
@@ -159,8 +229,45 @@ export default function Dashboard(props) {
                         </View>
 
                         {/* berita */}
-                        <View style={{ flexDirection: 'row' }}>
-                            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                        {/* <View style={{ flexDirection: 'row' }}> */}
+                        {
+                            listBerita.length == 0 && (
+                                <>
+                                    <NoData>Tidak ada berita</NoData>
+                                </>
+                            )
+                        }
+                        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                            <View style={{ flex: 1, flexDirection: 'column' }}>
+                                {
+                                    listBerita.length > 0 && (
+                                        listBerita.map((item, iBerita) => {
+                                            return (
+                                                <>
+                                                    <View style={{ backgroundColor: color.white, padding: 8, width: SCREEN_WIDTH / 2.0, flexDirection: 'column', borderRadius: 12 }}>
+                                                        <View style={{ height: SCREEN_HEIGHT / 7, overflow: 'hidden', borderRadius: 12 }}>
+                                                            <Image source={require("../assets/sipena/candi-penataran.png")} style={styles.img} resizeMode="cover" />
+                                                        </View>
+                                                        <View style={{ marginVertical: 12 }}>
+                                                            <Text style={[styles.txtBoldGlobal, { marginBottom: 6 }]}>judul Berita</Text>
+                                                            <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center' }}>
+                                                                <Ionicons name="eye-outline" size={18} color={color.black} style={{ marginRight: 8 }} />
+                                                                <Text style={[styles.txtGlobal]}>Vision berita</Text>
+                                                            </View>
+                                                            <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center' }}>
+                                                                <Ionicons name="time-outline" size={18} color={color.black} style={{ marginRight: 8 }} />
+                                                                <Text style={[styles.txtGlobal]}>Tanggal berita</Text>
+                                                            </View>
+                                                        </View>
+                                                    </View>
+                                                    <View style={{ width: 20 }} />
+                                                </>
+                                            )
+                                        })
+                                    )
+                                }
+                            </View>
+                            {/*                                 
                                 <View style={{ backgroundColor: color.white, padding: 8, width: SCREEN_WIDTH / 2.0, flexDirection: 'column', borderRadius: 12 }}>
                                     <View style={{ height: SCREEN_HEIGHT / 7, overflow: 'hidden', borderRadius: 12 }}>
                                         <Image source={require("../assets/sipena/candi-penataran.png")} style={styles.img} resizeMode="cover" />
@@ -193,26 +300,9 @@ export default function Dashboard(props) {
                                             <Text style={[styles.txtGlobal]}>Tanggal berita</Text>
                                         </View>
                                     </View>
-                                </View>
-                                <View style={{ width: 20 }} />
-                                <View style={{ backgroundColor: color.white, padding: 8, width: SCREEN_WIDTH / 2.0, flexDirection: 'column', borderRadius: 12 }}>
-                                    <View style={{ height: SCREEN_HEIGHT / 7, overflow: 'hidden', borderRadius: 12 }}>
-                                        <Image source={require("../assets/sipena/candi-penataran.png")} style={styles.img} resizeMode="cover" />
-                                    </View>
-                                    <View style={{ marginVertical: 12 }}>
-                                        <Text style={[styles.txtBoldGlobal, { marginBottom: 6 }]}>judul Berita</Text>
-                                        <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center' }}>
-                                            <Ionicons name="eye-outline" size={18} color={color.black} style={{ marginRight: 8 }} />
-                                            <Text style={[styles.txtGlobal]}>Vision berita</Text>
-                                        </View>
-                                        <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center' }}>
-                                            <Ionicons name="time-outline" size={18} color={color.black} style={{ marginRight: 8 }} />
-                                            <Text style={[styles.txtGlobal]}>Tanggal berita</Text>
-                                        </View>
-                                    </View>
-                                </View>
-                            </ScrollView>
-                        </View>
+                                </View> */}
+                        </ScrollView>
+                        {/* </View> */}
                     </View>
                     <View style={{ height: 40 }} />
                 </ScrollView>

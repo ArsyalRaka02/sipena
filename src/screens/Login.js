@@ -33,13 +33,14 @@ export default function Login({ navigation }) {
         let data = { username, password };
         HttpRequest.login(data).then((res) => {
             let result = res.data
-            if (result.success == responseStatus.INSERT_SUKSES) {
+            if (result.status == responseStatus.INSERT_SUKSES) {
                 Toast.showSuccess("Berhasil Login")
                 dispatch(setUser(res.data.data));
             }
-            if (result.success == responseStatus.INSERT_GAGAL) {
+            if (result.status == responseStatus.INSERT_GAGAL) {
                 Toast.showError("Email/Password Salah")
             }
+            console.log("ini adalah result", result)
             setLoading(false);
         }).catch((err) => {
             console.log(err, err.response);

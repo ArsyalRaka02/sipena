@@ -37,7 +37,7 @@ export default function HeaderTablet(props) {
     });
 
     useEffect(() => {
-
+        console.log("ini adalah user", user)
     }, [user]);
 
     return (

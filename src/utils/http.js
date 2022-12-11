@@ -55,7 +55,22 @@ export const HttpRequest = {
     },
     listMutasiSiswa() {
         return request().get("/iistmutasisiswa")
+    },
+
+    listMataPelajaran() {
+        return request().get("/mata-pelajaran")
+    },
+    listMapel() {
+        return request().get("/kelas")
+    },
+
+    listKegiatanOsis() {
+        return request().get("/kegiatan-osis")
+    },
+    listBerita(kategori, id) {
+        return request().get("/berita?kategori=" + kategori)
     }
+
 };
 
 export const FormDataConverter = {

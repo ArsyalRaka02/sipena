@@ -50,62 +50,62 @@ export default function Profile(props) {
                                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                     <Text style={styles.txtTitle}>NIS</Text>
                                     <View style={{ flex: 1 }} />
-                                    <Text style={styles.txtIsi}>ini adalah nis</Text>
+                                    <Text style={styles.txtIsi}>null</Text>
                                 </View>
                                 <View style={styles.underline} />
 
                                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                     <Text style={styles.txtTitle}>Email</Text>
                                     <View style={{ flex: 1 }} />
-                                    <Text style={styles.txtIsi}>ini adalah Email</Text>
+                                    <Text style={styles.txtIsi}>null</Text>
                                 </View>
                                 <View style={styles.underline} />
 
                                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                     <Text style={styles.txtTitle}>Nama</Text>
                                     <View style={{ flex: 1 }} />
-                                    <Text style={styles.txtIsi}>ini adalah Nama</Text>
+                                    <Text style={styles.txtIsi}>null</Text>
                                 </View>
                                 <View style={styles.underline} />
 
                                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                     <Text style={styles.txtTitle}>Tanggal Lahir</Text>
                                     <View style={{ flex: 1 }} />
-                                    <Text style={styles.txtIsi}>ini adalah Tanggal lahir</Text>
+                                    <Text style={styles.txtIsi}>null</Text>
                                 </View>
                                 <View style={styles.underline} />
 
                                 <View style={{ flexDirection: 'row', alignItems: 'center', overflow: 'hidden' }}>
                                     <Text style={styles.txtTitle}>Tempat lahir</Text>
                                     <View style={{ flex: 1 }} />
-                                    <Text style={styles.txtIsi}>ini adalah tempat tanggal lahir</Text>
+                                    <Text style={styles.txtIsi}>null</Text>
                                 </View>
                                 <View style={styles.underline} />
 
                                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                     <Text style={styles.txtTitle}>Jenis kelamin</Text>
                                     <View style={{ flex: 1 }} />
-                                    <Text style={styles.txtIsi}>ini adalah jenis kelamin</Text>
+                                    <Text style={styles.txtIsi}>null</Text>
                                 </View>
                                 <View style={styles.underline} />
 
                                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                     <Text style={styles.txtTitle}>Agama</Text>
                                     <View style={{ flex: 1 }} />
-                                    <Text style={styles.txtIsi}>ini adalah agama</Text>
+                                    <Text style={styles.txtIsi}>null</Text>
                                 </View>
                                 <View style={styles.underline} />
                                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                     <Text style={styles.txtTitle}>Nama Ibu</Text>
                                     <View style={{ flex: 1 }} />
-                                    <Text style={styles.txtIsi}>ini adalah nama ibu</Text>
+                                    <Text style={styles.txtIsi}>null</Text>
                                 </View>
                                 <View style={styles.underline} />
 
                                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                     <Text style={styles.txtTitle}>Nama Ayah</Text>
                                     <View style={{ flex: 1 }} />
-                                    <Text style={styles.txtIsi}>ini adalah nama ayah</Text>
+                                    <Text style={styles.txtIsi}>null</Text>
                                 </View>
                                 <View style={styles.underline} />
 
