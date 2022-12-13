@@ -5,15 +5,26 @@ import color from '../utils/color';
 import { fonts } from '../utils/fonts';
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import BottomTab from '../components/ButtomTab';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from "../store/actions"
+import moment from 'moment';
+import app from '../config/app';
+import Rupiah from '../utils/Rupiah'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
 export default function Profile(props) {
+    const user = useSelector(state => state.user);
     const navigation = useNavigation()
     const dispatch = useDispatch();
+    const [detail, setDetail] = useState({})
+
+    useEffect(() => {
+        if (user) {
+            setDetail(user.data)
+        }
+    }, [user])
 
     return (
         <View style={styles.container}>
@@ -27,14 +38,14 @@ export default function Profile(props) {
 
                     {/* foto profile */}
                     <View style={styles.containerHeaderBoxProfile}>
-                        <View style={styles.containerProfile}>
-                            {/* <Image /> */}
-                            <Ionicons name="person-outline" size={40} color={color.black} />
+                        <View style={[styles.containerProfile, { overflow: 'hidden' }]}>
+                            <Image source={{ uri: app.BASE_URL_PICTURE + detail.foto_profil }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
+                            {/* <Ionicons name="person-outline" size={40} color={color.black} /> */}
                         </View>
                     </View>
                     <View style={{ position: 'absolute', alignSelf: 'center', top: 120 }}>
                         <Text style={[styles.txtGlobalWhite, { alignSelf: 'center', fontSize: 12 }]}>Saldo Dompent</Text>
-                        <Text style={[styles.txtGlobalWhite, { alignSelf: 'center', fontFamily: fonts.interBold, fontSize: 18 }]}>RP 200.000</Text>
+                        <Text style={[styles.txtGlobalWhite, { alignSelf: 'center', fontFamily: fonts.interBold, fontSize: 18 }]}>{Rupiah.format(user.saldo)}</Text>
                         <TouchableOpacity activeOpacity={1} onPress={() => {
                             navigation.navigate("IsiSaldo")
                         }} style={{ backgroundColor: color.white, alignItems: 'center', marginHorizontal: 20, borderRadius: 8, marginTop: 8 }}>
@@ -50,69 +61,69 @@ export default function Profile(props) {
                                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                     <Text style={styles.txtTitle}>NIS</Text>
                                     <View style={{ flex: 1 }} />
-                                    <Text style={styles.txtIsi}>null</Text>
+                                    <Text style={styles.txtIsi}>{detail.nis ?? "Kosong"}</Text>
                                 </View>
                                 <View style={styles.underline} />
 
                                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                     <Text style={styles.txtTitle}>Email</Text>
                                     <View style={{ flex: 1 }} />
-                                    <Text style={styles.txtIsi}>null</Text>
+                                    <Text style={styles.txtIsi}>{user.nama ?? "Kosong"}</Text>
                                 </View>
                                 <View style={styles.underline} />
 
                                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                     <Text style={styles.txtTitle}>Nama</Text>
                                     <View style={{ flex: 1 }} />
-                                    <Text style={styles.txtIsi}>null</Text>
+                                    <Text style={styles.txtIsi}>{detail.nama_lengkap ?? "kosong"}</Text>
                                 </View>
                                 <View style={styles.underline} />
 
                                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                     <Text style={styles.txtTitle}>Tanggal Lahir</Text>
                                     <View style={{ flex: 1 }} />
-                                    <Text style={styles.txtIsi}>null</Text>
+                                    <Text style={styles.txtIsi}>{moment(detail.tanggal_lahir).format("DD/MM/YYYY")}</Text>
                                 </View>
                                 <View style={styles.underline} />
 
                                 <View style={{ flexDirection: 'row', alignItems: 'center', overflow: 'hidden' }}>
                                     <Text style={styles.txtTitle}>Tempat lahir</Text>
                                     <View style={{ flex: 1 }} />
-                                    <Text style={styles.txtIsi}>null</Text>
+                                    <Text style={styles.txtIsi}>{detail.tempat_lahir ?? "Kosong"}</Text>
                                 </View>
                                 <View style={styles.underline} />
 
                                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                     <Text style={styles.txtTitle}>Jenis kelamin</Text>
                                     <View style={{ flex: 1 }} />
-                                    <Text style={styles.txtIsi}>null</Text>
+                                    <Text style={styles.txtIsi}>{detail.jenis_kelamin == "L" ? "Laki - laki" : "Perempuan" ?? "Kosong"}</Text>
                                 </View>
                                 <View style={styles.underline} />
 
                                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                     <Text style={styles.txtTitle}>Agama</Text>
                                     <View style={{ flex: 1 }} />
-                                    <Text style={styles.txtIsi}>null</Text>
+                                    <Text style={styles.txtIsi}>{detail.agama}</Text>
                                 </View>
                                 <View style={styles.underline} />
                                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                     <Text style={styles.txtTitle}>Nama Ibu</Text>
                                     <View style={{ flex: 1 }} />
-                                    <Text style={styles.txtIsi}>null</Text>
+                                    <Text style={styles.txtIsi}>{detail.nama_ibu ?? "Kosong"}</Text>
                                 </View>
                                 <View style={styles.underline} />
 
                                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                     <Text style={styles.txtTitle}>Nama Ayah</Text>
                                     <View style={{ flex: 1 }} />
-                                    <Text style={styles.txtIsi}>null</Text>
+                                    <Text style={styles.txtIsi}>{detail.nama_ayah ?? "Kosong"}</Text>
                                 </View>
                                 <View style={styles.underline} />
 
                                 <View style={{ marginBottom: 8 }}>
                                     <Text style={styles.txtBio}>Kartu Pelajar</Text>
                                     <View style={styles.boxKartuPelajar}>
-
+                                        <Text style={[styles.txtGlobalWhite, { fontSize: 14 }]}>Cetak Kartu Pelajar</Text>
                                     </View>
                                 </View>
 
@@ -176,7 +187,7 @@ const styles = {
         borderBottomWidth: 0.8, borderBottomColor: color.gray, marginVertical: 12
     },
     boxKartuPelajar: {
-        backgroundColor: color.gray, width: "100%", height: SCREEN_HEIGHT / 6, borderRadius: 12, marginVertical: 12
+        backgroundColor: color.primary, padding: 12, alignItems: 'center', borderRadius: 8, width: "50%", marginVertical: 12, marginBottom: 24
     },
     txtGlobalWhite: {
         fontSize: 14, color: color.white, fontFamily: fonts.inter
