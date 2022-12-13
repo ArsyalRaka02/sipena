@@ -242,21 +242,24 @@ export default function Dashboard(props) {
                                 {
                                     listBerita.length > 0 && (
                                         listBerita.map((item, iBerita) => {
+                                            console.log("ini item", item)
                                             return (
                                                 <>
                                                     <View style={{ backgroundColor: color.white, padding: 8, width: SCREEN_WIDTH / 2.0, flexDirection: 'column', borderRadius: 12 }}>
                                                         <View style={{ height: SCREEN_HEIGHT / 7, overflow: 'hidden', borderRadius: 12 }}>
-                                                            <Image source={require("../assets/sipena/candi-penataran.png")} style={styles.img} resizeMode="cover" />
+                                                            <Image source={{ uri: app.BASE_URL_PICTURE + item.foto }} style={styles.img} resizeMode="cover" />
                                                         </View>
                                                         <View style={{ marginVertical: 12 }}>
-                                                            <Text style={[styles.txtBoldGlobal, { marginBottom: 6 }]}>judul Berita</Text>
-                                                            <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center' }}>
-                                                                <Ionicons name="eye-outline" size={18} color={color.black} style={{ marginRight: 8 }} />
-                                                                <Text style={[styles.txtGlobal]}>Vision berita</Text>
-                                                            </View>
+                                                            <Text style={[styles.txtBoldGlobal, { marginBottom: 6 }]}>{item.judul} </Text>
+
                                                             <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center' }}>
                                                                 <Ionicons name="time-outline" size={18} color={color.black} style={{ marginRight: 8 }} />
-                                                                <Text style={[styles.txtGlobal]}>Tanggal berita</Text>
+                                                                <Text style={[styles.txtGlobal]}>{moment(item.tanggal).format("DD MMMM YYYY")}</Text>
+                                                            </View>
+
+                                                            <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center' }}>
+                                                                <Ionicons name="eye-outline" size={18} color={color.black} style={{ marginRight: 8, alignSelf: 'flex-start' }} />
+                                                                <Text numberOfLines={2} style={[styles.txtGlobal]}>{item.deskripsi} lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem </Text>
                                                             </View>
                                                         </View>
                                                     </View>
