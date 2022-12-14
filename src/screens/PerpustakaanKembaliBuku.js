@@ -8,12 +8,45 @@ import TextInputIcon from '../components/TextInputIcon'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { fonts } from '../utils/fonts'
 import Button from '../components/Button'
+import responseStatus from '../utils/responseStatus'
+import { HttpRequest } from '../utils/http'
+import { useSelector } from 'react-redux'
+import Toast from '../components/Toast'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height
 const SCREEN_WIDTH = Dimensions.get("window").width
 
 export default function PerpustakaanKembaliBuku(props) {
     const navigation = useNavigation()
+
+    const user = useSelector(state => state.user);
+    const [listBuku, setListBuku] = useState([])
+
+    useEffect(() => {
+        if (user) {
+            loadBuku()
+        }
+    }, [user])
+
+    const loadBuku = useCallback(async () => {
+        try {
+            let data = await HttpRequest.kembalikanBuku(user.id)
+            let result = data.data.data
+            let status = data.data.status
+            if (status == responseStatus.INSERT_SUKSES) {
+                setListBuku(result)
+            }
+            if (status == responseStatus.INSERT_GAGAL) {
+                Toast.showError("gagal status = 2")
+                setListBuku([])
+            }
+            console.log("res buku", result)
+        } catch (error) {
+            Toast.showError("Server Error: ")
+            console.log("ini adalah list beita", error)
+        }
+    }, [listBuku, user])
+
     return (
         <>
             <SafeAreaView style={styles.container}>
@@ -113,7 +146,7 @@ const styles = {
         color: color.white,
         fontFamily: fonts.interBold,
     },
-    
+
     txtGlobal: { fontSize: 13, fontFamily: fonts.inter },
     txtGlobalBold: { fontSize: 15, fontFamily: fonts.interBold },
 }

@@ -90,6 +90,7 @@ export default function Dashboard(props) {
     useEffect(() => {
         loadListJadwal()
         loadBerita()
+        console.log("user", user)
     }, [])
 
     const loadListJadwal = useCallback(async () => {

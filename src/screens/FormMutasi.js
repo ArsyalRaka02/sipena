@@ -17,6 +17,7 @@ import ImageResizer from 'react-native-image-resizer';
 import Toast from '../components/Toast'
 import responseStatus from '../utils/responseStatus'
 import DocumentPicker, { types } from 'react-native-document-picker';
+import { useSelector } from 'react-redux'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height
 const SCREEN_WIDTH = Dimensions.get("window").width
@@ -44,6 +45,7 @@ export default function FormMutasi(props) {
     const [fotoCopySertifikat, setFotoCopySertifikat] = useState([])
     const [suratRekomendasiSekolah, setSuratRekomendasiSekolah] = useState([])
     const [suratRekomendasiJendral, setSuratRekomendasiJendral] = useState([])
+    const user = useSelector(state => state.user);
     // const [fileResponse, setFileResponse] = useState([]);
 
 
@@ -136,7 +138,7 @@ export default function FormMutasi(props) {
         //     type: 'image/jpeg',
         //     uri: buktiMutasiDinas,
         // });
-        formData.append('siswa_id', 1);
+        formData.append('siswa_id', user.id);
         setIsloading(true)
         HttpRequest.mutasiSiswaPost(formData).then((res) => {
             let data = res.data
@@ -156,7 +158,7 @@ export default function FormMutasi(props) {
             Toast.showError("Server error: ")
             console.log("err", err, err.response)
         })
-    }, [buktiMutasiDinas, keteranganKeluar, raportAsli, fotoCopyRaport, fotoCopySertifikat, suratRekomendasiSekolah, suratRekomendasiJendral, isLoading])
+    }, [buktiMutasiDinas, keteranganKeluar, raportAsli, fotoCopyRaport, fotoCopySertifikat, suratRekomendasiSekolah, suratRekomendasiJendral, isLoading, user])
 
     const getFormData = (object) => {
         const formData = new FormData();
@@ -164,17 +166,17 @@ export default function FormMutasi(props) {
         return formData;
     }
 
-    // useEffect(() => {
-    //     loadData()
-    // }, []);
+    useEffect(() => {
+        // loadData()
+    }, [user]);
 
-    const loadData = useCallback(() => {
-        HttpRequest.listMutasiSiswa().then((res) => {
-            console.log("ini adalah res", res)
-        }).catch((err) => {
-            console.log("err", err, err.response)
-        })
-    }, [])
+    // const loadData = useCallback(() => {
+    //     HttpRequest.listMutasiSiswa().then((res) => {
+    //         console.log("ini adalah res", res)
+    //     }).catch((err) => {
+    //         console.log("err", err, err.response)
+    //     })
+    // }, [])
 
     const uploadFile = useCallback(async () => {
         try {
@@ -311,14 +313,14 @@ export default function FormMutasi(props) {
                         <Text style={[styles.txtGlobalBold, { fontSize: 16, color: color.black, marginVertical: 12 }]}>Nama Siswa</Text>
                         <TextInputIcon
                             editable={false}
-                            value={"Nama Siswa"}
+                            value={user.nama}
                             wrapperStyle={{ backgroundColor: color.themeGray, borderColor: color.themeGray }}
                         />
 
                         <Text style={[styles.txtGlobalBold, { fontSize: 16, color: color.black, marginVertical: 12 }]}>NIS</Text>
                         <TextInputIcon
                             editable={false}
-                            value={"Nama Siswa"}
+                            value={user.nisn}
                             wrapperStyle={{ backgroundColor: color.themeGray, borderColor: color.themeGray }}
                         />
 

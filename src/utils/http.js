@@ -107,6 +107,10 @@ export const HttpRequest = {
     pinjamBuku(data) {
         return request().post("/pinjam-buku", data)
     },
+    kembalikanBuku(id) {
+        return request().get("/pinjam-buku?user_id=" + id)
+    },
+
 
     //pinjam fasilitas
     listPinjamFasilitas(value) {

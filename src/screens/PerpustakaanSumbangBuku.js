@@ -9,6 +9,11 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { fonts } from '../utils/fonts'
 import Combobox from '../components/Combobox'
 import Button from '../components/Button'
+import UploadImageView from '../components/UploadImageView'
+import { HttpRequest } from '../utils/http'
+import Toast from '../components/Toast'
+import { useSelector } from 'react-redux'
+import responseStatus from '../utils/responseStatus'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height
 const SCREEN_WIDTH = Dimensions.get("window").width
@@ -26,7 +31,75 @@ const listBukuHilang = [
 
 export default function PerpustakaanSumbangBuku(props) {
     const navigation = useNavigation()
+    const user = useSelector(state => state.user);
     const [selectedBuku, setSelectedBuku] = useState(null)
+    const [listKategori, setListKategori] = useState([])
+    const [getImage, setImage] = useState({})
+    const [halaman, setHalaman] = useState(0)
+    const [bahasa, setBahasa] = useState("")
+    const [author, setAuthor] = useState("")
+    const [judul, setJudul] = useState("")
+
+    const btnSave = useCallback(() => {
+        let formData = new FormData();
+        formData.append('foto', {
+            name: 'image-' + moment().format('YYYY-MM-DD-HH-mm-ss') + '.jpg',
+            type: 'image/jpeg',
+            uri: getImage,
+        });
+        formData.append('user_id', user.id);
+        formData.append('perpus_kategori_id', selectedBuku);
+        formData.append('judul', judul);
+        formData.append('author', author);
+        formData.append('bahasa', bahasa);
+        formData.append('total_halaman', halaman);
+        // console.log("post", formData)
+        HttpRequest.insertSumbangBuku(formData).then((res) => {
+            let data = res.data
+            if (data.status == responseStatus.STATUS_ISTIMEWA) {
+                Toast.showError(`${data.message}`)
+            }
+            if (data.status == responseStatus.INSERT_SUKSES) {
+                Toast.showSuccess("Berhasil")
+            }
+            if (data.status == responseStatus.INSERT_GAGAL) {
+                Toast.showError("Gagal")
+            }
+        }).catch((err) => {
+            Toast.showError("Server Error: ")
+            console.log("ini adalah list beita", err, err.response)
+        })
+    }, [user])
+
+    useEffect(() => {
+        loadKatalogKategori()
+    }, [user])
+
+    const loadKatalogKategori = useCallback(async () => {
+        try {
+            let data = await HttpRequest.kategoriBuku()
+            let result = data.data.data
+            let status = data.data.status
+            if (status == responseStatus.INSERT_SUKSES) {
+                let loop = result.map((item) => {
+                    return {
+                        id: item.id,
+                        label: item.nama
+                    }
+                })
+                setListKategori(loop)
+            }
+            if (status == responseStatus.INSERT_GAGAL) {
+                Toast.showError("gagal status = 2")
+                setListKategori([])
+            }
+            console.log("res kategori", result)
+        } catch (error) {
+            Toast.showError("Server Error: ")
+            console.log("ini adalah list beita", error)
+        }
+    }, [listKategori])
+
     return (
         <>
             <SafeAreaView style={styles.container}>
@@ -41,17 +114,19 @@ export default function PerpustakaanSumbangBuku(props) {
                     <ScrollView>
                         <Text style={[styles.txtGlobalBold, { fontSize: 14, color: color.black, marginVertical: 10 }]}>Nama Buku</Text>
                         <TextInputIcon
-                            value={"nama buku"}
+                            value={judul}
+                            onChangeText={setJudul}
                         />
                         <Text style={[styles.txtGlobalBold, { fontSize: 14, color: color.black, marginVertical: 10 }]}>Nama Penulis</Text>
                         <TextInputIcon
-                            value={"nama Penulis"}
+                            value={author}
+                            onChangeText={setAuthor}
                         />
 
                         <Text style={[styles.txtGlobalBold, { fontSize: 14, color: color.black, marginVertical: 10 }]}>Kategori Buku</Text>
                         <Combobox
                             value={selectedBuku}
-                            placeholder="Silahkan Pilih Buku"
+                            placeholder="Silahkan Pilih Kategori"
                             theme={{
                                 boxStyle: {
                                     backgroundColor: color.white,
@@ -68,7 +143,7 @@ export default function PerpustakaanSumbangBuku(props) {
                             jenisIconsRight="Ionicons"
                             iconNameRight="caret-down-outline"
                             showLeftIcons={false}
-                            data={listBukuHilang}
+                            data={listKategori}
                             onChange={(val) => {
                                 setSelectedBuku(val);
                             }}
@@ -76,16 +151,29 @@ export default function PerpustakaanSumbangBuku(props) {
 
                         <Text style={[styles.txtGlobalBold, { fontSize: 14, color: color.black, marginVertical: 10 }]}>Jumlah Halaman</Text>
                         <TextInputIcon
-                            value={"jumlah halaman"}
+                            keyboardType='numeric'
+                            value={halaman}
+                            onChangeText={setHalaman}
                         />
                         <Text style={[styles.txtGlobalBold, { fontSize: 14, color: color.black, marginVertical: 10 }]}>Bahasa</Text>
                         <TextInputIcon
-                            value={"bahasa"}
+                            value={bahasa}
+                            onChangeText={setBahasa}
+                        />
+                        <Text style={[styles.txtGlobalBold, { fontSize: 14, color: color.black, marginVertical: 10 }]}>Upload Gambar</Text>
+                        <UploadImageView
+                            useCamera={false}
+                            type="image"
+                            onSelectImage={(e) => {
+                                setImage(e)
+                            }}
                         />
                     </ScrollView>
                 </View>
                 <View style={{ backgroundColor: color.white, paddingTop: 40, paddingBottom: 20, paddingHorizontal: 20 }}>
-                    <Button>
+                    <Button onPress={() => {
+                        btnSave()
+                    }}>
                         Sumbang Sekarang
                     </Button>
                 </View>
@@ -104,7 +192,7 @@ const styles = {
         color: color.white,
         fontFamily: fonts.interBold,
     },
-    
+
     txtGlobal: { fontSize: 13, fontFamily: fonts.inter },
     txtGlobalBold: { fontSize: 15, fontFamily: fonts.interBold },
 }

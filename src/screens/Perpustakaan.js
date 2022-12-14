@@ -10,6 +10,7 @@ import { fonts } from '../utils/fonts'
 import responseStatus from '../utils/responseStatus'
 import { HttpRequest } from '../utils/http'
 import app from '../config/app'
+import Toast from '../components/Toast'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height
 const SCREEN_WIDTH = Dimensions.get("window").width
@@ -38,6 +39,7 @@ export default function Perpustakaan(props) {
             }
             console.log("res buku", result)
         } catch (error) {
+            Toast.showError("Server Error: ")
             console.log("ini adalah list beita", error)
         }
     }, [listBuku])
@@ -51,10 +53,12 @@ export default function Perpustakaan(props) {
                 setListKategori(result)
             }
             if (status == responseStatus.INSERT_GAGAL) {
+                Toast.showError("gagal status = 2")
                 setListKategori([])
             }
             console.log("res kategori", result)
         } catch (error) {
+            Toast.showError("Server Error: ")
             console.log("ini adalah list beita", error)
         }
     }, [listKategori])
