@@ -39,7 +39,7 @@ export default function Dashboard(props) {
             name: "Jadwal",
             image: require("../assets/sipena/jadwal.png"),
             warna: color.menuBlue,
-            page: "ListJadwal"
+            page: "ListJadwalMenu"
         },
         {
             name: "Absen Siswa",
@@ -217,6 +217,82 @@ export default function Dashboard(props) {
                             <Ionicons name="time-outline" size={24} color={color.black} />
                             <Text style={[styles.txtGlobal, { marginLeft: 12 }]}>01.00 - 02.00</Text>
                         </View> */}
+
+                        <View style={{ flexDirection: 'row', marginVertical: 20 }}>
+                            <Text style={[styles.txtBoldGlobal]}>Fasilitas Sedang Dipakai</Text>
+                            <View style={{ flex: 1 }} />
+                            <TouchableOpacity activeOpacity={1} onPress={() => {
+                                navigation.navigate("ListSemuaPeminjamFasilitas")
+                            }}>
+                                <Text style={[styles.txtGlobal, { color: "#75B4FF" }]}>Selengkapnya</Text>
+                            </TouchableOpacity>
+                        </View>
+
+                        <View style={[{ flexDirection: 'column', backgroundColor: color.white, padding: 18, borderRadius: 8 }]}>
+                            <View style={{ flexDirection: 'row' }}>
+                                <Text style={[styles.txtBoldGlobal, { color: color.black, flex: 1 }]}>Nama</Text>
+                                <Text style={[styles.txtBoldGlobal, { color: color.black }]}>Osis</Text>
+                            </View>
+                            <View style={{ flexDirection: 'row', marginVertical: 8 }}>
+                                <View style={{ flexDirection: "row", flex: 1 }}>
+                                    <Text style={[styles.txtGlobal]}>Hari : </Text>
+                                    <Text style={[styles.txtBoldGlobal, { fontSize: 14, color: color.black }]}>hari ini</Text>
+                                </View>
+                                <View style={{ flexDirection: "row", flex: 1 }}>
+                                    <Text style={[styles.txtGlobal]}>tanggal : </Text>
+                                    <Text style={[styles.txtBoldGlobal, { fontSize: 14, color: color.black }]}>tanggal ini</Text>
+                                </View>
+                            </View>
+                            <View style={{ flexDirection: 'row', marginBottom: 8 }}>
+                                <View style={{ flexDirection: "row", flex: 1 }}>
+                                    <Text style={[styles.txtGlobal]}>Pukul : </Text>
+                                    <Text style={[styles.txtBoldGlobal, { fontSize: 14, color: color.black }]}>pukul ini</Text>
+                                </View>
+                                <View style={{ flexDirection: "row", flex: 1 }}>
+                                    <Text style={[styles.txtGlobal]}>Fasilitas : </Text>
+                                    <Text style={[styles.txtBoldGlobal, { fontSize: 14, color: color.black }]}>fasilitas ini</Text>
+                                </View>
+                            </View>
+                            <Text style={[styles.txtGlobal, { color: color.primary }]}>Akhiri Peminjaman</Text>
+                        </View>
+
+                        <View style={{ flexDirection: 'row', marginVertical: 20 }}>
+                            <Text style={[styles.txtBoldGlobal]}>Transaksi Masuk hari ini</Text>
+                            <View style={{ flex: 1 }} />
+                            <TouchableOpacity activeOpacity={1} onPress={() => {
+                                navigation.navigate("ListTransaksiKantin")
+                            }}>
+                                <Text style={[styles.txtGlobal, { color: "#75B4FF" }]}>Selengkapnya</Text>
+                            </TouchableOpacity>
+                        </View>
+
+                        <View style={[{ flexDirection: 'column', backgroundColor: color.white, padding: 18, borderRadius: 8 }]}>
+                            <View style={{ flexDirection: 'row' }}>
+                                <Text style={[styles.txtBoldGlobal, { color: color.black, flex: 1 }]}>Nama</Text>
+                                <Text style={[styles.txtBoldGlobal, { color: color.black }]}>Osis</Text>
+                            </View>
+                            <View style={{ flexDirection: 'row', marginVertical: 8 }}>
+                                <View style={{ flexDirection: "row", flex: 1 }}>
+                                    <Text style={[styles.txtGlobal]}>Hari : </Text>
+                                    <Text style={[styles.txtBoldGlobal, { fontSize: 14, color: color.black }]}>hari ini</Text>
+                                </View>
+                                <View style={{ flexDirection: "row", flex: 1 }}>
+                                    <Text style={[styles.txtGlobal]}>tanggal : </Text>
+                                    <Text style={[styles.txtBoldGlobal, { fontSize: 14, color: color.black }]}>tanggal ini</Text>
+                                </View>
+                            </View>
+                            <View style={{ flexDirection: 'row', marginBottom: 8 }}>
+                                <View style={{ flexDirection: "row", flex: 1 }}>
+                                    <Text style={[styles.txtGlobal]}>Pukul : </Text>
+                                    <Text style={[styles.txtBoldGlobal, { fontSize: 14, color: color.black }]}>pukul ini</Text>
+                                </View>
+                                <View style={{ flexDirection: "row", flex: 1 }}>
+                                    <Text style={[styles.txtGlobal]}>Fasilitas : </Text>
+                                    <Text style={[styles.txtBoldGlobal, { fontSize: 14, color: color.black }]}>fasilitas ini</Text>
+                                </View>
+                            </View>
+                            <Text style={[styles.txtGlobal, { color: color.primary }]}>Akhiri Peminjaman</Text>
+                        </View>
 
                         <View style={{ flexDirection: 'row', marginVertical: 20 }}>
                             <Text style={[styles.txtBoldGlobal]}>Berita</Text>

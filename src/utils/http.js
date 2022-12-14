@@ -50,6 +50,10 @@ export const HttpRequest = {
         return request().post("/login", data);
     },
 
+    getProfile(id) {
+        return request().get('/profile?id=' + id)
+    },
+
     mutasiSiswaPost(data) {
         return requestTypeFormData().post("/simpanmutasisiswa", data)
     },

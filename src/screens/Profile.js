@@ -10,6 +10,9 @@ import { setUser } from "../store/actions"
 import moment from 'moment';
 import app from '../config/app';
 import Rupiah from '../utils/Rupiah'
+import Toast from '../components/Toast'
+import { HttpRequest } from '../utils/http';
+import responseStatus from '../utils/responseStatus';
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
@@ -21,10 +24,31 @@ export default function Profile(props) {
     const [detail, setDetail] = useState({})
 
     useEffect(() => {
-        if (user) {
-            setDetail(user.data)
-        }
+        // if (user) {
+        //     setDetail(user.data)
+        // }
+        loadProfile()
+        // console.log("user", user)
     }, [user])
+
+    const loadProfile = useCallback(() => {
+        let id = user.id
+        HttpRequest.getProfile(id).then((res) => {
+            let result = res.data.data.data
+            let status = res.data.status
+            if (status == responseStatus.INSERT_SUKSES) {
+                setDetail(result)
+                console.log("user", result)
+            }
+            if (status == responseStatus.INSERT_GAGAL) {
+                Toast.showError("Gagal mendapatkan list jadwal")
+                setDetail([])
+            }
+        }).catch((err) => {
+            Toast.showError("Server Error: ")
+            console.log("err", err, err.response)
+        })
+    }, [detail])
 
     return (
         <View style={styles.container}>

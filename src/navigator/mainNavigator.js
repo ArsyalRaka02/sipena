@@ -40,6 +40,31 @@ import KegiatanOsis from "../screens/KegiatanOsis";
 import ListMutasi from "../screens/ListMutasi";
 import ListEkstrakulikuler from "../screens/ListEkstrakulikuler";
 import FormMutasi from "../screens/FormMutasi";
+import ListJadwalMenu from "../screens/ListJadwalMenu";
+import ListSemuaPeminjamFasilitas from "../screens/ListSemuaPeminjamFasilitas";
+import ListTataUsaha from "../screens/ListTataUsaha";
+import ListFasilitasTU from "../screens/ListFasilitasTU";
+import ListMutasiSiswaTU from "../screens/ListMutasiSiswaTU";
+import ListMutasiSiswaDetailTU from "../screens/ListMutasiSiswaDetailTU";
+import ListPPDB from "../screens/ListPPDB";
+import ListPenilaianKepalaSekolah from "../screens/ListPenilaianKepalaSekolah";
+import ListMutasiSiswaEditTU from "../screens/ListMutasiSiswaEditTU";
+import ListAbsenKepalaSekolah from "../screens/ListAbsenKepalaSekolah";
+import ListTransaksiKantin from "../screens/ListTransaksiKantin";
+import KantinMenu from "../screens/KantinMenu";
+import WithDrawKantin from "../screens/WithDrawKantin";
+import TransaksiTambahKantin from "../screens/TransaksiTambahKantin";
+import TransaksiEditKantin from "../screens/TransaksiEditKantin";
+import QrCodeKantin from "../screens/QrCodeKantin";
+import ListPermintaanFasilitasTU from "../screens/ListPermintaanFasilitasTU";
+import FasilitasTambahTU from "../screens/FasilitasTambahTU";
+import KeuanganSPPTU from "../screens/KeuanganSPPTU";
+import DetailSPPTU from "../screens/DetailSPPTU";
+import DetailBukuTU from "../screens/DetailBukuTU";
+import ListKartuPelajarTU from "../screens/ListKartuPelajarTU";
+import EditKartuPelajarTU from "../screens/EditKartuPelajarTU";
+import ScreenScanQRCode from "../screens/ScreenScanQRcode";
+import ListPembelian from "../screens/ListPembelian";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -82,6 +107,40 @@ const DashboardStack = () => {
             <Stack.Screen name="ListBerita" component={ListBerita} />
 
             <Stack.Screen name="ListJadwal" component={ListJadwal} />
+            <Stack.Screen name="ListJadwalMenu" component={ListJadwalMenu} />
+            <Stack.Screen name="ScreenScanQRCode" component={ScreenScanQRCode} />
+            <Stack.Screen name="ListPembelian" component={ListPembelian} />
+
+
+            {/* //tu */}
+            <Stack.Screen name="ListSemuaPeminjamFasilitas" component={ListSemuaPeminjamFasilitas} />
+            <Stack.Screen name="ListTataUsaha" component={ListTataUsaha} />
+            <Stack.Screen name="ListFasilitasTU" component={ListFasilitasTU} />
+            <Stack.Screen name="ListMutasiSiswaTU" component={ListMutasiSiswaTU} />
+            <Stack.Screen name="ListMutasiSiswaDetailTU" component={ListMutasiSiswaDetailTU} />
+            <Stack.Screen name="ListMutasiSiswaEditTU" component={ListMutasiSiswaEditTU} />
+            <Stack.Screen name="ListPPDB" component={ListPPDB} />
+            <Stack.Screen name="ListPermintaanFasilitasTU" component={ListPermintaanFasilitasTU} />
+            <Stack.Screen name="FasilitasTambahTU" component={FasilitasTambahTU} />
+            <Stack.Screen name="KeuanganSPPTU" component={KeuanganSPPTU} />
+            <Stack.Screen name="DetaillSPPTU" component={DetailSPPTU} />
+            <Stack.Screen name="DetailBukuTU" component={DetailBukuTU} />
+            <Stack.Screen name="ListKartuPelajarTU" component={ListKartuPelajarTU} />
+            <Stack.Screen name="EditKartuPelajarTU" component={EditKartuPelajarTU} />
+
+
+            {/* kepalasekolah */}
+            <Stack.Screen name="ListPenilaianKepalaSekolah" component={ListPenilaianKepalaSekolah} />
+            <Stack.Screen name="ListAbsenKepalaSekolah" component={ListAbsenKepalaSekolah} />
+
+            {/* kantin */}
+            <Stack.Screen name="ListTransaksiKantin" component={ListTransaksiKantin} />
+            <Stack.Screen name="KantinMenu" component={KantinMenu} />
+            <Stack.Screen name="WithDrawKantin" component={WithDrawKantin} />
+            <Stack.Screen name="TransaksiTambahKantin" component={TransaksiTambahKantin} />
+            <Stack.Screen name="TransaksiEditKantin" component={TransaksiEditKantin} />
+            <Stack.Screen name="QrCodeKantin" component={QrCodeKantin} />
+
 
             <Stack.Screen name="ListAbsen" component={ListAbsen} />
 
