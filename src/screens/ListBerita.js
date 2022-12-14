@@ -95,14 +95,14 @@ export default function ListBerita(props) {
                         placeholder="Cari Berita"
                     />
                     <View style={{ height: 10 }} />
-                    <List data={listBerita} />
+                    <List data={listBerita} jenis={kategoriId} />
                 </View>
             </SafeAreaView>
         </>
     )
 }
 
-function List({ data }) {
+function List({ data, jenis }) {
     const navigation = useNavigation()
     // const data = [
     //     {
@@ -122,9 +122,10 @@ function List({ data }) {
                 {
                     data.length > 0 && (
                         data.map((item, iData) => {
-                            console.log("ie", item)
                             return (
-                                <View style={styles.containerList}>
+                                <TouchableOpacity activeOpacity={1} onPress={() => {
+                                    navigation.navigate("DetailBerita", { params: item, jenis: jenis })
+                                }} style={styles.containerList}>
                                     <View style={styles.childImage}>
                                         <Image source={{ uri: app.BASE_URL_PICTURE + item.foto }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
                                     </View>
@@ -138,11 +139,11 @@ function List({ data }) {
                                             <View style={{ width: 10 }} />
                                             <View style={{ flexDirection: 'row' }}>
                                                 <Ionicons name="eye-outline" size={18} color={color.black} />
-                                                <Text style={[styles.txtGlobal, { fontSize: 12, marginLeft: 4 }]}>200</Text>
+                                                <Text style={[styles.txtGlobal, { fontSize: 12, marginLeft: 4 }]}>{item.total_views}</Text>
                                             </View>
                                         </View>
                                     </View>
-                                </View>
+                                </TouchableOpacity>
                             )
                         })
                     )

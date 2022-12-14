@@ -65,6 +65,7 @@ import ListKartuPelajarTU from "../screens/ListKartuPelajarTU";
 import EditKartuPelajarTU from "../screens/EditKartuPelajarTU";
 import ScreenScanQRCode from "../screens/ScreenScanQRcode";
 import ListPembelian from "../screens/ListPembelian";
+import DetailBerita from "../screens/DetailBerita";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -105,6 +106,7 @@ const DashboardStack = () => {
             <Stack.Screen name="Profile" component={Profile} />
 
             <Stack.Screen name="ListBerita" component={ListBerita} />
+            <Stack.Screen name="DetailBerita" component={DetailBerita} />
 
             <Stack.Screen name="ListJadwal" component={ListJadwal} />
             <Stack.Screen name="ListJadwalMenu" component={ListJadwalMenu} />

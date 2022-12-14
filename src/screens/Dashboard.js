@@ -124,6 +124,8 @@ export default function Dashboard(props) {
         }
     }, [listBerita])
 
+    const item = {}
+
     return (
         <View style={styles.container}>
             <StatusBar backgroundColor={color.primary} barStyle='light-content' />
@@ -309,14 +311,15 @@ export default function Dashboard(props) {
                             )
                         }
                         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                            <View style={{ flex: 1, flexDirection: 'column' }}>
+                            <View style={{ flex: 1, flexDirection: 'row' }}>
                                 {
                                     listBerita.length > 0 && (
                                         listBerita.map((item, iBerita) => {
-                                            console.log("ini item", item)
                                             return (
                                                 <>
-                                                    <View style={{ backgroundColor: color.white, padding: 8, width: SCREEN_WIDTH / 2.0, flexDirection: 'column', borderRadius: 12 }}>
+                                                    <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                        navigation.navigate("DetailBerita", { params: item, jenis: "kelas" })
+                                                    }} style={{ backgroundColor: color.white, padding: 8, width: SCREEN_WIDTH / 2.0, flexDirection: 'column', borderRadius: 12 }}>
                                                         <View style={{ height: SCREEN_HEIGHT / 7, overflow: 'hidden', borderRadius: 12 }}>
                                                             <Image source={{ uri: app.BASE_URL_PICTURE + item.foto }} style={styles.img} resizeMode="cover" />
                                                         </View>
@@ -330,10 +333,14 @@ export default function Dashboard(props) {
 
                                                             <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center' }}>
                                                                 <Ionicons name="eye-outline" size={18} color={color.black} style={{ marginRight: 8, alignSelf: 'flex-start' }} />
-                                                                <Text numberOfLines={2} style={[styles.txtGlobal]}>{item.deskripsi} lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem </Text>
+                                                                <Text numberOfLines={2} style={[styles.txtGlobal]}>{item.total_views}</Text>
+                                                            </View>
+                                                            <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center' }}>
+                                                                <Ionicons name="book-outline" size={18} color={color.black} style={{ marginRight: 8, alignSelf: 'flex-start' }} />
+                                                                <Text numberOfLines={2} style={[styles.txtGlobal]}>{item.kelas_id}</Text>
                                                             </View>
                                                         </View>
-                                                    </View>
+                                                    </TouchableOpacity>
                                                     <View style={{ width: 20 }} />
                                                 </>
                                             )
