@@ -269,29 +269,22 @@ export default function Dashboard(props) {
                         <View style={[{ flexDirection: 'column', backgroundColor: color.white, padding: 18, borderRadius: 8 }]}>
                             <View style={{ flexDirection: 'row' }}>
                                 <Text style={[styles.txtBoldGlobal, { color: color.black, flex: 1 }]}>Nama</Text>
-                                <Text style={[styles.txtBoldGlobal, { color: color.black }]}>Osis</Text>
                             </View>
                             <View style={{ flexDirection: 'row', marginVertical: 8 }}>
                                 <View style={{ flexDirection: "row", flex: 1 }}>
-                                    <Text style={[styles.txtGlobal]}>Hari : </Text>
-                                    <Text style={[styles.txtBoldGlobal, { fontSize: 14, color: color.black }]}>hari ini</Text>
+                                    <Text style={[styles.txtGlobal]}>Nominal : </Text>
+                                    <Text style={[styles.txtBoldGlobal, { fontSize: 14, color: color.black }]}>-</Text>
                                 </View>
                                 <View style={{ flexDirection: "row", flex: 1 }}>
-                                    <Text style={[styles.txtGlobal]}>tanggal : </Text>
-                                    <Text style={[styles.txtBoldGlobal, { fontSize: 14, color: color.black }]}>tanggal ini</Text>
+                                    <Text style={[styles.txtGlobal]}>Pembeli : </Text>
+                                    <Text style={[styles.txtBoldGlobal, { fontSize: 14, color: color.black }]}>-</Text>
                                 </View>
                             </View>
-                            <View style={{ flexDirection: 'row', marginBottom: 8 }}>
-                                <View style={{ flexDirection: "row", flex: 1 }}>
-                                    <Text style={[styles.txtGlobal]}>Pukul : </Text>
-                                    <Text style={[styles.txtBoldGlobal, { fontSize: 14, color: color.black }]}>pukul ini</Text>
-                                </View>
-                                <View style={{ flexDirection: "row", flex: 1 }}>
-                                    <Text style={[styles.txtGlobal]}>Fasilitas : </Text>
-                                    <Text style={[styles.txtBoldGlobal, { fontSize: 14, color: color.black }]}>fasilitas ini</Text>
-                                </View>
+                            <View style={{ flexDirection: 'row' }}>
+                                <Text style={[styles.txtBoldGlobal, { color: color.primary, fontSize: 14 }]}>Edit</Text>
+                                <View style={{ flex: 1 }} />
+                                <Text style={[styles.txtBoldGlobal, { color: color.danger, fontSize: 14 }]}>Hapus</Text>
                             </View>
-                            <Text style={[styles.txtGlobal, { color: color.primary }]}>Akhiri Peminjaman</Text>
                         </View>
 
                         <View style={{ flexDirection: 'row', marginVertical: 20 }}>
