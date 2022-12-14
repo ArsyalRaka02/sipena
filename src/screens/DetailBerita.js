@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image } from 'react-native'
 import moment from 'moment'
 import color from '../utils/color'
@@ -20,6 +20,7 @@ export default function DetailBerita(props) {
     const navigation = useNavigation()
     const { params, jenis } = props.route.params
     const [listBerita, setListBerita] = useState([])
+    const _scrollView = useRef(null)
 
     useEffect(() => {
         if (params) {
@@ -30,6 +31,23 @@ export default function DetailBerita(props) {
     const loadBerita = useCallback(async () => {
         try {
             let data = await HttpRequest.listBerita(jenis)
+            let result = data.data.data
+            let status = data.data.status
+            if (status == responseStatus.INSERT_SUKSES) {
+                setListBerita(result)
+            }
+            if (status == responseStatus.INSERT_GAGAL) {
+                setListBerita([])
+            }
+        } catch (error) {
+            Toast.showError("Server error: ")
+            console.log("ini adalah list beita", error)
+        }
+    }, [listBerita, jenis])
+
+    const loadBeritaPush = useCallback(async (value) => {
+        try {
+            let data = await HttpRequest.listBerita(value)
             let result = data.data.data
             let status = data.data.status
             if (status == responseStatus.INSERT_SUKSES) {
@@ -92,14 +110,20 @@ export default function DetailBerita(props) {
                         )
                     }
                     <View style={{ flexDirection: "row" }}>
-                        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                        <ScrollView ref={_scrollView} horizontal={true} showsHorizontalScrollIndicator={false}>
                             <View style={{ flex: 1, flexDirection: 'row' }}>
                                 {
                                     listBerita.length > 0 && (
                                         listBerita.map((item, iBerita) => {
                                             return (
                                                 <>
-                                                    <View style={{ backgroundColor: color.white, padding: 8, width: SCREEN_WIDTH / 2.0, flexDirection: 'column', borderRadius: 12 }}>
+                                                    <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                        loadBeritaPush(jenis)
+                                                        _scrollView.current?.scrollTo({
+                                                            y: 0,
+                                                            animated: false,
+                                                        })
+                                                    }} style={{ backgroundColor: color.white, padding: 8, width: SCREEN_WIDTH / 2.0, flexDirection: 'column', borderRadius: 12 }}>
                                                         <View style={{ height: SCREEN_HEIGHT / 7, overflow: 'hidden', borderRadius: 12 }}>
                                                             <Image source={{ uri: app.BASE_URL_PICTURE + item.foto }} style={{ width: "100%", height: "100%" }} resizeMode="cover" />
                                                         </View>
@@ -116,7 +140,7 @@ export default function DetailBerita(props) {
                                                                 <Text style={[styles.txtGlobal]}>{item.total_views}</Text>
                                                             </View>
                                                         </View>
-                                                    </View>
+                                                    </TouchableOpacity>
                                                     <View style={{ width: 20 }} />
                                                 </>
                                             )
