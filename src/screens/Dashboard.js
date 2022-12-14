@@ -15,12 +15,14 @@ import { HttpRequest } from '../utils/http';
 import NoData from '../components/NoData';
 import responseStatus from '../utils/responseStatus';
 import Toast from '../components/Toast';
+import { useDispatch, useSelector } from 'react-redux';
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
 export default function Dashboard(props) {
     const navigation = useNavigation()
+    const user = useSelector(state => state.user);
     const [isOpenCard, setisOpenCard] = useState(false)
 
     const [listJadwal, setListJadwal] = useState([])
@@ -123,8 +125,6 @@ export default function Dashboard(props) {
             console.log("ini adalah list beita", error)
         }
     }, [listBerita])
-
-    const item = {}
 
     return (
         <View style={styles.container}>

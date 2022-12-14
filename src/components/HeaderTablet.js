@@ -19,6 +19,8 @@ import { HttpRequest } from "../utils/http";
 import Toast from "./Toast";
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons'
+import responseStatus from "../utils/responseStatus";
+import app from "../config/app";
 
 const SCREEN_WIDTH = Dimensions.get("window").width
 const SCREEN_HEIGHT = Dimensions.get("window").height;
@@ -35,10 +37,34 @@ export default function HeaderTablet(props) {
         value,
         setValue,
     });
+    const [detail, setDetail] = useState({})
 
     useEffect(() => {
-        console.log("ini adalah user", user)
+        if (user) {
+            loadProfile()
+        }
+        // console.log("ini", user)
     }, [user]);
+
+
+    const loadProfile = useCallback(() => {
+        let id = user.id
+        HttpRequest.getProfile(id).then((res) => {
+            let result = res.data.data.data
+            let status = res.data.status
+            if (status == responseStatus.INSERT_SUKSES) {
+                setDetail(result)
+                // console.log("user cuy", result)
+            }
+            if (status == responseStatus.INSERT_GAGAL) {
+                Toast.showError("Gagal mendapatkan list jadwal")
+                setDetail([])
+            }
+        }).catch((err) => {
+            Toast.showError("Server Error: ")
+            console.log("err", err, err.response)
+        })
+    }, [detail])
 
     return (
         <>
@@ -46,12 +72,12 @@ export default function HeaderTablet(props) {
             <View style={{ backgroundColor: color.primary, height: SCREEN_HEIGHT / 4 }}>
                 <View style={styles.container}>
                     <TouchableOpacity activeOpacity={1} onPress={props.iconProfile} style={styles.containerProfile}>
-                        {/* <Image /> */}
-                        <Ionicons name="person-outline" size={24} color={color.black} />
+                        <Image source={{ uri: app.BASE_URL_PICTURE + detail.foto_profil }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
+                        {/* <Ionicons name="person-outline" size={24} color={color.black} /> */}
                     </TouchableOpacity>
                     <View style={styles.containerText}>
-                        <Text {...props} numberOfLines={1} style={props.textProfile}>{user?.nama}</Text>
-                        <Text {...props} style={props.textAlamat}>Role: {user?.rolenama}</Text>
+                        <Text {...props} numberOfLines={1} style={props.textProfile}>{detail.nama_lengkap}</Text>
+                        <Text {...props} style={props.textAlamat}>{detail.phone}</Text>
                     </View>
                     <TouchableOpacity style={styles.menuRight} onPress={props.iconRight} activeOpacity={0.8}>
                         <Ionicons name="notifications" size={24} color={color.white} />
