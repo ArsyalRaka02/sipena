@@ -9,6 +9,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { fonts } from '../utils/fonts'
 import Button from '../components/Button'
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
+import app from '../config/app'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height
 const SCREEN_WIDTH = Dimensions.get("window").width
@@ -17,7 +18,10 @@ export default function DetailPerpustakaan(props) {
     const navigation = useNavigation()
 
     const { params } = props.route.params
-    console.log("ini adalahd etail", params)
+
+    useEffect(() => {
+
+    }, [params])
 
     return (
         <>
@@ -32,28 +36,28 @@ export default function DetailPerpustakaan(props) {
                 <View style={{ flex: 1 }}>
                     <ScrollView>
                         <ImageBackground
-                            source={require("../assets/sipena/image-buku.png")}
+                            source={{ uri: app.BASE_URL_PICTURE + params.foto }}
                             style={{ height: SCREEN_HEIGHT / 2, width: SCREEN_WIDTH, opacity: 0.2 }}
                         />
                         <View style={{ height: SCREEN_HEIGHT / 2, width: SCREEN_WIDTH, zIndex: 10, position: 'absolute', top: -20 }}>
-                            <Image source={require("../assets/sipena/image-buku.png")} style={{ height: "100%", width: '100%', opacity: 1 }} resizeMode={"center"} />
+                            <Image source={{ uri: app.BASE_URL_PICTURE + params.foto }} style={{ height: "100%", width: '100%', opacity: 1 }} resizeMode={"center"} />
                         </View>
                         <View style={{ flexDirection: 'column', alignItems: 'center', position: 'absolute', zIndex: 20, top: 305, bottom: 0, left: 0, right: 0 }}>
-                            <Text numberOfLines={1} style={[styles.txtGlobalBold, { fontSize: 18, color: color.black }]}>{params.name}</Text>
-                            <Text style={[styles.txtGlobal, { fontSize: 14, color: color.black }]}>{params.creator}</Text>
+                            <Text numberOfLines={1} style={[styles.txtGlobalBold, { fontSize: 18, color: color.black }]}>{params.nama}</Text>
+                            <Text style={[styles.txtGlobal, { fontSize: 14, color: color.black }]}>{params.author}</Text>
                         </View>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 20, backgroundColor: color.white, borderRadius: 12, paddingHorizontal: 40, paddingVertical: 20, marginTop: -40 }}>
                             <View style={{ flexDirection: 'column', alignItems: 'center' }}>
                                 <Text style={[styles.txtGlobal, { fontSize: 13, color: color.primary }]}>Kategori</Text>
-                                <Text style={[styles.txtGlobalBold, { fontSize: 14, color: color.primary }]}>Kategori</Text>
+                                <Text style={[styles.txtGlobalBold, { fontSize: 14, color: color.primary }]}>{params.kategori_nama}</Text>
                             </View>
                             <View style={{ flexDirection: 'column', alignItems: 'center' }}>
                                 <Text style={[styles.txtGlobal, { fontSize: 13, color: color.primary }]}>Bahasa</Text>
-                                <Text style={[styles.txtGlobalBold, { fontSize: 14, color: color.primary }]}>Bahasa</Text>
+                                <Text style={[styles.txtGlobalBold, { fontSize: 14, color: color.primary }]}>{params.bahasa}</Text>
                             </View>
                             <View style={{ flexDirection: 'column', alignItems: 'center' }}>
                                 <Text style={[styles.txtGlobal, { fontSize: 13, color: color.primary }]}>Halaman</Text>
-                                <Text style={[styles.txtGlobalBold, { fontSize: 14, color: color.primary }]}>Halaman</Text>
+                                <Text style={[styles.txtGlobalBold, { fontSize: 14, color: color.primary }]}>{params.total_halaman}</Text>
                             </View>
                         </View>
 

@@ -7,12 +7,58 @@ import { useNavigation } from '@react-navigation/native'
 import TextInputIcon from '../components/TextInputIcon'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { fonts } from '../utils/fonts'
+import responseStatus from '../utils/responseStatus'
+import { HttpRequest } from '../utils/http'
+import app from '../config/app'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height
 const SCREEN_WIDTH = Dimensions.get("window").width
 
 export default function Perpustakaan(props) {
     const navigation = useNavigation()
+    const [listKategori, setListKategori] = useState([])
+    const [selectedKategori, setSelectedKategori] = useState([])
+    const [listBuku, setListBuku] = useState([])
+
+    useEffect(() => {
+        loadKatalogKategori()
+        loadBuku()
+    }, [])
+
+    const loadBuku = useCallback(async () => {
+        try {
+            let data = await HttpRequest.katalogBuku()
+            let result = data.data.data
+            let status = data.data.status
+            if (status == responseStatus.INSERT_SUKSES) {
+                setListBuku(result)
+            }
+            if (status == responseStatus.INSERT_GAGAL) {
+                setListBuku([])
+            }
+            console.log("res buku", result)
+        } catch (error) {
+            console.log("ini adalah list beita", error)
+        }
+    }, [listBuku])
+
+    const loadKatalogKategori = useCallback(async () => {
+        try {
+            let data = await HttpRequest.kategoriBuku()
+            let result = data.data.data
+            let status = data.data.status
+            if (status == responseStatus.INSERT_SUKSES) {
+                setListKategori(result)
+            }
+            if (status == responseStatus.INSERT_GAGAL) {
+                setListKategori([])
+            }
+            console.log("res kategori", result)
+        } catch (error) {
+            console.log("ini adalah list beita", error)
+        }
+    }, [listKategori])
+
     return (
         <>
             <SafeAreaView style={styles.container}>
@@ -35,11 +81,11 @@ export default function Perpustakaan(props) {
 
                     <View>
                         <Text style={[styles.txtGlobalBold, { marginTop: 12, color: color.black }]}>Kategori Buku</Text>
-                        <ScrollView>
-                            <ListKategori />
+                        <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
+                            <ListKategori data={listKategori} />
                         </ScrollView>
-                        <ScrollView>
-                            <ListBuku />
+                        <ScrollView showsVerticalScrollIndicator={false}>
+                            <ListBuku data={listBuku} />
                         </ScrollView>
                     </View>
                 </View>
@@ -48,18 +94,7 @@ export default function Perpustakaan(props) {
     )
 }
 
-function ListKategori() {
-    let list = [
-        {
-            name: "Romance",
-        },
-        {
-            name: "Fantasy",
-        },
-        {
-            name: "Horror",
-        },
-    ]
+function ListKategori({ data }) {
     return (
         <View style={{ flexDirection: 'row', marginTop: 12, marginBottom: 20 }}>
             <View style={[{ backgroundColor: color.white, paddingVertical: 8, paddingHorizontal: 10, borderRadius: 12 }]}>
@@ -67,11 +102,11 @@ function ListKategori() {
             </View>
             <View style={{ marginLeft: 12 }} />
             {
-                list.map((item, iList) => {
+                data.map((item, iList) => {
                     return (
                         <>
                             <View style={[{ backgroundColor: color.white, paddingVertical: 8, paddingHorizontal: 10, borderRadius: 12 }]}>
-                                <Text style={[styles.txtGlobalBold, { fontSize: 13 }]}>{item.name}</Text>
+                                <Text style={[styles.txtGlobalBold, { fontSize: 13 }]}>{item.nama}</Text>
                             </View>
                             <View style={{ marginLeft: 12 }} />
                         </>
@@ -82,40 +117,25 @@ function ListKategori() {
     )
 }
 
-function ListBuku() {
+function ListBuku({ data }) {
     const navigation = useNavigation()
-    let list = [
-        {
-            name: "judul",
-            creator: 'creator',
-            image: require("../assets/sipena/image-buku.png"),
-        },
-        {
-            name: "judul",
-            creator: 'creator',
-            image: require("../assets/sipena/image-buku-2.png"),
-        },
-        {
-            name: "judul",
-            creator: 'creator',
-            image: require("../assets/sipena/image-buku-3.png"),
-        },
-    ]
     return (
         <>
             <View style={{ flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'space-between' }}>
                 {
-                    list.map((item, iBook) => {
+                    data.map((item, iBook) => {
                         return (
-                            <TouchableOpacity activeOpacity={1} onPress={() => {
-                                navigation.navigate("DetailPerpustakaan", { params: item })
-                            }} key={iBook} style={{ flexDirection: 'column', alignItems: 'center' }}>
-                                <View style={{ height: SCREEN_HEIGHT / 6.3, width: SCREEN_WIDTH / 4 }}>
-                                    <Image source={item.image} style={{ height: "100%", width: "100%", borderRadius: 12 }} resizeMode={"contain"} />
-                                </View>
-                                <Text style={[styles.txtGlobalBold, { fontSize: 15, color: color.black }]}>{item.name}</Text>
-                                <Text style={[styles.txtGlobal, { fontSize: 13 }]}>{item.creator}</Text>
-                            </TouchableOpacity>
+                            <>
+                                <TouchableOpacity activeOpacity={1} onPress={() => {
+                                    navigation.navigate("DetailPerpustakaan", { params: item })
+                                }} key={iBook} style={{ flexDirection: 'column', alignItems: 'center' }}>
+                                    <View style={{ height: SCREEN_HEIGHT / 6.3, width: SCREEN_WIDTH / 4 }}>
+                                        <Image source={{ uri: app.BASE_URL_PICTURE + item.foto }} style={{ height: "100%", width: "100%", borderRadius: 12 }} resizeMode={"contain"} />
+                                    </View>
+                                    <Text style={[styles.txtGlobalBold, { fontSize: 15, color: color.black }]}>{item.judul}</Text>
+                                    <Text style={[styles.txtGlobal, { fontSize: 13 }]}>{item.author}</Text>
+                                </TouchableOpacity>
+                            </>
                         )
                     })
                 }
@@ -134,7 +154,7 @@ const styles = {
         color: color.white,
         fontFamily: fonts.interBold,
     },
-    
+
     txtGlobal: { fontSize: 13, fontFamily: fonts.inter },
     txtGlobalBold: { fontSize: 15, fontFamily: fonts.interBold },
 }
