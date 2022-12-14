@@ -11,6 +11,7 @@ import { HttpRequest } from '../utils/http'
 import Toast from '../components/Toast'
 import responseStatus from '../utils/responseStatus'
 import NoData from '../components/NoData'
+import app from '../config/app'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height
 const SCREEN_WIDTH = Dimensions.get("window").width
@@ -121,10 +122,11 @@ function List({ data }) {
                 {
                     data.length > 0 && (
                         data.map((item, iData) => {
+                            console.log("ie", item)
                             return (
                                 <View style={styles.containerList}>
                                     <View style={styles.childImage}>
-                                        <Image source={item.img} style={{ height: "100%", width: "100%" }} />
+                                        <Image source={{ uri: app.BASE_URL_PICTURE + item.foto }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
                                     </View>
                                     <View style={styles.childContent}>
                                         <Text style={styles.txtGlobalBold}>{item.judul}</Text>

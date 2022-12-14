@@ -218,7 +218,8 @@ export default function Dashboard(props) {
                             <Text style={[styles.txtGlobal, { marginLeft: 12 }]}>01.00 - 02.00</Text>
                         </View> */}
 
-                        <View style={{ flexDirection: 'row', marginVertical: 20 }}>
+                        {/* fasilitas */}
+                        {/* <View style={{ flexDirection: 'row', marginVertical: 20 }}>
                             <Text style={[styles.txtBoldGlobal]}>Fasilitas Sedang Dipakai</Text>
                             <View style={{ flex: 1 }} />
                             <TouchableOpacity activeOpacity={1} onPress={() => {
@@ -254,9 +255,10 @@ export default function Dashboard(props) {
                                 </View>
                             </View>
                             <Text style={[styles.txtGlobal, { color: color.primary }]}>Akhiri Peminjaman</Text>
-                        </View>
+                        </View> */}
 
-                        <View style={{ flexDirection: 'row', marginVertical: 20 }}>
+                        {/* transaksi */}
+                        {/* <View style={{ flexDirection: 'row', marginVertical: 20 }}>
                             <Text style={[styles.txtBoldGlobal]}>Transaksi Masuk hari ini</Text>
                             <View style={{ flex: 1 }} />
                             <TouchableOpacity activeOpacity={1} onPress={() => {
@@ -285,7 +287,7 @@ export default function Dashboard(props) {
                                 <View style={{ flex: 1 }} />
                                 <Text style={[styles.txtBoldGlobal, { color: color.danger, fontSize: 14 }]}>Hapus</Text>
                             </View>
-                        </View>
+                        </View> */}
 
                         <View style={{ flexDirection: 'row', marginVertical: 20 }}>
                             <Text style={[styles.txtBoldGlobal]}>Berita</Text>
