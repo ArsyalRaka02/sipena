@@ -73,6 +73,141 @@ export const HttpRequest = {
     },
     listBerita(kategori, id) {
         return request().get("/berita?kategori=" + kategori)
+    },
+
+
+    //perpus
+    katalogBuku() {
+        return request().get("/katalog-buku")
+    },
+    insertKatalogBuku(data) {
+        return requestTypeFormData().post("/katalog-buku", data)
+    },
+    listSumbangBuku() {
+        return request().get('/sumbang-buku')
+    },
+    insertSumbangBuku(data) {
+        return requestTypeFormData().post("/sumbang-buku", data)
+    },
+    deleteSumbangBuku(id) {
+        return request().delete("/sumbangbuku/" + id)
+    },
+    deleteKatalogBuku(id) {
+        return request().delete("/katalog-buku/" + id)
+    },
+    kehilanganBuku() {
+        return request().get("/kehilangan-buku")
+    },
+    kategoriBuku() {
+        return request().get("/kategori-buku")
+    },
+    accSumbangbuku(id, pegawai_id) {
+        return request.get("/sumbang-buku/acc?id=" + id + "&pegawai_id=" + pegawai_id)
+    },
+    pinjamBuku(data) {
+        return request().post("/pinjam-buku", data)
+    },
+
+    //pinjam fasilitas
+    listPinjamFasilitas(value) {
+        return request().get("/pinjam-fasilitas?acc=" + value)
+    },
+    postAjukanPinjaman(data) {
+        return request().post("/pinjam-fasilitas/" + data)
+    },
+    accPinjamFasilitas(data) {
+        return request().post("/pinjam-fasilitas/acc", data)
+    },
+    deletedPinjamanFasilitas(id) {
+        return request().delete("/pinjam-fasilitas/" + id)
+    },
+
+    //top up
+    listPengajuanTopUp() {
+        return request().get("/approvedompetdigital")
+    },
+    accPengajuanTopUp(id, status) {
+        return request().get("actionapprovedompetdigital?id=" + id + "&status=" + status)
+    },
+
+    //list nilai
+    listNilaiGet(siswa_id, kelas_id, is_show) {
+        return request().get("/nilai-pembelajaran?siswa_id=" + siswa_id + "&kelas_id= " + kelas_id + "&is_show=" + is_show)
+    },
+    insertNilai(data) {
+        return request().post("/nilai-pembelajaran", data)
+    },
+    AccNilai(kelas_id, semester) {
+        return request().get("/nilai-pembelajaran/acc?kelas_id=" + kelas_id + "&semester=" + semester)
+    },
+
+    //absen siswa
+    listAbsenSiswa() {
+        return request().get("/listabsensisiswa")
+    },
+    insertAbsenSiswa(data) {
+        return requestTypeFormData().post("/simpanabsensisiswa", data)
+    },
+
+    //absen pegawai
+    listAbsenPegawai() {
+        return request().get('/listabsensipegawai')
+    },
+    insertAbsenPegawai(data) {
+        return requestTypeFormData().post("/simpanabsensipegawai", data)
+    },
+
+    //absen Guru
+    listAbsenGuru() {
+        return request().get("/requestTypeFormData")
+    },
+    insertAbsenGuru(data) {
+        return requestTypeFormData().post("/simpanabsensiguru", data)
+    },
+
+    //dompet
+    listDompet() {
+        return request().get("/dompetdigital")
+    },
+    insertDompetTopup(data) {
+        return requestTypeFormData().post("/topupdompetdigital", data)
+    },
+
+    //fasilitas
+
+    listFasilitas() {
+        return request().get("/list-fasilitas")
+    },
+    insertListFasilitas(data) {
+        return request().post("/list-fasilitas", data)
+    },
+    deletedListFasilitas(id) {
+        return request().delete("/list-fasilitas/" + id)
+    },
+
+    //kantin
+    bayarKantin(data) {
+        return request().post('/bayar-kantin', data)
+    },
+    editKantin(id, keterangan) {
+        return request().post("/transaksi-kantin?id=" + id + "&keterangan=" + keterangan)
+    },
+    deletedKantin(id) {
+        return request().delete("/transaksi-kantin/" + id)
+    },
+    getListKantinbyId(id) {
+        return request().get("/kantin?id=" + id)
+    },
+    getListTransaksiKantin() {
+        return request().get("/transaksi-kantin")
+    },
+
+    //kartu digital
+    getKartuDigital() {
+        return request().get("/kartudigital")
+    },
+    getKartuDigitalById(id) {
+        return request().get("/kartudigitalById?id=" + id)
     }
 
 };
