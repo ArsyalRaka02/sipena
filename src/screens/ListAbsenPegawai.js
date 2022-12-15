@@ -7,12 +7,60 @@ import { useNavigation } from '@react-navigation/native'
 import TextInputIcon from '../components/TextInputIcon'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { fonts } from '../utils/fonts'
+import { useSelector } from 'react-redux'
+import UploadImageView from '../components/UploadImageView'
+import UploadCamera from '../components/UploadCamera'
+import Button from '../components/Button'
+import { HttpRequest } from '../utils/http'
+import responseStatus from '../utils/responseStatus'
+import Toast from '../components/Toast'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height
 const SCREEN_WIDTH = Dimensions.get("window").width
 
+// const list = [
+//     {
+//         id: ''
+//     }
+// ]
+
 export default function ListAbsenPegawai(props) {
     const navigation = useNavigation()
+    const user = useSelector(state => state.user);
+    const [selected, setSelected] = useState(null)
+    const [pasFoto, setPasFoto] = useState("")
+    const [isLoading, setIsloading] = useState(false)
+
+    const btnSave = useCallback(() => {
+        let formData = new FormData();
+        if (pasFoto == "") {
+            return Toast.showError("Maaf foto harus ada")
+        }
+        formData.append('pegawai_id', user.data.id);
+        formData.append('foto', {
+            name: 'image-' + moment().format('YYYY-MM-DD-HH-mm-ss') + '.jpg',
+            type: 'image/jpeg',
+            uri: pasFoto,
+        });
+        HttpRequest.insertAbsenPegawai(formData).then((res) => {
+            let data = res.data
+            if (data.status == responseStatus.STATUS_ISTIMEWA) {
+                Toast.showError(`${data.message}`)
+            }
+            if (data.status == responseStatus.INSERT_SUKSES) {
+                Toast.showSuccess("Berhasil")
+                setTimeout(() => {
+                    navigation.goBack()
+                }, 300);
+            }
+            if (data.status == responseStatus.INSERT_GAGAL) {
+                Toast.showError("Gagal")
+            }
+        }).catch((err) => {
+            console.log("err", err, err.response)
+        })
+    }, [user, pasFoto])
+
     return (
         <>
             <SafeAreaView style={styles.container}>
@@ -21,10 +69,46 @@ export default function ListAbsenPegawai(props) {
                         navigation.goBack()
                     }}
                 >
-                    <Text style={styles.txtHeader}>Absen</Text>
+                    <Text style={styles.txtHeader}>Detail Absen</Text>
                 </HeaderBack>
                 <View style={{ padding: 20, flex: 1 }}>
+                    <View style={{ backgroundColor: color.white, paddingVertical: 12, paddingHorizontal: 20, borderRadius: 12, flexDirection: 'row', alignItems: "center" }}>
+                        <View style={{ height: 79, width: 79, marginRight: 16 }}>
+                            <Image source={require("../assets/images/warning.png")} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
+                        </View>
+                        <View style={{ flexDirection: 'column', flex: 1 }}>
+                            <Text style={[styles.txtGlobalBold, { color: color.black, fontSize: 14, marginBottom: 6 }]}>Absen</Text>
+                            <Text style={[styles.txtGlobal, { fontSize: 13 }]}>Masukan keterangan jika anda berhalangan hadir</Text>
+                        </View>
+                    </View>
+                    <View style={{ height: 20 }} />
 
+                    <ScrollView>
+                        <Text style={[styles.txtGlobalBold, { fontSize: 16, color: color.black, marginVertical: 12 }]}>Foto</Text>
+                        {/* <UploadImageView
+                        useCamera={true}
+                        type="image"
+                        onSelectImage={(e) => {
+                            setPasFoto(e)
+                        }}
+                    /> */}
+                        <UploadCamera
+                            useCamera={true}
+                            type="image"
+                            onSelectImage={(e) => {
+                                console.log("get nih", e)
+                                setPasFoto(e)
+                            }}
+                        />
+                    </ScrollView>
+                </View>
+                <View style={{ backgroundColor: color.white, paddingTop: 40, paddingBottom: 20, paddingHorizontal: 20 }}>
+                    <Button
+                        loading={isLoading} activeOpacity={1} onPress={() => {
+                            btnSave()
+                        }}>
+                        Absen
+                    </Button>
                 </View>
             </SafeAreaView>
         </>
