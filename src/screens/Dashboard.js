@@ -77,7 +77,8 @@ export default function Dashboard(props) {
             name: "Koperasi Sekolah",
             image: require("../assets/sipena/koperasi.png"),
             warna: color.menuBrown,
-            page: "ListKoperasi"
+            // page: "ListKoperasi"
+            page: "QrCodeKoperasi"
         },
         {
             name: "Semua",

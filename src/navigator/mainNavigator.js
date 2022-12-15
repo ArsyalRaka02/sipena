@@ -67,6 +67,8 @@ import ScreenScanQRCode from "../screens/ScreenScanQRcode";
 import ListPembelian from "../screens/ListPembelian";
 import DetailBerita from "../screens/DetailBerita";
 import DetailKantin from "../screens/DetailKantin";
+import QrCodeKoperasi from "../screens/QrCodeKoperasi";
+import DetailKoperasi from "../screens/DetailKoperasi";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -114,6 +116,9 @@ const DashboardStack = () => {
             <Stack.Screen name="ScreenScanQRCode" component={ScreenScanQRCode} />
             <Stack.Screen name="ListPembelian" component={ListPembelian} />
 
+            {/* //koperasi */}
+            <Stack.Screen name="QrCodeKoperasi" component={QrCodeKoperasi} />
+            <Stack.Screen name="DetailKoperasi" component={DetailKoperasi} />
 
             {/* //tu */}
             <Stack.Screen name="ListSemuaPeminjamFasilitas" component={ListSemuaPeminjamFasilitas} />
