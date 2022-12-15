@@ -51,7 +51,7 @@ export default function Profile(props) {
     }, [detail])
 
     const btnCetak = useCallback(() => {
-        HttpRequest.getKartuDigitalById(detail.user_id).then((res) => {
+        HttpRequest.getKartuDigitalById(detail.id).then((res) => {
             let result = res.data
             // let status = res.status
             // if (status == responseStatus.INSERT_SUKSES) {
