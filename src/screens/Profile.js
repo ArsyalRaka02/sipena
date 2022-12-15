@@ -53,13 +53,14 @@ export default function Profile(props) {
     const btnCetak = useCallback(() => {
         HttpRequest.getKartuDigitalById(detail.user_id).then((res) => {
             let result = res.data
-            let status = res.data.status
-            if (status == responseStatus.INSERT_SUKSES) {
-                Linking.openURL(result.linkGenerate)
-            }
-            if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("gagal status == 2")
-            }
+            // let status = res.status
+            // if (status == responseStatus.INSERT_SUKSES) {
+            // }
+            // if (status == responseStatus.INSERT_GAGAL) {
+            //     Toast.showError("gagal status == 2")
+            // }
+            Linking.openURL(result.linkGenerate)
+            // console.log("re", res)
         }).catch((err) => {
             Toast.showError("Error Server: ")
             console.log("err", err, err.response)

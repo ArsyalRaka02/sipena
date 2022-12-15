@@ -211,7 +211,7 @@ export const HttpRequest = {
         return request().get("/kartudigital")
     },
     getKartuDigitalById(id) {
-        return request().get("/kartudigitalById?id=" + id)
+        return request().get("/kartudigitalById?user_id=" + id)
     }
 
 };
