@@ -253,7 +253,13 @@ export const HttpRequest = {
     },
     getKartuDigitalById(id) {
         return request().get("/kartudigitalById?id=" + id)
-    }
+    },
+
+
+    daftarOsis(id) {
+        return request().get("/calon-osis/daftar?id=" + id)
+    },
+    
 
 };
 
