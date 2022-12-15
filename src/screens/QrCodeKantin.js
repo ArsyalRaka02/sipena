@@ -19,6 +19,7 @@ export default function QrCodeKantin(props) {
     const onSuccess = useCallback((e) => {
         if (e.type == "QR_CODE") {
             pindahPage(e.data)
+            console.log("a", e.data)
         } else {
             Toast.showError("Maaf ini bukan qrcode")
         }

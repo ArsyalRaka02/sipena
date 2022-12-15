@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { View, Text, Dimensions, TouchableOpacity, ImageBackground, Image, ScrollView } from 'react-native';
+import { View, Text, Dimensions, TouchableOpacity, ImageBackground, Image, ScrollView, Linking } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import color from '../utils/color';
 import { fonts } from '../utils/fonts';
@@ -38,14 +38,30 @@ export default function Profile(props) {
             let status = res.data.status
             if (status == responseStatus.INSERT_SUKSES) {
                 setDetail(result)
-                console.log("user", result)
             }
             if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("Gagal mendapatkan list jadwal")
+                Toast.showError("Gagal status == 2")
                 setDetail([])
             }
+            console.log("user s ", result)
         }).catch((err) => {
             Toast.showError("Server Error: ")
+            console.log("err", err, err.response)
+        })
+    }, [detail])
+
+    const btnCetak = useCallback(() => {
+        HttpRequest.getKartuDigitalById(detail.user_id).then((res) => {
+            let result = res.data
+            let status = res.data.status
+            if (status == responseStatus.INSERT_SUKSES) {
+                Linking.openURL(result.linkGenerate)
+            }
+            if (status == responseStatus.INSERT_GAGAL) {
+                Toast.showError("gagal status == 2")
+            }
+        }).catch((err) => {
+            Toast.showError("Error Server: ")
             console.log("err", err, err.response)
         })
     }, [detail])
@@ -146,9 +162,11 @@ export default function Profile(props) {
 
                                 <View style={{ marginBottom: 8 }}>
                                     <Text style={styles.txtBio}>Kartu Pelajar</Text>
-                                    <View style={styles.boxKartuPelajar}>
+                                    <TouchableOpacity activeOpacity={1} onPress={() => {
+                                        btnCetak()
+                                    }} style={styles.boxKartuPelajar}>
                                         <Text style={[styles.txtGlobalWhite, { fontSize: 14 }]}>Cetak Kartu Pelajar</Text>
-                                    </View>
+                                    </TouchableOpacity>
                                 </View>
 
                                 <View style={{ flex: 1, flexDirection: 'row', marginBottom: 12 }}>
