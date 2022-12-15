@@ -90,21 +90,15 @@ export default function HeaderTablet(props) {
                             )
                         }
                         {
-                            user.role_id != RoleResponse.pegawai && (
+                            user.role_id == RoleResponse.pegawai && (
                                 <Image source={{ uri: app.BASE_URL_PICTURE + detail.profil_picture }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
                             )
                         }
                         {/* <Ionicons name="person-outline" size={24} color={color.black} /> */}
                     </TouchableOpacity>
                     <View style={styles.containerText}>
-                        {
-                            user.role_id != RoleResponse.pegawai && (
-                                <>
-                                    <Text {...props} numberOfLines={1} style={props.textProfile}>{detail.nama_lengkap}</Text>
-                                    <Text {...props} style={props.textAlamat}>{detail.phone}</Text>
-                                </>
-                            )
-                        }
+                        <Text {...props} numberOfLines={1} style={props.textProfile}>{detail.nama_lengkap}</Text>
+                        <Text {...props} style={props.textAlamat}>{detail.phone}</Text>
                     </View>
                     <TouchableOpacity style={styles.menuRight} onPress={props.iconRight} activeOpacity={0.8}>
                         <Ionicons name="notifications" size={24} color={color.white} />
