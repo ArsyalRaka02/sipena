@@ -61,15 +61,14 @@ export default function ListJadwalMenu(props) {
 
     const loadJadwalSekolah = useCallback(() => {
         HttpRequest.listJadwalSekolah().then((res) => {
-            let result = res.data.data
             let status = res.data.status
             if (status == responseStatus.INSERT_SUKSES) {
-                setListSekolah(result)
+                setListSekolah(res.data.data)
             }
             if (status == responseStatus.INSERT_GAGAL) {
                 Toast.showError("Error: " + `${result.message}`)
             }
-            // console.log("sekolah", res.data.status)
+            console.log("sekolah", res.data.data)
         }).catch((err) => {
             Toast.showError("Server error: ")
             console.log("err", err, err.response)
@@ -97,7 +96,7 @@ export default function ListJadwalMenu(props) {
         }
     }, [listMapel, detail, user])
 
-    console.log("sel", detail)
+    // console.log("sel", detail)
 
     return (
         <>
@@ -172,7 +171,7 @@ export default function ListJadwalMenu(props) {
                                                                 <View style={{ flex: 1 }} />
                                                                 <View style={{ flexDirection: 'row' }}>
                                                                     <Ionicons name="time-outline" size={20} color={color.black} style={{ marginRight: 12 }} />
-                                                                    <Text style={[styles.txtGlobal, { marginLeft: 12 }]}>{item.jadwal_waktu_mulai} - {item.jadwal_waktu_akhir}</Text>
+                                                                    <Text style={[styles.txtGlobal, { marginLeft: 12 }]}>{item.jam_mulai} - {item.jam_selesai}</Text>
                                                                 </View>
                                                             </View>
                                                         </>
