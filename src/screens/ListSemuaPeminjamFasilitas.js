@@ -17,20 +17,21 @@ const SCREEN_WIDTH = Dimensions.get("window").width
 
 export default function ListSemuaPeminjamFasilitas(props) {
     const navigation = useNavigation()
-    const isFocused = useIsFocused()
+    // const isFocused = useIsFocused()
     const [listPeminjamanFasilitas, setListPeminjamanFasilitas] = useState([])
 
     useEffect(() => {
-        if (isFocused) {
-            loadPinjamanFasilitas()
-        }
-    }, [isFocused])
+        myFunction()
+    }, [])
 
-    const loadPinjamanFasilitas = useCallback(async () => {
-        try {
-            let data = await HttpRequest.listPinjamFasilitas(1)
-            let result = data.data.data
-            let status = data.data.status
+    const myFunction = async () => {
+        loadPinjamanFasilitas()
+    };
+
+    const loadPinjamanFasilitas = useCallback(() => {
+        HttpRequest.listPinjamFasilitas(1).then((res) => {
+            let result = res.data.data
+            let status = res.data.status
             if (status == responseStatus.INSERT_SUKSES) {
                 setListPeminjamanFasilitas(result)
             }
@@ -38,9 +39,9 @@ export default function ListSemuaPeminjamFasilitas(props) {
                 setListPeminjamanFasilitas([])
             }
             console.log("res", result)
-        } catch (error) {
-            console.log("ini adalah list beita", error)
-        }
+        }).catch((err) => {
+            console.log("ini adalah list beita", err, err.response)
+        })
     }, [listPeminjamanFasilitas])
 
     const btnDeleteFasilitas = useCallback((value) => {

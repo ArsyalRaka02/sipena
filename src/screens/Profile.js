@@ -28,7 +28,6 @@ export default function Profile(props) {
         if (user) {
             loadProfile()
         }
-        console.log("user nih", user)
     }, [user])
 
     const loadProfile = useCallback(() => {

@@ -167,25 +167,25 @@ export default function Dashboard(props) {
     ]
 
     useEffect(() => {
-        if (isFocused) {
-            loadBerita()
-            if (user) {
-                loadProfile()
-            }
-            if (user.role_id == RoleResponse.pegawai) {
-                loadPinjamanFasilitas()
-            }
-            if (user.role_id != RoleResponse.pegawai) {
-                loadListJadwal()
-            }
-        }
-    }, [user, isFocused])
+        loadBerita()
+        loadProfile()
+        loadPinjamanFasilitas()
+        loadListJadwal()
+    }, [user])
 
-    const loadListJadwal = useCallback(async () => {
-        try {
-            let data = await HttpRequest.listMataPelajaran()
-            let result = data.data.data
-            let status = data.data.status
+    // useEffect(() => {
+    //     if (user.roleid == RoleResponse.pegawai) {
+    //         return loadPinjamanFasilitas()
+    //     }
+    //     if (user.roleid != RoleResponse.pegawai) {
+    //         return loadListJadwal()
+    //     }
+    // }, [])
+
+    const loadListJadwal = useCallback(() => {
+        HttpRequest.listJadwalKelas(user.data.kelas_id).then((res) => {
+            let result = res.data.data
+            let status = res.data.status
             if (status == responseStatus.INSERT_SUKSES) {
                 setListJadwal(result)
             }
@@ -194,10 +194,10 @@ export default function Dashboard(props) {
                 setListJadwal([])
             }
             console.log("ini adalah jadwal matapelajaran", result)
-        } catch (error) {
-            console.log("err", error, error.response)
-        }
-    }, [listJadwal])
+        }).catch((err) => {
+            console.log("err", err, err.response)
+        })
+    }, [listJadwal, detail])
 
     const loadBerita = useCallback(async () => {
         try {
@@ -385,14 +385,15 @@ export default function Dashboard(props) {
                                     {
                                         listJadwal.length > 0 && (
                                             listJadwal.map((item, iJadwal) => {
-                                                if (iJadwal <= 3) {
+                                                if (iJadwal < 3) {
                                                     return (
                                                         <>
+                                                            <Text style={[styles.txtBoldGlobal, { fontSize: 16, color: color.black, marginBottom: 12 }]}>{item.jadwal_hari}</Text>
                                                             <View style={styles.containerJadwal}>
-                                                                <Text style={[styles.txtBoldGlobal]}>{item.nama}</Text>
+                                                                <Text style={[styles.txtBoldGlobal]}>{item.kelas_nama}</Text>
                                                                 <View style={{ flex: 1 }} />
                                                                 <Ionicons name="time-outline" size={24} color={color.black} />
-                                                                <Text style={[styles.txtGlobal, { marginLeft: 12 }]}>Jam Belum diketahui</Text>
+                                                                <Text style={[styles.txtGlobal, { marginLeft: 12 }]}>{item.jadwal_waktu_mulai} - {item.jadwal_waktu_akhir}</Text>
                                                             </View>
                                                             <View style={{ height: 20 }} />
                                                         </>
