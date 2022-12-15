@@ -24,20 +24,20 @@ const SCREEN_WIDTH = Dimensions.get("window").width
 
 const listOpsi = [
     {
-        id: "-",
-        label: "-"
+        id: "MASUK",
+        label: "masuk"
     },
     {
-        id: "-",
-        label: "-"
+        id: "KELUAR",
+        label: "keluar"
     },
 ]
 
 export default function FormMutasi(props) {
     const navigation = useNavigation()
     const [isLoading, setIsloading] = useState(false)
-    const [selectedOpsi, setSelectedOpsi] = useState([])
-    const [file, setFile] = useState("")
+    const [selectedOpsi, setSelectedOpsi] = useState(null)
+    const [detail, setDetail] = useState({})
     const [buktiMutasiDinas, setBuktiMutasiDinas] = useState([])
     const [keteranganKeluar, setKeteranganKeluar] = useState([])
     const [raportAsli, setRaportAsli] = useState([])
@@ -45,12 +45,20 @@ export default function FormMutasi(props) {
     const [fotoCopySertifikat, setFotoCopySertifikat] = useState([])
     const [suratRekomendasiSekolah, setSuratRekomendasiSekolah] = useState([])
     const [suratRekomendasiJendral, setSuratRekomendasiJendral] = useState([])
+    const [pasFoto, setPasFoto] = useState("")
     const user = useSelector(state => state.user);
-    // const [fileResponse, setFileResponse] = useState([]);
+
+    console.log("pas", pasFoto)
 
 
     const btnSave = useCallback(() => {
         let formData = new FormData();
+        if (selectedOpsi == null) {
+            return Toast.showError("Opsi harap di pilih")
+        }
+        if (pasFoto == "") {
+            return Toast.showError("foto pas kosong harap di pilih")
+        }
         if (buktiMutasiDinas.length == 0) {
             return Toast.showError("Bukti Mutasi Dinas Pendidikan Provinsi Asal Tidak Boleh Kosong")
         }
@@ -108,37 +116,13 @@ export default function FormMutasi(props) {
             type: suratRekomendasiJendral[0].type,
             uri: suratRekomendasiJendral[0].uri,
         });
-        // formData.append('image1', {
-        //     name: 'image-' + moment().format('YYYY-MM-DD-HH-mm-ss') + '.jpg',
-        //     type: 'image/jpeg',
-        //     uri: keteranganKeluar,
-        // });
-        // formData.append('image2', {
-        //     name: 'image-' + moment().format('YYYY-MM-DD-HH-mm-ss') + '.jpg',
-        //     type: 'image/jpeg',
-        //     uri: raportAsli,
-        // });
-        // formData.append('image3', {
-        //     name: 'image-' + moment().format('YYYY-MM-DD-HH-mm-ss') + '.jpg',
-        //     type: 'image/jpeg',
-        //     uri: fotoCopyRaport,
-        // });
-        // formData.append('image4', {
-        //     name: 'image-' + moment().format('YYYY-MM-DD-HH-mm-ss') + '.jpg',
-        //     type: 'image/jpeg',
-        //     uri: fotoCopySertifikat,
-        // });
-        // formData.append('image5', {
-        //     name: 'image-' + moment().format('YYYY-MM-DD-HH-mm-ss') + '.jpg',
-        //     type: 'image/jpeg',
-        //     uri: suratRekomendasiSekolah,
-        // });
-        // formData.append('image6', {
-        //     name: 'image-' + moment().format('YYYY-MM-DD-HH-mm-ss') + '.jpg',
-        //     type: 'image/jpeg',
-        //     uri: buktiMutasiDinas,
-        // });
-        formData.append('siswa_id', user.id);
+        formData.append('image7', {
+            name: 'image-' + moment().format('YYYY-MM-DD-HH-mm-ss') + '.jpg',
+            type: 'image/jpeg',
+            uri: pasFoto,
+        });
+        formData.append('siswa_id', detail.id);
+        formData.append('status', selectedOpsi);
         setIsloading(true)
         HttpRequest.mutasiSiswaPost(formData).then((res) => {
             let data = res.data
@@ -147,6 +131,9 @@ export default function FormMutasi(props) {
             }
             if (data.status == responseStatus.INSERT_SUKSES) {
                 Toast.showSuccess("Berhasil")
+                setTimeout(() => {
+                    navigation.goBack()
+                }, 300);
             }
             if (data.status == responseStatus.INSERT_GAGAL) {
                 Toast.showError("Gagal")
@@ -158,7 +145,11 @@ export default function FormMutasi(props) {
             Toast.showError("Server error: ")
             console.log("err", err, err.response)
         })
-    }, [buktiMutasiDinas, keteranganKeluar, raportAsli, fotoCopyRaport, fotoCopySertifikat, suratRekomendasiSekolah, suratRekomendasiJendral, isLoading, user])
+    }, [
+        buktiMutasiDinas, keteranganKeluar, raportAsli,
+        fotoCopyRaport, fotoCopySertifikat, suratRekomendasiSekolah,
+        suratRekomendasiJendral, isLoading, user, pasFoto, selectedOpsi
+    ])
 
     const getFormData = (object) => {
         const formData = new FormData();
@@ -167,8 +158,27 @@ export default function FormMutasi(props) {
     }
 
     useEffect(() => {
-        // loadData()
+        loadProfile()
     }, [user]);
+
+    const loadProfile = useCallback(() => {
+        let id = user.id
+        HttpRequest.getProfile(id).then((res) => {
+            let result = res.data.data.data
+            let status = res.data.status
+            if (status == responseStatus.INSERT_SUKSES) {
+                setDetail(result)
+            }
+            if (status == responseStatus.INSERT_GAGAL) {
+                Toast.showError("Gagal status == 2")
+                setDetail([])
+            }
+            console.log("user s ", result)
+        }).catch((err) => {
+            Toast.showError("Server Error: ")
+            console.log("err", err, err.response)
+        })
+    }, [detail])
 
     // const loadData = useCallback(() => {
     //     HttpRequest.listMutasiSiswa().then((res) => {
@@ -313,7 +323,7 @@ export default function FormMutasi(props) {
                         <Text style={[styles.txtGlobalBold, { fontSize: 16, color: color.black, marginVertical: 12 }]}>Nama Siswa</Text>
                         <TextInputIcon
                             editable={false}
-                            value={user.nama}
+                            value={detail.nama_lengkap}
                             wrapperStyle={{ backgroundColor: color.themeGray, borderColor: color.themeGray }}
                         />
 
@@ -474,6 +484,14 @@ export default function FormMutasi(props) {
                                 <Text style={[styles.txtGlobalBold, { color: color.primary, fontSize: 12 }]}>{suratRekomendasiJendral[0]?.name == undefined ? "Upload" : "Edit "} File</Text>
                             </TouchableOpacity>
                         </View>
+                        <Text style={[styles.txtGlobalBold, { fontSize: 16, color: color.black, marginVertical: 12 }]}>Pas Foto</Text>
+                        <UploadImageView
+                            useCamera={false}
+                            type="image"
+                            onSelectImage={(e) => {
+                                setPasFoto(e)
+                            }}
+                        />
 
                     </ScrollView>
                 </View>
