@@ -55,13 +55,13 @@ export default function KegiatanOsis(props) {
                     <Text style={styles.txtHeader}>Kegiatan Ekstrakulikuler</Text>
                 </HeaderBack>
                 <View style={{ padding: 20, flex: 1 }}>
-                    <TextInputIcon
+                    {/* <TextInputIcon
                         // containerStyle={{ marginBottom: 10 }}
                         wrapperStyle={{ backgroundColor: color.white, borderWidth: 0, paddingHorizontal: 10 }}
                         jenisIcons={"Ionicons"}
                         iconName={"search-outline"}
                         placeholder="Nama Kegiatan"
-                    />
+                    /> */}
                     <View style={{ height: 20 }} />
                     <ScrollView>
                         <ListCard data={listKegiatan} />

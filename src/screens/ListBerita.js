@@ -87,13 +87,13 @@ export default function ListBerita(props) {
                         }
                     </View>
                     <View style={{ height: 20 }} />
-                    <TextInputIcon
+                    {/* <TextInputIcon
                         // containerStyle={{ marginBottom: 10 }}
                         wrapperStyle={{ backgroundColor: color.white, borderWidth: 0, paddingHorizontal: 10 }}
                         jenisIcons={"Ionicons"}
                         iconName={"search-outline"}
                         placeholder="Cari Berita"
-                    />
+                    /> */}
                     <View style={{ height: 10 }} />
                     <List data={listBerita} jenis={kategoriId} />
                 </View>

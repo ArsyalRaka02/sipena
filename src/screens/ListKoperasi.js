@@ -24,13 +24,13 @@ export default function ListKoperasi(props) {
                     <Text style={styles.txtHeader}>Koperasi Sekolah</Text>
                 </HeaderBack>
                 <View style={{ padding: 20, flex: 1 }}>
-                    <TextInputIcon
+                    {/* <TextInputIcon
                         // containerStyle={{ marginBottom: 10 }}
                         wrapperStyle={{ backgroundColor: color.white, borderWidth: 0, paddingHorizontal: 10 }}
                         jenisIcons={"Ionicons"}
                         iconName={"search-outline"}
                         placeholder="Cari Keperluan Anda"
-                    />
+                    /> */}
                 </View>
             </SafeAreaView>
         </>

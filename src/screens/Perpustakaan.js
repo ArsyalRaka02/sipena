@@ -74,14 +74,14 @@ export default function Perpustakaan(props) {
                     <Text style={styles.txtHeader}>Perpustakaan</Text>
                 </HeaderBack>
                 <View style={{ padding: 20, flex: 1 }}>
-                    <TextInputIcon
+                    {/* <TextInputIcon
                         // containerStyle={{ marginBottom: 10 }}
                         wrapperStyle={{ backgroundColor: color.white, borderWidth: 0, paddingHorizontal: 10 }}
                         jenisIcons={"Ionicons"}
                         iconColor={color.primary}
                         iconName={"search-outline"}
                         placeholder="Cari Buku (Pengarang/Judul Buku)"
-                    />
+                    /> */}
 
                     <View>
                         <Text style={[styles.txtGlobalBold, { marginTop: 12, color: color.black }]}>Kategori Buku</Text>
