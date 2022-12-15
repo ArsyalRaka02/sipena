@@ -39,9 +39,25 @@ export default function PerpustakaanSumbangBuku(props) {
     const [bahasa, setBahasa] = useState("")
     const [author, setAuthor] = useState("")
     const [judul, setJudul] = useState("")
+    const [isLoading, setIsloading] = useState(false)
 
     const btnSave = useCallback(() => {
         let formData = new FormData();
+        if (judul == "") {
+            return Toast.showError("Judul Tidak boleh kosong")
+        }
+        if (author == "") {
+            return Toast.showError("Nama Penulis tidak boleh kosong")
+        }
+        if (halaman == 0) {
+            return Toast.showError("Halaman tidak boleh kosong")
+        }
+        if (bahasa == "") {
+            return Toast.showError("Bahasa tidak boleh kosong")
+        }
+        if (selectedBuku == null) {
+            return Toast.showError("Kategori Buku tidak boleh kosong")
+        }
         formData.append('foto', {
             name: 'image-' + moment().format('YYYY-MM-DD-HH-mm-ss') + '.jpg',
             type: 'image/jpeg',
@@ -53,7 +69,7 @@ export default function PerpustakaanSumbangBuku(props) {
         formData.append('author', author);
         formData.append('bahasa', bahasa);
         formData.append('total_halaman', halaman);
-        // console.log("post", formData)
+        setIsloading(true)
         HttpRequest.insertSumbangBuku(formData).then((res) => {
             let data = res.data
             if (data.status == responseStatus.STATUS_ISTIMEWA) {
@@ -61,15 +77,20 @@ export default function PerpustakaanSumbangBuku(props) {
             }
             if (data.status == responseStatus.INSERT_SUKSES) {
                 Toast.showSuccess("Berhasil")
+                setTimeout(() => {
+                    navigation.goBack()
+                }, 300);
             }
             if (data.status == responseStatus.INSERT_GAGAL) {
                 Toast.showError("Gagal")
             }
+            setIsloading(false)
         }).catch((err) => {
+            setIsloading(false)
             Toast.showError("Server Error: ")
             console.log("ini adalah list beita", err, err.response)
         })
-    }, [user])
+    }, [user, selectedBuku, judul, author, bahasa, halaman])
 
     useEffect(() => {
         loadKatalogKategori()
