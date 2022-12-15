@@ -74,6 +74,9 @@ export const HttpRequest = {
     listBerita(kategori, id) {
         return request().get("/berita?kategori=" + kategori)
     },
+    hapusMutasi(id) {
+        return request().get("/hapusmutasisiswa?id=" + id)
+    },
 
 
     //jadwal
@@ -229,7 +232,7 @@ export const HttpRequest = {
     simpanUniversal(data) {
         return requestTypeFormData().post("/simpankeuangan", data)
     },
-    
+
 
     //koperasi
     bayarKoperasi(data) {

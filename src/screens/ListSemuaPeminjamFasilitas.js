@@ -17,12 +17,14 @@ const SCREEN_WIDTH = Dimensions.get("window").width
 
 export default function ListSemuaPeminjamFasilitas(props) {
     const navigation = useNavigation()
-    // const isFocused = useIsFocused()
+    const isFocused = useIsFocused()
     const [listPeminjamanFasilitas, setListPeminjamanFasilitas] = useState([])
 
     useEffect(() => {
-        myFunction()
-    }, [])
+        if (isFocused) {
+            myFunction()
+        }
+    }, [isFocused])
 
     const myFunction = async () => {
         loadPinjamanFasilitas()
@@ -102,21 +104,21 @@ export default function ListSemuaPeminjamFasilitas(props) {
                                     return (
                                         <>
                                             <View style={[{ flexDirection: 'column', backgroundColor: color.white, padding: 18, borderRadius: 8 }]}>
-                                                <View style={{ flexDirection: 'row' }}>
+                                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                                     <Text style={[styles.txtBoldGlobal, { color: color.black, flex: 1 }]}>{item.user_nama}</Text>
                                                     <Text style={[styles.txtBoldGlobal, { color: color.black }]}>{item.role_nama}</Text>
                                                 </View>
-                                                <View style={{ flexDirection: 'row', marginVertical: 8 }}>
+                                                <View style={{ flexDirection: 'row', marginVertical: 8, alignItems: 'center' }}>
                                                     <View style={{ flexDirection: "row", flex: 1 }}>
                                                         <Text style={[styles.txtGlobal]}>Hari : </Text>
                                                         <Text style={[styles.txtBoldGlobal, { fontSize: 12, color: color.black }]}>{moment(item.tanggal).format("dddd")}</Text>
                                                     </View>
-                                                    <View style={{ flexDirection: "row", flex: 1 }}>
+                                                    <View style={{ flexDirection: "row", flex: 1, alignItems: 'center' }}>
                                                         <Text style={[styles.txtGlobal]}>tanggal : </Text>
                                                         <Text style={[styles.txtBoldGlobal, { fontSize: 12, color: color.black }]}>{moment(item.tanggal).format("DD MMM YYYY")}</Text>
                                                     </View>
                                                 </View>
-                                                <View style={{ flexDirection: 'row', marginBottom: 8 }}>
+                                                <View style={{ flexDirection: 'row', marginBottom: 8, alignItems: 'center' }}>
                                                     <View style={{ flexDirection: "row", flex: 1 }}>
                                                         <Text style={[styles.txtGlobal]}>Jam Selesai : </Text>
                                                         <Text style={[styles.txtBoldGlobal, { fontSize: 12, color: color.black }]}>{item.jam_selesai}</Text>
