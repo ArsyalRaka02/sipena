@@ -166,6 +166,33 @@ export default function Dashboard(props) {
         },
     ]
 
+    const dataWaliMurid = [
+        {
+            name: "Jadwal",
+            image: require("../assets/sipena/jadwal.png"),
+            warna: color.menuBlue,
+            page: "ListJadwalMenu"
+        },
+        {
+            name: "Absen Siswa",
+            image: require("../assets/sipena/absen.png"),
+            warna: color.menuGreen,
+            page: "ListAbsen"
+        },
+        {
+            name: "Keuangan",
+            image: require("../assets/sipena/Frame.png"),
+            warna: color.menuPurple,
+            page: "ListKeuangan"
+        },
+        {
+            name: "Rapot",
+            image: require("../assets/sipena/rapot.png"),
+            warna: color.menuYellow,
+            page: "ListRaport"
+        },
+    ]
+
     useEffect(() => {
         loadBerita()
         loadProfile()
@@ -288,8 +315,53 @@ export default function Dashboard(props) {
                     <View style={{ zIndex: 1 }}>
                         <View style={[styles.menuDashboard]}>
                             {
-                                user.role_id != RoleResponse.pegawai && (
+                                user.role_id == RoleResponse.siswa && (
                                     data.map((item, ilist) => {
+                                        return (
+                                            <>
+                                                <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                    if (item.page != "") {
+                                                        navigation.navigate(item.page)
+                                                    }
+                                                }} style={styles.menuChild}>
+                                                    <View style={[styles.menuIcon, {
+                                                        backgroundColor: item.warna,
+                                                    }]}>
+                                                        <Image source={item.image} style={{ width: 18, height: 18 }} />
+                                                    </View>
+                                                    <Text style={{ textAlign: 'center', fontSize: 10, fontFamily: fonts.inter, marginVertical: 12, flex: 1 }}>{item.name}</Text>
+                                                </TouchableOpacity>
+                                            </>
+                                        )
+                                    })
+                                )
+                            }
+                            {
+                                user.role_id == RoleResponse.guru && (
+                                    data.map((item, ilist) => {
+                                        return (
+                                            <>
+                                                <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                    if (item.page != "") {
+                                                        navigation.navigate(item.page)
+                                                    }
+                                                }} style={styles.menuChild}>
+                                                    <View style={[styles.menuIcon, {
+                                                        backgroundColor: item.warna,
+                                                    }]}>
+                                                        <Image source={item.image} style={{ width: 18, height: 18 }} />
+                                                    </View>
+                                                    <Text style={{ textAlign: 'center', fontSize: 10, fontFamily: fonts.inter, marginVertical: 12, flex: 1 }}>{item.name}</Text>
+                                                </TouchableOpacity>
+                                            </>
+                                        )
+                                    })
+                                )
+                            }
+
+                            {
+                                user.role_id == RoleResponse.walimurid && (
+                                    dataWaliMurid.map((item, ilist) => {
                                         return (
                                             <>
                                                 <TouchableOpacity activeOpacity={1} onPress={() => {
