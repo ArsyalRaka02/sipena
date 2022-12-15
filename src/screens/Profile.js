@@ -96,11 +96,11 @@ export default function Profile(props) {
                                     <Image source={{ uri: app.BASE_URL_PICTURE + detail.foto_profil }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
                                 )
                             }
-                            {/* {
+                            {
                                 user.role_id == RoleResponse.pegawai && (
-                                    <Image source={{ uri: app.BASE_URL_PICTURE + detail.foto_profil }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
+                                    <Image source={{ uri: app.BASE_URL_PICTURE + detail.profil_picture }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
                                 )
-                            } */}
+                            }
                             {/* <Ionicons name="person-outline" size={40} color={color.black} /> */}
                         </View>
                     </View>
@@ -251,7 +251,7 @@ export default function Profile(props) {
                                             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                                 <Text style={styles.txtTitle}>Jenis kelamin</Text>
                                                 <View style={{ flex: 1 }} />
-                                                <Text style={styles.txtIsi}>{detail.jenis_kelamin == "L" ? "Laki - laki" : "Perempuan" ?? "Kosong"}</Text>
+                                                <Text style={styles.txtIsi}>{detail.jk == "L" ? "Laki - laki" : "Perempuan" ?? "Kosong"}</Text>
                                             </View>
                                             <View style={styles.underline} />
 
@@ -319,7 +319,7 @@ export default function Profile(props) {
                                     )
                                 }
                                 {
-                                    user.role_id != RoleResponse.pegawai && (
+                                    user.role_id == RoleResponse.pegawai && (
                                         <>
                                             <Text style={[styles.txtBio, { marginTop: 4, marginBottom: 18 }]}>Biodata</Text>
                                             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -329,12 +329,12 @@ export default function Profile(props) {
                                             </View>
                                             <View style={styles.underline} />
 
-                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                            {/* <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                                 <Text style={styles.txtTitle}>Nomor HP</Text>
                                                 <View style={{ flex: 1 }} />
                                                 <Text style={styles.txtIsi}>{user.phone ?? "Kosong"}</Text>
                                             </View>
-                                            <View style={styles.underline} />
+                                            <View style={styles.underline} /> */}
 
                                             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                                 <Text style={styles.txtTitle}>Tanggal Lahir</Text>
@@ -343,26 +343,26 @@ export default function Profile(props) {
                                             </View>
                                             <View style={styles.underline} />
 
-                                            <View style={{ flexDirection: 'row', alignItems: 'center', overflow: 'hidden' }}>
+                                            {/* <View style={{ flexDirection: 'row', alignItems: 'center', overflow: 'hidden' }}>
                                                 <Text style={styles.txtTitle}>Tempat lahir</Text>
                                                 <View style={{ flex: 1 }} />
                                                 <Text style={styles.txtIsi}>{detail.tempat_lahir ?? "Kosong"}</Text>
                                             </View>
-                                            <View style={styles.underline} />
+                                            <View style={styles.underline} /> */}
 
                                             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                                 <Text style={styles.txtTitle}>Jenis kelamin</Text>
                                                 <View style={{ flex: 1 }} />
-                                                <Text style={styles.txtIsi}>{detail.jenis_kelamin == "L" ? "Laki - laki" : "Perempuan" ?? "Kosong"}</Text>
+                                                <Text style={styles.txtIsi}>{detail.gender == "L" ? "Laki - laki" : "Perempuan" ?? "Kosong"}</Text>
                                             </View>
                                             <View style={styles.underline} />
 
-                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                            {/* <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                                 <Text style={styles.txtTitle}>Agama</Text>
                                                 <View style={{ flex: 1 }} />
                                                 <Text style={styles.txtIsi}>{detail.agama ?? "Kosong"}</Text>
                                             </View>
-                                            <View style={styles.underline} />
+                                            <View style={styles.underline} /> */}
                                             {/* <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                                 <Text style={styles.txtTitle}>Orang Tua Dari</Text>
                                                 <View style={{ flex: 1 }} />
