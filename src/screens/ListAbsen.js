@@ -30,7 +30,7 @@ export default function ListAbsen(props) {
                         </View>
                         <View style={{ flexDirection: 'column', flex: 1 }}>
                             <Text style={[styles.txtGlobalBold, { color: color.black, fontSize: 14, marginBottom: 6 }]}>Lakukan absen sesuai dengan jadwal hari ini!</Text>
-                            <Text style={[styles.txtGlobal, { fontSize: 13 }]}>Absensi menggunakan QRCODE</Text>
+                            <Text style={[styles.txtGlobal, { fontSize: 13 }]}>Absensi menggunakan Foto Selfi</Text>
                         </View>
                     </View>
 
@@ -41,6 +41,21 @@ export default function ListAbsen(props) {
                         <View style={{ flex: 1 }} />
                         <Text style={[styles.txtGlobalBold, { color: color.primary }]}>Lihat Sekarang</Text>
                     </View>
+                    <ScrollView>
+                        <View style={{ flexDirection: 'column', backgroundColor: color.white, borderRadius: 8, padding: 14, marginVertical: 12 }}>
+                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                <View style={{ flexDirection: 'column', flex: 1 }}>
+                                    <Text style={[styles.txtGlobalBold, { color: color.black }]}>{moment(new Date()).format("dddd")}</Text>
+                                    <Text style={[styles.txtGlobal, { fontSize: 12 }]}>{moment(new Date()).format("DD MMM YYYY")}</Text>
+                                </View>
+                                <TouchableOpacity onPress={() => {
+                                    navigation.navigate("DetailAbsen")
+                                }}>
+                                    <Text style={[styles.txtGlobalBold, { color: color.primary }]}>Absen Sekarang</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </ScrollView>
                 </View>
             </SafeAreaView>
         </>
@@ -57,7 +72,7 @@ const styles = {
         color: color.white,
         fontFamily: fonts.interBold,
     },
-    
+
     txtGlobal: { fontSize: 13, fontFamily: fonts.inter },
     txtGlobalBold: { fontSize: 15, fontFamily: fonts.interBold },
 }
