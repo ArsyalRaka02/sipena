@@ -69,7 +69,7 @@ export default function DashboardSemuaList(props) {
             name: "Kantin",
             image: require("../assets/sipena/kantin.png"),
             warna: color.menuGreen,
-            page: ""
+            page: "QrCodeKantin"
         },
         {
             name: "Osis",

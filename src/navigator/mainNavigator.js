@@ -66,6 +66,7 @@ import EditKartuPelajarTU from "../screens/EditKartuPelajarTU";
 import ScreenScanQRCode from "../screens/ScreenScanQRcode";
 import ListPembelian from "../screens/ListPembelian";
 import DetailBerita from "../screens/DetailBerita";
+import DetailKantin from "../screens/DetailKantin";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -142,6 +143,7 @@ const DashboardStack = () => {
             <Stack.Screen name="TransaksiTambahKantin" component={TransaksiTambahKantin} />
             <Stack.Screen name="TransaksiEditKantin" component={TransaksiEditKantin} />
             <Stack.Screen name="QrCodeKantin" component={QrCodeKantin} />
+            <Stack.Screen name="DetailKantin" component={DetailKantin} />
 
 
             <Stack.Screen name="ListAbsen" component={ListAbsen} />
