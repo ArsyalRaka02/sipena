@@ -85,7 +85,7 @@ export default function Profile(props) {
                                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                     <Text style={styles.txtTitle}>NIS</Text>
                                     <View style={{ flex: 1 }} />
-                                    <Text style={styles.txtIsi}>{detail.nis ?? "Kosong"}</Text>
+                                    <Text style={styles.txtIsi}>{detail.nisn ?? "Kosong"}</Text>
                                 </View>
                                 <View style={styles.underline} />
 
