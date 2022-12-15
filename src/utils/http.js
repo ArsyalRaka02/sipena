@@ -117,7 +117,7 @@ export const HttpRequest = {
         return request().get("/pinjam-fasilitas?acc=" + value)
     },
     postAjukanPinjaman(data) {
-        return request().post("/pinjam-fasilitas/" + data)
+        return request().post("/pinjam-fasilitas/", data)
     },
     accPinjamFasilitas(data) {
         return request().post("/pinjam-fasilitas/acc", data)

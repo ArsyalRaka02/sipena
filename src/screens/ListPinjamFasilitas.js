@@ -10,6 +10,10 @@ import { fonts } from '../utils/fonts'
 import Combobox from '../components/Combobox'
 import DatePicker from '../components/DatePicker'
 import Button from '../components/Button'
+import { HttpRequest } from '../utils/http'
+import responseStatus from '../utils/responseStatus'
+import Toast from '../components/Toast'
+import { useSelector } from 'react-redux'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height
 const SCREEN_WIDTH = Dimensions.get("window").width
@@ -24,10 +28,12 @@ const listFasilitas = [
 export default function ListPinjamFasilitas(props) {
     const navigation = useNavigation()
 
+    const user = useSelector(state => state.user);
     const [selectedFasilitas, setSelectedFasilitas] = useState(null)
     const [tanggalPinjaman, setTanggalPinjaman] = useState(new Date())
     const [jamAwal, setJamAwal] = useState(new Date())
     const [jamAkhir, setJamAkhir] = useState(new Date())
+    const [fasilitas, setFasilitas] = useState([])
 
     const toggleSetDay = useCallback((day) => {
         setTanggalPinjaman(day)
@@ -40,6 +46,73 @@ export default function ListPinjamFasilitas(props) {
     const toggleSetWaktuAkhir = useCallback((day) => {
         setJamAkhir(day)
     }, [jamAkhir])
+
+    useEffect(() => {
+        loadData()
+    }, [user])
+
+    const loadData = useCallback(async () => {
+        try {
+            let data = await HttpRequest.listFasilitas()
+            let result = data.data.data
+            let status = data.data.status
+            if (status == responseStatus.INSERT_SUKSES) {
+                let loop = result.map((item) => {
+                    return {
+                        id: item.id,
+                        label: item.nama
+                    }
+                })
+                setFasilitas(loop)
+                console.log("res", result)
+            }
+            if (status == responseStatus.INSERT_GAGAL) {
+                Toast.showError("Gagal status == 2")
+                setFasilitas([])
+            }
+            console.log("ini adalah list fasilitas", result)
+        } catch (error) {
+            Toast.showError("Server Error: ")
+            setFasilitas([])
+            console.log("err", error, error.response)
+        }
+    }, [fasilitas])
+
+    const btnPinjam = useCallback(() => {
+        if (selectedFasilitas == null) {
+            return Toast.showError("Mohon Pilih Fasilitas")
+        }
+        let data = {
+            peminjaman_fasilitas_id: selectedFasilitas,
+            user_id: user.id,
+            jam_mulai: moment(jamAwal).format("HH:mm"),
+            jam_selesai: moment(jamAkhir).format("HH:mm"),
+            tanggal: moment(tanggalPinjaman).format("YYYY-MM-DD")
+        }
+        // console.log("data", data)
+        HttpRequest.postAjukanPinjaman(data).then((res) => {
+            let status = res.data.status
+            if (status == responseStatus.INSERT_SUKSES) {
+                Toast.showSuccess("Berhasil meminjam")
+                setTimeout(() => {
+                    navigation.goBack()
+                }, 300);
+            }
+            if (status == responseStatus.INSERT_GAGAL) {
+                Toast.showError("Gagal status == 2")
+            }
+            console.log("res", res)
+        }).catch((err) => {
+            Toast.showError("Server Error: ")
+            console.log("err", err, err.response)
+        })
+    }, [user, selectedFasilitas, jamAkhir, jamAwal, tanggalPinjaman])
+
+    const getFormData = (object) => {
+        const formData = new FormData();
+        Object.keys(object).forEach(key => formData.append(key, object[key]));
+        return formData;
+    }
 
     return (
         <>
@@ -86,7 +159,7 @@ export default function ListPinjamFasilitas(props) {
                                 jenisIconsRight="Ionicons"
                                 iconNameRight="caret-down-outline"
                                 showLeftIcons={false}
-                                data={listFasilitas}
+                                data={fasilitas}
                                 onChange={(val) => {
                                     setSelectedFasilitas(val);
                                 }}
@@ -139,7 +212,9 @@ export default function ListPinjamFasilitas(props) {
                     </ScrollView>
                 </View>
                 <View style={{ backgroundColor: color.white, paddingTop: 40, paddingBottom: 20, paddingHorizontal: 20 }}>
-                    <Button>
+                    <Button activeOpacity={1} onPress={() => {
+                        btnPinjam()
+                    }}>
                         Ajukan Peminjaman
                     </Button>
                 </View>
@@ -158,7 +233,7 @@ const styles = {
         color: color.white,
         fontFamily: fonts.interBold,
     },
-    
+
     txtGlobal: { fontSize: 13, fontFamily: fonts.inter },
     txtGlobalBold: { fontSize: 15, fontFamily: fonts.interBold },
 }
