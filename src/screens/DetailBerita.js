@@ -93,7 +93,7 @@ export default function DetailBerita(props) {
                                     <Text numberOfLines={2} style={[styles.txtGlobal]}>{params.kelas_id}</Text>
                                 </View>
                             </View>
-                            <Text style={[styles.txtGlobal, { fontSize: 12 }]}>{params.deskripsi} lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem  lorem lorem lorem lorem lorem lorem lorem lorem lorem lorem </Text>
+                            <Text style={[styles.txtGlobal, { fontSize: 12 }]}>{params.deskripsi}</Text>
                         </View>
                     </ScrollView>
 
