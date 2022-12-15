@@ -78,6 +78,11 @@ export const HttpRequest = {
         return request().get("/hapusmutasisiswa?id=" + id)
     },
 
+    //keuanga
+    listKeuanganSpp() {
+        return request().get("/keuangan")
+    },
+
 
     //jadwal
 
