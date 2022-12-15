@@ -13,6 +13,7 @@ import Rupiah from '../utils/Rupiah'
 import Toast from '../components/Toast'
 import { HttpRequest } from '../utils/http';
 import responseStatus from '../utils/responseStatus';
+import RoleResponse from '../utils/RoleResponse';
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
@@ -28,7 +29,7 @@ export default function Profile(props) {
         //     setDetail(user.data)
         // }
         loadProfile()
-        // console.log("user", user)
+        console.log("user jeh", user)
     }, [user])
 
     const loadProfile = useCallback(() => {
@@ -43,7 +44,7 @@ export default function Profile(props) {
                 Toast.showError("Gagal status == 2")
                 setDetail([])
             }
-            console.log("user s ", result)
+            // console.log("user s ", result)
         }).catch((err) => {
             Toast.showError("Server Error: ")
             console.log("err", err, err.response)
@@ -80,7 +81,26 @@ export default function Profile(props) {
                     {/* foto profile */}
                     <View style={styles.containerHeaderBoxProfile}>
                         <View style={[styles.containerProfile, { overflow: 'hidden' }]}>
-                            <Image source={{ uri: app.BASE_URL_PICTURE + detail.foto_profil }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
+                            {
+                                user.role_id == RoleResponse.siswa && (
+                                    <Image source={{ uri: app.BASE_URL_PICTURE + detail.foto_profil }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
+                                )
+                            }
+                            {
+                                user.role_id == RoleResponse.guru && (
+                                    <Image source={{ uri: app.BASE_URL_PICTURE + detail.profil_picture }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
+                                )
+                            }
+                            {
+                                user.role_id == RoleResponse.walimurid && (
+                                    <Image source={{ uri: app.BASE_URL_PICTURE + detail.foto_profil }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
+                                )
+                            }
+                            {/* {
+                                user.role_id == RoleResponse.pegawai && (
+                                    <Image source={{ uri: app.BASE_URL_PICTURE + detail.foto_profil }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
+                                )
+                            } */}
                             {/* <Ionicons name="person-outline" size={40} color={color.black} /> */}
                         </View>
                     </View>
@@ -98,78 +118,260 @@ export default function Profile(props) {
                     <View style={{ zIndex: 1 }}>
                         <View style={styles.containerBoxWhite}>
                             <View style={{ flex: 1, paddingHorizontal: 20 }}>
-                                <Text style={[styles.txtBio, { marginTop: 4, marginBottom: 18 }]}>Biodata</Text>
-                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                    <Text style={styles.txtTitle}>NIS</Text>
-                                    <View style={{ flex: 1 }} />
-                                    <Text style={styles.txtIsi}>{detail.nisn ?? "Kosong"}</Text>
-                                </View>
-                                <View style={styles.underline} />
+                                {
+                                    user.role_id == RoleResponse.siswa && (
+                                        <>
+                                            <Text style={[styles.txtBio, { marginTop: 4, marginBottom: 18 }]}>Biodata</Text>
+                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                <Text style={styles.txtTitle}>NIS</Text>
+                                                <View style={{ flex: 1 }} />
+                                                <Text style={styles.txtIsi}>{detail.nisn ?? "Kosong"}</Text>
+                                            </View>
+                                            <View style={styles.underline} />
 
-                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                    <Text style={styles.txtTitle}>Email</Text>
-                                    <View style={{ flex: 1 }} />
-                                    <Text style={styles.txtIsi}>{user.nama ?? "Kosong"}</Text>
-                                </View>
-                                <View style={styles.underline} />
+                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                <Text style={styles.txtTitle}>Email</Text>
+                                                <View style={{ flex: 1 }} />
+                                                <Text style={styles.txtIsi}>{user.email ?? "Kosong"}</Text>
+                                            </View>
+                                            <View style={styles.underline} />
 
-                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                    <Text style={styles.txtTitle}>Nama</Text>
-                                    <View style={{ flex: 1 }} />
-                                    <Text style={styles.txtIsi}>{detail.nama_lengkap ?? "kosong"}</Text>
-                                </View>
-                                <View style={styles.underline} />
+                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                <Text style={styles.txtTitle}>Nama</Text>
+                                                <View style={{ flex: 1 }} />
+                                                <Text style={styles.txtIsi}>{detail.nama_lengkap ?? "kosong"}</Text>
+                                            </View>
+                                            <View style={styles.underline} />
 
-                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                    <Text style={styles.txtTitle}>Tanggal Lahir</Text>
-                                    <View style={{ flex: 1 }} />
-                                    <Text style={styles.txtIsi}>{moment(detail.tanggal_lahir).format("DD/MM/YYYY")}</Text>
-                                </View>
-                                <View style={styles.underline} />
+                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                <Text style={styles.txtTitle}>Tanggal Lahir</Text>
+                                                <View style={{ flex: 1 }} />
+                                                <Text style={styles.txtIsi}>{moment(detail.tanggal_lahir).format("DD/MM/YYYY")}</Text>
+                                            </View>
+                                            <View style={styles.underline} />
 
-                                <View style={{ flexDirection: 'row', alignItems: 'center', overflow: 'hidden' }}>
-                                    <Text style={styles.txtTitle}>Tempat lahir</Text>
-                                    <View style={{ flex: 1 }} />
-                                    <Text style={styles.txtIsi}>{detail.tempat_lahir ?? "Kosong"}</Text>
-                                </View>
-                                <View style={styles.underline} />
+                                            <View style={{ flexDirection: 'row', alignItems: 'center', overflow: 'hidden' }}>
+                                                <Text style={styles.txtTitle}>Tempat lahir</Text>
+                                                <View style={{ flex: 1 }} />
+                                                <Text style={styles.txtIsi}>{detail.tempat_lahir ?? "Kosong"}</Text>
+                                            </View>
+                                            <View style={styles.underline} />
 
-                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                    <Text style={styles.txtTitle}>Jenis kelamin</Text>
-                                    <View style={{ flex: 1 }} />
-                                    <Text style={styles.txtIsi}>{detail.jenis_kelamin == "L" ? "Laki - laki" : "Perempuan" ?? "Kosong"}</Text>
-                                </View>
-                                <View style={styles.underline} />
+                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                <Text style={styles.txtTitle}>Jenis kelamin</Text>
+                                                <View style={{ flex: 1 }} />
+                                                <Text style={styles.txtIsi}>{detail.jenis_kelamin == "L" ? "Laki - laki" : "Perempuan" ?? "Kosong"}</Text>
+                                            </View>
+                                            <View style={styles.underline} />
 
-                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                    <Text style={styles.txtTitle}>Agama</Text>
-                                    <View style={{ flex: 1 }} />
-                                    <Text style={styles.txtIsi}>{detail.agama}</Text>
-                                </View>
-                                <View style={styles.underline} />
-                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                    <Text style={styles.txtTitle}>Nama Ibu</Text>
-                                    <View style={{ flex: 1 }} />
-                                    <Text style={styles.txtIsi}>{detail.nama_ibu ?? "Kosong"}</Text>
-                                </View>
-                                <View style={styles.underline} />
+                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                <Text style={styles.txtTitle}>Agama</Text>
+                                                <View style={{ flex: 1 }} />
+                                                <Text style={styles.txtIsi}>{detail.agama ?? "Kosong"}</Text>
+                                            </View>
+                                            <View style={styles.underline} />
+                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                <Text style={styles.txtTitle}>Nama Ibu</Text>
+                                                <View style={{ flex: 1 }} />
+                                                <Text style={styles.txtIsi}>{detail.nama_ibu ?? "Kosong"}</Text>
+                                            </View>
+                                            <View style={styles.underline} />
 
-                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                    <Text style={styles.txtTitle}>Nama Ayah</Text>
-                                    <View style={{ flex: 1 }} />
-                                    <Text style={styles.txtIsi}>{detail.nama_ayah ?? "Kosong"}</Text>
-                                </View>
-                                <View style={styles.underline} />
+                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                <Text style={styles.txtTitle}>Nama Ayah</Text>
+                                                <View style={{ flex: 1 }} />
+                                                <Text style={styles.txtIsi}>{detail.nama_ayah ?? "Kosong"}</Text>
+                                            </View>
+                                            <View style={styles.underline} />
 
-                                <View style={{ marginBottom: 8 }}>
-                                    <Text style={styles.txtBio}>Kartu Pelajar</Text>
-                                    <TouchableOpacity activeOpacity={1} onPress={() => {
-                                        btnCetak()
-                                    }} style={styles.boxKartuPelajar}>
-                                        <Text style={[styles.txtGlobalWhite, { fontSize: 14 }]}>Cetak Kartu Pelajar</Text>
-                                    </TouchableOpacity>
-                                </View>
+                                            <View style={{ marginBottom: 8 }}>
+                                                <Text style={styles.txtBio}>Kartu Pelajar</Text>
+                                                <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                    btnCetak()
+                                                }} style={styles.boxKartuPelajar}>
+                                                    <Text style={[styles.txtGlobalWhite, { fontSize: 14 }]}>Cetak Kartu Pelajar</Text>
+                                                </TouchableOpacity>
+                                            </View>
+                                        </>
+                                    )
+                                }
+                                {
+                                    user.role_id == RoleResponse.guru && (
+                                        <>
+                                            <Text style={[styles.txtBio, { marginTop: 4, marginBottom: 18 }]}>Biodata</Text>
+                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                <Text style={styles.txtTitle}>nip</Text>
+                                                <View style={{ flex: 1 }} />
+                                                <Text style={styles.txtIsi}>{detail.nip ?? "Kosong"}</Text>
+                                            </View>
+                                            <View style={styles.underline} />
 
+                                            {
+                                                detail.is_walikelas == "Y" && (
+                                                    <>
+                                                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                            <Text style={styles.txtTitle}>Walikelas</Text>
+                                                            <View style={{ flex: 1 }} />
+                                                            <Text style={styles.txtIsi}>{user.email ?? "Kosong"}</Text>
+                                                        </View>
+                                                        <View style={styles.underline} />
+
+                                                    </>
+                                                )
+                                            }
+
+                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                <Text style={styles.txtTitle}>Email</Text>
+                                                <View style={{ flex: 1 }} />
+                                                <Text style={styles.txtIsi}>{user.email ?? "Kosong"}</Text>
+                                            </View>
+                                            <View style={styles.underline} />
+
+                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                <Text style={styles.txtTitle}>Nama</Text>
+                                                <View style={{ flex: 1 }} />
+                                                <Text style={styles.txtIsi}>{detail.nama_lengkap ?? "kosong"}</Text>
+                                            </View>
+                                            <View style={styles.underline} />
+
+                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                <Text style={styles.txtTitle}>Tanggal Lahir</Text>
+                                                <View style={{ flex: 1 }} />
+                                                <Text style={styles.txtIsi}>{moment(detail.tanggal_lahir).format("DD/MM/YYYY")}</Text>
+                                            </View>
+                                            <View style={styles.underline} />
+
+                                            <View style={{ flexDirection: 'row', alignItems: 'center', overflow: 'hidden' }}>
+                                                <Text style={styles.txtTitle}>Tempat lahir</Text>
+                                                <View style={{ flex: 1 }} />
+                                                <Text style={styles.txtIsi}>{detail.tempat_lahir ?? "Kosong"}</Text>
+                                            </View>
+                                            <View style={styles.underline} />
+
+                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                <Text style={styles.txtTitle}>Jenis kelamin</Text>
+                                                <View style={{ flex: 1 }} />
+                                                <Text style={styles.txtIsi}>{detail.jenis_kelamin == "L" ? "Laki - laki" : "Perempuan" ?? "Kosong"}</Text>
+                                            </View>
+                                            <View style={styles.underline} />
+
+                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                <Text style={styles.txtTitle}>Agama</Text>
+                                                <View style={{ flex: 1 }} />
+                                                <Text style={styles.txtIsi}>{detail.agama ?? "Kosong"}</Text>
+                                            </View>
+                                            <View style={styles.underline} />
+                                        </>
+                                    )
+                                }
+                                {
+                                    user.role_id == RoleResponse.walimurid && (
+                                        <>
+                                            <Text style={[styles.txtBio, { marginTop: 4, marginBottom: 18 }]}>Biodata</Text>
+                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                <Text style={styles.txtTitle}>Nama</Text>
+                                                <View style={{ flex: 1 }} />
+                                                <Text style={styles.txtIsi}>{detail.nama_lengkap ?? "kosong"}</Text>
+                                            </View>
+                                            <View style={styles.underline} />
+
+                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                <Text style={styles.txtTitle}>Nomor HP</Text>
+                                                <View style={{ flex: 1 }} />
+                                                <Text style={styles.txtIsi}>{user.phone ?? "Kosong"}</Text>
+                                            </View>
+                                            <View style={styles.underline} />
+
+                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                <Text style={styles.txtTitle}>Tanggal Lahir</Text>
+                                                <View style={{ flex: 1 }} />
+                                                <Text style={styles.txtIsi}>{moment(detail.tanggal_lahir).format("DD/MM/YYYY")}</Text>
+                                            </View>
+                                            <View style={styles.underline} />
+
+                                            <View style={{ flexDirection: 'row', alignItems: 'center', overflow: 'hidden' }}>
+                                                <Text style={styles.txtTitle}>Tempat lahir</Text>
+                                                <View style={{ flex: 1 }} />
+                                                <Text style={styles.txtIsi}>{detail.tempat_lahir ?? "Kosong"}</Text>
+                                            </View>
+                                            <View style={styles.underline} />
+
+                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                <Text style={styles.txtTitle}>Jenis kelamin</Text>
+                                                <View style={{ flex: 1 }} />
+                                                <Text style={styles.txtIsi}>{detail.jenis_kelamin == "L" ? "Laki - laki" : "Perempuan" ?? "Kosong"}</Text>
+                                            </View>
+                                            <View style={styles.underline} />
+
+                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                <Text style={styles.txtTitle}>Agama</Text>
+                                                <View style={{ flex: 1 }} />
+                                                <Text style={styles.txtIsi}>{detail.agama ?? "Kosong"}</Text>
+                                            </View>
+                                            <View style={styles.underline} />
+                                            {/* <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                <Text style={styles.txtTitle}>Orang Tua Dari</Text>
+                                                <View style={{ flex: 1 }} />
+                                                <Text style={styles.txtIsi}>{detail.user_id ?? "Kosong"}</Text>
+                                            </View>
+                                            <View style={styles.underline} /> */}
+                                        </>
+                                    )
+                                }
+                                {
+                                    user.role_id != RoleResponse.pegawai && (
+                                        <>
+                                            <Text style={[styles.txtBio, { marginTop: 4, marginBottom: 18 }]}>Biodata</Text>
+                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                <Text style={styles.txtTitle}>Nama</Text>
+                                                <View style={{ flex: 1 }} />
+                                                <Text style={styles.txtIsi}>{detail.nama_lengkap ?? "kosong"}</Text>
+                                            </View>
+                                            <View style={styles.underline} />
+
+                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                <Text style={styles.txtTitle}>Nomor HP</Text>
+                                                <View style={{ flex: 1 }} />
+                                                <Text style={styles.txtIsi}>{user.phone ?? "Kosong"}</Text>
+                                            </View>
+                                            <View style={styles.underline} />
+
+                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                <Text style={styles.txtTitle}>Tanggal Lahir</Text>
+                                                <View style={{ flex: 1 }} />
+                                                <Text style={styles.txtIsi}>{moment(detail.tanggal_lahir).format("DD/MM/YYYY")}</Text>
+                                            </View>
+                                            <View style={styles.underline} />
+
+                                            <View style={{ flexDirection: 'row', alignItems: 'center', overflow: 'hidden' }}>
+                                                <Text style={styles.txtTitle}>Tempat lahir</Text>
+                                                <View style={{ flex: 1 }} />
+                                                <Text style={styles.txtIsi}>{detail.tempat_lahir ?? "Kosong"}</Text>
+                                            </View>
+                                            <View style={styles.underline} />
+
+                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                <Text style={styles.txtTitle}>Jenis kelamin</Text>
+                                                <View style={{ flex: 1 }} />
+                                                <Text style={styles.txtIsi}>{detail.jenis_kelamin == "L" ? "Laki - laki" : "Perempuan" ?? "Kosong"}</Text>
+                                            </View>
+                                            <View style={styles.underline} />
+
+                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                <Text style={styles.txtTitle}>Agama</Text>
+                                                <View style={{ flex: 1 }} />
+                                                <Text style={styles.txtIsi}>{detail.agama ?? "Kosong"}</Text>
+                                            </View>
+                                            <View style={styles.underline} />
+                                            {/* <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                <Text style={styles.txtTitle}>Orang Tua Dari</Text>
+                                                <View style={{ flex: 1 }} />
+                                                <Text style={styles.txtIsi}>{detail.user_id ?? "Kosong"}</Text>
+                                            </View>
+                                            <View style={styles.underline} /> */}
+                                        </>
+                                    )
+                                }
                                 <View style={{ flex: 1, flexDirection: 'row', marginBottom: 12 }}>
                                     <TouchableOpacity activeOpacity={1} onPress={() => {
                                         dispatch(setUser(null));
@@ -181,7 +383,6 @@ export default function Profile(props) {
                                     </TouchableOpacity>
                                     <View style={{ flex: 1 }} />
                                 </View>
-
                             </View>
                         </View>
                     </View>

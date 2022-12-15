@@ -21,6 +21,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import responseStatus from "../utils/responseStatus";
 import app from "../config/app";
+import RoleResponse from "../utils/RoleResponse";
 
 const SCREEN_WIDTH = Dimensions.get("window").width
 const SCREEN_HEIGHT = Dimensions.get("window").height;
@@ -72,12 +73,38 @@ export default function HeaderTablet(props) {
             <View style={{ backgroundColor: color.primary, height: SCREEN_HEIGHT / 4 }}>
                 <View style={styles.container}>
                     <TouchableOpacity activeOpacity={1} onPress={props.iconProfile} style={styles.containerProfile}>
-                        <Image source={{ uri: app.BASE_URL_PICTURE + detail.foto_profil }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
+                        {/* <Image source={{ uri: app.BASE_URL_PICTURE + detail.foto_profil }} style={{ height: "100%", width: "100%" }} resizeMode="cover" /> */}
+                        {
+                            user.role_id == RoleResponse.siswa && (
+                                <Image source={{ uri: app.BASE_URL_PICTURE + detail.foto_profil }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
+                            )
+                        }
+                        {
+                            user.role_id == RoleResponse.guru && (
+                                <Image source={{ uri: app.BASE_URL_PICTURE + detail.profil_picture }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
+                            )
+                        }
+                        {
+                            user.role_id == RoleResponse.walimurid && (
+                                <Image source={{ uri: app.BASE_URL_PICTURE + detail.foto_profil }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
+                            )
+                        }
+                        {
+                            user.role_id != RoleResponse.pegawai && (
+                                <Image source={{ uri: app.BASE_URL_PICTURE + detail.profil_picture }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
+                            )
+                        }
                         {/* <Ionicons name="person-outline" size={24} color={color.black} /> */}
                     </TouchableOpacity>
                     <View style={styles.containerText}>
-                        <Text {...props} numberOfLines={1} style={props.textProfile}>{detail.nama_lengkap}</Text>
-                        <Text {...props} style={props.textAlamat}>{detail.phone}</Text>
+                        {
+                            user.role_id != RoleResponse.pegawai && (
+                                <>
+                                    <Text {...props} numberOfLines={1} style={props.textProfile}>{detail.nama_lengkap}</Text>
+                                    <Text {...props} style={props.textAlamat}>{detail.phone}</Text>
+                                </>
+                            )
+                        }
                     </View>
                     <TouchableOpacity style={styles.menuRight} onPress={props.iconRight} activeOpacity={0.8}>
                         <Ionicons name="notifications" size={24} color={color.white} />
