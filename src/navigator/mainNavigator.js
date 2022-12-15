@@ -72,6 +72,7 @@ import DetailKoperasi from "../screens/DetailKoperasi";
 import ListAbsenPegawai from "../screens/ListAbsenPegawai";
 import DetailAbsen from "../screens/DetailAbsen";
 import ListTotalKehadiran from "../screens/ListTotalKehadiran";
+import IsiSaldoUniversal from "../screens/IsiSaldoUniversal";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -121,6 +122,7 @@ const DashboardStack = () => {
 
             <Stack.Screen name="DetailAbsen" component={DetailAbsen} />
             <Stack.Screen name="ListTotalKehadiran" component={ListTotalKehadiran} />
+            <Stack.Screen name="IsiSaldoUniversal" component={IsiSaldoUniversal} />
 
             {/* //koperasi */}
             <Stack.Screen name="QrCodeKoperasi" component={QrCodeKoperasi} />

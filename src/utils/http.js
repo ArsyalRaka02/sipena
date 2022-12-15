@@ -222,6 +222,15 @@ export const HttpRequest = {
         return request().get("/transaksi-kantin")
     },
 
+    //isisaldouniversal
+    kategoriUniversal() {
+        return request().get('/kategorikeuangan')
+    },
+    simpanUniversal(data) {
+        return requestTypeFormData().post("/simpankeuangan", data)
+    },
+    
+
     //koperasi
     bayarKoperasi(data) {
         return request().post("/bayar-koperasi", data)

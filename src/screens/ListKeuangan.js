@@ -15,17 +15,20 @@ const menu = [
     {
         name: 'SPP',
         icon: "reader-outline",
-        page: "ListSpp"
+        // page: "ListSpp"
+        page: "IsiSaldoUniversal"
     },
     {
         name: 'Pembayaran Buku',
         icon: "receipt-outline",
-        page: "ListPembayaranBuku"
+        // page: "ListPembayaranBuku"
+        page: "IsiSaldoUniversal"
     },
     {
         name: 'Tabungan',
         icon: "document-text-outline",
-        page: "ListTabungan"
+        // page: "ListTabungan"
+        page: "IsiSaldoUniversal"
     },
 ]
 
