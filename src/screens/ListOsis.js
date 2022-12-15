@@ -22,11 +22,11 @@ const listMenu = [
         page: "DaftarOsis",
         image: require("../assets/sipena/profile-add.png")
     },
-    {
-        name: "Anggota OSIS",
-        page: "AnggotaOsis",
-        image: require("../assets/sipena/profile-2user.png")
-    },
+    // {
+    //     name: "Anggota OSIS",
+    //     page: "AnggotaOsis",
+    //     image: require("../assets/sipena/profile-2user.png")
+    // },
 ]
 
 export default function ListOsis(props) {
