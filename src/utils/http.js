@@ -86,6 +86,12 @@ export const HttpRequest = {
     },
 
 
+    //total kehadiran
+    listKehadiran(id) {
+        return request().get("/totalabsensiswa?id=" + id)
+    },
+
+
     //perpus
     katalogBuku() {
         return request().get("/katalog-buku")

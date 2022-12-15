@@ -39,7 +39,11 @@ export default function ListAbsen(props) {
                     <View style={{ flexDirection: 'row', backgroundColor: color.white, borderRadius: 12, paddingHorizontal: 20, paddingVertical: 16 }}>
                         <Text style={[styles.txtGlobalBold, { color: color.black }]}>Total Kehadiran</Text>
                         <View style={{ flex: 1 }} />
-                        <Text style={[styles.txtGlobalBold, { color: color.primary }]}>Lihat Sekarang</Text>
+                        <TouchableOpacity activeOpacity={1} onPress={() => {
+                            navigation.navigate("ListTotalKehadiran")
+                        }}>
+                            <Text style={[styles.txtGlobalBold, { color: color.primary }]}>Lihat Sekarang</Text>
+                        </TouchableOpacity>
                     </View>
                     <ScrollView>
                         <View style={{ flexDirection: 'column', backgroundColor: color.white, borderRadius: 8, padding: 14, marginVertical: 12 }}>

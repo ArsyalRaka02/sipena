@@ -8,12 +8,31 @@ import TextInputIcon from '../components/TextInputIcon'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { fonts } from '../utils/fonts'
 import { Item } from 'react-native-paper/lib/typescript/components/List/List'
+import { HttpRequest } from '../utils/http'
+import { useSelector } from 'react-redux'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height
 const SCREEN_WIDTH = Dimensions.get("window").width
 
 export default function ListRaport(props) {
     const navigation = useNavigation()
+    const user = useSelector(state => state.user);
+    // const [listData, setListData] = useState([])
+    // const [total, setTotal] = useState(0)
+
+    // useEffect(() => {
+    //     loadData()
+    // }, [])
+
+    // const loadData = useCallback(() => {
+    //     let id = user.data.id
+    //     HttpRequest.listKehadiran(id).then((res) => {
+    //         setTotal(res.data)
+    //     }).catch((err) => {
+    //         console.log("err", err, err.response)
+    //     })
+    // }, [user, total])
+
     return (
         <>
             <SafeAreaView style={styles.container}>
