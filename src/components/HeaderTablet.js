@@ -44,7 +44,6 @@ export default function HeaderTablet(props) {
         if (user) {
             loadProfile()
         }
-        // console.log("ini", user)
     }, [user]);
 
 

@@ -7,12 +7,45 @@ import { useNavigation } from '@react-navigation/native'
 import TextInputIcon from '../components/TextInputIcon'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { fonts } from '../utils/fonts'
+import { HttpRequest } from '../utils/http'
+import Toast from '../components/Toast'
+import Button from '../components/Button'
+import responseStatus from '../utils/responseStatus'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height
 const SCREEN_WIDTH = Dimensions.get("window").width
 
 export default function FasilitasTambahTU(props) {
     const navigation = useNavigation()
+
+    const [fasilitas, setFasilitas] = useState("")
+    const [isLoading, setIsloading] = useState(false)
+
+    const btnSave = useCallback(() => {
+        let data = {
+            nama: fasilitas
+        }
+        setIsloading(true)
+        HttpRequest.insertListFasilitas(data).then((res) => {
+            let result = res.data
+            if (result.status == responseStatus.INSERT_SUKSES) {
+                Toast.showSuccess("Berhasil tambah")
+                setTimeout(() => {
+                    navigation.goBack()
+                }, 300);
+            }
+            if (result.status == responseStatus.INSERT_GAGAL) {
+                Toast.showError("gagal status == 2")
+            }
+            setIsloading(false)
+            console.log("ini adalah result", result)
+        }).catch((err) => {
+            setIsloading(false)
+            Toast.showError("Server Err:")
+            console.log("err", err, err.response)
+        })
+    }, [fasilitas])
+
     return (
         <>
             <SafeAreaView style={styles.container}>
@@ -24,7 +57,21 @@ export default function FasilitasTambahTU(props) {
                     <Text style={styles.txtHeader}>Tambah Fasilitas</Text>
                 </HeaderBack>
                 <View style={{ padding: 20, flex: 1 }}>
-
+                    <ScrollView>
+                        <Text style={styles.label}>Fasilitas</Text>
+                        <TextInputIcon
+                            placeholder="Username"
+                            value={fasilitas}
+                            onChangeText={setFasilitas}
+                            containerStyle={styles.input} />
+                    </ScrollView>
+                </View>
+                <View style={{ backgroundColor: color.white, paddingTop: 40, paddingBottom: 20, paddingHorizontal: 20 }}>
+                    <Button isLoading={isLoading} activeOpacity={1} onPress={() => {
+                        btnSave()
+                    }}>
+                        Simpan
+                    </Button>
                 </View>
             </SafeAreaView>
         </>
@@ -43,4 +90,10 @@ const styles = {
     },
     txtGlobal: { fontSize: 13, fontFamily: fonts.inter },
     txtGlobalBold: { fontSize: 15, fontFamily: fonts.interBold },
+    label: {
+        fontSize: 18,
+        fontFamily: fonts.interBold,
+        marginBottom: 5,
+        color: color.primary
+    },
 }

@@ -69,6 +69,7 @@ import DetailBerita from "../screens/DetailBerita";
 import DetailKantin from "../screens/DetailKantin";
 import QrCodeKoperasi from "../screens/QrCodeKoperasi";
 import DetailKoperasi from "../screens/DetailKoperasi";
+import ListAbsenPegawai from "../screens/ListAbsenPegawai";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -135,6 +136,8 @@ const DashboardStack = () => {
             <Stack.Screen name="DetailBukuTU" component={DetailBukuTU} />
             <Stack.Screen name="ListKartuPelajarTU" component={ListKartuPelajarTU} />
             <Stack.Screen name="EditKartuPelajarTU" component={EditKartuPelajarTU} />
+
+            <Stack.Screen name="ListAbsenPegawai" component={ListAbsenPegawai} />
 
 
             {/* kepalasekolah */}

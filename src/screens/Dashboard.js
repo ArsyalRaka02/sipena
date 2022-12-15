@@ -9,7 +9,7 @@ import Button from '../components/Button';
 import moment from 'moment';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
-import { useNavigation } from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 import BottomTab from '../components/ButtomTab';
 import { HttpRequest } from '../utils/http';
 import NoData from '../components/NoData';
@@ -23,11 +23,14 @@ const SCREEN_WIDTH = Dimensions.get("window").width;
 
 export default function Dashboard(props) {
     const navigation = useNavigation()
+    const isFocused = useIsFocused()
     const user = useSelector(state => state.user);
     const [isOpenCard, setisOpenCard] = useState(false)
 
     const [listJadwal, setListJadwal] = useState([])
     const [listBerita, setListBerita] = useState([])
+    const [listPeminjamanFasilitas, setListPeminjamanFasilitas] = useState([])
+    const [detail, setDetail] = useState({})
 
     const btnOpenCard = useCallback(() => {
         setisOpenCard(!isOpenCard)
@@ -89,10 +92,94 @@ export default function Dashboard(props) {
         }
     ]
 
+    const dataKantin = [
+        {
+            name: "Perpustakaan",
+            image: require("../assets/sipena/perpus.png"),
+            warna: color.menuBlueOrca,
+            page: "ListPerpustakaan"
+        },
+        {
+            name: "Koperasi Sekolah",
+            image: require("../assets/sipena/koperasi.png"),
+            warna: color.menuBrown,
+            // page: "ListKoperasi"
+            page: "QrCodeKoperasi"
+        },
+        {
+            name: "Kantin",
+            image: require("../assets/sipena/kantin.png"),
+            warna: color.menuGreen,
+            page: "QrCodeKantin"
+        },
+    ]
+
+    const dataTU = [
+        {
+            name: "Jadwal",
+            image: require("../assets/sipena/jadwal.png"),
+            warna: color.menuBlue,
+            page: "ListJadwalMenu"
+        },
+        {
+            name: "Tata usaha",
+            image: require("../assets/sipena/TU.png"),
+            warna: color.menuPurple,
+            page: "ListTataUsaha"
+        },
+        {
+            name: "Absen",
+            image: require("../assets/sipena/user33.png"),
+            warna: color.menuRed,
+            page: "ListAbsenPegawai"
+        },
+        {
+            name: "Kantin",
+            image: require("../assets/sipena/kantin.png"),
+            warna: color.menuGreen,
+            page: "QrCodeKantin"
+        },
+        {
+            name: "Pinjam Fasilitas",
+            image: require("../assets/sipena/pinjam.png"),
+            warna: color.menuOrange,
+            page: "ListPinjamFasilitas"
+        },
+        {
+            name: "Koperasi Sekolah",
+            image: require("../assets/sipena/koperasi.png"),
+            warna: color.menuBrown,
+            // page: "ListKoperasi"
+            page: "QrCodeKoperasi"
+        },
+        {
+            name: "Absen Siswa",
+            image: require("../assets/sipena/absen.png"),
+            warna: color.menuGreen,
+            page: "ListAbsen"
+        },
+        {
+            name: "Perpustakaan",
+            image: require("../assets/sipena/perpus.png"),
+            warna: color.menuBlueOrca,
+            page: "ListPerpustakaan"
+        },
+    ]
+
     useEffect(() => {
-        loadListJadwal()
-        loadBerita()
-    }, [])
+        if (isFocused) {
+            loadBerita()
+            if (user) {
+                loadProfile()
+            }
+            if (user.role_id == RoleResponse.pegawai) {
+                loadPinjamanFasilitas()
+            }
+            if (user.role_id != RoleResponse.pegawai) {
+                loadListJadwal()
+            }
+        }
+    }, [user, isFocused])
 
     const loadListJadwal = useCallback(async () => {
         try {
@@ -129,6 +216,62 @@ export default function Dashboard(props) {
         }
     }, [listBerita])
 
+
+    const loadPinjamanFasilitas = useCallback(async () => {
+        try {
+            let data = await HttpRequest.listPinjamFasilitas(1)
+            let result = data.data.data
+            let status = data.data.status
+            if (status == responseStatus.INSERT_SUKSES) {
+                setListPeminjamanFasilitas(result)
+            }
+            if (status == responseStatus.INSERT_GAGAL) {
+                setListPeminjamanFasilitas([])
+            }
+            console.log("res", result)
+        } catch (error) {
+            console.log("ini adalah list beita", error)
+        }
+    }, [listPeminjamanFasilitas])
+
+    const btnDeleteFasilitas = useCallback((value) => {
+        HttpRequest.deletedPinjamanFasilitas(value).then((res) => {
+            let result = res.data
+            let status = res.data.status
+            if (status == responseStatus.INSERT_SUKSES) {
+                Toast.showSuccess("Berhasil Akhiri Peminjaman")
+                loadPinjamanFasilitas()
+            }
+            if (status == responseStatus.INSERT_GAGAL) {
+                Toast.showError("gagal hapus" + `${result.message}`)
+            }
+            console.log("suske", result)
+            // setListPeminjamanFasilitas(result)
+        }).catch((err) => {
+            Toast.showError("Server Error: ")
+            console.log("gagal delete fasilitas ", err, err.response)
+        })
+    }, [listPeminjamanFasilitas])
+
+    const loadProfile = useCallback(() => {
+        let id = user.id
+        HttpRequest.getProfile(id).then((res) => {
+            let result = res.data.data.data
+            let status = res.data.status
+            if (status == responseStatus.INSERT_SUKSES) {
+                setDetail(result)
+            }
+            if (status == responseStatus.INSERT_GAGAL) {
+                Toast.showError("Gagal status == 2")
+                setDetail([])
+            }
+            // console.log("user s ", result)
+        }).catch((err) => {
+            Toast.showError("Server Error: ")
+            console.log("err", err, err.response)
+        })
+    }, [detail])
+
     return (
         <View style={styles.container}>
             <StatusBar backgroundColor={color.primary} barStyle='light-content' />
@@ -143,26 +286,78 @@ export default function Dashboard(props) {
                         }}
                     />
                     <View style={{ zIndex: 1 }}>
-                        <View style={styles.menuDashboard}>
+                        <View style={[styles.menuDashboard]}>
                             {
-                                data.map((item, ilist) => {
-                                    return (
-                                        <>
-                                            <TouchableOpacity activeOpacity={1} onPress={() => {
-                                                if (item.page != "") {
-                                                    navigation.navigate(item.page)
-                                                }
-                                            }} style={styles.menuChild}>
-                                                <View style={[styles.menuIcon, {
-                                                    backgroundColor: item.warna,
-                                                }]}>
-                                                    <Image source={item.image} style={{ width: 18, height: 18 }} />
-                                                </View>
-                                                <Text style={{ textAlign: 'center', fontSize: 10, fontFamily: fonts.inter, marginVertical: 12, flex: 1 }}>{item.name}</Text>
-                                            </TouchableOpacity>
-                                        </>
-                                    )
-                                })
+                                user.role_id != RoleResponse.pegawai && (
+                                    data.map((item, ilist) => {
+                                        return (
+                                            <>
+                                                <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                    if (item.page != "") {
+                                                        navigation.navigate(item.page)
+                                                    }
+                                                }} style={styles.menuChild}>
+                                                    <View style={[styles.menuIcon, {
+                                                        backgroundColor: item.warna,
+                                                    }]}>
+                                                        <Image source={item.image} style={{ width: 18, height: 18 }} />
+                                                    </View>
+                                                    <Text style={{ textAlign: 'center', fontSize: 10, fontFamily: fonts.inter, marginVertical: 12, flex: 1 }}>{item.name}</Text>
+                                                </TouchableOpacity>
+                                            </>
+                                        )
+                                    })
+                                )
+                            }
+                            {
+                                user.role_id == RoleResponse.pegawai && (
+                                    <>
+                                        {
+                                            detail.is_tata_usaha == "Y" && (
+                                                dataTU.map((item, iMenu) => {
+                                                    return (
+                                                        <>
+                                                            <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                                if (item.page != "") {
+                                                                    navigation.navigate(item.page)
+                                                                }
+                                                            }} style={styles.menuChild}>
+                                                                <View style={[styles.menuIcon, {
+                                                                    backgroundColor: item.warna,
+                                                                }]}>
+                                                                    <Image source={item.image} style={{ width: 18, height: 18 }} />
+                                                                </View>
+                                                                <Text style={{ textAlign: 'center', fontSize: 10, fontFamily: fonts.inter, marginVertical: 12, flex: 1 }}>{item.name}</Text>
+                                                            </TouchableOpacity>
+                                                        </>
+                                                    )
+                                                })
+                                            )
+                                        }
+                                        {
+                                            detail.is_kantin == "Y" && (
+                                                dataKantin.map((item, ilist) => {
+                                                    return (
+                                                        <>
+                                                            <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                                if (item.page != "") {
+                                                                    navigation.navigate(item.page)
+                                                                }
+                                                            }} style={styles.menuChild}>
+                                                                <View style={[styles.menuIcon, {
+                                                                    backgroundColor: item.warna,
+                                                                }]}>
+                                                                    <Image source={item.image} style={{ width: 18, height: 18 }} />
+                                                                </View>
+                                                                <Text style={{ textAlign: 'center', fontSize: 10, fontFamily: fonts.inter, marginVertical: 12, flex: 1 }}>{item.name}</Text>
+                                                            </TouchableOpacity>
+                                                        </>
+                                                    )
+                                                })
+                                            )
+                                        }
+                                    </>
+                                )
                             }
                         </View>
                     </View>
@@ -212,45 +407,124 @@ export default function Dashboard(props) {
                         {
                             user.role_id == RoleResponse.pegawai && (
                                 <>
-                                    <View style={{ flexDirection: 'row', marginVertical: 20 }}>
-                                        <Text style={[styles.txtBoldGlobal]}>Fasilitas Sedang Dipakai</Text>
-                                        <View style={{ flex: 1 }} />
-                                        <TouchableOpacity activeOpacity={1} onPress={() => {
-                                            navigation.navigate("ListSemuaPeminjamFasilitas")
-                                        }}>
-                                            <Text style={[styles.txtGlobal, { color: "#75B4FF" }]}>Selengkapnya</Text>
-                                        </TouchableOpacity>
-                                    </View>
+                                    {/* {
+                                        detail.is_koperasi == "Y" && (
+                                            <>
 
-                                    <View style={[{ flexDirection: 'column', backgroundColor: color.white, padding: 18, borderRadius: 8 }]}>
-                                        <View style={{ flexDirection: 'row' }}>
-                                            <Text style={[styles.txtBoldGlobal, { color: color.black, flex: 1 }]}>Nama</Text>
-                                            <Text style={[styles.txtBoldGlobal, { color: color.black }]}>Osis</Text>
-                                        </View>
-                                        <View style={{ flexDirection: 'row', marginVertical: 8 }}>
-                                            <View style={{ flexDirection: "row", flex: 1 }}>
-                                                <Text style={[styles.txtGlobal]}>Hari : </Text>
-                                                <Text style={[styles.txtBoldGlobal, { fontSize: 14, color: color.black }]}>hari ini</Text>
-                                            </View>
-                                            <View style={{ flexDirection: "row", flex: 1 }}>
-                                                <Text style={[styles.txtGlobal]}>tanggal : </Text>
-                                                <Text style={[styles.txtBoldGlobal, { fontSize: 14, color: color.black }]}>tanggal ini</Text>
-                                            </View>
-                                        </View>
-                                        <View style={{ flexDirection: 'row', marginBottom: 8 }}>
-                                            <View style={{ flexDirection: "row", flex: 1 }}>
-                                                <Text style={[styles.txtGlobal]}>Pukul : </Text>
-                                                <Text style={[styles.txtBoldGlobal, { fontSize: 14, color: color.black }]}>pukul ini</Text>
-                                            </View>
-                                            <View style={{ flexDirection: "row", flex: 1 }}>
-                                                <Text style={[styles.txtGlobal]}>Fasilitas : </Text>
-                                                <Text style={[styles.txtBoldGlobal, { fontSize: 14, color: color.black }]}>fasilitas ini</Text>
-                                            </View>
-                                        </View>
-                                        <Text style={[styles.txtGlobal, { color: color.primary }]}>Akhiri Peminjaman</Text>
-                                    </View>
+                                            </>
+                                        )
+                                    }
+                                    {
+                                        detail.is_perpus == "Y" && (
+                                            <>
+
+                                            </>
+                                        )
+                                    } */}
+                                    {
+                                        detail.is_tata_usaha == "Y" && (
+                                            <>
+                                                <View style={{ flexDirection: 'row', marginVertical: 20 }}>
+                                                    <Text style={[styles.txtBoldGlobal]}>Fasilitas Sedang Dipakai</Text>
+                                                    <View style={{ flex: 1 }} />
+                                                    <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                        navigation.navigate("ListSemuaPeminjamFasilitas")
+                                                    }}>
+                                                        <Text style={[styles.txtGlobal, { color: "#75B4FF" }]}>Selengkapnya</Text>
+                                                    </TouchableOpacity>
+                                                </View>
+                                                {
+                                                    listPeminjamanFasilitas.length == 0 && (
+                                                        <>
+                                                            <NoData>Tidak ada fasilitas</NoData>
+                                                        </>
+                                                    )
+                                                }
+                                                {
+                                                    listPeminjamanFasilitas.map((item, iFasilitas) => {
+                                                        if (iFasilitas < 1) {
+                                                            return (
+                                                                <>
+                                                                    <View style={[{ flexDirection: 'column', backgroundColor: color.white, padding: 18, borderRadius: 8 }]}>
+                                                                        <View style={{ flexDirection: 'row' }}>
+                                                                            <Text style={[styles.txtBoldGlobal, { color: color.black, flex: 1 }]}>Nama</Text>
+                                                                            <Text style={[styles.txtBoldGlobal, { color: color.black }]}>Osis</Text>
+                                                                        </View>
+                                                                        <View style={{ flexDirection: 'row', marginVertical: 8 }}>
+                                                                            <View style={{ flexDirection: "row", flex: 1 }}>
+                                                                                <Text style={[styles.txtGlobal]}>Hari : </Text>
+                                                                                <Text style={[styles.txtBoldGlobal, { fontSize: 12, color: color.black }]}>{moment(item.tanggal).format("dddd")}</Text>
+                                                                            </View>
+                                                                            <View style={{ flexDirection: "row", flex: 1 }}>
+                                                                                <Text style={[styles.txtGlobal]}>tanggal : </Text>
+                                                                                <Text style={[styles.txtBoldGlobal, { fontSize: 12, color: color.black }]}>{moment(item.tanggal).format("DD MMM YYYY")}</Text>
+                                                                            </View>
+                                                                        </View>
+                                                                        <View style={{ flexDirection: 'row', marginBottom: 8 }}>
+                                                                            <View style={{ flexDirection: "row", flex: 1 }}>
+                                                                                <Text style={[styles.txtGlobal]}>Jam Selesai : </Text>
+                                                                                <Text style={[styles.txtBoldGlobal, { fontSize: 12, color: color.black }]}>{item.jam_selesai}</Text>
+                                                                            </View>
+                                                                            <View style={{ flexDirection: "row", flex: 1 }}>
+                                                                                <Text style={[styles.txtGlobal]}>Fasilitas : </Text>
+                                                                                <Text style={[styles.txtBoldGlobal, { fontSize: 12, color: color.black }]}>{item.nama_fasilitas}</Text>
+                                                                            </View>
+                                                                        </View>
+                                                                        <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                                            btnDeleteFasilitas(item.id)
+                                                                        }}>
+                                                                            <Text style={[styles.txtGlobal, { color: color.primary }]}>Akhiri Peminjaman</Text>
+                                                                        </TouchableOpacity>
+                                                                    </View>
+                                                                    <View style={{ height: 20 }} />
+                                                                </>
+                                                            )
+                                                        }
+                                                    })
+                                                }
+                                            </>
+                                        )
+                                    }
+                                    {
+                                        detail.is_kantin == "Y" && (
+                                            <>
+                                                <View style={{ flexDirection: 'row', marginVertical: 20 }}>
+                                                    <Text style={[styles.txtBoldGlobal]}>Transaksi Masuk hari ini</Text>
+                                                    <View style={{ flex: 1 }} />
+                                                    <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                        navigation.navigate("ListTransaksiKantin")
+                                                    }}>
+                                                        <Text style={[styles.txtGlobal, { color: "#75B4FF" }]}>Selengkapnya</Text>
+                                                    </TouchableOpacity>
+                                                </View>
+
+                                                <View style={[{ flexDirection: 'column', backgroundColor: color.white, padding: 18, borderRadius: 8 }]}>
+                                                    <View style={{ flexDirection: 'row' }}>
+                                                        <Text style={[styles.txtBoldGlobal, { color: color.black, flex: 1 }]}>Nama</Text>
+                                                    </View>
+                                                    <View style={{ flexDirection: 'row', marginVertical: 8 }}>
+                                                        <View style={{ flexDirection: "row", flex: 1 }}>
+                                                            <Text style={[styles.txtGlobal]}>Nominal : </Text>
+                                                            <Text style={[styles.txtBoldGlobal, { fontSize: 14, color: color.black }]}>-</Text>
+                                                        </View>
+                                                        <View style={{ flexDirection: "row", flex: 1 }}>
+                                                            <Text style={[styles.txtGlobal]}>Pembeli : </Text>
+                                                            <Text style={[styles.txtBoldGlobal, { fontSize: 14, color: color.black }]}>-</Text>
+                                                        </View>
+                                                    </View>
+                                                    <View style={{ flexDirection: 'row' }}>
+                                                        <Text style={[styles.txtBoldGlobal, { color: color.primary, fontSize: 14 }]}>Edit</Text>
+                                                        <View style={{ flex: 1 }} />
+                                                        <Text style={[styles.txtBoldGlobal, { color: color.danger, fontSize: 14 }]}>Hapus</Text>
+                                                    </View>
+                                                </View>
+                                                <View style={{ height: 20 }} />
+                                            </>
+                                        )
+                                    }
                                 </>
                             )
+
                         }
 
                         {/* <View style={styles.containerJadwal}>
@@ -314,36 +588,7 @@ export default function Dashboard(props) {
                         </View> */}
 
                         {/* transaksi */}
-                        {/* <View style={{ flexDirection: 'row', marginVertical: 20 }}>
-                            <Text style={[styles.txtBoldGlobal]}>Transaksi Masuk hari ini</Text>
-                            <View style={{ flex: 1 }} />
-                            <TouchableOpacity activeOpacity={1} onPress={() => {
-                                navigation.navigate("ListTransaksiKantin")
-                            }}>
-                                <Text style={[styles.txtGlobal, { color: "#75B4FF" }]}>Selengkapnya</Text>
-                            </TouchableOpacity>
-                        </View>
 
-                        <View style={[{ flexDirection: 'column', backgroundColor: color.white, padding: 18, borderRadius: 8 }]}>
-                            <View style={{ flexDirection: 'row' }}>
-                                <Text style={[styles.txtBoldGlobal, { color: color.black, flex: 1 }]}>Nama</Text>
-                            </View>
-                            <View style={{ flexDirection: 'row', marginVertical: 8 }}>
-                                <View style={{ flexDirection: "row", flex: 1 }}>
-                                    <Text style={[styles.txtGlobal]}>Nominal : </Text>
-                                    <Text style={[styles.txtBoldGlobal, { fontSize: 14, color: color.black }]}>-</Text>
-                                </View>
-                                <View style={{ flexDirection: "row", flex: 1 }}>
-                                    <Text style={[styles.txtGlobal]}>Pembeli : </Text>
-                                    <Text style={[styles.txtBoldGlobal, { fontSize: 14, color: color.black }]}>-</Text>
-                                </View>
-                            </View>
-                            <View style={{ flexDirection: 'row' }}>
-                                <Text style={[styles.txtBoldGlobal, { color: color.primary, fontSize: 14 }]}>Edit</Text>
-                                <View style={{ flex: 1 }} />
-                                <Text style={[styles.txtBoldGlobal, { color: color.danger, fontSize: 14 }]}>Hapus</Text>
-                            </View>
-                        </View> */}
 
                         <View style={{ flexDirection: 'row', marginVertical: 20 }}>
                             <Text style={[styles.txtBoldGlobal]}>Berita</Text>
@@ -483,20 +728,22 @@ const styles = {
         marginHorizontal: 20,
         backgroundColor: color.white,
         paddingVertical: 12,
+        paddingHorizontal: 20,
         marginTop: -90,
         // top: 90,
         // position: "absolute",
-        justifyContent: 'space-between',
+        // justifyContent: 'center',
         flexWrap: 'wrap',
         flexDirection: 'row',
         borderRadius: 12,
     },
     menuChild: {
         width: SCREEN_WIDTH / 5,
-        // backgroundColor: color.primary,
+        // flex: 1,
         justifyContent: 'center',
-        marginVertical: 7,
         alignItems: 'center',
+        // backgroundColor: color.primary,
+        marginVertical: 7,
 
     },
     menuIcon: {

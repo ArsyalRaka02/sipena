@@ -7,6 +7,7 @@ import { useNavigation } from '@react-navigation/native'
 import TextInputIcon from '../components/TextInputIcon'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { fonts } from '../utils/fonts'
+import Button from '../components/Button'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height
 const SCREEN_WIDTH = Dimensions.get("window").width
@@ -24,7 +25,13 @@ export default function ListPPDB(props) {
                     <Text style={styles.txtHeader}>PPDB</Text>
                 </HeaderBack>
                 <View style={{ padding: 20, flex: 1 }}>
-
+                    <Button>
+                        Aktifkan PPBD
+                    </Button>
+                    <View style={{ height: 20 }} />
+                    <Button>
+                        Non-Aktifkan PPBD
+                    </Button>
                 </View>
             </SafeAreaView>
         </>

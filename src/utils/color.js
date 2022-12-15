@@ -27,6 +27,6 @@ export default {
     menuBlueOrca: "rgba(77, 198, 206, 0.1)",
     menuBrown: "rgba(156, 120, 65, 0.1)",
     menuPink: "rgba(255, 152, 152, 0.1)",
-    menuRed: "rgba(227, 44,44, 0.1)"
+    menuRed: "rgba(227, 44,44, 0.1)",
 
 }

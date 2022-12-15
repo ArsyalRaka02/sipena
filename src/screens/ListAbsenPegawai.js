@@ -21,7 +21,7 @@ export default function ListAbsenPegawai(props) {
                         navigation.goBack()
                     }}
                 >
-                    <Text style={styles.txtHeader}>Absen Siswa</Text>
+                    <Text style={styles.txtHeader}>Absen</Text>
                 </HeaderBack>
                 <View style={{ padding: 20, flex: 1 }}>
 

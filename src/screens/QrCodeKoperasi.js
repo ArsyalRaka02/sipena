@@ -34,7 +34,7 @@ export default function QrCodeKoperasi(props) {
             reactivate={true}
             showMarker={true}
             onRead={onSuccess}
-            flashMode={RNCamera.Constants.FlashMode.torch}
+            // flashMode={RNCamera.Constants.FlashMode.torch}
             topContent={
                 <Text style={styles.centerText}>
                     <Text style={styles.textBold}>Silahkan Scan barcode Koperasi</Text>

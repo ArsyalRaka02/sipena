@@ -31,8 +31,8 @@ export default function ListPinjamFasilitas(props) {
     const user = useSelector(state => state.user);
     const [selectedFasilitas, setSelectedFasilitas] = useState(null)
     const [tanggalPinjaman, setTanggalPinjaman] = useState(new Date())
-    const [jamAwal, setJamAwal] = useState(new Date())
-    const [jamAkhir, setJamAkhir] = useState(new Date())
+    const [jamAwal, setJamAwal] = useState(moment(new Date()).format("HH:mm"))
+    const [jamAkhir, setJamAkhir] = useState(moment(new Date()).format("HH:mm"))
     const [fasilitas, setFasilitas] = useState([])
 
     const toggleSetDay = useCallback((day) => {
@@ -85,8 +85,8 @@ export default function ListPinjamFasilitas(props) {
         let data = {
             peminjaman_fasilitas_id: selectedFasilitas,
             user_id: user.id,
-            jam_mulai: moment(jamAwal).format("HH:mm"),
-            jam_selesai: moment(jamAkhir).format("HH:mm"),
+            jam_mulai: String(jamAwal),
+            jam_selesai: String(jamAkhir),
             tanggal: moment(tanggalPinjaman).format("YYYY-MM-DD")
         }
         // console.log("data", data)
@@ -99,9 +99,9 @@ export default function ListPinjamFasilitas(props) {
                 }, 300);
             }
             if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("Gagal status == 2")
+                Toast.showError("error" + `${res.data.message}`)
             }
-            console.log("res", res)
+            console.log("berhasil ajukan", res)
         }).catch((err) => {
             Toast.showError("Server Error: ")
             console.log("err", err, err.response)

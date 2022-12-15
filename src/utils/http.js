@@ -76,6 +76,16 @@ export const HttpRequest = {
     },
 
 
+    //jadwal
+
+    listJadwalKelas(id) {
+        return request().get('/jadwal-kelas?kelas_id=' + id)
+    },
+    listJadwalSekolah() {
+        return request().get('/jadwal-sekolah')
+    },
+
+
     //perpus
     katalogBuku() {
         return request().get("/katalog-buku")
@@ -117,7 +127,7 @@ export const HttpRequest = {
         return request().get("/pinjam-fasilitas?acc=" + value)
     },
     postAjukanPinjaman(data) {
-        return request().post("/pinjam-fasilitas/", data)
+        return request().post("/pinjam-fasilitas", data)
     },
     accPinjamFasilitas(data) {
         return request().post("/pinjam-fasilitas/acc", data)
