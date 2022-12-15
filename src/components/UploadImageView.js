@@ -45,7 +45,8 @@ export default function UploadImageView(props) {
             width: 400,
             height: 400,
             cropping: false,
-            useFrontCamera: false,
+            useFrontCamera: true,
+            enableRotationGesture: true,
         }).then(image => {
             console.log("Image res", image);
             uploadImage(image.path)

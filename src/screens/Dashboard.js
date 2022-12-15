@@ -390,7 +390,7 @@ export default function Dashboard(props) {
                                                         <>
                                                             <Text style={[styles.txtBoldGlobal, { fontSize: 16, color: color.black, marginBottom: 12 }]}>{item.jadwal_hari}</Text>
                                                             <View style={styles.containerJadwal}>
-                                                                <Text style={[styles.txtBoldGlobal]}>{item.kelas_nama}</Text>
+                                                                <Text style={[styles.txtBoldGlobal]}>{item.mapel_nama}</Text>
                                                                 <View style={{ flex: 1 }} />
                                                                 <Ionicons name="time-outline" size={24} color={color.black} />
                                                                 <Text style={[styles.txtGlobal, { marginLeft: 12 }]}>{item.jadwal_waktu_mulai} - {item.jadwal_waktu_akhir}</Text>
