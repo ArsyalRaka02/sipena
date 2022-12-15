@@ -222,6 +222,14 @@ export const HttpRequest = {
         return request().get("/transaksi-kantin")
     },
 
+    //koperasi
+    bayarKoperasi(data) {
+        return request().post("/bayar-koperasi", data)
+    },
+    listTransaksiKoperasi(id) {
+        return request().get("/transaksi-koperasi?id=" + id)
+    },
+
     //kartu digital
     getKartuDigital() {
         return request().get("/kartudigital")
