@@ -96,8 +96,22 @@ export default function HeaderTablet(props) {
                         {/* <Ionicons name="person-outline" size={24} color={color.black} /> */}
                     </TouchableOpacity>
                     <View style={styles.containerText}>
-                        <Text {...props} numberOfLines={1} style={props.textProfile}>{detail.nama_lengkap}</Text>
-                        <Text {...props} style={props.textAlamat}>{detail.phone}</Text>
+                        {
+                            user.role_id == RoleResponse.admin && (
+                                <>
+                                    <Text {...props} numberOfLines={1} style={props.textProfile}>Admin</Text>
+                                    <Text {...props} style={props.textAlamat}>role: admin</Text>
+                                </>
+                            )
+                        }
+                        {
+                            user.role_id != RoleResponse.admin && (
+                                <>
+                                    <Text {...props} numberOfLines={1} style={props.textProfile}>{detail.nama_lengkap}</Text>
+                                    <Text {...props} style={props.textAlamat}>{detail.phone}</Text>
+                                </>
+                            )
+                        }
                     </View>
                     <TouchableOpacity style={styles.menuRight} onPress={props.iconRight} activeOpacity={0.8}>
                         <Ionicons name="notifications" size={24} color={color.white} />

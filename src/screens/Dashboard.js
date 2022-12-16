@@ -177,7 +177,7 @@ export default function Dashboard(props) {
             name: "Absen Siswa",
             image: require("../assets/sipena/absen.png"),
             warna: color.menuGreen,
-            page: "ListAbsen"
+            page: "ListTotalKehadiran"
         },
         {
             name: "Keuangan",
@@ -314,6 +314,28 @@ export default function Dashboard(props) {
                     />
                     <View style={{ zIndex: 1 }}>
                         <View style={[styles.menuDashboard]}>
+                            {
+                                user.role_id == RoleResponse.admin && (
+                                    data.map((item, ilist) => {
+                                        return (
+                                            <>
+                                                <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                    if (item.page != "") {
+                                                        navigation.navigate(item.page)
+                                                    }
+                                                }} style={styles.menuChild}>
+                                                    <View style={[styles.menuIcon, {
+                                                        backgroundColor: item.warna,
+                                                    }]}>
+                                                        <Image source={item.image} style={{ width: 18, height: 18 }} />
+                                                    </View>
+                                                    <Text style={{ textAlign: 'center', fontSize: 10, fontFamily: fonts.inter, marginVertical: 12, flex: 1 }}>{item.name}</Text>
+                                                </TouchableOpacity>
+                                            </>
+                                        )
+                                    })
+                                )
+                            }
                             {
                                 user.role_id == RoleResponse.siswa && (
                                     data.map((item, ilist) => {
