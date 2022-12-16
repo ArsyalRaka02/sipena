@@ -259,7 +259,10 @@ export const HttpRequest = {
     daftarOsis(id) {
         return request().get("/calon-osis/daftar?id=" + id)
     },
-    
+    deletedOsis(id) {
+        return request().delete('/kegiatan-osis/' + id)
+    }
+
 
 };
 
