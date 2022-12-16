@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image } from 'react-native'
+import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, TouchableOpacityBase } from 'react-native'
 import moment from 'moment'
 import color from '../utils/color'
 import HeaderBack from '../components/HeaderBack'
@@ -23,12 +23,15 @@ export default function ListJadwal(props) {
     const [listJadwal, setListJadwal] = useState([])
     const [detail, setDetail] = useState({})
     const [isLoading, setIsloading] = useState(true)
+    const [kelas, setKelas] = useState([])
 
     useEffect(() => {
         if (user) {
             loadProfile()
             loadListJadwal()
+
         }
+        listKelas()
     }, [user])
 
     const loadProfile = useCallback(() => {
@@ -66,6 +69,20 @@ export default function ListJadwal(props) {
             setListJadwal([])
         })
     }, [listJadwal, detail])
+
+    const listKelas = useCallback(() => {
+        HttpRequest.listMapel().then((res) => {
+            let loop = res.data.map((item) => {
+                return {
+                    id: item.id,
+                    label: item.nama
+                }
+            })
+            setKelas(loop)
+        }).catch((err) => {
+            Toast.showError("err", err, err.response)
+        })
+    }, [kelas])
 
     return (
         <>
@@ -133,47 +150,6 @@ export default function ListJadwal(props) {
                     </View>
                 </View>
             </SafeAreaView>
-        </>
-    )
-}
-
-function ListPelajaran({ data }) {
-    return (
-        <>
-
-            {/* <View style={{ marginVertical: 12 }}>
-                <Text style={[styles.txtGlobalBold]}>Senin</Text>
-            </View>
-            <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: color.white, paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12 }}>
-                <Text>Matematika</Text>
-                <View style={{ flex: 1 }} />
-                <View style={{ flexDirection: 'row' }}>
-                    <Ionicons name="time-outline" size={20} color={color.black} style={{ marginRight: 12 }} />
-                    <Text style={[styles.txtGlobal]}>07.00-09.00</Text>
-                </View>
-            </View> */}
-            {/* <View style={{ marginVertical: 12 }}>
-                <Text style={[styles.txtGlobalBold]}>Selasa</Text>
-            </View>
-            <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: color.white, paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12 }}>
-                <Text>Matematika</Text>
-                <View style={{ flex: 1 }} />
-                <View style={{ flexDirection: 'row' }}>
-                    <Ionicons name="time-outline" size={20} color={color.black} style={{ marginRight: 12 }} />
-                    <Text style={[styles.txtGlobal]}>07.00-09.00</Text>
-                </View>
-            </View>
-            <View style={{ marginVertical: 12 }}>
-                <Text style={[styles.txtGlobalBold]}>Rabu</Text>
-            </View>
-            <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: color.white, paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12 }}>
-                <Text>Matematika</Text>
-                <View style={{ flex: 1 }} />
-                <View style={{ flexDirection: 'row' }}>
-                    <Ionicons name="time-outline" size={20} color={color.black} style={{ marginRight: 12 }} />
-                    <Text style={[styles.txtGlobal]}>07.00-09.00</Text>
-                </View>
-            </View> */}
         </>
     )
 }

@@ -12,6 +12,7 @@ import { HttpRequest } from '../utils/http'
 import responseStatus from '../utils/responseStatus'
 import NoData from '../components/NoData'
 import { useSelector } from 'react-redux'
+import Combobox from '../components/Combobox'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height
 const SCREEN_WIDTH = Dimensions.get("window").width
@@ -33,12 +34,15 @@ export default function ListJadwalMenu(props) {
     const [selected, setSelected] = useState("Sekolah")
     const [listSekolah, setListSekolah] = useState([])
     const [detail, setDetail] = useState({})
+    const [listKelas, setListKelas] = useState([])
+    const [selectedKelas, setSelectedKelas] = useState(null)
 
     useEffect(() => {
         loadProfile()
         loadJadwalSekolah()
         loadMapel()
-    }, [user])
+        loadKelas()
+    }, [user, selectedKelas])
 
     const loadProfile = useCallback(() => {
         let id = user.id
@@ -76,25 +80,52 @@ export default function ListJadwalMenu(props) {
     }, [listSekolah])
 
     const loadMapel = useCallback(async () => {
-        let id = user.data.id
+        // let id = user.data.id
+        let id = selectedKelas
+        console.log("id", id)
         try {
             let data = await HttpRequest.listJadwalKelas(id)
-            let result = data.data.data
             let status = data.data.status
             if (status == responseStatus.INSERT_SUKSES) {
-                setListMapel(result)
+                // let result = data.data.data.map(item)
+                setListMapel(data.data.data)
             }
             if (status == responseStatus.INSERT_GAGAL) {
                 Toast.showError("Server Error: ")
                 setListMapel([])
             }
-            console.log("ini list kelas", data)
+            console.log("ini list mabel", data)
         } catch (error) {
             setListMapel([])
             console.log("err", error, error.response)
             Toast.showError("Server Error: ")
         }
-    }, [listMapel, detail, user])
+    }, [listMapel, detail, user, selectedKelas])
+
+    const loadKelas = useCallback(async () => {
+        try {
+            let data = await HttpRequest.listMapel()
+            let status = data.data.status
+            if (status == responseStatus.INSERT_SUKSES) {
+                let result = data.data.data.map((item) => {
+                    return {
+                        id: item.id,
+                        label: item.nama
+                    }
+                })
+                setListKelas(result)
+            }
+            if (status == responseStatus.INSERT_GAGAL) {
+                Toast.showError("Server Error: ")
+                setListKelas([])
+            }
+            console.log("ini list kelas", data)
+        } catch (error) {
+            setListKelas([])
+            console.log("err", error, error.response)
+            Toast.showError("Server Error: ")
+        }
+    }, [listKelas])
 
     // console.log("sel", detail)
 
@@ -186,6 +217,33 @@ export default function ListJadwalMenu(props) {
                             {
                                 selected === "Kelas" && (
                                     <>
+                                        <View>
+                                            <Text style={[styles.txtGlobalBold, { fontSize: 14, color: color.black, marginVertical: 10 }]}>Pilih Kelas</Text>
+                                            <Combobox
+                                                value={selectedKelas}
+                                                placeholder="Silahkan Pilih Kelas"
+                                                theme={{
+                                                    boxStyle: {
+                                                        backgroundColor: color.white,
+                                                        borderColor: color.Neutral20,
+                                                    },
+                                                    leftIconStyle: {
+                                                        color: color.Neutral10,
+                                                        marginRight: 14
+                                                    },
+                                                    rightIconStyle: {
+                                                        color: color.Neutral10,
+                                                    },
+                                                }}
+                                                jenisIconsRight="Ionicons"
+                                                iconNameRight="caret-down-outline"
+                                                showLeftIcons={false}
+                                                data={listKelas}
+                                                onChange={(val) => {
+                                                    setSelectedKelas(val);
+                                                }}
+                                            />
+                                        </View>
                                         {
                                             listMapel.length == 0 && (
                                                 <NoData>Tidak ada jadwal harian</NoData>
