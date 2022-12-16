@@ -29,8 +29,13 @@ export default function DetailPerpustakaan(props) {
 
     const btnSave = useCallback(() => {
         let arr = []
-        arr.push(params)
-        dispatch(setSimpanBuku(arr));
+        let jml = 1
+
+        for (jml = 1; jml <= 1; jml++) {
+            arr.push(params);
+            dispatch(setSimpanBuku(arr));
+        }
+        console.log("ini data get jml", arr)
         Toast.showSuccess("Berhasil simpan buku di keranjang")
     }, [])
 
