@@ -58,16 +58,15 @@ export default function DetailAbsen(props) {
             return Toast.showError("Maaf pilih harus ada")
         }
 
-        if (keterangan == "") {
-            return Toast.showError("Maaf keterangan harus ada")
-        }
-        formData.append('jadwal_pembelajaran_id', params);
-        formData.append('siswa_id', user.data.id);
-
         if (selected != "MASUK") {
             isValue = "Y"
             isKeterangan = keterangan
+            if (keterangan == "") {
+                return Toast.showError("Maaf keterangan harus ada")
+            }
         }
+        formData.append('jadwal_pembelajaran_id', params);
+        formData.append('siswa_id', user.data.id);
         formData.append('is_izin', isValue);
         formData.append("alasan_izin", selected)
         formData.append("keterangan_izin", isKeterangan)
