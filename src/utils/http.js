@@ -89,6 +89,9 @@ export const HttpRequest = {
     listJadwalKelas(id) {
         return request().get('/jadwal-kelas?kelas_id=' + id)
     },
+    listJadwalKelasGuru(id) {
+        return request().get('/jadwal-kelas?mapel_id=' + id)
+    },
     listJadwalSekolah() {
         return request().get('/jadwal-sekolah')
     },

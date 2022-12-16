@@ -296,7 +296,15 @@ export default function Dashboard(props) {
         loadBerita()
         loadProfile()
         loadPinjamanFasilitas()
-        loadListJadwal()
+        if (user.role_id == RoleResponse.guru) {
+            loadListJadwalGuru()
+        }
+        if (user.role_id == RoleResponse.siswa) {
+            loadListJadwal()
+        }
+        if (user.role_id == RoleResponse.walimurid) {
+            loadJadwalSekolah()
+        }
     }, [user])
 
     // useEffect(() => {
@@ -310,6 +318,23 @@ export default function Dashboard(props) {
 
     const loadListJadwal = useCallback(() => {
         HttpRequest.listJadwalKelas(user.data.kelas_id).then((res) => {
+            let result = res.data.data
+            let status = res.data.status
+            if (status == responseStatus.INSERT_SUKSES) {
+                setListJadwal(result)
+            }
+            if (status == responseStatus.INSERT_GAGAL) {
+                Toast.showError("Gagal mendapatkan list jadwal")
+                setListJadwal([])
+            }
+            console.log("ini adalah jadwal matapelajaran", result)
+        }).catch((err) => {
+            console.log("err", err, err.response)
+        })
+    }, [listJadwal, detail])
+
+    const loadListJadwalGuru = useCallback(() => {
+        HttpRequest.listJadwalKelasGuru(user.data?.mapel_id).then((res) => {
             let result = res.data.data
             let status = res.data.status
             if (status == responseStatus.INSERT_SUKSES) {
@@ -341,6 +366,22 @@ export default function Dashboard(props) {
             console.log("ini adalah list beita", error)
         }
     }, [listBerita])
+
+    const loadJadwalSekolah = useCallback(() => {
+        HttpRequest.listJadwalSekolah().then((res) => {
+            let status = res.data.status
+            if (status == responseStatus.INSERT_SUKSES) {
+                setListJadwal(res.data.data)
+            }
+            if (status == responseStatus.INSERT_GAGAL) {
+                Toast.showError("Error: " + `${result.message}`)
+            }
+            console.log("sekolah", res.data.data)
+        }).catch((err) => {
+            Toast.showError("Server error: ")
+            console.log("err", err, err.response)
+        })
+    }, [listJadwal])
 
 
     const loadPinjamanFasilitas = useCallback(async () => {
@@ -607,23 +648,69 @@ export default function Dashboard(props) {
                                         )
                                     }
                                     {
-                                        listJadwal.length > 0 && (
-                                            listJadwal.map((item, iJadwal) => {
-                                                if (iJadwal < 3) {
-                                                    return (
-                                                        <>
-                                                            <Text style={[styles.txtBoldGlobal, { fontSize: 16, color: color.black, marginBottom: 12 }]}>{item.jadwal_hari}</Text>
-                                                            <View style={styles.containerJadwal}>
-                                                                <Text style={[styles.txtBoldGlobal]}>{item.mapel_nama}</Text>
-                                                                <View style={{ flex: 1 }} />
-                                                                <Ionicons name="time-outline" size={24} color={color.black} />
-                                                                <Text style={[styles.txtGlobal, { marginLeft: 12 }]}>{item.jadwal_waktu_mulai} - {item.jadwal_waktu_akhir}</Text>
-                                                            </View>
-                                                            <View style={{ height: 20 }} />
-                                                        </>
-                                                    )
-                                                }
-                                            })
+                                        user.role_id == RoleResponse.walimurid && (
+                                            listJadwal.length > 0 && (
+                                                listJadwal.map((item, iJadwal) => {
+                                                    if (iJadwal < 3) {
+                                                        return (
+                                                            <>
+                                                                <Text style={[styles.txtBoldGlobal, { fontSize: 16, color: color.black, marginBottom: 12 }]}>{item.jadwal_hari}</Text>
+                                                                <View style={styles.containerJadwal}>
+                                                                    <Text style={[styles.txtBoldGlobal]}>{item.kegiatan}</Text>
+                                                                    <View style={{ flex: 1 }} />
+                                                                    <Ionicons name="time-outline" size={24} color={color.black} />
+                                                                    <Text style={[styles.txtGlobal, { marginLeft: 12 }]}>{item.jam_mulai} - {item.jam_selesai}</Text>
+                                                                </View>
+                                                                <View style={{ height: 20 }} />
+                                                            </>
+                                                        )
+                                                    }
+                                                })
+                                            )
+                                        )
+                                    }
+                                    {
+                                        user.role_id == RoleResponse.guru && (
+                                            listJadwal.length > 0 && (
+                                                listJadwal.map((item, iJadwal) => {
+                                                    if (iJadwal < 3) {
+                                                        return (
+                                                            <>
+                                                                <Text style={[styles.txtBoldGlobal, { fontSize: 16, color: color.black, marginBottom: 12 }]}>{item.jadwal_hari}</Text>
+                                                                <View style={styles.containerJadwal}>
+                                                                    <Text style={[styles.txtBoldGlobal]}>{item.mapel_nama}</Text>
+                                                                    <View style={{ flex: 1 }} />
+                                                                    <Ionicons name="time-outline" size={24} color={color.black} />
+                                                                    <Text style={[styles.txtGlobal, { marginLeft: 12 }]}>{item.jadwal_waktu_mulai} - {item.jadwal_waktu_akhir}</Text>
+                                                                </View>
+                                                                <View style={{ height: 20 }} />
+                                                            </>
+                                                        )
+                                                    }
+                                                })
+                                            )
+                                        )
+                                    }
+                                    {
+                                        user.role_id == RoleResponse.siswa && (
+                                            listJadwal.length > 0 && (
+                                                listJadwal.map((item, iJadwal) => {
+                                                    if (iJadwal < 3) {
+                                                        return (
+                                                            <>
+                                                                <Text style={[styles.txtBoldGlobal, { fontSize: 16, color: color.black, marginBottom: 12 }]}>{item.jadwal_hari}</Text>
+                                                                <View style={styles.containerJadwal}>
+                                                                    <Text style={[styles.txtBoldGlobal]}>{item.mapel_nama}</Text>
+                                                                    <View style={{ flex: 1 }} />
+                                                                    <Ionicons name="time-outline" size={24} color={color.black} />
+                                                                    <Text style={[styles.txtGlobal, { marginLeft: 12 }]}>{item.jadwal_waktu_mulai} - {item.jadwal_waktu_akhir}</Text>
+                                                                </View>
+                                                                <View style={{ height: 20 }} />
+                                                            </>
+                                                        )
+                                                    }
+                                                })
+                                            )
                                         )
                                     }
                                 </>

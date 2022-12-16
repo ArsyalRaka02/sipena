@@ -31,6 +31,7 @@ export default function ListJadwal(props) {
             loadListJadwal()
 
         }
+        // if()
         listKelas()
     }, [user])
 
@@ -65,24 +66,25 @@ export default function ListJadwal(props) {
                 setListJadwal([])
             }
         }).catch((err) => {
-            console.log("err", err, err.response)
+            console.log("err jadwal", err, err.response)
             setListJadwal([])
         })
     }, [listJadwal, detail])
 
     const listKelas = useCallback(() => {
         HttpRequest.listMapel().then((res) => {
-            let loop = res.data.map((item) => {
-                return {
-                    id: item.id,
-                    label: item.nama
-                }
-            })
-            setKelas(loop)
+            // let loop = res.data.map((item) => {
+            //     return {
+            //         id: item.id,
+            //         label: item.nama
+            //     }
+            // })
+            setKelas(res.data.data)
         }).catch((err) => {
-            Toast.showError("err", err, err.response)
+            Toast.showError("err kelas", err, err.response)
         })
     }, [kelas])
+
 
     return (
         <>
@@ -95,16 +97,16 @@ export default function ListJadwal(props) {
                     <Text style={styles.txtHeader}>Jadwal</Text>
                 </HeaderBack>
                 <View style={{ padding: 20, flex: 1 }}>
-                    {/* {
-                        listJadwal.length == 0 && (
+                    {
+                        kelas.length == 0 && (
                             <>
                                 <NoData>Tidak ada Jadwal</NoData>
                             </>
                         )
                     }
                     {
-                        listJadwal.length > 0 && (
-                            listMapel.map((item, iListM) => {
+                        kelas.length > 0 && (
+                            kelas.map((item, iListM) => {
                                 return (
                                     <>
                                         <View style={{ backgroundColor: color.primaryRGBA, alignItems: 'center', flexDirection: 'row', paddingVertical: 16, paddingHorizontal: 20, borderRadius: 12 }}>
@@ -115,7 +117,7 @@ export default function ListJadwal(props) {
                                 )
                             })
                         )
-                    } */}
+                    }
                     <View style={{ flex: 1 }}>
                         <ScrollView>
                             {/* <ListPelajaran data={listJadwal} /> */}
