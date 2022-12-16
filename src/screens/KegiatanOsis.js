@@ -140,38 +140,45 @@ export default function KegiatanOsis(props) {
                                         selected == "Kegiatan" && (
                                             <>
                                                 {
-                                                    listKegiatan.map((item, i) => {
-                                                        return (
-                                                            <>
-                                                                <View style={{ flexDirection: 'column', flex: 1, backgroundColor: color.white, borderRadius: 12, padding: 12 }}>
-                                                                    <Text style={[styles.txtGlobalBold, { flex: 1 }]}>{item.kegiatan}</Text>
-                                                                    <View style={{ flexDirection: "row", alignItems: 'center' }}>
-                                                                        <Text style={[styles.txtGlobal, { flex: 1 }]}>{item.tanggal}</Text>
+                                                    listKegiatan.length == 0 && (
+                                                        <NoData>Tidak ada kegiatan</NoData>
+                                                    )
+                                                }
+                                                {
+                                                    listKegiatan.length > 0 && (
+                                                        listKegiatan.map((item, i) => {
+                                                            return (
+                                                                <>
+                                                                    <View style={{ flexDirection: 'column', flex: 1, backgroundColor: color.white, borderRadius: 12, padding: 12 }}>
+                                                                        <Text style={[styles.txtGlobalBold, { flex: 1 }]}>{item.kegiatan}</Text>
                                                                         <View style={{ flexDirection: "row", alignItems: 'center' }}>
-                                                                            <Ionicons name="time-outline" size={20} color={color.black} />
-                                                                            <Text style={[styles.txtGlobal]}>{item.jam_mulai}</Text>
-                                                                            <Text style={[styles.txtGlobal]}> - </Text>
-                                                                            <Text style={[styles.txtGlobal]}>{item.jam_selesai}</Text>
+                                                                            <Text style={[styles.txtGlobal, { flex: 1 }]}>{item.tanggal}</Text>
+                                                                            <View style={{ flexDirection: "row", alignItems: 'center' }}>
+                                                                                <Ionicons name="time-outline" size={20} color={color.black} />
+                                                                                <Text style={[styles.txtGlobal]}>{item.jam_mulai}</Text>
+                                                                                <Text style={[styles.txtGlobal]}> - </Text>
+                                                                                <Text style={[styles.txtGlobal]}>{item.jam_selesai}</Text>
+                                                                            </View>
+                                                                        </View>
+                                                                        <View style={{ flexDirection: 'row' }}>
+                                                                            <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                                                navigation.navigate("EditKegiatanOsis", { params: item })
+                                                                            }} style={{ marginTop: 12 }}>
+                                                                                <Text style={[styles.txtGlobalBold, { color: color.primary, textAlign: 'right' }]}>Edit</Text>
+                                                                            </TouchableOpacity>
+                                                                            <View style={{ flex: 1 }} />
+                                                                            <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                                                btnDeleted(item.id)
+                                                                            }} style={{ marginTop: 12 }}>
+                                                                                <Text style={[styles.txtGlobalBold, { color: color.danger, textAlign: 'right' }]}>Hapus</Text>
+                                                                            </TouchableOpacity>
                                                                         </View>
                                                                     </View>
-                                                                    <View style={{ flexDirection: 'row' }}>
-                                                                        <TouchableOpacity activeOpacity={1} onPress={() => {
-                                                                            navigation.navigate("EditKegiatanOsis", { params: item })
-                                                                        }} style={{ marginTop: 12 }}>
-                                                                            <Text style={[styles.txtGlobalBold, { color: color.primary, textAlign: 'right' }]}>Edit</Text>
-                                                                        </TouchableOpacity>
-                                                                        <View style={{ flex: 1 }} />
-                                                                        <TouchableOpacity activeOpacity={1} onPress={() => {
-                                                                            btnDeleted(item.id)
-                                                                        }} style={{ marginTop: 12 }}>
-                                                                            <Text style={[styles.txtGlobalBold, { color: color.danger, textAlign: 'right' }]}>Hapus</Text>
-                                                                        </TouchableOpacity>
-                                                                    </View>
-                                                                </View>
-                                                                <View style={{ height: 20 }} />
-                                                            </>
-                                                        )
-                                                    })
+                                                                    <View style={{ height: 20 }} />
+                                                                </>
+                                                            )
+                                                        })
+                                                    )
                                                 }
                                             </>
 
