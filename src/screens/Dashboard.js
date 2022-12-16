@@ -193,6 +193,105 @@ export default function Dashboard(props) {
         },
     ]
 
+    const guru = [
+        {
+            name: "Jadwal",
+            image: require("../assets/sipena/jadwal.png"),
+            warna: color.menuBlue,
+            page: "ListJadwalMenu"
+        },
+        {
+            name: "Absen",
+            image: require("../assets/sipena/user33.png"),
+            warna: color.menuRed,
+            page: "ListAbsenGuru"
+        },
+        {
+            name: "Absen Siswa",
+            image: require("../assets/sipena/absen.png"),
+            warna: color.menuGreen,
+            page: "ListAbsen"
+        },
+        {
+            name: "Penilaian",
+            image: require("../assets/sipena/rapot.png"),
+            warna: color.menuYellow,
+            page: "ListRaport"
+        },
+        {
+            name: "Koperasi Sekolah",
+            image: require("../assets/sipena/koperasi.png"),
+            warna: color.menuBrown,
+            // page: "ListKoperasi"
+            page: "QrCodeKoperasi"
+        },
+        {
+            name: "Kantin",
+            image: require("../assets/sipena/kantin.png"),
+            warna: color.menuGreen,
+            page: "QrCodeKantin"
+        },
+
+        {
+            name: "Semua",
+            image: require("../assets/sipena/semua.png"),
+            warna: color.menuPink,
+            page: "DashboardSemuaList"
+        }
+    ]
+
+    const guruWali = [
+        {
+            name: "Jadwal",
+            image: require("../assets/sipena/jadwal.png"),
+            warna: color.menuBlue,
+            page: "ListJadwalMenu"
+        },
+        {
+            name: "Absen Siswa",
+            image: require("../assets/sipena/absen.png"),
+            warna: color.menuGreen,
+            page: "ListAbsen"
+        },
+        {
+            name: "Perpustakaan",
+            image: require("../assets/sipena/perpus.png"),
+            warna: color.menuBlueOrca,
+            page: "ListPerpustakaan"
+        },
+        {
+            name: "Rapot",
+            image: require("../assets/sipena/rapot.png"),
+            warna: color.menuYellow,
+            page: "ListRaport"
+        },
+        {
+            name: "Koperasi Sekolah",
+            image: require("../assets/sipena/koperasi.png"),
+            warna: color.menuBrown,
+            // page: "ListKoperasi"
+            page: "QrCodeKoperasi"
+        },
+        {
+            name: "Kantin",
+            image: require("../assets/sipena/kantin.png"),
+            warna: color.menuGreen,
+            page: "QrCodeKantin"
+        },
+        {
+            name: "Absen",
+            image: require("../assets/sipena/user33.png"),
+            warna: color.menuRed,
+            page: "ListAbsenGuru"
+        },
+        {
+            name: "Semua",
+            image: require("../assets/sipena/semua.png"),
+            warna: color.menuPink,
+            page: "DashboardSemuaList"
+        }
+    ]
+
     useEffect(() => {
         loadBerita()
         loadProfile()
@@ -363,24 +462,52 @@ export default function Dashboard(props) {
                             }
                             {
                                 user.role_id == RoleResponse.guru && (
-                                    data.map((item, ilist) => {
-                                        return (
-                                            <>
-                                                <TouchableOpacity activeOpacity={1} onPress={() => {
-                                                    if (item.page != "") {
-                                                        navigation.navigate(item.page)
-                                                    }
-                                                }} style={styles.menuChild}>
-                                                    <View style={[styles.menuIcon, {
-                                                        backgroundColor: item.warna,
-                                                    }]}>
-                                                        <Image source={item.image} style={{ width: 18, height: 18 }} />
-                                                    </View>
-                                                    <Text style={{ textAlign: 'center', fontSize: 10, fontFamily: fonts.inter, marginVertical: 12, flex: 1 }}>{item.name}</Text>
-                                                </TouchableOpacity>
-                                            </>
-                                        )
-                                    })
+                                    <>
+                                        {
+                                            user.data.is_walikelas == "Y" && (
+                                                guruWali.map((item, iMenu) => {
+                                                    return (
+                                                        <>
+                                                            <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                                if (item.page != "") {
+                                                                    navigation.navigate(item.page)
+                                                                }
+                                                            }} style={styles.menuChild}>
+                                                                <View style={[styles.menuIcon, {
+                                                                    backgroundColor: item.warna,
+                                                                }]}>
+                                                                    <Image source={item.image} style={{ width: 18, height: 18 }} />
+                                                                </View>
+                                                                <Text style={{ textAlign: 'center', fontSize: 10, fontFamily: fonts.inter, marginVertical: 12, flex: 1 }}>{item.name}</Text>
+                                                            </TouchableOpacity>
+                                                        </>
+                                                    )
+                                                })
+                                            )
+                                        }
+                                        {
+                                            user.data.is_walikelas != "Y" && (
+                                                guru.map((item, iMenu) => {
+                                                    return (
+                                                        <>
+                                                            <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                                if (item.page != "") {
+                                                                    navigation.navigate(item.page)
+                                                                }
+                                                            }} style={styles.menuChild}>
+                                                                <View style={[styles.menuIcon, {
+                                                                    backgroundColor: item.warna,
+                                                                }]}>
+                                                                    <Image source={item.image} style={{ width: 18, height: 18 }} />
+                                                                </View>
+                                                                <Text style={{ textAlign: 'center', fontSize: 10, fontFamily: fonts.inter, marginVertical: 12, flex: 1 }}>{item.name}</Text>
+                                                            </TouchableOpacity>
+                                                        </>
+                                                    )
+                                                })
+                                            )
+                                        }
+                                    </>
                                 )
                             }
 

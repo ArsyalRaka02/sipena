@@ -75,6 +75,7 @@ import ListTotalKehadiran from "../screens/ListTotalKehadiran";
 import IsiSaldoUniversal from "../screens/IsiSaldoUniversal";
 import EditKegiatanOsis from "../screens/EditKegiatanOsis";
 import Notification from "../screens/Notification";
+import ListAbsenGuru from "../screens/ListAbsenGuru";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -147,6 +148,7 @@ const DashboardStack = () => {
             <Stack.Screen name="EditKartuPelajarTU" component={EditKartuPelajarTU} />
 
             <Stack.Screen name="ListAbsenPegawai" component={ListAbsenPegawai} />
+            <Stack.Screen name="ListAbsenGuru" component={ListAbsenGuru} />
             <Stack.Screen name="EditKegiatanOsis" component={EditKegiatanOsis} />
 
 
