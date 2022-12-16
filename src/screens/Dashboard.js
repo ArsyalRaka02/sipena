@@ -311,6 +311,9 @@ export default function Dashboard(props) {
                         iconProfile={() => {
                             navigation.navigate("Profile")
                         }}
+                        iconRight={() => {
+                            navigation.navigate("Notification")
+                        }}
                     />
                     <View style={{ zIndex: 1 }}>
                         <View style={[styles.menuDashboard]}>

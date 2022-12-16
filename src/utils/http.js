@@ -267,8 +267,14 @@ export const HttpRequest = {
     },
     updateOsis(data) {
         return request().post("/kegiatan-osis", data)
-    }
+    },
 
+    notifikasiTotal(id) {
+        return request().get("/total-notifikasi?user_id=" + id)
+    },
+    getNotifikasi(id) {
+        return request().get("/get-notifikasi?user_id=" + id)
+    }
 
 };
 

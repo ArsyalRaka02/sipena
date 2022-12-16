@@ -30,6 +30,8 @@ export default function HeaderTablet(props) {
     const dispatch = useDispatch();
     const user = useSelector(state => state.user);
 
+    const [isCount, setCount] = useState(0)
+
     const [isLoading, setIsLoading] = useState(false);
     const [showLogoutModal, setShowLogoutModal] = useState(false);
     const [showPinInputModal, setShowPinInputModal] = useState(false);
@@ -43,8 +45,23 @@ export default function HeaderTablet(props) {
     useEffect(() => {
         if (user) {
             loadProfile()
+            loadGetTotal()
         }
     }, [user]);
+
+    const loadGetTotal = useCallback(() => {
+        HttpRequest.notifikasiTotal(user.data.id).then((res) => {
+            let data = res.data
+            if (data.status == responseStatus.INSERT_SUKSES) {
+                setCount(data.data)
+            } else {
+                Toast.showError("Err: " + `${data.message}`)
+            }
+            console.log("ini notifikasi", data)
+        }).catch((err) => {
+            console.log("err", err, err.response)
+        })
+    }, [isCount])
 
 
     const loadProfile = useCallback(() => {
@@ -115,6 +132,7 @@ export default function HeaderTablet(props) {
                     </View>
                     <TouchableOpacity style={styles.menuRight} onPress={props.iconRight} activeOpacity={0.8}>
                         <Ionicons name="notifications" size={24} color={color.white} />
+                        <View style={{ backgroundColor: isCount > 1 ? color.danger : color.primary, borderRadius: 20, width: 10, height: 10, position: 'absolute', top: 5, right: 6 }} />
                     </TouchableOpacity>
                 </View>
                 <Image source={require("../assets/sipena/p.png")} style={{ height: "100%", width: "100%", position: 'absolute', tintColor: color.whiteColorRgba }} resizeMode="cover" />

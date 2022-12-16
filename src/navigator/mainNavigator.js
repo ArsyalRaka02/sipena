@@ -74,6 +74,7 @@ import DetailAbsen from "../screens/DetailAbsen";
 import ListTotalKehadiran from "../screens/ListTotalKehadiran";
 import IsiSaldoUniversal from "../screens/IsiSaldoUniversal";
 import EditKegiatanOsis from "../screens/EditKegiatanOsis";
+import Notification from "../screens/Notification";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -198,6 +199,8 @@ const DashboardStack = () => {
             <Stack.Screen name="ListMutasi" component={ListMutasi} />
             <Stack.Screen name="FormMutasi" component={FormMutasi} />
             <Stack.Screen name="ListEkstrakulikuler" component={ListEkstrakulikuler} />
+
+            <Stack.Screen name="Notification" component={Notification} />
 
             {/* <Stack.Screen name="UpdateHarga" component={UpdateHarga} /> */}
         </Stack.Navigator>
