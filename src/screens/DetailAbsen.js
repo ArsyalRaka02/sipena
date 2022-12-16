@@ -14,15 +14,25 @@ import Button from '../components/Button'
 import { HttpRequest } from '../utils/http'
 import responseStatus from '../utils/responseStatus'
 import Toast from '../components/Toast'
+import Combobox from '../components/Combobox'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height
 const SCREEN_WIDTH = Dimensions.get("window").width
 
-// const list = [
-//     {
-//         id: ''
-//     }
-// ]
+const list = [
+    {
+        id: "MASUK",
+        label: "Masuk"
+    },
+    {
+        id: "SAKIT",
+        label: "Sakit"
+    },
+    {
+        id: 'IZIN',
+        label: "Izin"
+    },
+]
 
 export default function DetailAbsen(props) {
     const navigation = useNavigation()
@@ -30,21 +40,43 @@ export default function DetailAbsen(props) {
     const [selected, setSelected] = useState(null)
     const [pasFoto, setPasFoto] = useState("")
     const [isLoading, setIsloading] = useState(false)
+    const [keterangan, setKeterangan] = useState("")
+    const [alasan, setAlasan] = useState("")
 
     const { params } = props.route.params
 
+
     const btnSave = useCallback(() => {
         let formData = new FormData();
+        let isValue = "N"
+        let isKeterangan = ""
         if (pasFoto == "") {
             return Toast.showError("Maaf foto harus ada")
         }
+
+        if (selected == null) {
+            return Toast.showError("Maaf pilih harus ada")
+        }
+
+        if (keterangan == "") {
+            return Toast.showError("Maaf keterangan harus ada")
+        }
         formData.append('jadwal_pembelajaran_id', params);
         formData.append('siswa_id', user.data.id);
+
+        if (selected != "MASUK") {
+            isValue = "Y"
+            isKeterangan = keterangan
+        }
+        formData.append('is_izin', isValue);
+        formData.append("alasan_izin", selected)
+        formData.append("keterangan_izin", isKeterangan)
         formData.append('foto', {
             name: 'image-' + moment().format('YYYY-MM-DD-HH-mm-ss') + '.jpg',
             type: 'image/jpeg',
             uri: pasFoto,
         });
+        setIsloading(true)
         HttpRequest.insertAbsenSiswa(formData).then((res) => {
             let data = res.data
             if (data.status == responseStatus.STATUS_ISTIMEWA) {
@@ -59,10 +91,14 @@ export default function DetailAbsen(props) {
             if (data.status == responseStatus.INSERT_GAGAL) {
                 Toast.showError("Gagal")
             }
+            setIsloading(false)
+            console.log("sukses", data)
         }).catch((err) => {
+            setIsloading(false)
             console.log("err", err, err.response)
         })
-    }, [user, pasFoto, params])
+    }, [user, pasFoto, params, alasan, keterangan, selected])
+    // console.log("ser, user", user)
 
     return (
         <>
@@ -87,14 +123,56 @@ export default function DetailAbsen(props) {
                     <View style={{ height: 20 }} />
 
                     <ScrollView>
+                        <Text style={[styles.txtGlobalBold, { fontSize: 14, color: color.black, marginVertical: 10 }]}>Pilih Kondisi</Text>
+                        <Combobox
+                            value={selected}
+                            placeholder="Silahkan Pilih"
+                            theme={{
+                                boxStyle: {
+                                    backgroundColor: color.white,
+                                    borderColor: color.Neutral20,
+                                },
+                                leftIconStyle: {
+                                    color: color.Neutral10,
+                                    marginRight: 14
+                                },
+                                rightIconStyle: {
+                                    color: color.Neutral10,
+                                },
+                            }}
+                            jenisIconsRight="Ionicons"
+                            iconNameRight="caret-down-outline"
+                            showLeftIcons={false}
+                            data={list}
+                            onChange={(val) => {
+                                setSelected(val);
+                            }}
+                        />
+                        {/* {
+                            selected == "Y" && (
+                                <>
+                                    <Text style={[styles.txtGlobalBold, { fontSize: 14, color: color.black, marginVertical: 10 }]}>Alasan</Text>
+                                    <TextInputIcon
+                                        value={alasan}
+                                        onChangeText={setAlasan}
+                                    />
+                                </>
+                            )
+                        } */}
+                        {
+                            selected != "MASUK" && (
+                                <>
+                                    <Text style={[styles.txtGlobalBold, { fontSize: 14, color: color.black, marginVertical: 10 }]}>Keterangan</Text>
+                                    <TextInputIcon
+                                        value={keterangan}
+                                        onChangeText={setKeterangan}
+                                    />
+                                </>
+                            )
+                        }
+
                         <Text style={[styles.txtGlobalBold, { fontSize: 16, color: color.black, marginVertical: 12 }]}>Foto</Text>
-                        {/* <UploadImageView
-                        useCamera={true}
-                        type="image"
-                        onSelectImage={(e) => {
-                            setPasFoto(e)
-                        }}
-                    /> */}
+
                         <UploadCamera
                             useCamera={true}
                             type="image"
