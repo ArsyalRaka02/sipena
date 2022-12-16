@@ -6,11 +6,14 @@ import { fonts } from '../utils/fonts';
 import color from '../utils/color';
 import { useNavigation } from '@react-navigation/native';
 import HeaderBack from '../components/HeaderBack';
+import { useSelector } from 'react-redux';
+import RoleResponse from '../utils/RoleResponse';
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
 export default function DashboardSemuaList(props) {
+    const user = useSelector(state => state.user);
     const navigation = useNavigation()
     const [isOpenCard, setisOpenCard] = useState(false)
 
@@ -92,6 +95,123 @@ export default function DashboardSemuaList(props) {
         },
     ]
 
+    const guru = [
+        {
+            name: "Jadwal",
+            image: require("../assets/sipena/jadwal.png"),
+            warna: color.menuBlue,
+            page: "ListJadwal"
+        },
+        {
+            name: "Absen Siswa",
+            image: require("../assets/sipena/absen.png"),
+            warna: color.menuGreen,
+            page: "ListAbsen"
+        },
+        {
+            name: "Keuangan",
+            image: require("../assets/sipena/Frame.png"),
+            warna: color.menuPurple,
+            page: "ListKeuangan"
+        },
+        {
+            name: "Rapot",
+            image: require("../assets/sipena/rapot.png"),
+            warna: color.menuYellow,
+            page: "ListRaport"
+        },
+        {
+            name: "Pinjam Fasilitas",
+            image: require("../assets/sipena/pinjam.png"),
+            warna: color.menuOrange,
+            page: "ListPinjamFasilitas"
+        },
+        {
+            name: "Perpustakaan",
+            image: require("../assets/sipena/perpus.png"),
+            warna: color.menuBlueOrca,
+            page: "ListPerpustakaan"
+        },
+        {
+            name: "Koperasi Sekolah",
+            image: require("../assets/sipena/koperasi.png"),
+            warna: color.menuBrown,
+            // page: "ListKoperasi"
+            page: "QrCodeKoperasi"
+        },
+        {
+            name: "Kantin",
+            image: require("../assets/sipena/kantin.png"),
+            warna: color.menuGreen,
+            page: "QrCodeKantin"
+        },
+        {
+            name: "Osis",
+            image: require("../assets/sipena/osis.png"),
+            warna: color.menuBlue,
+            page: "ListOsis"
+        },
+        {
+            name: "Ekstrakulikuler",
+            image: require("../assets/sipena/ekstra.png"),
+            warna: color.menuRed,
+            page: "ListEkstrakulikuler"
+        },
+    ]
+
+    const guruWali = [
+        {
+            name: "Jadwal",
+            image: require("../assets/sipena/jadwal.png"),
+            warna: color.menuBlue,
+            page: "ListJadwal"
+        },
+        {
+            name: "Absen Siswa",
+            image: require("../assets/sipena/absen.png"),
+            warna: color.menuGreen,
+            page: "ListAbsen"
+        },
+        {
+            name: "Keuangan",
+            image: require("../assets/sipena/Frame.png"),
+            warna: color.menuPurple,
+            page: "ListKeuangan"
+        },
+        {
+            name: "Rapot",
+            image: require("../assets/sipena/rapot.png"),
+            warna: color.menuYellow,
+            page: "ListRaport"
+        },
+        {
+            name: "Perpustakaan",
+            image: require("../assets/sipena/perpus.png"),
+            warna: color.menuBlueOrca,
+            page: "ListPerpustakaan"
+        },
+        {
+            name: "Koperasi Sekolah",
+            image: require("../assets/sipena/koperasi.png"),
+            warna: color.menuBrown,
+            // page: "ListKoperasi"
+            page: "QrCodeKoperasi"
+        },
+        {
+            name: "Kantin",
+            image: require("../assets/sipena/kantin.png"),
+            warna: color.menuGreen,
+            page: "QrCodeKantin"
+        },
+        {
+            name: "Ekstrakulikuler",
+            image: require("../assets/sipena/ekstra.png"),
+            warna: color.menuRed,
+            page: "ListEkstrakulikuler"
+        },
+    ]
+
+
     return (
         <View style={styles.container}>
             <StatusBar backgroundColor={color.primary} barStyle='light-content' />
@@ -107,26 +227,82 @@ export default function DashboardSemuaList(props) {
                     <View style={{ height: 20 }} />
                     <View style={{ flexDirection: 'column', paddingHorizontal: 20 }}>
                         {
-                            data.map((item, ilist) => {
-                                return (
-                                    <>
-                                        <TouchableOpacity activeOpacity={1} onPress={() => {
-                                            if (item.page != "") {
-                                                navigation.navigate(item.page)
-                                            }
-                                        }} style={styles.menuChild}>
-                                            <View style={[styles.menuIcon, {
-                                                backgroundColor: item.warna,
-                                            }]}>
-                                                <Image source={item.image} style={{ width: 18, height: 18 }} />
-                                            </View>
-                                            <View style={{ width: 20 }} />
-                                            <Text style={{ textAlign: 'center', fontSize: 12, fontFamily: fonts.inter, flex: 1, textAlign: 'left' }}>{item.name}</Text>
-                                        </TouchableOpacity>
-                                        <View style={styles.underline} />
-                                    </>
-                                )
-                            })
+                            user.role_id == RoleResponse.siswa && (
+                                data.map((item, ilist) => {
+                                    return (
+                                        <>
+                                            <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                if (item.page != "") {
+                                                    navigation.navigate(item.page)
+                                                }
+                                            }} style={styles.menuChild}>
+                                                <View style={[styles.menuIcon, {
+                                                    backgroundColor: item.warna,
+                                                }]}>
+                                                    <Image source={item.image} style={{ width: 18, height: 18 }} />
+                                                </View>
+                                                <View style={{ width: 20 }} />
+                                                <Text style={{ textAlign: 'center', fontSize: 12, fontFamily: fonts.inter, flex: 1, textAlign: 'left' }}>{item.name}</Text>
+                                            </TouchableOpacity>
+                                            <View style={styles.underline} />
+                                        </>
+                                    )
+                                })
+                            )
+                        }
+                        {
+                            user.role_id == RoleResponse.guru && (
+                                <>
+                                    {
+                                        user.data.is_walikelas == "Y" && (
+                                            guruWali.map((item, iMenu) => {
+                                                return (
+                                                    <>
+                                                        <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                            if (item.page != "") {
+                                                                navigation.navigate(item.page)
+                                                            }
+                                                        }} style={styles.menuChild}>
+                                                            <View style={[styles.menuIcon, {
+                                                                backgroundColor: item.warna,
+                                                            }]}>
+                                                                <Image source={item.image} style={{ width: 18, height: 18 }} />
+                                                            </View>
+                                                            <View style={{ width: 20 }} />
+                                                            <Text style={{ textAlign: 'center', fontSize: 12, fontFamily: fonts.inter, flex: 1, textAlign: 'left' }}>{item.name}</Text>
+                                                        </TouchableOpacity>
+                                                        <View style={styles.underline} />
+                                                    </>
+                                                )
+                                            })
+                                        )
+                                    }
+                                    {
+                                        user.data.is_walikelas != "Y" && (
+                                            guru.map((item, iMenu) => {
+                                                return (
+                                                    <>
+                                                        <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                            if (item.page != "") {
+                                                                navigation.navigate(item.page)
+                                                            }
+                                                        }} style={styles.menuChild}>
+                                                            <View style={[styles.menuIcon, {
+                                                                backgroundColor: item.warna,
+                                                            }]}>
+                                                                <Image source={item.image} style={{ width: 18, height: 18 }} />
+                                                            </View>
+                                                            <View style={{ width: 20 }} />
+                                                            <Text style={{ textAlign: 'center', fontSize: 12, fontFamily: fonts.inter, flex: 1, textAlign: 'left' }}>{item.name}</Text>
+                                                        </TouchableOpacity>
+                                                        <View style={styles.underline} />
+                                                    </>
+                                                )
+                                            })
+                                        )
+                                    }
+                                </>
+                            )
                         }
                     </View>
                 </ScrollView>
