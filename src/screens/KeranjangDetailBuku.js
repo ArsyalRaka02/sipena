@@ -7,12 +7,19 @@ import { useNavigation } from '@react-navigation/native'
 import TextInputIcon from '../components/TextInputIcon'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { fonts } from '../utils/fonts'
+import { useSelector } from 'react-redux'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height
 const SCREEN_WIDTH = Dimensions.get("window").width
 
 export default function KeranjangDetailBuku(props) {
     const navigation = useNavigation()
+    const list = useSelector(state => state.setSimpanBuku);
+
+    const btnSave = useCallback(() => {
+
+    })
+
     return (
         <>
             <SafeAreaView style={styles.container}>
@@ -24,7 +31,16 @@ export default function KeranjangDetailBuku(props) {
                     <Text style={styles.txtHeader}>Pinjam Buku</Text>
                 </HeaderBack>
                 <View style={{ padding: 20, flex: 1 }}>
-
+                    {
+                        list != false && (
+                            list.map((item) => {
+                                return (
+                                    <>
+                                    </>
+                                )
+                            })
+                        )
+                    }
                 </View>
             </SafeAreaView>
         </>
@@ -41,7 +57,7 @@ const styles = {
         color: color.white,
         fontFamily: fonts.interBold,
     },
-    
+
     txtGlobal: { fontSize: 13, fontFamily: fonts.inter },
     txtGlobalBold: { fontSize: 15, fontFamily: fonts.interBold },
 }

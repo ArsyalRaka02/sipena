@@ -48,3 +48,10 @@ export const setLockScreen = (payload) => (dispatch) => {
         payload,
     });
 };
+
+export const setSimpanBuku = (payload) => (dispatch) => {
+    dispatch({
+        type: types.SET_SIMPAN_BUKU,
+        payload
+    })
+}

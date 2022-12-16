@@ -10,11 +10,15 @@ import { fonts } from '../utils/fonts'
 import Button from '../components/Button'
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
 import app from '../config/app'
+import { useDispatch } from 'react-redux'
+import { setSimpanBuku } from '../store/actions'
+import Toast from '../components/Toast'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height
 const SCREEN_WIDTH = Dimensions.get("window").width
 
 export default function DetailPerpustakaan(props) {
+    const dispatch = useDispatch();
     const navigation = useNavigation()
 
     const { params } = props.route.params
@@ -22,6 +26,13 @@ export default function DetailPerpustakaan(props) {
     useEffect(() => {
 
     }, [params])
+
+    const btnSave = useCallback(() => {
+        let arr = []
+        arr.push(params)
+        dispatch(setSimpanBuku(arr));
+        Toast.showSuccess("Berhasil simpan buku di keranjang")
+    }, [])
 
     return (
         <>
@@ -71,13 +82,15 @@ export default function DetailPerpustakaan(props) {
                         </View>
                     </ScrollView>
                     <View style={{ flexDirection: 'row', paddingHorizontal: 20, paddingVertical: 10, backgroundColor: color.white }}>
-                        <View style={{ backgroundColor: color.primaryRGBA, paddingHorizontal: 20, paddingVertical: 16, borderRadius: 12, marginRight: 12, alignItems: 'center', justifyContent: 'center' }}>
+                        <TouchableOpacity activeOpacity={1} onPress={() => {
+                            navigation.navigate("KeranjangDetailBuku")
+                        }} style={{ backgroundColor: color.primaryRGBA, paddingHorizontal: 20, paddingVertical: 16, borderRadius: 12, marginRight: 12, alignItems: 'center', justifyContent: 'center' }}>
                             <SimpleLineIcons name="handbag" size={18} color={color.primary} style={{ alignSelf: 'center' }} />
-                        </View>
+                        </TouchableOpacity>
                         <Button
                             style={{ flex: 1 }}
                             onPress={() => {
-                                navigation.navigate("KeranjangDetailBuku")
+                                btnSave()
                             }}
                         >
                             Pinjam Buku

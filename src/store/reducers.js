@@ -60,3 +60,11 @@ export function isScreenLocked(state = false, action) {
 
     return state;
 }
+
+export function setSimpanBuku(state = false, action) {
+    if (action.type == types.SET_SIMPAN_BUKU) {
+        return action.payload;
+    }
+
+    return state
+}
