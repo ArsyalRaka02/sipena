@@ -73,6 +73,7 @@ import ListAbsenPegawai from "../screens/ListAbsenPegawai";
 import DetailAbsen from "../screens/DetailAbsen";
 import ListTotalKehadiran from "../screens/ListTotalKehadiran";
 import IsiSaldoUniversal from "../screens/IsiSaldoUniversal";
+import EditKegiatanOsis from "../screens/EditKegiatanOsis";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -145,6 +146,7 @@ const DashboardStack = () => {
             <Stack.Screen name="EditKartuPelajarTU" component={EditKartuPelajarTU} />
 
             <Stack.Screen name="ListAbsenPegawai" component={ListAbsenPegawai} />
+            <Stack.Screen name="EditKegiatanOsis" component={EditKegiatanOsis} />
 
 
             {/* kepalasekolah */}

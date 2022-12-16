@@ -261,6 +261,12 @@ export const HttpRequest = {
     },
     deletedOsis(id) {
         return request().delete('/kegiatan-osis/' + id)
+    },
+    inssertOsis(data) {
+        return request().post("/kegiatan-osis", data)
+    },
+    updateOsis(data) {
+        return request().post("/kegiatan-osis", data)
     }
 
 
