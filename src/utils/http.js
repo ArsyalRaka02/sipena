@@ -125,6 +125,9 @@ export const HttpRequest = {
     kehilanganBuku() {
         return request().get("/kehilangan-buku")
     },
+    insertKehilanganBuku(data) {
+        return request().post("/kehilangan-buku", data)
+    },
     kategoriBuku() {
         return request().get("/kategori-buku")
     },
