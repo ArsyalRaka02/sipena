@@ -30,6 +30,8 @@ export default function Dashboard(props) {
 
     const [listJadwal, setListJadwal] = useState([])
     const [listBerita, setListBerita] = useState([])
+    const [listKantin, setListKantin] = useState([])
+    const [listPerpus, setListPerpus] = useState([])
     const [listPeminjamanFasilitas, setListPeminjamanFasilitas] = useState([])
     const [detail, setDetail] = useState({})
 
@@ -359,34 +361,34 @@ export default function Dashboard(props) {
             console.log("ini adalah res kantin", res.data)
             let data = res.data
             if (data.status == responseStatus.INSERT_SUKSES) {
-                setListJadwal(res.data.data)
+                setListKantin(res.data.data)
             }
             if (data.status == responseStatus.INSERT_GAGAL) {
                 Toast.showError("Error: " + `${res.data.message}`)
-                setListJadwal([])
+                setListKantin([])
             }
         }).catch((err) => {
             Toast.showError("Server Err: ")
             console.log("err kantin", err, err.response)
         })
-    }, [])
+    }, [listKantin])
 
     const loadTransaksiPerpus = useCallback(() => {
         HttpRequest.pinjamBuku().then((res) => {
             console.log("ini adalah perpus", res.data)
             let data = res.data
             if (data.status == responseStatus.INSERT_SUKSES) {
-                setListJadwal(res.data.data)
+                setListPerpus(res.data.data)
             }
             if (data.status == responseStatus.INSERT_GAGAL) {
                 Toast.showError("Error: " + `${res.data.message}`)
-                setListJadwal([])
+                setListPerpus([])
             }
         }).catch((err) => {
             Toast.showError("Server Err: ")
             console.log("err perpus", err, err.response)
         })
-    }, [])
+    }, [listPerpus])
 
     const loadListJadwal = useCallback(() => {
         HttpRequest.listJadwalKelas(user.data.kelas_id).then((res) => {
@@ -487,6 +489,22 @@ export default function Dashboard(props) {
             console.log("gagal delete fasilitas ", err, err.response)
         })
     }, [listPeminjamanFasilitas])
+
+    const btnDeleteTransaksiKantin = useCallback((value) => {
+        HttpRequest.deletedKantin(value).then((res) => {
+            let status = res.data.status
+            if (status == responseStatus.INSERT_SUKSES) {
+                Toast.showSuccess("Berhasil Hapus Transaksi")
+                loadTransaksiKantin()
+            }
+            if (status == responseStatus.INSERT_GAGAL) {
+                Toast.showError("gagal hapus" + `${result.message}`)
+            }
+        }).catch((err) => {
+            Toast.showError("Server Error: ")
+            console.log("gagal delete fasilitas ", err, err.response)
+        })
+    }, [listKantin])
 
     const loadProfile = useCallback(() => {
         let id = user.id
@@ -877,9 +895,13 @@ export default function Dashboard(props) {
                                                         <Text style={[styles.txtGlobal, { color: "#75B4FF" }]}>Selengkapnya</Text>
                                                     </TouchableOpacity>
                                                 </View>
-
                                                 {
-                                                    listJadwal.map((item, iKantin) => {
+                                                    listKantin.length == 0 && (
+                                                        <NoData>Tidak ada transaksi</NoData>
+                                                    )
+                                                }
+                                                {
+                                                    listKantin.map((item, iKantin) => {
                                                         if (iKantin < 3) {
                                                             return (
                                                                 <>
@@ -904,7 +926,9 @@ export default function Dashboard(props) {
                                                                                 <Text style={[styles.txtBoldGlobal, { color: color.primary, fontSize: 14 }]}>Edit</Text>
                                                                             </TouchableOpacity>
                                                                             <View style={{ flex: 1 }} />
-                                                                            <TouchableOpacity>
+                                                                            <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                                                btnDeleteTransaksiKantin(item.id)
+                                                                            }}>
                                                                                 <Text style={[styles.txtBoldGlobal, { color: color.danger, fontSize: 14 }]}>Hapus</Text>
                                                                             </TouchableOpacity>
                                                                         </View>

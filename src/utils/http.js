@@ -290,6 +290,10 @@ export const HttpRequest = {
 
     insertActivePPDB(id) {
         return request().get("/ppdb?is_active=" + id)
+    },
+
+    deletedKantin(id) {
+        return request().delete('/transaksi-kantin/' + id)
     }
 
 };
