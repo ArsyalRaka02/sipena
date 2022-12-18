@@ -347,7 +347,7 @@ export default function Dashboard(props) {
                 if (user.data.is_perpus == "Y") {
                     loadTransaksiPerpus()
                 }
-                if (user.data.is_koperasi == "Y") {
+                if (user.data.is_tata_usaha == "Y") {
                     loadPinjamanFasilitas()
                 }
             }
@@ -425,15 +425,14 @@ export default function Dashboard(props) {
     const loadBerita = useCallback(async () => {
         try {
             let data = await HttpRequest.listBerita("kelas")
-            let result = data.data.data
             let status = data.data.status
             if (status == responseStatus.INSERT_SUKSES) {
-                setListBerita(result)
+                setListBerita(data.data.data)
             }
             if (status == responseStatus.INSERT_GAGAL) {
                 setListBerita([])
             }
-            console.log("res", result)
+            // console.log("res", result)
         } catch (error) {
             console.log("ini adalah list beita", error)
         }
@@ -455,19 +454,16 @@ export default function Dashboard(props) {
         })
     }, [listJadwal])
 
-
     const loadPinjamanFasilitas = useCallback(async () => {
         try {
             let data = await HttpRequest.listPinjamFasilitas(1)
-            let result = data.data.data
             let status = data.data.status
             if (status == responseStatus.INSERT_SUKSES) {
-                setListPeminjamanFasilitas(result)
+                setListPeminjamanFasilitas(data.data.data)
             }
             if (status == responseStatus.INSERT_GAGAL) {
                 setListPeminjamanFasilitas([])
             }
-            console.log("res", result)
         } catch (error) {
             console.log("ini adalah list beita", error)
         }
@@ -475,7 +471,7 @@ export default function Dashboard(props) {
 
     const btnDeleteFasilitas = useCallback((value) => {
         HttpRequest.deletedPinjamanFasilitas(value).then((res) => {
-            let result = res.data
+            // let result = res.data
             let status = res.data.status
             if (status == responseStatus.INSERT_SUKSES) {
                 Toast.showSuccess("Berhasil Akhiri Peminjaman")
@@ -484,7 +480,7 @@ export default function Dashboard(props) {
             if (status == responseStatus.INSERT_GAGAL) {
                 Toast.showError("gagal hapus" + `${result.message}`)
             }
-            console.log("suske", result)
+            // console.log("suske", result)
             // setListPeminjamanFasilitas(result)
         }).catch((err) => {
             Toast.showError("Server Error: ")

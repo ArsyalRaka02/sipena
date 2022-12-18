@@ -18,6 +18,7 @@ import { setUser } from "../store/actions"
 import TextInputIcon from "../components/TextInputIcon";
 import { fonts } from "../utils/fonts"
 import responseStatus from "../utils/responseStatus";
+import RoleResponse from "../utils/RoleResponse";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
@@ -33,19 +34,40 @@ export default function Login({ navigation }) {
         let data = { username, password };
         HttpRequest.login(data).then((res) => {
             let result = res.data
-            if (result.status == responseStatus.INSERT_SUKSES) {
-                Toast.showSuccess("Berhasil Login")
-                dispatch(setUser(res.data.data));
+            if (result.data.role_id == RoleResponse.admin) {
+                Toast.showError("Admin tidak boleh akses disini!!")
+                setLoading(false);
+            } else if (result.data.role_id == RoleResponse.pegawai) {
+                if (result.data.data.is_koperasi == "Y") {
+                    Toast.showError("Koperasi tidak bisa akses disini!!")
+                } else {
+                    if (result.status == responseStatus.INSERT_SUKSES) {
+                        Toast.showSuccess("Berhasil Login")
+                        dispatch(setUser(res.data.data));
+                    }
+                    if (result.status == responseStatus.INSERT_GAGAL) {
+                        Toast.showError("Email/Password Salah")
+                    }
+                    setLoading(false);
+                }
+                setLoading(false);
+            } else {
+                if (result.status == responseStatus.INSERT_SUKSES) {
+                    Toast.showSuccess("Berhasil Login")
+                    dispatch(setUser(res.data.data));
+                }
+                if (result.status == responseStatus.INSERT_GAGAL) {
+                    Toast.showError("Email/Password Salah")
+                }
+                setLoading(false);
             }
-            if (result.status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("Email/Password Salah")
-            }
-            console.log("ini adalah result", result)
-            setLoading(false);
+
+            console.log("ini adalah result", result.data.role_id)
+            // setLoading(false);
         }).catch((err) => {
-            console.log(err, err.response);
-            Toast.showError(err.response.data.message);
             setLoading(false);
+            Toast.showError("Email/Password Salah")
+            console.log(err, err.response);
         });
     }, [username, password]);
 
