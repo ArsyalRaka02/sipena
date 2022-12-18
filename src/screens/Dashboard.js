@@ -110,17 +110,17 @@ export default function Dashboard(props) {
             name: "Kantin",
             image: require("../assets/sipena/kantin.png"),
             warna: color.menuGreen,
-            page: "QrCodeKantin"
+            page: "KantinMenu"
         },
     ]
 
     const dataTU = [
-        {
-            name: "Jadwal",
-            image: require("../assets/sipena/jadwal.png"),
-            warna: color.menuBlue,
-            page: "ListJadwalMenu"
-        },
+        // {
+        //     name: "Jadwal",
+        //     image: require("../assets/sipena/jadwal.png"),
+        //     warna: color.menuBlue,
+        //     page: "ListJadwalMenu"
+        // },
         {
             name: "Tata usaha",
             image: require("../assets/sipena/TU.png"),
@@ -163,6 +163,40 @@ export default function Dashboard(props) {
             image: require("../assets/sipena/perpus.png"),
             warna: color.menuBlueOrca,
             page: "ListPerpustakaan"
+        },
+    ]
+
+    const dataPerpus = [
+        {
+            name: "Absen",
+            image: require("../assets/sipena/user33.png"),
+            warna: color.menuRed,
+            page: "ListAbsenPegawai"
+        },
+        {
+            name: "Perpustakaan",
+            image: require("../assets/sipena/perpus.png"),
+            warna: color.menuBlueOrca,
+            page: "ListPerpustakaan"
+        },
+        {
+            name: "Keuangan",
+            image: require("../assets/sipena/Frame.png"),
+            warna: color.menuPurple,
+            page: "ListKeuangan"
+        },
+        {
+            name: "Kantin",
+            image: require("../assets/sipena/kantin.png"),
+            warna: color.menuGreen,
+            page: "QrCodeKantin"
+        },
+        {
+            name: "Koperasi Sekolah",
+            image: require("../assets/sipena/koperasi.png"),
+            warna: color.menuBrown,
+            // page: "ListKoperasi"
+            page: "QrCodeKoperasi"
         },
     ]
 
