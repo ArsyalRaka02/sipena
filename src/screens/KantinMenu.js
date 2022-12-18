@@ -11,6 +11,24 @@ import { fonts } from '../utils/fonts'
 const SCREEN_HEIGHT = Dimensions.get("window").height
 const SCREEN_WIDTH = Dimensions.get("window").width
 
+const menu = [
+    {
+        name: 'Laporan Penjualan',
+        icon: "reader-outline",
+        page: "LaporanPenjualanKantin"
+    },
+    {
+        name: 'Transaksi',
+        icon: "reader-outline",
+        page: "ListTransaksiKantin"
+    },
+    {
+        name: 'QRCode',
+        icon: "reader-outline",
+        page: "ScreenScanQRCode"
+    },
+]
+
 export default function KantinMenu(props) {
     const navigation = useNavigation()
     return (
@@ -21,10 +39,24 @@ export default function KantinMenu(props) {
                         navigation.goBack()
                     }}
                 >
-                    <Text style={styles.txtHeader}>Transaksi</Text>
+                    <Text style={styles.txtHeader}>Kantin</Text>
                 </HeaderBack>
                 <View style={{ padding: 20, flex: 1 }}>
-
+                    {
+                        menu.map((item, iMenu) => {
+                            return (
+                                <>
+                                    <TouchableOpacity activeOpacity={1} onPress={() => {
+                                        navigation.navigate(item.page)
+                                    }} style={{ flexDirection: 'row', paddingVertical: 16, paddingHorizontal: 20, borderRadius: 12, backgroundColor: color.white }}>
+                                        <Ionicons name={item.icon} size={24} color={color.primary} />
+                                        <Text style={[styles.txtGlobalBold, { marginLeft: 12, color: color.black }]}>{item.name}</Text>
+                                    </TouchableOpacity>
+                                    <View style={{ height: 20 }} />
+                                </>
+                            )
+                        })
+                    }
                 </View>
             </SafeAreaView>
         </>

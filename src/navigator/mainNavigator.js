@@ -76,6 +76,7 @@ import IsiSaldoUniversal from "../screens/IsiSaldoUniversal";
 import EditKegiatanOsis from "../screens/EditKegiatanOsis";
 import Notification from "../screens/Notification";
 import ListAbsenGuru from "../screens/ListAbsenGuru";
+import LaporanPenjualanKantin from "../screens/LaporanPenjualanKantin";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -159,6 +160,7 @@ const DashboardStack = () => {
             {/* kantin */}
             <Stack.Screen name="ListTransaksiKantin" component={ListTransaksiKantin} />
             <Stack.Screen name="KantinMenu" component={KantinMenu} />
+            <Stack.Screen name="LaporanPenjualanKantin" component={LaporanPenjualanKantin} />
             <Stack.Screen name="WithDrawKantin" component={WithDrawKantin} />
             <Stack.Screen name="TransaksiTambahKantin" component={TransaksiTambahKantin} />
             <Stack.Screen name="TransaksiEditKantin" component={TransaksiEditKantin} />
