@@ -231,6 +231,9 @@ export const HttpRequest = {
     editKantin(id, keterangan) {
         return request().post("/transaksi-kantin?id=" + id + "&keterangan=" + keterangan)
     },
+    tambahKantin(data) {
+        return request().post("/transaksi-kantin", data)
+    },
     deletedKantin(id) {
         return request().delete("/transaksi-kantin/" + id)
     },
@@ -294,6 +297,10 @@ export const HttpRequest = {
 
     deletedKantin(id) {
         return request().delete('/transaksi-kantin/' + id)
+    },
+
+    withdrawKantin(data) {
+        return request().post("/withdraw", data)
     }
 
 };
