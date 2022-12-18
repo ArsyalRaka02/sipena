@@ -17,6 +17,7 @@ import responseStatus from '../utils/responseStatus';
 import Toast from '../components/Toast';
 import { useDispatch, useSelector } from 'react-redux';
 import RoleResponse from '../utils/RoleResponse';
+import Rupiah from '../utils/Rupiah'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
@@ -93,12 +94,12 @@ export default function Dashboard(props) {
     ]
 
     const dataKantin = [
-        {
-            name: "Perpustakaan",
-            image: require("../assets/sipena/perpus.png"),
-            warna: color.menuBlueOrca,
-            page: "ListPerpustakaan"
-        },
+        // {
+        //     name: "Perpustakaan",
+        //     image: require("../assets/sipena/perpus.png"),
+        //     warna: color.menuBlueOrca,
+        //     page: "ListPerpustakaan"
+        // },
         {
             name: "Koperasi Sekolah",
             image: require("../assets/sipena/koperasi.png"),
@@ -327,28 +328,65 @@ export default function Dashboard(props) {
     ]
 
     useEffect(() => {
-        loadBerita()
-        loadProfile()
-        loadPinjamanFasilitas()
-        if (user.role_id == RoleResponse.guru) {
-            loadListJadwalGuru()
+        if (isFocused) {
+            loadBerita()
+            loadProfile()
+            if (user.role_id == RoleResponse.guru) {
+                loadListJadwalGuru()
+            }
+            if (user.role_id == RoleResponse.siswa) {
+                loadListJadwal()
+            }
+            if (user.role_id == RoleResponse.walimurid) {
+                loadJadwalSekolah()
+            }
+            if (user.role_id == RoleResponse.pegawai) {
+                if (user.data.is_kantin == "Y") {
+                    loadTransaksiKantin()
+                }
+                if (user.data.is_perpus == "Y") {
+                    loadTransaksiPerpus()
+                }
+                if (user.data.is_koperasi == "Y") {
+                    loadPinjamanFasilitas()
+                }
+            }
         }
-        if (user.role_id == RoleResponse.siswa) {
-            loadListJadwal()
-        }
-        if (user.role_id == RoleResponse.walimurid) {
-            loadJadwalSekolah()
-        }
-    }, [user])
+    }, [user, isFocused])
 
-    // useEffect(() => {
-    //     if (user.roleid == RoleResponse.pegawai) {
-    //         return loadPinjamanFasilitas()
-    //     }
-    //     if (user.roleid != RoleResponse.pegawai) {
-    //         return loadListJadwal()
-    //     }
-    // }, [])
+    const loadTransaksiKantin = useCallback(() => {
+        HttpRequest.getListTransaksiKantin().then((res) => {
+            console.log("ini adalah res kantin", res.data)
+            let data = res.data
+            if (data.status == responseStatus.INSERT_SUKSES) {
+                setListJadwal(res.data.data)
+            }
+            if (data.status == responseStatus.INSERT_GAGAL) {
+                Toast.showError("Error: " + `${res.data.message}`)
+                setListJadwal([])
+            }
+        }).catch((err) => {
+            Toast.showError("Server Err: ")
+            console.log("err kantin", err, err.response)
+        })
+    }, [])
+
+    const loadTransaksiPerpus = useCallback(() => {
+        HttpRequest.pinjamBuku().then((res) => {
+            console.log("ini adalah perpus", res.data)
+            let data = res.data
+            if (data.status == responseStatus.INSERT_SUKSES) {
+                setListJadwal(res.data.data)
+            }
+            if (data.status == responseStatus.INSERT_GAGAL) {
+                Toast.showError("Error: " + `${res.data.message}`)
+                setListJadwal([])
+            }
+        }).catch((err) => {
+            Toast.showError("Server Err: ")
+            console.log("err perpus", err, err.response)
+        })
+    }, [])
 
     const loadListJadwal = useCallback(() => {
         HttpRequest.listJadwalKelas(user.data.kelas_id).then((res) => {
@@ -844,27 +882,43 @@ export default function Dashboard(props) {
                                                     </TouchableOpacity>
                                                 </View>
 
-                                                <View style={[{ flexDirection: 'column', backgroundColor: color.white, padding: 18, borderRadius: 8 }]}>
-                                                    <View style={{ flexDirection: 'row' }}>
-                                                        <Text style={[styles.txtBoldGlobal, { color: color.black, flex: 1 }]}>Nama</Text>
-                                                    </View>
-                                                    <View style={{ flexDirection: 'row', marginVertical: 8 }}>
-                                                        <View style={{ flexDirection: "row", flex: 1 }}>
-                                                            <Text style={[styles.txtGlobal]}>Nominal : </Text>
-                                                            <Text style={[styles.txtBoldGlobal, { fontSize: 14, color: color.black }]}>-</Text>
-                                                        </View>
-                                                        <View style={{ flexDirection: "row", flex: 1 }}>
-                                                            <Text style={[styles.txtGlobal]}>Pembeli : </Text>
-                                                            <Text style={[styles.txtBoldGlobal, { fontSize: 14, color: color.black }]}>-</Text>
-                                                        </View>
-                                                    </View>
-                                                    <View style={{ flexDirection: 'row' }}>
-                                                        <Text style={[styles.txtBoldGlobal, { color: color.primary, fontSize: 14 }]}>Edit</Text>
-                                                        <View style={{ flex: 1 }} />
-                                                        <Text style={[styles.txtBoldGlobal, { color: color.danger, fontSize: 14 }]}>Hapus</Text>
-                                                    </View>
-                                                </View>
-                                                <View style={{ height: 20 }} />
+                                                {
+                                                    listJadwal.map((item, iKantin) => {
+                                                        if (iKantin < 3) {
+                                                            return (
+                                                                <>
+                                                                    <View style={[{ flexDirection: 'column', backgroundColor: color.white, padding: 18, borderRadius: 8 }]}>
+                                                                        <View style={{ flexDirection: 'row' }}>
+                                                                            <Text style={[styles.txtBoldGlobal, { color: color.black, flex: 1 }]}>{item.keterangan}</Text>
+                                                                        </View>
+                                                                        <View style={{ flexDirection: 'row', marginVertical: 8 }}>
+                                                                            <View style={{ flexDirection: "row", flex: 1 }}>
+                                                                                <Text style={[styles.txtGlobal]}>Nominal : </Text>
+                                                                                <Text style={[styles.txtBoldGlobal, { fontSize: 14, color: color.black }]}>{Rupiah.format(item.harga_total)}</Text>
+                                                                            </View>
+                                                                            <View style={{ flexDirection: "row", flex: 1 }}>
+                                                                                <Text style={[styles.txtGlobal]}>Pembeli : </Text>
+                                                                                <Text style={[styles.txtBoldGlobal, { fontSize: 14, color: color.black }]}>{item.nama_pembeli}</Text>
+                                                                            </View>
+                                                                        </View>
+                                                                        <View style={{ flexDirection: 'row' }}>
+                                                                            <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                                                navigation.navigate("TransaksiEditKantin", { params: item })
+                                                                            }}>
+                                                                                <Text style={[styles.txtBoldGlobal, { color: color.primary, fontSize: 14 }]}>Edit</Text>
+                                                                            </TouchableOpacity>
+                                                                            <View style={{ flex: 1 }} />
+                                                                            <TouchableOpacity>
+                                                                                <Text style={[styles.txtBoldGlobal, { color: color.danger, fontSize: 14 }]}>Hapus</Text>
+                                                                            </TouchableOpacity>
+                                                                        </View>
+                                                                    </View>
+                                                                    <View style={{ height: 20 }} />
+                                                                </>
+                                                            )
+                                                        }
+                                                    })
+                                                }
                                             </>
                                         )
                                     }
