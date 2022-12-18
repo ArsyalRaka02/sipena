@@ -125,7 +125,7 @@ export default function HeaderTablet(props) {
                             user.role_id != RoleResponse.admin && (
                                 <>
                                     <Text {...props} numberOfLines={1} style={props.textProfile}>{detail.nama_lengkap}</Text>
-                                    <Text {...props} style={props.textAlamat}>{detail.phone}</Text>
+                                    <Text {...props} style={props.textAlamat}>Role: {user.rolenama} </Text>
                                 </>
                             )
                         }
