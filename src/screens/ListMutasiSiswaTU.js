@@ -9,6 +9,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { fonts } from '../utils/fonts'
 import { HttpRequest } from '../utils/http'
 import Toast from '../components/Toast'
+import NoData from '../components/NoData'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height
 const SCREEN_WIDTH = Dimensions.get("window").width
@@ -56,10 +57,19 @@ export default function ListMutasiSiswaTU(props) {
                 <View style={{ padding: 20, flex: 1 }}>
                     <ScrollView>
                         {
+                            list.length == 0 && (
+                                <>
+                                    <NoData>Tidak ada data</NoData>
+                                </>
+                            )
+                        }
+                        {
                             list.map((item, iTem) => {
                                 return (
                                     <>
-                                        <View style={{ backgroundColor: color.white, padding: 20, borderRadius: 12 }}>
+                                        <TouchableOpacity onPress={() => {
+                                            navigation.navigate("ListMutasiSiswaDetailTU", { params: item.id })
+                                        }} style={{ backgroundColor: color.white, padding: 20, borderRadius: 12 }}>
                                             <Text style={[styles.txtGlobalBold, { color: color.black }]}>{item.nama_lengkap}</Text>
                                             <View style={{ flexDirection: 'row', marginVertical: 10 }}>
                                                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -72,12 +82,15 @@ export default function ListMutasiSiswaTU(props) {
                                                     <Text>{item.nisn ?? "-"}</Text>
                                                 </View>
                                             </View>
-                                            <TouchableOpacity activeOpacity={1} onPress={() => {
-                                                Delete(item.id)
-                                            }} style={{ marginVertical: 12 }} >
-                                                <Text style={[styles.txtGlobalBold, { color: color.danger, textAlign: 'right' }]}>Delete</Text>
-                                            </TouchableOpacity>
-                                        </View>
+                                            <View style={{ flexDirection: 'row' }}>
+                                                <View style={{ flex: 1 }} />
+                                                <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                    Delete(item.id)
+                                                }} style={{ marginVertical: 12, padding: 4 }} >
+                                                    <Text style={[styles.txtGlobalBold, { color: color.danger, textAlign: 'right' }]}>Delete</Text>
+                                                </TouchableOpacity>
+                                            </View>
+                                        </TouchableOpacity>
                                         <View style={{ height: 20 }} />
                                     </>
                                 )

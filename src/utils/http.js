@@ -57,6 +57,11 @@ export const HttpRequest = {
     mutasiSiswaPost(data) {
         return requestTypeFormData().post("/simpanmutasisiswa", data)
     },
+
+    mutasiSiswaById(id) {
+        return request().get("/editmutasisiswa?id=" + id)
+    },
+
     listMutasiSiswa() {
         return request().get("/iistmutasisiswa")
     },
@@ -280,6 +285,11 @@ export const HttpRequest = {
     },
     getNotifikasi(id) {
         return request().get("/get-notifikasi?user_id=" + id)
+    },
+
+
+    insertActivePPDB(id) {
+        return request().get("/ppdb?is_active=" + id)
     }
 
 };

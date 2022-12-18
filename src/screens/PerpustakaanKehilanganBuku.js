@@ -79,12 +79,12 @@ export default function PerpustakaanKehilanganBuku(props) {
             return Toast.showError("harap pilih buku hilang terlebih dahulu")
         }
         if (detail.saldo < 50000) {
-            return Toast.showError("Maaf Saldo tidak mencukupi")
+            return Toast.showError("Maaf Saldo kurang dari Rp. 50.000,-")
         }
         let data = {
             user_id: user.data.id,
             perpus_katalog_id: selectedBuku,
-            nominal: detail.saldo
+            nominal: 50000
         }
         setIsLoading(true)
         // console.log("deta", detail.saldo)
