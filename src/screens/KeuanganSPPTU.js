@@ -24,6 +24,7 @@ export default function KeuanganSPPTU(props) {
     const loadList = useCallback(() => {
         HttpRequest.listKeuanganSpp().then((res) => {
             setListData(res.data)
+            console.log("ini ers keuangan", res.data)
         }).catch((err) => {
             Toast.showError("Server Err")
         })
