@@ -88,7 +88,7 @@ export default function HeaderTablet(props) {
             <SafeAreaView style={{ backgroundColor: color.primary }} />
             <View style={{ backgroundColor: color.primary, height: SCREEN_HEIGHT / 4 }}>
                 <View style={styles.container}>
-                    <TouchableOpacity activeOpacity={1} onPress={props.iconProfile} style={styles.containerProfile}>
+                    <TouchableOpacity activeOpacity={1} onPress={props.iconProfile} style={[styles.containerProfile, { overflow: 'hidden' }]}>
                         {/* <Image source={{ uri: app.BASE_URL_PICTURE + detail.foto_profil }} style={{ height: "100%", width: "100%" }} resizeMode="cover" /> */}
                         {
                             user.role_id == RoleResponse.siswa && (
