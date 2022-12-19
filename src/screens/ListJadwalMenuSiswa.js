@@ -27,7 +27,7 @@ const tab = [
     }
 ]
 
-export default function ListJadwalMenu(props) {
+export default function ListJadwalMenuSiswa(props) {
     const navigation = useNavigation()
 
     const user = useSelector(state => state.user);
@@ -48,7 +48,6 @@ export default function ListJadwalMenu(props) {
     const loadProfile = useCallback(() => {
         let id = user.id
         HttpRequest.getProfile(id).then((res) => {
-            // let result = res.data.data.data
             let status = res.data.status
             if (status == responseStatus.INSERT_SUKSES) {
                 setDetail(res.data.data.data)
@@ -57,7 +56,6 @@ export default function ListJadwalMenu(props) {
                 Toast.showError("Gagal status == 2")
                 setDetail([])
             }
-            // console.log("user s ", result)
         }).catch((err) => {
             Toast.showError("Server Error: ")
             console.log("err", err, err.response)
@@ -81,23 +79,11 @@ export default function ListJadwalMenu(props) {
     }, [listSekolah])
 
     const loadMapel = useCallback(async () => {
-        // let id = user.data.id
-        let id = ""
-        if (user.role_id == RoleResponse.siswa) {
-            id = user.data.kelas_id
-        }
-        if (user.role_id = RoleResponse.guru) {
-            if (user.data.is_walikelas == "Y") {
-                id = user.kelas.id
-            } else {
-                id = selectedKelas
-            }
-        }
+        let id = user.data.kelas_id
         try {
             let data = await HttpRequest.listJadwalKelas(id)
             let status = data.data.status
             if (status == responseStatus.INSERT_SUKSES) {
-                // let result = data.data.data.map(item)
                 setListMapel(data.data.data)
             }
             if (status == responseStatus.INSERT_GAGAL) {
@@ -137,8 +123,6 @@ export default function ListJadwalMenu(props) {
         }
     }, [listKelas])
 
-    // console.log("sel", detail)
-
     return (
         <>
             <SafeAreaView style={styles.container}>
@@ -167,28 +151,6 @@ export default function ListJadwalMenu(props) {
                         }
                     </View>
                     <View style={{ height: 12 }} />
-                    {/* {
-                        listMapel.length == 0 && (
-                            <>
-                                <NoData>Tidak ada Jadwal</NoData>
-                            </>
-                        )
-                    }
-                    {
-                        listMapel.length > 0 && (
-                            listMapel.map((item, iListM) => {
-                                return (
-                                    <>
-                                        <View style={{ backgroundColor: color.primaryRGBA, alignItems: 'center', flexDirection: 'row', paddingVertical: 16, paddingHorizontal: 20, borderRadius: 12 }}>
-                                            <Ionicons name={"calendar-outline"} size={24} color={color.primary} />
-                                            <Text style={[styles.txtGlobalBold, { color: color.primary, marginLeft: 16 }]}>{item.nama}</Text>
-                                        </View>
-                                    </>
-                                )
-                            })
-                        )
-                    } */}
-                    {/* <View style={{ flex: 1 }}> */}
                     <ScrollView>
                         <View style={{ flex: 1 }}>
                             {
@@ -228,39 +190,6 @@ export default function ListJadwalMenu(props) {
                                 selected === "Kelas" && (
                                     <>
                                         {
-                                            user.role_id == RoleResponse.guru && (
-                                                user.data.is_walikelas != "Y" && (
-                                                    <View>
-                                                        <Text style={[styles.txtGlobalBold, { fontSize: 14, color: color.black, marginVertical: 10 }]}>Pilih Kelas</Text>
-                                                        <Combobox
-                                                            value={selectedKelas}
-                                                            placeholder="Silahkan Pilih Kelas"
-                                                            theme={{
-                                                                boxStyle: {
-                                                                    backgroundColor: color.white,
-                                                                    borderColor: color.Neutral20,
-                                                                },
-                                                                leftIconStyle: {
-                                                                    color: color.Neutral10,
-                                                                    marginRight: 14
-                                                                },
-                                                                rightIconStyle: {
-                                                                    color: color.Neutral10,
-                                                                },
-                                                            }}
-                                                            jenisIconsRight="Ionicons"
-                                                            iconNameRight="caret-down-outline"
-                                                            showLeftIcons={false}
-                                                            data={listKelas}
-                                                            onChange={(val) => {
-                                                                setSelectedKelas(val);
-                                                            }}
-                                                        />
-                                                    </View>
-                                                )
-                                            )
-                                        }
-                                        {
                                             listMapel.length == 0 && (
                                                 <NoData>Tidak ada jadwal harian</NoData>
                                             )
@@ -275,9 +204,6 @@ export default function ListJadwalMenu(props) {
                                                         listMapel.map((item, iList) => {
                                                             return (
                                                                 <>
-                                                                    {/* <View style={{ marginVertical: 12 }}>
-                                                                        <Text style={[styles.txtGlobalBold]}>{item.jadwal_hari}</Text>
-                                                                    </View> */}
                                                                     <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: color.white, paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12 }}>
                                                                         <Text style={[styles.txtBoldGlobal]}>{item.mapel_nama}</Text>
                                                                         <View style={{ flex: 1 }} />

@@ -89,6 +89,11 @@ import EditUser from "../screens/EditUser";
 import DetailPinjamBuku from "../screens/DetailPinjamBuku";
 import DetailKembalikanBuku from "../screens/DetailKembalikanBuku";
 import DetailKehilanganBuku from "../screens/DetailKehilanganBuku";
+import ListAbsenMonitoring from "../screens/ListAbsenMonitoring";
+import ListJadwalSiswa from "../screens/ListJadwalSiswa";
+import ListJadwalMenuSiswa from "../screens/ListJadwalMenuSiswa";
+import ListJadwalMenuGuru from "../screens/ListJadwalMenuGuru";
+import ListJadwalGuru from "../screens/ListJadwalGuru";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -130,6 +135,12 @@ const DashboardStack = () => {
 
             <Stack.Screen name="ListBerita" component={ListBerita} />
             <Stack.Screen name="DetailBerita" component={DetailBerita} />
+
+            <Stack.Screen name="ListAbsenMonitoring" component={ListAbsenMonitoring} />
+            <Stack.Screen name="ListJadwalSiswa" component={ListJadwalSiswa} />
+            <Stack.Screen name="ListJadwalMenuSiswa" component={ListJadwalMenuSiswa} />
+            <Stack.Screen name="ListJadwalMenuGuru" component={ListJadwalMenuGuru} />
+            <Stack.Screen name="ListJadwalGuru" component={ListJadwalGuru} />
 
             <Stack.Screen name="ListJadwal" component={ListJadwal} />
             <Stack.Screen name="ListJadwalMenu" component={ListJadwalMenu} />

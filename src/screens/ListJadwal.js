@@ -12,6 +12,8 @@ import { HttpRequest } from '../utils/http'
 import responseStatus from '../utils/responseStatus'
 import NoData from '../components/NoData'
 import { useSelector } from 'react-redux'
+import RoleResponse from '../utils/RoleResponse'
+import Combobox from '../components/Combobox'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height
 const SCREEN_WIDTH = Dimensions.get("window").width
@@ -23,43 +25,55 @@ export default function ListJadwal(props) {
     const [listJadwal, setListJadwal] = useState([])
     const [detail, setDetail] = useState({})
     const [isLoading, setIsloading] = useState(true)
-    const [kelas, setKelas] = useState([])
+    const [listKelas, setListKelas] = useState([])
+    const [selectedKelas, setSelectedKelas] = useState(null)
+    const [listSekolah, setListSekolah] = useState([])
 
     useEffect(() => {
         if (user) {
-            loadProfile()
+            // loadProfile()
             loadListJadwal()
-
+            loadKelas()
+            // if (user.role_id == RoleResponse.guru) {
+            //     loadJadwalSekolah()
+            // }
         }
-        // if()
-        listKelas()
     }, [user])
 
-    const loadProfile = useCallback(() => {
-        let id = user.id
-        HttpRequest.getProfile(id).then((res) => {
-            let result = res.data.data.data
-            let status = res.data.status
-            if (status == responseStatus.INSERT_SUKSES) {
-                setDetail(result)
-            }
-            if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("Gagal status == 2")
-                setDetail([])
-            }
-        }).catch((err) => {
-            Toast.showError("Server Error: ")
-            console.log("err", err, err.response)
-        })
-    }, [detail, user])
+    // const loadProfile = useCallback(() => {
+    //     let id = user.id
+    //     HttpRequest.getProfile(id).then((res) => {
+    //         let result = res.data.data.data
+    //         let status = res.data.status
+    //         if (status == responseStatus.INSERT_SUKSES) {
+    //             setDetail(result)
+    //         }
+    //         if (status == responseStatus.INSERT_GAGAL) {
+    //             Toast.showError("Gagal status == 2")
+    //             setDetail([])
+    //         }
+    //     }).catch((err) => {
+    //         Toast.showError("Server Error: ")
+    //         console.log("err", err, err.response)
+    //     })
+    // }, [detail, user])
 
     const loadListJadwal = useCallback(() => {
-        let id = user.data.kelas_id
+        // let id = user.data.kelas_id
+        let id = ""
+        if (user.role_id == RoleResponse.siswa) {
+            id = user.data.kelas_id
+        }
+        if (user.role_id = RoleResponse.guru) {
+            id = selectedKelas
+        }
+        if (id == "") {
+            return Toast.showError("Maaf id tidak tersedia")
+        }
         HttpRequest.listJadwalKelas(id).then((res) => {
-            let result = res.data.data
             let status = res.data.status
             if (status == responseStatus.INSERT_SUKSES) {
-                setListJadwal(result)
+                setListJadwal(res.data.data)
             }
             if (status == responseStatus.INSERT_GAGAL) {
                 Toast.showError("Gagal mendapatkan list jadwal")
@@ -69,21 +83,44 @@ export default function ListJadwal(props) {
             console.log("err jadwal", err, err.response)
             setListJadwal([])
         })
-    }, [listJadwal, detail])
+    }, [listJadwal])
 
-    const listKelas = useCallback(() => {
+    const loadKelas = useCallback(() => {
         HttpRequest.listMapel().then((res) => {
-            // let loop = res.data.map((item) => {
-            //     return {
-            //         id: item.id,
-            //         label: item.nama
-            //     }
-            // })
-            setKelas(res.data.data)
+            let status = res.data.status
+            if (status == responseStatus.INSERT_SUKSES) {
+                let result = res.data.data.map((item) => {
+                    return {
+                        id: item.id,
+                        label: item.nama
+                    }
+                })
+                setListKelas(result)
+            }
+            if (status == responseStatus.INSERT_GAGAL) {
+                Toast.showError(`${res.data.message}`)
+            }
+            console.log("res", res.data)
         }).catch((err) => {
-            Toast.showError("err kelas", err, err.response)
+            console.log("err", err, err.response)
         })
-    }, [kelas])
+    }, [listKelas])
+
+    const loadJadwalSekolah = useCallback(() => {
+        HttpRequest.listJadwalSekolah().then((res) => {
+            let status = res.data.status
+            if (status == responseStatus.INSERT_SUKSES) {
+                setListSekolah(res.data.data)
+            }
+            if (status == responseStatus.INSERT_GAGAL) {
+                Toast.showError("Error: " + `${result.message}`)
+            }
+            console.log("sekolah", res.data.data)
+        }).catch((err) => {
+            Toast.showError("Server error: ")
+            console.log("err", err, err.response)
+        })
+    }, [listSekolah])
 
 
     return (
@@ -97,7 +134,7 @@ export default function ListJadwal(props) {
                     <Text style={styles.txtHeader}>Jadwal</Text>
                 </HeaderBack>
                 <View style={{ padding: 20, flex: 1 }}>
-                    {
+                    {/* {
                         kelas.length == 0 && (
                             <>
                                 <NoData>Tidak ada Jadwal</NoData>
@@ -117,35 +154,81 @@ export default function ListJadwal(props) {
                                 )
                             })
                         )
-                    }
+                    } */}
                     <View style={{ flex: 1 }}>
                         <ScrollView>
                             {/* <ListPelajaran data={listJadwal} /> */}
                             {
-                                listJadwal.length == 0 && (
-                                    <NoData>Tidak ada jadwal harian</NoData>
+                                user.role_id == RoleResponse.guru && (
+                                    <>
+                                        {
+                                            listSekolah.length == 0 && (
+                                                <NoData>Tidak ada jadwal harian</NoData>
+                                            )
+                                        }
+                                        {
+                                            listSekolah.length > 0 && (
+                                                listSekolah.map((item, iList) => {
+                                                    return (
+                                                        <>
+                                                            <View style={{ marginVertical: 12 }}>
+                                                                <Text style={[styles.txtGlobalBold]}>{item.jadwal_hari}</Text>
+                                                            </View>
+                                                            <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: color.white, paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12 }}>
+                                                                <Text style={[styles.txtBoldGlobal]}>{item.kegiatan}</Text>
+                                                                <View style={{ flex: 1 }} />
+                                                                <View style={{ flexDirection: 'row' }}>
+                                                                    <Ionicons name="time-outline" size={20} color={color.black} style={{ marginRight: 12 }} />
+                                                                    <Text style={[styles.txtGlobal, { marginLeft: 12 }]}>{item.jam_mulai} - {item.jam_selesai}</Text>
+                                                                </View>
+                                                            </View>
+                                                        </>
+                                                    )
+                                                })
+
+                                            )
+                                        }
+                                    </>
                                 )
                             }
                             {
-                                listJadwal.length > 0 && (
-                                    listJadwal.map((item, iList) => {
-                                        return (
-                                            <>
-                                                <View style={{ marginVertical: 12 }}>
-                                                    <Text style={[styles.txtGlobalBold]}>{item.jadwal_hari}</Text>
-                                                </View>
-                                                <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: color.white, paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12 }}>
-                                                    <Text style={[styles.txtBoldGlobal]}>{item.mapel_nama}</Text>
-                                                    <View style={{ flex: 1 }} />
-                                                    <View style={{ flexDirection: 'row' }}>
-                                                        <Ionicons name="time-outline" size={20} color={color.black} style={{ marginRight: 12 }} />
-                                                        <Text style={[styles.txtGlobal]}>{item.jadwal_waktu_mulai} - {item.jadwal_waktu_akhir}</Text>
+                                user.role_id == RoleResponse.siswa && (
+                                    <>
+                                        {
+                                            listJadwal.length == 0 && (
+                                                <NoData>Tidak ada jadwal harian</NoData>
+                                            )
+                                        }
+                                        {
+                                            listJadwal.length > 0 && (
+                                                <>
+                                                    <View style={{ marginVertical: 12 }}>
+                                                        <Text style={[styles.txtGlobalBold]}>{moment(new Date()).format("dddd")}</Text>
                                                     </View>
-                                                </View>
-                                            </>
-                                        )
-                                    })
-
+                                                    {
+                                                        listJadwal.map((item, iList) => {
+                                                            return (
+                                                                <>
+                                                                    {/* <View style={{ marginVertical: 12 }}>
+                                                                        <Text style={[styles.txtGlobalBold]}>{item.jadwal_hari}</Text>
+                                                                    </View> */}
+                                                                    <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: color.white, paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12 }}>
+                                                                        <Text style={[styles.txtGlobalBold]}>{item.mapel_nama}</Text>
+                                                                        <View style={{ flex: 1 }} />
+                                                                        <View style={{ flexDirection: 'row' }}>
+                                                                            <Ionicons name="time-outline" size={20} color={color.black} style={{ marginRight: 12 }} />
+                                                                            <Text style={[styles.txtGlobal, { marginLeft: 12 }]}>{item.jadwal_waktu_mulai} - {item.jadwal_waktu_akhir}</Text>
+                                                                        </View>
+                                                                    </View>
+                                                                    <View style={{ height: 20 }} />
+                                                                </>
+                                                            )
+                                                        })
+                                                    }
+                                                </>
+                                            )
+                                        }
+                                    </>
                                 )
                             }
                         </ScrollView>
