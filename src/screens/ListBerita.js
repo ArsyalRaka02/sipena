@@ -123,27 +123,30 @@ function List({ data, jenis }) {
                     data.length > 0 && (
                         data.map((item, iData) => {
                             return (
-                                <TouchableOpacity activeOpacity={1} onPress={() => {
-                                    navigation.navigate("DetailBerita", { params: item, jenis: jenis })
-                                }} style={styles.containerList}>
-                                    <View style={styles.childImage}>
-                                        <Image source={{ uri: app.BASE_URL_PICTURE + item.foto }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
-                                    </View>
-                                    <View style={styles.childContent}>
-                                        <Text style={styles.txtGlobalBold}>{item.judul}</Text>
-                                        <View style={{ flexDirection: 'row', flex: 1, alignItems: 'flex-end' }}>
-                                            <View style={{ flexDirection: 'row' }}>
-                                                <Ionicons name="time-outline" size={18} color={color.black} />
-                                                <Text style={[styles.txtGlobal, { fontSize: 12, marginLeft: 4 }]}>{moment(item.tanggal).format("dddd, DD MMM YYYY")}</Text>
-                                            </View>
-                                            <View style={{ width: 10 }} />
-                                            <View style={{ flexDirection: 'row' }}>
-                                                <Ionicons name="eye-outline" size={18} color={color.black} />
-                                                <Text style={[styles.txtGlobal, { fontSize: 12, marginLeft: 4 }]}>{item.total_views}</Text>
+                                <>
+                                    <TouchableOpacity activeOpacity={1} onPress={() => {
+                                        navigation.navigate("DetailBerita", { params: item, jenis: jenis })
+                                    }} style={styles.containerList}>
+                                        <View style={styles.childImage}>
+                                            <Image source={{ uri: app.BASE_URL_PICTURE + item.foto }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
+                                        </View>
+                                        <View style={styles.childContent}>
+                                            <Text style={styles.txtGlobalBold}>{item.judul}</Text>
+                                            <View style={{ flexDirection: 'row', flex: 1, alignItems: 'flex-end' }}>
+                                                <View style={{ flexDirection: 'row' }}>
+                                                    <Ionicons name="time-outline" size={18} color={color.black} />
+                                                    <Text style={[styles.txtGlobal, { fontSize: 12, marginLeft: 4 }]}>{moment(item.tanggal).format("dddd, DD MMM YYYY")}</Text>
+                                                </View>
+                                                <View style={{ width: 10 }} />
+                                                <View style={{ flexDirection: 'row' }}>
+                                                    <Ionicons name="eye-outline" size={18} color={color.black} />
+                                                    <Text style={[styles.txtGlobal, { fontSize: 12, marginLeft: 4 }]}>{item.total_views}</Text>
+                                                </View>
                                             </View>
                                         </View>
-                                    </View>
-                                </TouchableOpacity>
+                                    </TouchableOpacity>
+                                    <View style={{ height: 20 }} />
+                                </>
                             )
                         })
                     )

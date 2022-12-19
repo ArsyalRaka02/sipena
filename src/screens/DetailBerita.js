@@ -3,7 +3,7 @@ import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Ima
 import moment from 'moment'
 import color from '../utils/color'
 import HeaderBack from '../components/HeaderBack'
-import { useNavigation } from '@react-navigation/native'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
 import TextInputIcon from '../components/TextInputIcon'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { fonts } from '../utils/fonts'
@@ -18,15 +18,18 @@ const SCREEN_WIDTH = Dimensions.get("window").width
 
 export default function DetailBerita(props) {
     const navigation = useNavigation()
+    const isFocused = useIsFocused()
     const { params, jenis } = props.route.params
     const [listBerita, setListBerita] = useState([])
     const _scrollView = useRef(null)
 
     useEffect(() => {
-        if (params) {
-            loadBerita()
+        if (isFocused) {
+            if (params) {
+                loadBerita()
+            }
         }
-    }, [params])
+    }, [params, isFocused])
 
     const loadBerita = useCallback(async () => {
         try {
@@ -118,11 +121,12 @@ export default function DetailBerita(props) {
                                             return (
                                                 <>
                                                     <TouchableOpacity activeOpacity={1} onPress={() => {
-                                                        loadBeritaPush(jenis)
+                                                        // loadBeritaPush(jenis)
                                                         _scrollView.current?.scrollTo({
                                                             y: 0,
                                                             animated: false,
                                                         })
+                                                        navigation.navigate("DetailBerita", { params: item, jenis: jenis })
                                                     }} style={{ backgroundColor: color.white, padding: 8, width: SCREEN_WIDTH / 2.0, flexDirection: 'column', borderRadius: 12 }}>
                                                         <View style={{ height: SCREEN_HEIGHT / 7, overflow: 'hidden', borderRadius: 12 }}>
                                                             <Image source={{ uri: app.BASE_URL_PICTURE + item.foto }} style={{ width: "100%", height: "100%" }} resizeMode="cover" />
