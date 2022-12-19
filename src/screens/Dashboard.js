@@ -68,7 +68,7 @@ export default function Dashboard(props) {
             name: "Rapot",
             image: require("../assets/sipena/rapot.png"),
             warna: color.menuYellow,
-            page: "ListRaport"
+            page: "RaportMurid"
         },
         {
             name: "Pinjam Fasilitas",

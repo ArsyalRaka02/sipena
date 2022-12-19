@@ -30,7 +30,7 @@ export default function DashboardSemuaList(props) {
             name: "Jadwal",
             image: require("../assets/sipena/jadwal.png"),
             warna: color.menuBlue,
-            page: "ListJadwal"
+            page: "ListJadwalMenuSiswa"
         },
         {
             name: "Absen Siswa",
@@ -48,7 +48,7 @@ export default function DashboardSemuaList(props) {
             name: "Rapot",
             image: require("../assets/sipena/rapot.png"),
             warna: color.menuYellow,
-            page: "ListRaport"
+            page: "RaportMurid"
         },
         {
             name: "Pinjam Fasilitas",
@@ -100,13 +100,19 @@ export default function DashboardSemuaList(props) {
             name: "Jadwal",
             image: require("../assets/sipena/jadwal.png"),
             warna: color.menuBlue,
-            page: "ListJadwal"
+            page: "ListJadwalMenuGuru"
+        },
+        {
+            name: "Absen",
+            image: require("../assets/sipena/user33.png"),
+            warna: color.menuRed,
+            page: "ListAbsenGuru"
         },
         {
             name: "Absen Siswa",
             image: require("../assets/sipena/absen.png"),
             warna: color.menuGreen,
-            page: "ListAbsen"
+            page: "ListAbsenMonitoring"
         },
         {
             name: "Keuangan",
@@ -164,13 +170,13 @@ export default function DashboardSemuaList(props) {
             name: "Jadwal",
             image: require("../assets/sipena/jadwal.png"),
             warna: color.menuBlue,
-            page: "ListJadwal"
+            page: "ListJadwalMenuGuru"
         },
         {
             name: "Absen Siswa",
             image: require("../assets/sipena/absen.png"),
             warna: color.menuGreen,
-            page: "ListAbsen"
+            page: "ListAbsenMonitoring"
         },
         {
             name: "Keuangan",
@@ -182,7 +188,13 @@ export default function DashboardSemuaList(props) {
             name: "Rapot",
             image: require("../assets/sipena/rapot.png"),
             warna: color.menuYellow,
-            page: "ListRaport"
+            page: "RaportWaliKelas"
+        },
+        {
+            name: "Absen",
+            image: require("../assets/sipena/user33.png"),
+            warna: color.menuRed,
+            page: "ListAbsenGuru"
         },
         {
             name: "Perpustakaan",
