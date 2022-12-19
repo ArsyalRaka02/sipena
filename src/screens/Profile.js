@@ -34,14 +34,13 @@ export default function Profile(props) {
     const loadProfile = useCallback(() => {
         let id = user.id
         HttpRequest.getProfile(id).then((res) => {
-            let result = res.data.data.data
             let status = res.data.status
             if (status == responseStatus.INSERT_SUKSES) {
-                setDetail(result)
+                setDetail(res.data.data.data)
             }
             if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("Gagal status == 2")
-                setDetail([])
+                Toast.showError("Error: " + `${res.data.message}`)
+                setDetail({})
             }
             // console.log("user s ", result)
         }).catch((err) => {
@@ -384,6 +383,15 @@ export default function Profile(props) {
                                         </>
                                     )
                                 }
+                                <View style={{ flex: 1, flexDirection: 'row', marginBottom: 12 }}>
+                                    <TouchableOpacity activeOpacity={1} onPress={() => {
+                                        navigation.navigate("EditUser")
+                                    }} style={{ backgroundColor: color.primary, flexDirection: 'row', paddingHorizontal: 25, paddingVertical: 6, alignItems: 'center', justifyContent: 'center', borderRadius: 12 }}>
+                                        <Ionicons name="pencil-outline" size={24} color={color.white} />
+                                        <Text style={[styles.txtGlobalWhite, { marginLeft: 8 }]}>Edit Username/Password</Text>
+                                    </TouchableOpacity>
+                                    <View style={{ flex: 1 }} />
+                                </View>
                                 <View style={{ flex: 1, flexDirection: 'row', marginBottom: 12 }}>
                                     <TouchableOpacity activeOpacity={1} onPress={() => {
                                         dispatch(setUser(null));

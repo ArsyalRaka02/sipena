@@ -142,10 +142,18 @@ export const HttpRequest = {
     pinjamBuku(data) {
         return request().post("/pinjam-buku", data)
     },
-    kembalikanBuku(id) {
+    kembalikanBukuById(id) {
         return request().get("/pinjam-buku?user_id=" + id)
     },
-
+    kembalikanBuku() {
+        return request().get("/pinjam-buku")
+    },
+    kembalikanBukuById(id) {
+        return request().get("/pinjam-buku?user_id=" + id)
+    },
+    deletedPinjamanBuku(id) {
+        return request.deleted("/pinjam-buku/" + id)
+    },
 
     //pinjam fasilitas
     listPinjamFasilitas(value) {
@@ -301,6 +309,10 @@ export const HttpRequest = {
 
     withdrawKantin(data) {
         return request().post("/withdraw", data)
+    },
+
+    updateProfile(data) {
+        return request().post("/update-user", data)
     }
 
 };
