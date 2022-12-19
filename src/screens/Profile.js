@@ -81,22 +81,22 @@ export default function Profile(props) {
                         <View style={[styles.containerProfile, { overflow: 'hidden' }]}>
                             {
                                 user.role_id == RoleResponse.siswa && (
-                                    <Image source={{ uri: app.BASE_URL_PICTURE + detail.foto_profil }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
+                                    <Image source={{ uri: app.BASE_URL_PICTURE + detail?.foto_profil }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
                                 )
                             }
                             {
                                 user.role_id == RoleResponse.guru && (
-                                    <Image source={{ uri: app.BASE_URL_PICTURE + detail.profil_picture }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
+                                    <Image source={{ uri: app.BASE_URL_PICTURE + detail?.profil_picture }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
                                 )
                             }
                             {
                                 user.role_id == RoleResponse.walimurid && (
-                                    <Image source={{ uri: app.BASE_URL_PICTURE + detail.foto_profil }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
+                                    <Image source={{ uri: app.BASE_URL_PICTURE + detail?.foto_profil }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
                                 )
                             }
                             {
                                 user.role_id == RoleResponse.pegawai && (
-                                    <Image source={{ uri: app.BASE_URL_PICTURE + detail.profil_picture }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
+                                    <Image source={{ uri: app.BASE_URL_PICTURE + detail?.profil_picture }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
                                 )
                             }
                             {/* <Ionicons name="person-outline" size={40} color={color.black} /> */}
@@ -123,26 +123,26 @@ export default function Profile(props) {
                                             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                                 <Text style={styles.txtTitle}>NIS</Text>
                                                 <View style={{ flex: 1 }} />
-                                                <Text style={styles.txtIsi}>{detail.nisn == "" ? "-" : user.nisn}</Text>
+                                                <Text style={styles.txtIsi}>{detail?.nisn == "" ? "-" : user.nisn}</Text>
                                             </View>
                                             <View style={styles.underline} />
 
                                             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                                 <Text style={styles.txtTitle}>Email</Text>
                                                 <View style={{ flex: 1 }} />
-                                                <Text style={styles.txtIsi}>{detail.email == "" ? "-" : detail.email}</Text>
+                                                <Text style={styles.txtIsi}>{detail?.email == "" ? "-" : detail?.email}</Text>
                                             </View>
                                             <View style={styles.underline} />
 
                                             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                                 <Text style={styles.txtTitle}>Nama</Text>
                                                 <View style={{ flex: 1 }} />
-                                                <Text style={styles.txtIsi}>{detail.nama_lengkap == "" ? "-" : detail.nama_lengkap}</Text>
+                                                <Text style={styles.txtIsi}>{detail?.nama_lengkap == "" ? "-" : detail?.nama_lengkap}</Text>
                                             </View>
                                             <View style={styles.underline} />
 
                                             {
-                                                detail.is_osis == "Y" && (
+                                                detail?.is_osis == "Y" && (
                                                     <>
                                                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                                             <Text style={styles.txtTitle}>Osis</Text>
@@ -157,41 +157,41 @@ export default function Profile(props) {
                                             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                                 <Text style={styles.txtTitle}>Tanggal Lahir</Text>
                                                 <View style={{ flex: 1 }} />
-                                                <Text style={styles.txtIsi}>{moment(detail.tanggal_lahir).format("DD/MM/YYYY")}</Text>
+                                                <Text style={styles.txtIsi}>{moment(detail?.tanggal_lahir).format("DD/MM/YYYY")}</Text>
                                             </View>
                                             <View style={styles.underline} />
 
                                             <View style={{ flexDirection: 'row', alignItems: 'center', overflow: 'hidden' }}>
                                                 <Text style={styles.txtTitle}>Tempat lahir</Text>
                                                 <View style={{ flex: 1 }} />
-                                                <Text style={styles.txtIsi}>{detail.tempat_lahir == "" ? "-" : detail.tempat_lahir}</Text>
+                                                <Text style={styles.txtIsi}>{detail?.tempat_lahir == "" ? "-" : detail?.tempat_lahir}</Text>
                                             </View>
                                             <View style={styles.underline} />
 
                                             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                                 <Text style={styles.txtTitle}>Jenis kelamin</Text>
                                                 <View style={{ flex: 1 }} />
-                                                <Text style={styles.txtIsi}>{detail.jenis_kelamin == "L" ? "Laki - laki" : "Perempuan" ?? "-"}</Text>
+                                                <Text style={styles.txtIsi}>{detail?.jenis_kelamin == "L" ? "Laki - laki" : "Perempuan" ?? "-"}</Text>
                                             </View>
                                             <View style={styles.underline} />
 
                                             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                                 <Text style={styles.txtTitle}>Agama</Text>
                                                 <View style={{ flex: 1 }} />
-                                                <Text style={styles.txtIsi}>{detail.agama == "" ? "-" : detail.agama}</Text>
+                                                <Text style={styles.txtIsi}>{detail?.agama == "" ? "-" : detail?.agama}</Text>
                                             </View>
                                             <View style={styles.underline} />
                                             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                                 <Text style={styles.txtTitle}>Nama Ibu</Text>
                                                 <View style={{ flex: 1 }} />
-                                                <Text style={styles.txtIsi}>{detail.nama_ibu == "" ? "-" : detail.nama_ibu}</Text>
+                                                <Text style={styles.txtIsi}>{detail?.nama_ibu == "" ? "-" : detail?.nama_ibu}</Text>
                                             </View>
                                             <View style={styles.underline} />
 
                                             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                                 <Text style={styles.txtTitle}>Nama Ayah</Text>
                                                 <View style={{ flex: 1 }} />
-                                                <Text style={styles.txtIsi}>{detail.nama_ayah == "" ? "-" : detail.nama_ayah}</Text>
+                                                <Text style={styles.txtIsi}>{detail?.nama_ayah == "" ? "-" : detail?.nama_ayah}</Text>
                                             </View>
                                             <View style={styles.underline} />
 
@@ -213,12 +213,12 @@ export default function Profile(props) {
                                             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                                 <Text style={styles.txtTitle}>NIP</Text>
                                                 <View style={{ flex: 1 }} />
-                                                <Text style={styles.txtIsi}>{detail.nip ?? "-"}</Text>
+                                                <Text style={styles.txtIsi}>{detail?.nip ?? "-"}</Text>
                                             </View>
                                             <View style={styles.underline} />
 
                                             {
-                                                detail.is_walikelas == "Y" && (
+                                                detail?.is_walikelas == "Y" && (
                                                     <>
                                                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                                             <Text style={styles.txtTitle}>Walikelas</Text>
@@ -241,35 +241,35 @@ export default function Profile(props) {
                                             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                                 <Text style={styles.txtTitle}>Nama</Text>
                                                 <View style={{ flex: 1 }} />
-                                                <Text style={styles.txtIsi}>{detail.nama_lengkap ?? "-"}</Text>
+                                                <Text style={styles.txtIsi}>{detail?.nama_lengkap ?? "-"}</Text>
                                             </View>
                                             <View style={styles.underline} />
 
                                             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                                 <Text style={styles.txtTitle}>Tanggal Lahir</Text>
                                                 <View style={{ flex: 1 }} />
-                                                <Text style={styles.txtIsi}>{moment(detail.tanggal_lahir).format("DD/MM/YYYY")}</Text>
+                                                <Text style={styles.txtIsi}>{moment(detail?.tanggal_lahir).format("DD/MM/YYYY")}</Text>
                                             </View>
                                             <View style={styles.underline} />
 
                                             <View style={{ flexDirection: 'row', alignItems: 'center', overflow: 'hidden' }}>
                                                 <Text style={styles.txtTitle}>Tempat lahir</Text>
                                                 <View style={{ flex: 1 }} />
-                                                <Text style={styles.txtIsi}>{detail.tempat_lahir ?? "-"}</Text>
+                                                <Text style={styles.txtIsi}>{detail?.tempat_lahir ?? "-"}</Text>
                                             </View>
                                             <View style={styles.underline} />
 
                                             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                                 <Text style={styles.txtTitle}>Jenis kelamin</Text>
                                                 <View style={{ flex: 1 }} />
-                                                <Text style={styles.txtIsi}>{detail.jk == "L" ? "Laki - laki" : "Perempuan" ?? "-"}</Text>
+                                                <Text style={styles.txtIsi}>{detail?.jk == "L" ? "Laki - laki" : "Perempuan" ?? "-"}</Text>
                                             </View>
                                             <View style={styles.underline} />
 
                                             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                                 <Text style={styles.txtTitle}>Agama</Text>
                                                 <View style={{ flex: 1 }} />
-                                                <Text style={styles.txtIsi}>{detail.agama ?? "-"}</Text>
+                                                <Text style={styles.txtIsi}>{detail?.agama ?? "-"}</Text>
                                             </View>
                                             <View style={styles.underline} />
                                         </>
@@ -282,7 +282,7 @@ export default function Profile(props) {
                                             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                                 <Text style={styles.txtTitle}>Nama</Text>
                                                 <View style={{ flex: 1 }} />
-                                                <Text style={styles.txtIsi}>{detail.nama_lengkap ?? "-"}</Text>
+                                                <Text style={styles.txtIsi}>{detail?.nama_lengkap ?? "-"}</Text>
                                             </View>
                                             <View style={styles.underline} />
 
@@ -296,34 +296,34 @@ export default function Profile(props) {
                                             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                                 <Text style={styles.txtTitle}>Tanggal Lahir</Text>
                                                 <View style={{ flex: 1 }} />
-                                                <Text style={styles.txtIsi}>{moment(detail.tanggal_lahir).format("DD/MM/YYYY")}</Text>
+                                                <Text style={styles.txtIsi}>{moment(detail?.tanggal_lahir).format("DD/MM/YYYY")}</Text>
                                             </View>
                                             <View style={styles.underline} />
 
                                             <View style={{ flexDirection: 'row', alignItems: 'center', overflow: 'hidden' }}>
                                                 <Text style={styles.txtTitle}>Tempat lahir</Text>
                                                 <View style={{ flex: 1 }} />
-                                                <Text style={styles.txtIsi}>{detail.tempat_lahir ?? "-"}</Text>
+                                                <Text style={styles.txtIsi}>{detail?.tempat_lahir ?? "-"}</Text>
                                             </View>
                                             <View style={styles.underline} />
 
                                             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                                 <Text style={styles.txtTitle}>Jenis kelamin</Text>
                                                 <View style={{ flex: 1 }} />
-                                                <Text style={styles.txtIsi}>{detail.jenis_kelamin == "L" ? "Laki - laki" : "Perempuan" ?? "-"}</Text>
+                                                <Text style={styles.txtIsi}>{detail?.jenis_kelamin == "L" ? "Laki - laki" : "Perempuan" ?? "-"}</Text>
                                             </View>
                                             <View style={styles.underline} />
 
                                             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                                 <Text style={styles.txtTitle}>Agama</Text>
                                                 <View style={{ flex: 1 }} />
-                                                <Text style={styles.txtIsi}>{detail.agama ?? "-"}</Text>
+                                                <Text style={styles.txtIsi}>{detail?.agama ?? "-"}</Text>
                                             </View>
                                             <View style={styles.underline} />
                                             {/* <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                                 <Text style={styles.txtTitle}>Orang Tua Dari</Text>
                                                 <View style={{ flex: 1 }} />
-                                                <Text style={styles.txtIsi}>{detail.user_id ?? "-"}</Text>
+                                                <Text style={styles.txtIsi}>{detail?.user_id ?? "-"}</Text>
                                             </View>
                                             <View style={styles.underline} /> */}
                                         </>
@@ -336,7 +336,7 @@ export default function Profile(props) {
                                             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                                 <Text style={styles.txtTitle}>Nama</Text>
                                                 <View style={{ flex: 1 }} />
-                                                <Text style={styles.txtIsi}>{detail.nama_lengkap ?? "-"}</Text>
+                                                <Text style={styles.txtIsi}>{detail?.nama_lengkap ?? "-"}</Text>
                                             </View>
                                             <View style={styles.underline} />
 
@@ -350,28 +350,28 @@ export default function Profile(props) {
                                             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                                 <Text style={styles.txtTitle}>Tanggal Lahir</Text>
                                                 <View style={{ flex: 1 }} />
-                                                <Text style={styles.txtIsi}>{moment(detail.tanggal_lahir).format("DD/MM/YYYY")}</Text>
+                                                <Text style={styles.txtIsi}>{moment(detail?.tanggal_lahir).format("DD/MM/YYYY")}</Text>
                                             </View>
                                             <View style={styles.underline} />
 
                                             {/* <View style={{ flexDirection: 'row', alignItems: 'center', overflow: 'hidden' }}>
                                                 <Text style={styles.txtTitle}>Tempat lahir</Text>
                                                 <View style={{ flex: 1 }} />
-                                                <Text style={styles.txtIsi}>{detail.tempat_lahir ?? "-"}</Text>
+                                                <Text style={styles.txtIsi}>{detail?.tempat_lahir ?? "-"}</Text>
                                             </View>
                                             <View style={styles.underline} /> */}
 
                                             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                                 <Text style={styles.txtTitle}>Jenis kelamin</Text>
                                                 <View style={{ flex: 1 }} />
-                                                <Text style={styles.txtIsi}>{detail.gender == "L" ? "Laki - laki" : "Perempuan" ?? "-"}</Text>
+                                                <Text style={styles.txtIsi}>{detail?.gender == "L" ? "Laki - laki" : "Perempuan" ?? "-"}</Text>
                                             </View>
                                             <View style={styles.underline} />
 
                                             {/* <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                                 <Text style={styles.txtTitle}>Agama</Text>
                                                 <View style={{ flex: 1 }} />
-                                                <Text style={styles.txtIsi}>{detail.agama ?? "-"}</Text>
+                                                <Text style={styles.txtIsi}>{detail?.agama ?? "-"}</Text>
                                             </View>
                                             <View style={styles.underline} /> */}
                                             {/* <View style={{ flexDirection: 'row', alignItems: 'center' }}>

@@ -302,7 +302,7 @@ export default function Dashboard(props) {
             name: "Rapot",
             image: require("../assets/sipena/rapot.png"),
             warna: color.menuYellow,
-            page: "ListRaport"
+            page: "RaportWaliKelas"
         },
         {
             name: "Koperasi Sekolah",
@@ -395,7 +395,8 @@ export default function Dashboard(props) {
     }, [listPerpus, user, listPerpusY])
 
     const loadListJadwal = useCallback(() => {
-        HttpRequest.listJadwalKelas(user.data.kelas_id).then((res) => {
+        let id = user?.data?.kelas_id
+        HttpRequest.listJadwalKelas(id).then((res) => {
             let result = res.data.data
             let status = res.data.status
             if (status == responseStatus.INSERT_SUKSES) {

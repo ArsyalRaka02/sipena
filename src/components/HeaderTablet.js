@@ -50,7 +50,8 @@ export default function HeaderTablet(props) {
     }, [user]);
 
     const loadGetTotal = useCallback(() => {
-        HttpRequest.notifikasiTotal(user.data.id).then((res) => {
+        let id = user?.data?.id
+        HttpRequest.notifikasiTotal(id).then((res) => {
             let data = res.data
             if (data.status == responseStatus.INSERT_SUKSES) {
                 setCount(data.data)
@@ -92,22 +93,22 @@ export default function HeaderTablet(props) {
                         {/* <Image source={{ uri: app.BASE_URL_PICTURE + detail.foto_profil }} style={{ height: "100%", width: "100%" }} resizeMode="cover" /> */}
                         {
                             user.role_id == RoleResponse.siswa && (
-                                <Image source={{ uri: app.BASE_URL_PICTURE + detail.foto_profil }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
+                                <Image source={{ uri: app.BASE_URL_PICTURE + detail?.foto_profil }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
                             )
                         }
                         {
                             user.role_id == RoleResponse.guru && (
-                                <Image source={{ uri: app.BASE_URL_PICTURE + detail.profil_picture }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
+                                <Image source={{ uri: app.BASE_URL_PICTURE + detail?.profil_picture }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
                             )
                         }
                         {
                             user.role_id == RoleResponse.walimurid && (
-                                <Image source={{ uri: app.BASE_URL_PICTURE + detail.foto_profil }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
+                                <Image source={{ uri: app.BASE_URL_PICTURE + detail?.foto_profil }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
                             )
                         }
                         {
                             user.role_id == RoleResponse.pegawai && (
-                                <Image source={{ uri: app.BASE_URL_PICTURE + detail.profil_picture }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
+                                <Image source={{ uri: app.BASE_URL_PICTURE + detail?.profil_picture }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
                             )
                         }
                         {/* <Ionicons name="person-outline" size={24} color={color.black} /> */}
@@ -124,7 +125,7 @@ export default function HeaderTablet(props) {
                         {
                             user.role_id != RoleResponse.admin && (
                                 <>
-                                    <Text {...props} numberOfLines={1} style={props.textProfile}>{detail.nama_lengkap}</Text>
+                                    <Text {...props} numberOfLines={1} style={props.textProfile}>{detail?.nama_lengkap}</Text>
                                     <Text {...props} style={props.textAlamat}>Role: {user.rolenama} </Text>
                                 </>
                             )

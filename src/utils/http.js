@@ -326,8 +326,24 @@ export const HttpRequest = {
 
     updateProfile(data) {
         return request().post("/update-user", data)
-    }
+    },
 
+    nilaiPembelajaranBySiswa(id_siswa) {
+        return request().get("/nilai-pembelajaran?siswa_id=" + id_siswa + "&is_show=Y")
+    },
+    nilaiPembelajaranByKelas(id_siswa, kelas_id) {
+        return request().get("/nilai-pembelajaran?siswa_id=" + id_siswa + "&kelas_id=" + kelas_id + "&is_show=Y")
+    },
+    nilaiPembelajaranByMapel(mapel_id, kelas_id) {
+        return request().get("/nilai-pembelajaran?mapel_id=" + mapel_id + "&kelas_id=" + kelas_id + "&is_show=Y")
+    },
+    accNilaiPembelajaranWaliKelas(kelas_id, semester) {
+        return request().get("/nilai-pembelajaran/acc?kelas_id=" + kelas_id + "&semester=" + semester + "&is_show=Y")
+    },
+    nilaiPembelajaranWaliKelasDefault(kelas_id) {
+        return request().get("/nilai_pembelajaran?kelas_id=" + kelas_id + "&is_show=Y")
+        // return request().get("nilai-pembelajaran?kelas_id=1&is_show=Y")
+    }
 };
 
 export const FormDataConverter = {
