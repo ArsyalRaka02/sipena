@@ -36,7 +36,7 @@ export default function KeranjangDetailBuku(props) {
             return item.id
         })
         let data = {
-            user_id: user.data.id,
+            user_id: user.id,
             tanggal_peminjaman: moment(new Date).format("YYYY-MM-DD"),
             perpus_katalog_id: loop
         }
@@ -87,17 +87,17 @@ export default function KeranjangDetailBuku(props) {
                                     return (
                                         <>
                                             <View style={{ flexDirection: 'row', backgroundColor: color.white, borderRadius: 12, padding: 22, alignItems: 'center' }}>
-                                                <View style={{ flexDirection: 'column' }}>
-                                                    <Text style={[styles.txtGlobalBold, { color: color.black }]}>{item.judul}</Text>
+                                                <View style={{ flexDirection: 'column', flex: 1 }}>
+                                                    <Text numberOfLines={2} style={[styles.txtGlobalBold, { color: color.black, width: "70%", }]}>{item.judul}</Text>
                                                     <Text style={[styles.txtGlobal, { color: color.black }]}>{item.author}</Text>
                                                 </View>
-                                                <View style={{ flex: 1 }} />
-                                                <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                {/* <View style={{ flex: 1 }} /> */}
+                                                {/* <TouchableOpacity activeOpacity={1} onPress={() => {
                                                     Toast.showSuccess("Berhasil membatalkan")
                                                     dispatch(setSimpanBuku([]))
                                                 }} style={[styles.txtGlobalBold, { color: color.danger }]}>
                                                     <Text style={[styles.txtGlobalBold, { color: color.danger }]}>Batal</Text>
-                                                </TouchableOpacity>
+                                                </TouchableOpacity> */}
                                             </View>
                                         </>
                                     )

@@ -7,16 +7,14 @@ import { useNavigation } from '@react-navigation/native'
 import TextInputIcon from '../components/TextInputIcon'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { fonts } from '../utils/fonts'
-import QRCode from 'react-native-qrcode-svg';
-import { useSelector } from 'react-redux'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height
 const SCREEN_WIDTH = Dimensions.get("window").width
 
-export default function ScreenScanQRCode(props) {
+export default function EditBukuPerpus(props) {
     const navigation = useNavigation()
-    const user = useSelector(state => state.user);
-
+    let { params } = props.route.params
+    console.log('parasm', params)
     return (
         <>
             <SafeAreaView style={styles.container}>
@@ -25,16 +23,10 @@ export default function ScreenScanQRCode(props) {
                         navigation.goBack()
                     }}
                 >
-                    <Text style={styles.txtHeader}>QRcode</Text>
+                    <Text style={styles.txtHeader}>Edit Buku</Text>
                 </HeaderBack>
                 <View style={{ padding: 20, flex: 1 }}>
-                    <View style={{ backgroundColor: color.white, alignSelf: 'center', padding: 20 }}>
-                        <Text style={[styles.txtGlobalBold, { color: color.black, fontSize: 17, marginBottom: 20 }]}>QRCode Anda</Text>
-                        <QRCode
-                            value={user.kantin.id}
-                            size={232}
-                        />
-                    </View>
+
                 </View>
             </SafeAreaView>
         </>

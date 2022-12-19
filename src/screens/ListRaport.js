@@ -17,21 +17,24 @@ const SCREEN_WIDTH = Dimensions.get("window").width
 export default function ListRaport(props) {
     const navigation = useNavigation()
     const user = useSelector(state => state.user);
-    // const [listData, setListData] = useState([])
-    // const [total, setTotal] = useState(0)
+    const [listData, setListData] = useState([])
+    const [total, setTotal] = useState(0)
 
-    // useEffect(() => {
-    //     loadData()
-    // }, [])
+    useEffect(() => {
+        loadData()
+    }, [])
 
-    // const loadData = useCallback(() => {
-    //     let id = user.data.id
-    //     HttpRequest.listKehadiran(id).then((res) => {
-    //         setTotal(res.data)
-    //     }).catch((err) => {
-    //         console.log("err", err, err.response)
-    //     })
-    // }, [user, total])
+    const loadData = useCallback(() => {
+        let id = user.data.id
+        let kelas_id = user.data.kelas_id
+        let is_show = "Y"
+        HttpRequest.listNilaiGet(id, kelas_id, is_show).then((res) => {
+            // setTotal(res.data)
+            console.log("ini adalah res nilai", res.data)
+        }).catch((err) => {
+            console.log("err", err, err.response)
+        })
+    }, [user, total])
 
     return (
         <>

@@ -62,7 +62,7 @@ export default function Login({ navigation }) {
                 setLoading(false);
             }
 
-            console.log("ini adalah result", result.data.role_id)
+            console.log("ini adalah result", result)
             // setLoading(false);
         }).catch((err) => {
             setLoading(false);

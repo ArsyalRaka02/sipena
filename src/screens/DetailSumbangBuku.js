@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, ImageBackground } from 'react-native'
+import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image } from 'react-native'
 import moment from 'moment'
 import color from '../utils/color'
 import HeaderBack from '../components/HeaderBack'
@@ -7,37 +7,40 @@ import { useNavigation } from '@react-navigation/native'
 import TextInputIcon from '../components/TextInputIcon'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { fonts } from '../utils/fonts'
-import Button from '../components/Button'
-import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
 import app from '../config/app'
-import { useDispatch } from 'react-redux'
-import { setSimpanBuku } from '../store/actions'
+import Button from '../components/Button'
+import { HttpRequest } from '../utils/http'
+import { useSelector } from 'react-redux'
+import responseStatus from '../utils/responseStatus'
 import Toast from '../components/Toast'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height
 const SCREEN_WIDTH = Dimensions.get("window").width
 
-export default function DetailPerpustakaan(props) {
-    const dispatch = useDispatch();
+export default function DetailSumbangBuku(props) {
     const navigation = useNavigation()
-
     const { params } = props.route.params
-
-    useEffect(() => {
-
-    }, [params])
+    const user = useSelector(state => state.user);
 
     const btnSave = useCallback(() => {
-        let arr = []
-        let jml = 1
-
-        for (jml = 1; jml <= 1; jml++) {
-            arr.push(params);
-            dispatch(setSimpanBuku(arr));
-        }
-        navigation.navigate("KeranjangDetailBuku")
-        // console.log("ini data get jml", arr)
-        // Toast.showSuccess("Berhasil simpan buku di keranjang")
+        let id = params.id
+        let pegawai_id = user.data.id
+        HttpRequest.accSumbangbuku(id, pegawai_id).then((res) => {
+            let data = res.data
+            if (data.status == responseStatus.INSERT_SUKSES) {
+                setTimeout(() => {
+                    Toast.showSuccess("Berhasil acc pinjam bukus")
+                    navigation.goBack()
+                }, 300);
+            }
+            if (data.status == responseStatus.INSERT_GAGAL) {
+                Toast.showError(`${data.message}`)
+            }
+            // console.log("ini adalah ", res.data)
+        }).catch((err) => {
+            Toast.showError("Server Err: ")
+            console.log("ini adalah err acc pinjam buku", err, err.response)
+        })
     }, [])
 
     return (
@@ -50,7 +53,7 @@ export default function DetailPerpustakaan(props) {
                 >
                     <Text style={styles.txtHeader}>Detail Buku</Text>
                 </HeaderBack>
-                <View style={{ flex: 1 }}>
+                <View style={{ padding: 20, flex: 1 }}>
                     <ScrollView>
                         <ImageBackground
                             source={{ uri: app.BASE_URL_PICTURE + params.foto }}
@@ -88,18 +91,13 @@ export default function DetailPerpustakaan(props) {
                         </View>
                     </ScrollView>
                     <View style={{ flexDirection: 'row', paddingHorizontal: 20, paddingVertical: 10, backgroundColor: color.white }}>
-                        {/* <TouchableOpacity activeOpacity={1} onPress={() => {
-                            navigation.navigate("KeranjangDetailBuku")
-                        }} style={{ backgroundColor: color.primaryRGBA, paddingHorizontal: 20, paddingVertical: 16, borderRadius: 12, marginRight: 12, alignItems: 'center', justifyContent: 'center' }}>
-                            <SimpleLineIcons name="handbag" size={18} color={color.primary} style={{ alignSelf: 'center' }} />
-                        </TouchableOpacity> */}
                         <Button
                             style={{ flex: 1 }}
                             onPress={() => {
                                 btnSave()
                             }}
                         >
-                            Pinjam Buku
+                            Tambah Buku
                         </Button>
                     </View>
                 </View>
@@ -119,5 +117,5 @@ const styles = {
         fontFamily: fonts.interBold,
     },
     txtGlobal: { fontSize: 13, fontFamily: fonts.inter },
-    txtGlobalBold: { fontSize: 15, fontFamily: fonts.interBold }
+    txtGlobalBold: { fontSize: 15, fontFamily: fonts.interBold },
 }

@@ -32,6 +32,7 @@ export default function Dashboard(props) {
     const [listBerita, setListBerita] = useState([])
     const [listKantin, setListKantin] = useState([])
     const [listPerpus, setListPerpus] = useState([])
+    const [listPerpusY, setListPerpusY] = useState([])
     const [listPeminjamanFasilitas, setListPeminjamanFasilitas] = useState([])
     const [detail, setDetail] = useState({})
 
@@ -180,14 +181,14 @@ export default function Dashboard(props) {
             name: "Perpustakaan",
             image: require("../assets/sipena/perpus.png"),
             warna: color.menuBlueOrca,
-            page: "ListPerpustakaan"
+            page: "ListMenuPerpustakaan"
         },
-        {
-            name: "Keuangan",
-            image: require("../assets/sipena/Frame.png"),
-            warna: color.menuPurple,
-            page: "ListKeuangan"
-        },
+        // {
+        //     name: "Keuangan",
+        //     image: require("../assets/sipena/Frame.png"),
+        //     warna: color.menuPurple,
+        //     page: "ListKeuangan"
+        // },
         {
             name: "Kantin",
             image: require("../assets/sipena/kantin.png"),
@@ -374,21 +375,23 @@ export default function Dashboard(props) {
     }, [listKantin])
 
     const loadTransaksiPerpus = useCallback(() => {
-        HttpRequest.pinjamBuku().then((res) => {
-            console.log("ini adalah perpus", res.data)
+        HttpRequest.kembalikanBuku("Y").then((res) => {
+            // console.log("ini adalah perpus", res.data)
             let data = res.data
             if (data.status == responseStatus.INSERT_SUKSES) {
+                //ambil ketika tidak ada kondisi
                 setListPerpus(res.data.data)
             }
             if (data.status == responseStatus.INSERT_GAGAL) {
                 Toast.showError("Error: " + `${res.data.message}`)
                 setListPerpus([])
+                setListPerpusY([])
             }
         }).catch((err) => {
             Toast.showError("Server Err: ")
             console.log("err perpus", err, err.response)
         })
-    }, [listPerpus])
+    }, [listPerpus, user, listPerpusY])
 
     const loadListJadwal = useCallback(() => {
         HttpRequest.listJadwalKelas(user.data.kelas_id).then((res) => {
@@ -408,17 +411,16 @@ export default function Dashboard(props) {
     }, [listJadwal, detail])
 
     const loadListJadwalGuru = useCallback(() => {
-        HttpRequest.listJadwalKelasGuru(user.data?.mapel_id).then((res) => {
-            let result = res.data.data
+        HttpRequest.listJadwalKelasGuru(user.data.mapel_id).then((res) => {
             let status = res.data.status
             if (status == responseStatus.INSERT_SUKSES) {
-                setListJadwal(result)
+                setListJadwal(res.data.data)
             }
             if (status == responseStatus.INSERT_GAGAL) {
                 Toast.showError("Gagal mendapatkan list jadwal")
                 setListJadwal([])
             }
-            console.log("ini adalah jadwal matapelajaran", result)
+            // console.log("ini adalah jadwal matapelajaran", result)
         }).catch((err) => {
             console.log("err", err, err.response)
         })
@@ -505,6 +507,22 @@ export default function Dashboard(props) {
             console.log("gagal delete fasilitas ", err, err.response)
         })
     }, [listKantin])
+
+    const btnDeletePerpus = useCallback((value) => {
+        HttpRequest.deletedPinjamanBuku(value).then((res) => {
+            let status = res.data.status
+            if (status == responseStatus.INSERT_SUKSES) {
+                Toast.showSuccess("Berhasil tolak pinjam buku")
+                loadTransaksiPerpus()
+            }
+            if (status == responseStatus.INSERT_GAGAL) {
+                Toast.showError("gagal hapus" + `${res.data.message}`)
+            }
+        }).catch((err) => {
+            Toast.showError("Server Error: ")
+            console.log("gagal delete fasilitas ", err, err.response)
+        })
+    }, [listPerpus, listPerpusY])
 
     const loadProfile = useCallback(() => {
         let id = user.id
@@ -664,6 +682,28 @@ export default function Dashboard(props) {
                                 user.role_id == RoleResponse.pegawai && (
                                     <>
                                         {
+                                            detail.is_perpus == "Y" && (
+                                                dataPerpus.map((item, iMenu) => {
+                                                    return (
+                                                        <>
+                                                            <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                                if (item.page != "") {
+                                                                    navigation.navigate(item.page)
+                                                                }
+                                                            }} style={styles.menuChild}>
+                                                                <View style={[styles.menuIcon, {
+                                                                    backgroundColor: item.warna,
+                                                                }]}>
+                                                                    <Image source={item.image} style={{ width: 18, height: 18 }} />
+                                                                </View>
+                                                                <Text style={{ textAlign: 'center', fontSize: 10, fontFamily: fonts.inter, marginVertical: 12, flex: 1 }}>{item.name}</Text>
+                                                            </TouchableOpacity>
+                                                        </>
+                                                    )
+                                                })
+                                            )
+                                        }
+                                        {
                                             detail.is_tata_usaha == "Y" && (
                                                 dataTU.map((item, iMenu) => {
                                                     return (
@@ -805,20 +845,67 @@ export default function Dashboard(props) {
                         {
                             user.role_id == RoleResponse.pegawai && (
                                 <>
-                                    {/* {
-                                        detail.is_koperasi == "Y" && (
-                                            <>
-
-                                            </>
-                                        )
-                                    }
                                     {
                                         detail.is_perpus == "Y" && (
                                             <>
-
+                                                <View style={{ flexDirection: 'row', marginVertical: 20 }}>
+                                                    <Text style={[styles.txtBoldGlobal]}>Pinjam Buku</Text>
+                                                    <View style={{ flex: 1 }} />
+                                                    <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                        navigation.navigate("ListPinjamBukuPerpus")
+                                                    }}>
+                                                        <Text style={[styles.txtGlobal, { color: "#75B4FF" }]}>Selengkapnya</Text>
+                                                    </TouchableOpacity>
+                                                </View>
+                                                {
+                                                    listPerpus.length == 0 && (
+                                                        <>
+                                                            <NoData>Tidak ada pinjaman buku</NoData>
+                                                        </>
+                                                    )
+                                                }
+                                                {
+                                                    listPerpus.map((item, iPerpus) => {
+                                                        if (iPerpus < 3) {
+                                                            return (
+                                                                <>
+                                                                    <View style={[{ flexDirection: 'column', backgroundColor: color.white, padding: 18, borderRadius: 8 }]}>
+                                                                        <View style={{ flexDirection: 'row' }}>
+                                                                            <Text style={[styles.txtBoldGlobal, { color: color.black, flex: 1 }]}>{item.user_nama}</Text>
+                                                                        </View>
+                                                                        <View style={{ flexDirection: 'row', marginVertical: 8 }}>
+                                                                            <View style={{ flexDirection: "row", flex: 1 }}>
+                                                                                <Text style={[styles.txtGlobal]}>Jumlah Pinjam : </Text>
+                                                                                <Text style={[styles.txtBoldGlobal, { fontSize: 14, color: color.black }]}>{item.jumlah_pinjam} Buku</Text>
+                                                                            </View>
+                                                                            <View style={{ flexDirection: "row", flex: 1 }}>
+                                                                                <Text style={[styles.txtGlobal]}>Sebagai : </Text>
+                                                                                <Text style={[styles.txtBoldGlobal, { fontSize: 14, color: color.black }]}>{item.nama_role}</Text>
+                                                                            </View>
+                                                                        </View>
+                                                                        <View style={{ flexDirection: 'row' }}>
+                                                                            <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                                                navigation.navigate("DetailPinjamBuku", { params: item })
+                                                                            }}>
+                                                                                <Text style={[styles.txtBoldGlobal, { color: color.primary, fontSize: 14 }]}>Lihat Detail</Text>
+                                                                            </TouchableOpacity>
+                                                                            <View style={{ flex: 1 }} />
+                                                                            <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                                                btnDeletePerpus(item.id)
+                                                                            }}>
+                                                                                <Text style={[styles.txtBoldGlobal, { color: color.danger, fontSize: 14 }]}>Hapus</Text>
+                                                                            </TouchableOpacity>
+                                                                        </View>
+                                                                    </View>
+                                                                    <View style={{ height: 20 }} />
+                                                                </>
+                                                            )
+                                                        }
+                                                    })
+                                                }
                                             </>
                                         )
-                                    } */}
+                                    }
                                     {
                                         detail.is_tata_usaha == "Y" && (
                                             <>

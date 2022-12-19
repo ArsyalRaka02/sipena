@@ -77,6 +77,18 @@ import EditKegiatanOsis from "../screens/EditKegiatanOsis";
 import Notification from "../screens/Notification";
 import ListAbsenGuru from "../screens/ListAbsenGuru";
 import LaporanPenjualanKantin from "../screens/LaporanPenjualanKantin";
+import ListMenuPerpustakaan from "../screens/ListMenuPerpustakaan";
+import KembalikanBukuPerpus from "../screens/KembalikanBukuPerpus";
+import ListKatalogBukuPerpus from "../screens/ListKatalogBukuPerpus";
+import ListPinjamBukuPerpus from "../screens/ListPinjamBukuPerpus";
+import SumbangBukuPerpus from "../screens/SumbangBukuPerpus";
+import ListKehilanganBukuPerpus from "../screens/ListKehilanganBukuPerpus";
+import EditBukuPerpus from "../screens/EditBukuPerpus";
+import TambahBukuPerpus from "../screens/TambahBukuPerpus";
+import EditUser from "../screens/EditUser";
+import DetailPinjamBuku from "../screens/DetailPinjamBuku";
+import DetailKembalikanBuku from "../screens/DetailKembalikanBuku";
+import DetailKehilanganBuku from "../screens/DetailKehilanganBuku";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -166,6 +178,22 @@ const DashboardStack = () => {
             <Stack.Screen name="TransaksiEditKantin" component={TransaksiEditKantin} />
             <Stack.Screen name="QrCodeKantin" component={QrCodeKantin} />
             <Stack.Screen name="DetailKantin" component={DetailKantin} />
+
+            {/* //Perpustakaan */}
+            <Stack.Screen name="ListMenuPerpustakaan" component={ListMenuPerpustakaan} />
+            <Stack.Screen name="KembalikanBukuPerpus" component={KembalikanBukuPerpus} />
+            <Stack.Screen name="ListKatalogBukuPerpus" component={ListKatalogBukuPerpus} />
+            <Stack.Screen name="ListPinjamBukuPerpus" component={ListPinjamBukuPerpus} />
+            <Stack.Screen name="SumbangBukuPerpus" component={SumbangBukuPerpus} />
+            <Stack.Screen name="ListKehilanganBukuPerpus" component={ListKehilanganBukuPerpus} />
+            <Stack.Screen name="EditBukuPerpus" component={EditBukuPerpus} />
+            <Stack.Screen name="TambahBukuPerpus" component={TambahBukuPerpus} />
+            <Stack.Screen name="DetailPinjamBuku" component={DetailPinjamBuku} />
+            <Stack.Screen name="DetailKembalikanBuku" component={DetailKembalikanBuku} />
+            <Stack.Screen name="DetailKehilanganBuku" component={DetailKehilanganBuku} />
+
+            {/* profile */}
+            <Stack.Screen name="EditUser" component={EditUser} />
 
 
             <Stack.Screen name="ListAbsen" component={ListAbsen} />

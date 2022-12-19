@@ -109,8 +109,12 @@ export const HttpRequest = {
 
 
     //perpus
-    katalogBuku() {
-        return request().get("/katalog-buku")
+    katalogBuku(id) {
+        if (id == null) {
+            return request().get("/katalog-buku")
+        } else {
+            return request().get("/katalog-buku?perpus_kategori_id=" + id)
+        }
     },
     insertKatalogBuku(data) {
         return requestTypeFormData().post("/katalog-buku", data)
@@ -137,7 +141,16 @@ export const HttpRequest = {
         return request().get("/kategori-buku")
     },
     accSumbangbuku(id, pegawai_id) {
-        return request.get("/sumbang-buku/acc?id=" + id + "&pegawai_id=" + pegawai_id)
+        return request().get("/sumbang-buku/acc?id=" + id + "&pegawai_id=" + pegawai_id)
+    },
+    accPinjambuku(id, pegawai_id) {
+        return request().get("/pinjam-buku/acc?id=" + id + "&pegawai_id=" + pegawai_id)
+    },
+    accKembalikanbuku(id, pegawai_id) {
+        return request().get("/kembali-buku/acc?id=" + id + "&pegawai_id=" + pegawai_id)
+    },
+    insertKembalikanBuku(data) {
+        return request().post("/kembali-buku", data)
     },
     pinjamBuku(data) {
         return request().post("/pinjam-buku", data)
@@ -145,14 +158,14 @@ export const HttpRequest = {
     kembalikanBukuById(id) {
         return request().get("/pinjam-buku?user_id=" + id)
     },
-    kembalikanBuku() {
-        return request().get("/pinjam-buku")
+    kembalikanBuku(is_kembali) {
+        return request().get("/pinjam-buku?is_kembali=" + is_kembali)
     },
-    kembalikanBukuById(id) {
-        return request().get("/pinjam-buku?user_id=" + id)
-    },
+    // kembalikanBukuById(id) {
+    //     return request().get("/pinjam-buku?user_id=" + id)
+    // },
     deletedPinjamanBuku(id) {
-        return request.deleted("/pinjam-buku/" + id)
+        return request().delete("/pinjam-buku/" + id)
     },
 
     //pinjam fasilitas

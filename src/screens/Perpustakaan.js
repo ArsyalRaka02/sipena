@@ -11,6 +11,7 @@ import responseStatus from '../utils/responseStatus'
 import { HttpRequest } from '../utils/http'
 import app from '../config/app'
 import Toast from '../components/Toast'
+import NoData from '../components/NoData'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height
 const SCREEN_WIDTH = Dimensions.get("window").width
@@ -136,12 +137,17 @@ function ListBuku({ data }) {
                                     <View style={{ height: SCREEN_HEIGHT / 6.3, width: SCREEN_WIDTH / 4 }}>
                                         <Image source={{ uri: app.BASE_URL_PICTURE + item.foto }} style={{ height: "100%", width: "100%", borderRadius: 12 }} resizeMode={"contain"} />
                                     </View>
-                                    <Text style={[styles.txtGlobalBold, { fontSize: 15, color: color.black }]}>{item.judul}</Text>
+                                    <Text numberOfLines={1} style={[styles.txtGlobalBold, { fontSize: 15, color: color.black, width: 70, }]}>{item.judul}</Text>
                                     <Text style={[styles.txtGlobal, { fontSize: 13 }]}>{item.author}</Text>
                                 </TouchableOpacity>
                             </>
                         )
                     })
+                }
+                {
+                    data.length == 0 && (
+                        <NoData>Tidak ada list buku</NoData>
+                    )
                 }
             </View>
         </>
