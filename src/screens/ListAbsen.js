@@ -10,6 +10,7 @@ import { fonts } from '../utils/fonts'
 import { useSelector } from 'react-redux'
 import { HttpRequest } from '../utils/http'
 import responseStatus from '../utils/responseStatus'
+import Toast from '../components/Toast'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height
 const SCREEN_WIDTH = Dimensions.get("window").width
@@ -24,7 +25,11 @@ export default function ListAbsen(props) {
     }, [user])
 
     const loadListJadwal = useCallback(() => {
-        HttpRequest.listJadwalKelas(user.data.kelas_id).then((res) => {
+        let id = user.data.kelas_id
+        if (id == "") {
+            return Toast.showError("tidak mendapatkan id kelas")
+        }
+        HttpRequest.listJadwalKelas(id).then((res) => {
             let status = res.data.status
             if (status == responseStatus.INSERT_SUKSES) {
                 setListJadwal(res.data.data)

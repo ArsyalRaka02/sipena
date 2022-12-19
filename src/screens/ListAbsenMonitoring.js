@@ -12,6 +12,9 @@ import { HttpRequest } from '../utils/http'
 import responseStatus from '../utils/responseStatus'
 import Combobox from '../components/Combobox'
 import DatePicker from '../components/DatePicker'
+import RoleResponse from '../utils/RoleResponse'
+import Toast from '../components/Toast'
+import NoData from '../components/NoData'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height
 const SCREEN_WIDTH = Dimensions.get("window").width
@@ -25,6 +28,7 @@ export default function ListAbsenMonitoring(props) {
     const [listKelas, setListKelas] = useState([])
     const [tanggal, setTanggal] = useState(new Date())
     const [isLoading, setIsLoading] = useState(false)
+    const [listAbsen, setListabsen] = useState([])
 
     useEffect(() => {
         if (isFocused) {
@@ -36,7 +40,7 @@ export default function ListAbsenMonitoring(props) {
         HttpRequest.listMapel().then((res) => {
             let status = res.data.status
             if (status == responseStatus.INSERT_SUKSES) {
-                let result = res.data.map((item) => {
+                let result = res.data.data.map((item) => {
                     return {
                         id: item.id,
                         label: item.nama
@@ -48,7 +52,7 @@ export default function ListAbsenMonitoring(props) {
                 Toast.showError("Server Error: ")
                 setListKelas([])
             }
-            console.log("res", res.data)
+            console.log("res kelas", res.data)
         }).catch((err) => {
             console.log("err", err, err.response)
         })
@@ -56,6 +60,21 @@ export default function ListAbsenMonitoring(props) {
 
     const toggleSetDay = useCallback((day) => {
         setTanggal(day)
+    }, [tanggal])
+
+    const btnTrigger = useCallback((value) => {
+        let isTanggal = moment(tanggal).format("YYYY-MM-DD")
+        HttpRequest.listAbsenSiswa(value, isTanggal).then((res) => {
+            // console.log("ini trigger", res.data)
+            // if (res.data.status == RoleResponse.INSERT_SUKSES) {
+            //     setListabsen(res.data.data)
+            // }
+            // if (res.data.status == RoleResponse.INSERT_GAGAL) {
+            //     Toast.showError(`${res.data.message}`)
+            // }
+        }).catch((err) => {
+            console.log("trigger", err, err.response)
+        })
     }, [tanggal])
 
 
@@ -95,6 +114,7 @@ export default function ListAbsenMonitoring(props) {
                                 data={listKelas}
                                 onChange={(val) => {
                                     setSelectedKelas(val);
+                                    btnTrigger(val)
                                 }}
                             />
                         </View>
@@ -113,6 +133,13 @@ export default function ListAbsenMonitoring(props) {
                             />
                         </View>
                     </View>
+                    <ScrollView>
+                        {
+                            listAbsen.length == 0 && (
+                                <NoData>Tidak ada data</NoData>
+                            )
+                        }
+                    </ScrollView>
                 </View>
             </SafeAreaView>
         </>

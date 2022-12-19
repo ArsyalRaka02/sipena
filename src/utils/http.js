@@ -202,8 +202,8 @@ export const HttpRequest = {
     },
 
     //absen siswa
-    listAbsenSiswa() {
-        return request().get("/listabsensisiswa")
+    listAbsenSiswa(id, tanggal) {
+        return request().get("/listabsensisiswa?kelasid=" + id + "&tanggal=" + tanggal)
     },
     insertAbsenSiswa(data) {
         return requestTypeFormData().post("/simpanabsensisiswa", data)
