@@ -60,7 +60,7 @@ export default function TambahBukuPerpus(props) {
             type: 'image/jpeg',
             uri: getImage,
         });
-        formData.append('pegawai_id', user.id);
+        formData.append('pegawai_id', user.data.id);
         formData.append('perpus_kategori_id', selectedBuku);
         formData.append('judul', judul);
         formData.append('stok_buku', stok);
