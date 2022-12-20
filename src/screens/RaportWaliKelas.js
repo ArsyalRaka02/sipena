@@ -13,6 +13,7 @@ import { HttpRequest } from '../utils/http'
 import Toast from '../components/Toast'
 import responseStatus from '../utils/responseStatus'
 import NoData from '../components/NoData'
+import { round } from 'lodash'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height
 const SCREEN_WIDTH = Dimensions.get("window").width
@@ -22,6 +23,8 @@ export default function RaportWaliKelas(props) {
     const user = useSelector(state => state.user);
     const [listRaport, setListRaport] = useState([])
     const [isLoading, setIsLoading] = useState(false)
+    const [selected, setSelected] = useState(false)
+    const [selectedI, setSelectedI] = useState(null)
 
 
     useEffect(() => {
@@ -37,6 +40,7 @@ export default function RaportWaliKelas(props) {
             if (res.data.status == responseStatus.INSERT_GAGAL) {
                 Toast.showError(`${res.data.message}`)
             }
+            console.log("res rapoer", res.data)
         }).catch((err) => {
             Toast.showError("Server Er:")
             console.log("ini err ganjil", err, err.response)
@@ -90,6 +94,7 @@ export default function RaportWaliKelas(props) {
                     <View style={{ backgroundColor: color.primaryRGBA, padding: 20, borderRadius: 12, alignItems: 'center' }}>
                         <Text style={[styles.txtGlobalBold, { color: color.primary, fontSize: 14 }]}>{user?.kelas.nama}</Text>
                     </View>
+                    <View style={{ height: 20 }} />
                     <ScrollView>
                         {
                             listRaport.length == 0 && (
@@ -99,7 +104,17 @@ export default function RaportWaliKelas(props) {
                         {
                             listRaport.map((item, iRaport) => {
                                 return (
-                                    <Text>Masih menunggu respon</Text>
+                                    <>
+                                        <View style={{ backgroundColor: color.white, padding: 20, flexDirection: 'row', borderTopEndRadius: 12, borderTopStartRadius: 12, alignItems: 'center' }}>
+                                            <Text style={[styles.txtGlobalBold, { fontSize: 12, flex: 1, color: color.black }]}>{item.nama_siswa}</Text>
+                                            <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                navigation.navigate("RaportWaliKelasDetail", { params: item.siswa_id, item: item })
+                                            }}>
+                                                <Text style={[styles.txtGlobalBold, { fontSize: 14, color: color.primary }]}>Lihat Detail</Text>
+                                            </TouchableOpacity>
+                                        </View>
+                                        <View style={{ height: 20 }} />
+                                    </>
                                 )
                             })
                         }

@@ -34,7 +34,7 @@ export default function ListAbsenMonitoring(props) {
         if (isFocused) {
             loadKelas()
         }
-    }, [isFocused, kelas, tanggal])
+    }, [isFocused, tanggal])
 
     const loadKelas = useCallback(() => {
         HttpRequest.listMapel().then((res) => {
@@ -75,7 +75,7 @@ export default function ListAbsenMonitoring(props) {
         }).catch((err) => {
             console.log("trigger", err, err.response)
         })
-    }, [tanggal,selectedKelas])
+    }, [tanggal, selectedKelas])
 
 
     return (
