@@ -111,6 +111,14 @@ export default function HeaderTablet(props) {
                                 <Image source={{ uri: app.BASE_URL_PICTURE + detail?.profil_picture }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
                             )
                         }
+
+                        {
+                            user.role_id == RoleResponse.dinaspendidikan && (
+                                <>
+                                    <Image source={{ uri: app.BASE_URL_PICTURE + detail?.foto_profil }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
+                                </>
+                            )
+                        }
                         {/* <Ionicons name="person-outline" size={24} color={color.black} /> */}
                     </TouchableOpacity>
                     <View style={styles.containerText}>

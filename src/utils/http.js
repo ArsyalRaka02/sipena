@@ -341,10 +341,13 @@ export const HttpRequest = {
         return request().get("/nilai-pembelajaran/acc?kelas_id=" + kelas_id + "&semester=" + semester + "&is_show=Y")
     },
     nilaiPembelajaranWaliKelasDefault(kelas_id) {
-        return request().get("/nilai_pembelajaran?kelas_id=" + kelas_id + "&is_show=Y")
+        return request().get("/nilai-pembelajaran?kelas_id=" + kelas_id + "&is_show=Y")
     },
     nilaiPembelajaranSiswaDefault(siswa_id) {
-        return request().get("/nilai_pembelajaran?siswa_id=" + siswa_id + "&is_show=Y")
+        return request().get("/nilai-pembelajaran?siswa_id=" + siswa_id + "&is_show=Y")
+    },
+    nilaiPembelajaranRole7Default(kelas_id) {
+        return request().get("/nilai-pembelajaran?kelas_id=" + kelas_id + "&is_show=Y")
     }
 };
 

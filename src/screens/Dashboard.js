@@ -331,6 +331,28 @@ export default function Dashboard(props) {
         }
     ]
 
+    const dataDinas7 = [
+        {
+            name: "Koperasi Sekolah",
+            image: require("../assets/sipena/koperasi.png"),
+            warna: color.menuBrown,
+            // page: "ListKoperasi"
+            page: "QrCodeKoperasi"
+        },
+        {
+            name: "Rapot",
+            image: require("../assets/sipena/rapot.png"),
+            warna: color.menuYellow,
+            page: "RaportRole7"
+        },
+        {
+            name: "Kantin",
+            image: require("../assets/sipena/kantin.png"),
+            warna: color.menuGreen,
+            page: "QrCodeKantin"
+        },
+    ]
+
     useEffect(() => {
         if (isFocused) {
             loadBerita()
@@ -764,6 +786,28 @@ export default function Dashboard(props) {
                                             )
                                         }
                                     </>
+                                )
+                            }
+                            {
+                                user.role_id == RoleResponse.dinaspendidikan && (
+                                    dataDinas7.map((item, iMenu) => {
+                                        return (
+                                            <>
+                                                <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                    if (item.page != "") {
+                                                        navigation.navigate(item.page)
+                                                    }
+                                                }} style={styles.menuChild}>
+                                                    <View style={[styles.menuIcon, {
+                                                        backgroundColor: item.warna,
+                                                    }]}>
+                                                        <Image source={item.image} style={{ width: 18, height: 18 }} />
+                                                    </View>
+                                                    <Text style={{ textAlign: 'center', fontSize: 10, fontFamily: fonts.inter, marginVertical: 12, flex: 1 }}>{item.name}</Text>
+                                                </TouchableOpacity>
+                                            </>
+                                        )
+                                    })
                                 )
                             }
                         </View>
