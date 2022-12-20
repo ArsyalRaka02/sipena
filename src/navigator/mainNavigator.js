@@ -97,6 +97,7 @@ import ListJadwalGuru from "../screens/ListJadwalGuru";
 import RaportWaliKelas from "../screens/RaportWaliKelas";
 import RaportMurid from "../screens/RaportMurid";
 import RaportRole7 from "../screens/RaportRole7";
+import ListJadwalKepalaSekolah from "../screens/ListJadwalKepalaSekolah";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -143,6 +144,7 @@ const DashboardStack = () => {
             <Stack.Screen name="ListJadwalSiswa" component={ListJadwalSiswa} />
             <Stack.Screen name="ListJadwalMenuSiswa" component={ListJadwalMenuSiswa} />
             <Stack.Screen name="ListJadwalMenuGuru" component={ListJadwalMenuGuru} />
+            <Stack.Screen name="ListJadwalKepalaSekolah" component={ListJadwalKepalaSekolah} />
             <Stack.Screen name="ListJadwalGuru" component={ListJadwalGuru} />
             <Stack.Screen name="RaportWaliKelas" component={RaportWaliKelas} />
             <Stack.Screen name="RaportMurid" component={RaportMurid} />

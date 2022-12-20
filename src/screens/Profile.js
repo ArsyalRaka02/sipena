@@ -106,6 +106,13 @@ export default function Profile(props) {
                                     </>
                                 )
                             }
+                            {
+                                user.role_id == RoleResponse.kepalasekolah && (
+                                    <>
+                                        <Image source={{ uri: app.BASE_URL_PICTURE + detail?.foto_profil }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
+                                    </>
+                                )
+                            }
                             {/* <Ionicons name="person-outline" size={40} color={color.black} /> */}
                         </View>
                     </View>
@@ -392,6 +399,60 @@ export default function Profile(props) {
                                 }
                                 {
                                     user.role_id == RoleResponse.dinaspendidikan && (
+                                        <>
+                                            <Text style={[styles.txtBio, { marginTop: 4, marginBottom: 18 }]}>Biodata</Text>
+                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                <Text style={styles.txtTitle}>Nama</Text>
+                                                <View style={{ flex: 1 }} />
+                                                <Text style={styles.txtIsi}>{detail?.nama_lengkap ?? "-"}</Text>
+                                            </View>
+                                            <View style={styles.underline} />
+
+                                            {/* <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                <Text style={styles.txtTitle}>Nomor HP</Text>
+                                                <View style={{ flex: 1 }} />
+                                                <Text style={styles.txtIsi}>{user.phone ?? "-"}</Text>
+                                            </View>
+                                            <View style={styles.underline} /> */}
+
+                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                <Text style={styles.txtTitle}>Tanggal Lahir</Text>
+                                                <View style={{ flex: 1 }} />
+                                                <Text style={styles.txtIsi}>{moment(detail?.tanggal_lahir).format("DD/MM/YYYY")}</Text>
+                                            </View>
+                                            <View style={styles.underline} />
+
+                                            {/* <View style={{ flexDirection: 'row', alignItems: 'center', overflow: 'hidden' }}>
+                                                <Text style={styles.txtTitle}>Tempat lahir</Text>
+                                                <View style={{ flex: 1 }} />
+                                                <Text style={styles.txtIsi}>{detail?.tempat_lahir ?? "-"}</Text>
+                                            </View>
+                                            <View style={styles.underline} /> */}
+
+                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                <Text style={styles.txtTitle}>Jenis kelamin</Text>
+                                                <View style={{ flex: 1 }} />
+                                                <Text style={styles.txtIsi}>{detail?.gender == "L" ? "Laki - laki" : "Perempuan" ?? "-"}</Text>
+                                            </View>
+                                            <View style={styles.underline} />
+
+                                            {/* <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                <Text style={styles.txtTitle}>Agama</Text>
+                                                <View style={{ flex: 1 }} />
+                                                <Text style={styles.txtIsi}>{detail?.agama ?? "-"}</Text>
+                                            </View>
+                                            <View style={styles.underline} /> */}
+                                            {/* <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                <Text style={styles.txtTitle}>Orang Tua Dari</Text>
+                                                <View style={{ flex: 1 }} />
+                                                <Text style={styles.txtIsi}>{detail.user_id ?? "-"}</Text>
+                                            </View>
+                                            <View style={styles.underline} /> */}
+                                        </>
+                                    )
+                                }
+                                {
+                                    user.role_id == RoleResponse.kepalasekolah && (
                                         <>
                                             <Text style={[styles.txtBio, { marginTop: 4, marginBottom: 18 }]}>Biodata</Text>
                                             <View style={{ flexDirection: 'row', alignItems: 'center' }}>

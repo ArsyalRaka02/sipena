@@ -352,11 +352,71 @@ export default function Dashboard(props) {
             page: "QrCodeKantin"
         },
     ]
+    const dataKepalaSekolah = [
+        {
+            name: "Jadwal",
+            image: require("../assets/sipena/jadwal.png"),
+            warna: color.menuBlue,
+            page: "ListJadwalMenuGuru"
+        },
+        // {
+        //     name: "Absen",
+        //     image: require("../assets/sipena/user33.png"),
+        //     warna: color.menuRed,
+        //     page: "ListAbsenKepalaSekolah"
+        // },
+        {
+            name: "Absen Siswa",
+            image: require("../assets/sipena/absen.png"),
+            warna: color.menuGreen,
+            page: "ListAbsenMonitoring"
+        },
+        {
+            name: "Rapot",
+            image: require("../assets/sipena/rapot.png"),
+            warna: color.menuYellow,
+            page: "RaportRole7"
+        },
+        {
+            name: "Koperasi Sekolah",
+            image: require("../assets/sipena/koperasi.png"),
+            warna: color.menuBrown,
+            // page: "ListKoperasi"
+            page: "QrCodeKoperasi"
+        },
+        {
+            name: "Rapot",
+            image: require("../assets/sipena/rapot.png"),
+            warna: color.menuYellow,
+            page: "RaportRole7"
+        },
+        {
+            name: "Kantin",
+            image: require("../assets/sipena/kantin.png"),
+            warna: color.menuGreen,
+            page: "QrCodeKantin"
+        },
+        {
+            name: "Perpustakaan",
+            image: require("../assets/sipena/perpus.png"),
+            warna: color.menuBlueOrca,
+            page: "ListPerpustakaan"
+        },
+        {
+            name: "Semua",
+            image: require("../assets/sipena/semua.png"),
+            warna: color.menuPink,
+            page: "DashboardSemuaList"
+        }
+    ]
 
     useEffect(() => {
         if (isFocused) {
             loadBerita()
             loadProfile()
+            if (user.role_id == RoleResponse.kepalasekolah) {
+                loadJadwalSekolah()
+            }
             if (user.role_id == RoleResponse.guru) {
                 loadListJadwalGuru()
             }
@@ -810,6 +870,28 @@ export default function Dashboard(props) {
                                     })
                                 )
                             }
+                            {
+                                user.role_id == RoleResponse.kepalasekolah && (
+                                    dataKepalaSekolah.map((item, iMenu) => {
+                                        return (
+                                            <>
+                                                <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                    if (item.page != "") {
+                                                        navigation.navigate(item.page)
+                                                    }
+                                                }} style={styles.menuChild}>
+                                                    <View style={[styles.menuIcon, {
+                                                        backgroundColor: item.warna,
+                                                    }]}>
+                                                        <Image source={item.image} style={{ width: 18, height: 18 }} />
+                                                    </View>
+                                                    <Text style={{ textAlign: 'center', fontSize: 10, fontFamily: fonts.inter, marginVertical: 12, flex: 1 }}>{item.name}</Text>
+                                                </TouchableOpacity>
+                                            </>
+                                        )
+                                    })
+                                )
+                            }
                         </View>
                     </View>
 
@@ -957,6 +1039,57 @@ export default function Dashboard(props) {
                                                     )
                                                 }
                                             </>
+                                        )
+                                    }
+                                    {
+                                        user.role_id == RoleResponse.kepalasekolah && (
+                                            <>
+                                                <View style={{ flexDirection: 'row', marginVertical: 20 }}>
+                                                    <Text style={[styles.txtBoldGlobal]}>Jadwal hari ini</Text>
+                                                    <View style={{ flex: 1 }} />
+                                                    <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                        navigation.navigate("ListJadwalKepalaSekolah")
+                                                    }}>
+                                                        <Text style={[styles.txtGlobal, { color: "#75B4FF" }]}>Selengkapnya</Text>
+                                                    </TouchableOpacity>
+                                                </View>
+                                                {
+                                                    listJadwal.length == 0 && (
+                                                        <>
+                                                            <NoData>Tidak ada jadwal</NoData>
+                                                        </>
+                                                    )
+                                                }
+                                                {
+                                                    listJadwal.length > 0 && (
+                                                        <>
+                                                            {/* <View style={{ marginVertical: 12 }}>
+                                                                <Text style={[styles.txtBoldGlobal]}>{moment(new Date()).format("dddd")}</Text>
+                                                            </View> */}
+                                                            {
+                                                                listJadwal.map((item, iJadwal) => {
+                                                                    if (iJadwal < 3) {
+                                                                        return (
+                                                                            <>
+                                                                                <Text style={[styles.txtBoldGlobal, { fontSize: 16, color: color.black, marginBottom: 12 }]}>{item.jadwal_hari}</Text>
+                                                                                <View style={styles.containerJadwal}>
+                                                                                    <Text style={[styles.txtBoldGlobal]}>{item.kegiatan}</Text>
+                                                                                    <View style={{ flex: 1 }} />
+                                                                                    <Ionicons name="time-outline" size={24} color={color.black} />
+                                                                                    <Text style={[styles.txtGlobal, { marginLeft: 12 }]}>{item.jam_mulai} - {item.jam_selesai}</Text>
+                                                                                </View>
+                                                                                <View style={{ height: 20 }} />
+                                                                            </>
+                                                                        )
+                                                                    }
+                                                                })
+                                                            }
+                                                        </>
+
+                                                    )
+                                                }
+                                            </>
+
                                         )
                                     }
                                 </>

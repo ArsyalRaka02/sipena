@@ -223,6 +223,88 @@ export default function DashboardSemuaList(props) {
         },
     ]
 
+    const dataKepalaSekolah = [
+        {
+            name: "Jadwal",
+            image: require("../assets/sipena/jadwal.png"),
+            warna: color.menuBlue,
+            page: "ListJadwalMenuGuru"
+        },
+        // {
+        //     name: "Absen",
+        //     image: require("../assets/sipena/user33.png"),
+        //     warna: color.menuRed,
+        //     page: "ListAbsenKepalaSekolah"
+        // },
+        {
+            name: "Absen Siswa",
+            image: require("../assets/sipena/absen.png"),
+            warna: color.menuGreen,
+            page: "ListAbsenMonitoring"
+        },
+        {
+            name: "Rapot",
+            image: require("../assets/sipena/rapot.png"),
+            warna: color.menuYellow,
+            page: "RaportRole7"
+        },
+        {
+            name: "Koperasi Sekolah",
+            image: require("../assets/sipena/koperasi.png"),
+            warna: color.menuBrown,
+            // page: "ListKoperasi"
+            page: "QrCodeKoperasi"
+        },
+        {
+            name: "Rapot",
+            image: require("../assets/sipena/rapot.png"),
+            warna: color.menuYellow,
+            page: "RaportRole7"
+        },
+        {
+            name: "Kantin",
+            image: require("../assets/sipena/kantin.png"),
+            warna: color.menuGreen,
+            page: "QrCodeKantin"
+        },
+        {
+            name: "Perpustakaan",
+            image: require("../assets/sipena/perpus.png"),
+            warna: color.menuBlueOrca,
+            page: "ListPerpustakaan"
+        },
+        {
+            name: "Ekstrakulikuler",
+            image: require("../assets/sipena/ekstra.png"),
+            warna: color.menuRed,
+            page: "ListEkstrakulikuler"
+        },
+        {
+            name: "Mutasi",
+            image: require("../assets/sipena/mutasi.png"),
+            warna: color.menuPink,
+            page: "ListMutasiSiswaTU"
+        },
+        {
+            name: "Keuangan Sekolah",
+            image: require("../assets/sipena/Frame.png"),
+            warna: color.menuPurple,
+            page: "KeuanganSPPTU"
+        },
+        {
+            name: "Osis",
+            image: require("../assets/sipena/osis.png"),
+            warna: color.menuBlue,
+            page: "KegiatanOsis"
+        },
+        {
+            name: "Pinjam Fasilitas",
+            image: require("../assets/sipena/pinjam.png"),
+            warna: color.menuOrange,
+            page: "ListPinjamFasilitas"
+        },
+    ]
+
 
     return (
         <View style={styles.container}>
@@ -313,6 +395,32 @@ export default function DashboardSemuaList(props) {
                                             })
                                         )
                                     }
+                                </>
+                            )
+                        }
+                        {
+                            user.role_id == RoleResponse.kepalasekolah && (
+                                <>
+                                    {dataKepalaSekolah.map((item, i) => {
+                                        return (
+                                            <>
+                                                <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                    if (item.page != "") {
+                                                        navigation.navigate(item.page)
+                                                    }
+                                                }} style={styles.menuChild}>
+                                                    <View style={[styles.menuIcon, {
+                                                        backgroundColor: item.warna,
+                                                    }]}>
+                                                        <Image source={item.image} style={{ width: 18, height: 18 }} />
+                                                    </View>
+                                                    <View style={{ width: 20 }} />
+                                                    <Text style={{ textAlign: 'center', fontSize: 12, fontFamily: fonts.inter, flex: 1, textAlign: 'left' }}>{item.name}</Text>
+                                                </TouchableOpacity>
+                                                <View style={styles.underline} />
+                                            </>
+                                        )
+                                    })}
                                 </>
                             )
                         }
