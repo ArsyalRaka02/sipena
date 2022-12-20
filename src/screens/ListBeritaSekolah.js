@@ -27,7 +27,7 @@ const listKategori = [
     },
 ]
 
-export default function ListBerita(props) {
+export default function ListBeritaSekolah(props) {
     const navigation = useNavigation()
 
     const isFocused = useIsFocused()
@@ -37,7 +37,7 @@ export default function ListBerita(props) {
     const [isLoading, setIsloading] = useState(true)
 
     useEffect(() => {
-        if(isFocused) {
+        if (isFocused) {
             loadBerita()
         }
     }, [selected, isFocused])
@@ -46,7 +46,7 @@ export default function ListBerita(props) {
         let kategori = kategoriId
         // console.log("ini kategori", kategori)
         try {
-            let data = await HttpRequest.listBerita(kategori)
+            let data = await HttpRequest.listBerita("sekolah")
             let result = data.data.data
             let status = data.data.status
             if (status == responseStatus.INSERT_SUKSES) {
@@ -75,7 +75,7 @@ export default function ListBerita(props) {
                     <Text style={styles.txtHeader}>Berita</Text>
                 </HeaderBack>
                 <View style={{ padding: 20, flex: 1 }}>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                    {/* <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                         {
                             listKategori.map((item, iListK) => {
                                 return (
@@ -90,8 +90,8 @@ export default function ListBerita(props) {
                                 )
                             })
                         }
-                    </View>
-                    <View style={{ height: 20 }} />
+                    </View> */}
+                    {/* <View style={{ height: 20 }} /> */}
                     {/* <TextInputIcon
                         // containerStyle={{ marginBottom: 10 }}
                         wrapperStyle={{ backgroundColor: color.white, borderWidth: 0, paddingHorizontal: 10 }}
@@ -109,6 +109,7 @@ export default function ListBerita(props) {
 
 function List({ data, jenis }) {
     const navigation = useNavigation()
+
 
     const user = useSelector(state => state.user);
     const btnTriggerView = useCallback((value, iJenis, item) => {

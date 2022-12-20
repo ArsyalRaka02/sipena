@@ -228,7 +228,7 @@ export default function DashboardSemuaList(props) {
             name: "Jadwal",
             image: require("../assets/sipena/jadwal.png"),
             warna: color.menuBlue,
-            page: "ListJadwalMenuGuru"
+            page: "ListJadwalKepalaSekolah"
         },
         // {
         //     name: "Absen",

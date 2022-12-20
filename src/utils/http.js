@@ -79,6 +79,9 @@ export const HttpRequest = {
     listBerita(kategori, id) {
         return request().get("/berita?kategori=" + kategori)
     },
+    listBeritaByID(id, kategori) {
+        return request().get("/berita?id=" + id + "&kategori=" + kategori)
+    },
     hapusMutasi(id) {
         return request().get("/hapusmutasisiswa?id=" + id)
     },

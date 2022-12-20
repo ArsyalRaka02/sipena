@@ -34,7 +34,7 @@ export default function ListAbsenMonitoring(props) {
         if (isFocused) {
             loadKelas()
         }
-    }, [isFocused])
+    }, [isFocused, kelas, tanggal])
 
     const loadKelas = useCallback(() => {
         HttpRequest.listMapel().then((res) => {
@@ -65,7 +65,7 @@ export default function ListAbsenMonitoring(props) {
     const btnTrigger = useCallback((value) => {
         let isTanggal = moment(tanggal).format("YYYY-MM-DD")
         HttpRequest.listAbsenSiswa(value, isTanggal).then((res) => {
-            // console.log("ini trigger", res.data)
+            console.log("ini trigger", res.data)
             // if (res.data.status == RoleResponse.INSERT_SUKSES) {
             //     setListabsen(res.data.data)
             // }
@@ -75,7 +75,7 @@ export default function ListAbsenMonitoring(props) {
         }).catch((err) => {
             console.log("trigger", err, err.response)
         })
-    }, [tanggal])
+    }, [tanggal,selectedKelas])
 
 
     return (

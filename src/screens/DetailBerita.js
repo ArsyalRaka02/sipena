@@ -12,6 +12,8 @@ import Toast from '../components/Toast'
 import NoData from '../components/NoData'
 import { HttpRequest } from '../utils/http'
 import app from '../config/app'
+import { useSelector } from 'react-redux'
+import RoleResponse from '../utils/RoleResponse'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height
 const SCREEN_WIDTH = Dimensions.get("window").width
@@ -22,6 +24,7 @@ export default function DetailBerita(props) {
     const { params, jenis } = props.route.params
     const [listBerita, setListBerita] = useState([])
     const _scrollView = useRef(null)
+    const user = useSelector(state => state.user);
 
     useEffect(() => {
         if (isFocused) {
@@ -64,6 +67,47 @@ export default function DetailBerita(props) {
             console.log("ini adalah list beita", error)
         }
     }, [listBerita, jenis])
+
+    const btnTriggerView = useCallback((value, iJenis, item) => {
+        let id = value
+        let kategori_id = iJenis
+        HttpRequest.listBeritaByID(id, kategori_id).then((res) => {
+            if (res.data.status == responseStatus.INSERT_SUKSES) {
+                let isJenis = ""
+                if (user.role_id == RoleResponse.siswa) {
+                    isJenis = "kelas"
+                }
+                if (user.role_id == RoleResponse.walimurid) {
+                    isJenis = "kelas"
+                }
+
+                if (user.role_id == RoleResponse.guru) {
+                    if (user.data.is_walikelas == "Y") {
+                        isJenis = "kelas"
+                    }
+                    if (user.data.is_walikelas != "Y") {
+                        isJenis = "sekolah"
+                    }
+                }
+                if (user.role_id == RoleResponse.pegawai) {
+                    isJenis = "sekolah"
+                }
+                if (user.role_id == RoleResponse.kepalasekolah) {
+                    isJenis = "sekolah"
+                }
+                if (user.role_id == RoleResponse.dinaspendidikan) {
+                    isJenis = "sekolah"
+                }
+                return navigation.navigate("DetailBerita", { params: item, jenis: isJenis })
+            }
+            if (res.data.status == responseStatus.INSERT_GAGAL) {
+                Toast.showError(`${res.data.message}`)
+            }
+        }).catch((err) => {
+            console.llog("err", err, err.response)
+            Toast.showError("Server error")
+        })
+    }, [user])
 
     return (
         <>
@@ -126,7 +170,34 @@ export default function DetailBerita(props) {
                                                             y: 0,
                                                             animated: false,
                                                         })
-                                                        navigation.navigate("DetailBerita", { params: item, jenis: jenis })
+
+                                                        let isJenis = ""
+                                                        if (user.role_id == RoleResponse.siswa) {
+                                                            isJenis = "kelas"
+                                                        }
+                                                        if (user.role_id == RoleResponse.walimurid) {
+                                                            isJenis = "kelas"
+                                                        }
+
+                                                        if (user.role_id == RoleResponse.guru) {
+                                                            if (user.data.is_walikelas == "Y") {
+                                                                isJenis = "kelas"
+                                                            }
+                                                            if (user.data.is_walikelas != "Y") {
+                                                                isJenis = "sekolah"
+                                                            }
+                                                        }
+                                                        if (user.role_id == RoleResponse.pegawai) {
+                                                            isJenis = "sekolah"
+                                                        }
+                                                        if (user.role_id == RoleResponse.kepalasekolah) {
+                                                            isJenis = "sekolah"
+                                                        }
+                                                        if (user.role_id == RoleResponse.dinaspendidikan) {
+                                                            isJenis = "sekolah"
+                                                        }
+                                                        btnTriggerView(item.id, isJenis, item)
+                                                        // navigation.navigate("DetailBerita", { params: item, jenis: jenis })
                                                     }} style={{ backgroundColor: color.white, padding: 8, width: SCREEN_WIDTH / 2.0, flexDirection: 'column', borderRadius: 12 }}>
                                                         <View style={{ height: SCREEN_HEIGHT / 7, overflow: 'hidden', borderRadius: 12 }}>
                                                             <Image source={{ uri: app.BASE_URL_PICTURE + item.foto }} style={{ width: "100%", height: "100%" }} resizeMode="cover" />
