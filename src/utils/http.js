@@ -355,7 +355,19 @@ export const HttpRequest = {
     },
     nilaiPembelajaranRole7Default(kelas_id) {
         return request().get("/nilai-pembelajaran?kelas_id=" + kelas_id + "&is_show=Y")
-    }
+    },
+
+    //ekstra
+    ekstrakulikuler() {
+        return request().get("/ekstrakulikuler")
+    },
+    instertEkstra(data) {
+        return request().post("/ekstrakulikuler", data)
+    },
+    deleteEkstra(id) {
+        return request().delete("/ekstrakulikuler/" + id)
+    },
+
 };
 
 export const FormDataConverter = {
