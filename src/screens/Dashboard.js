@@ -216,7 +216,7 @@ export default function Dashboard(props) {
             name: "Absen Siswa",
             image: require("../assets/sipena/absen.png"),
             warna: color.menuGreen,
-            page: "ListTotalKehadiran"
+            page: "TotalKehadiranMuridWali"
         },
         {
             name: "Keuangan",
@@ -228,7 +228,7 @@ export default function Dashboard(props) {
             name: "Rapot",
             image: require("../assets/sipena/rapot.png"),
             warna: color.menuYellow,
-            page: "ListRaport"
+            page: "RaportMuridWali"
         },
     ]
 
