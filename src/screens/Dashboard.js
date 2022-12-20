@@ -161,7 +161,7 @@ export default function Dashboard(props) {
             name: "Absen Siswa",
             image: require("../assets/sipena/absen.png"),
             warna: color.menuGreen,
-            page: "ListAbsen"
+            page: "ListAbsenMonitoring"
         },
         {
             name: "Perpustakaan",

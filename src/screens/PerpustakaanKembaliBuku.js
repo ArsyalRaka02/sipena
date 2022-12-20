@@ -14,6 +14,7 @@ import { useSelector } from 'react-redux'
 import Toast from '../components/Toast'
 import NoData from '../components/NoData'
 import Rupiah from '../utils/Rupiah'
+import RoleResponse from '../utils/RoleResponse'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height
 const SCREEN_WIDTH = Dimensions.get("window").width
@@ -62,28 +63,61 @@ export default function PerpustakaanKembaliBuku(props) {
     }, [listBuku, user, denda])
 
     const btnSave = useCallback(() => {
-        let data = {
-            user_id: user.id,
-            total_denda: denda,
+        if (user.role_id != RoleResponse.pegawai) {
+            let data = {
+                user_id: user.id,
+                total_denda: denda,
+            }
+            setIsLoading(true)
+            HttpRequest.insertKembalikanBuku(data).then((res) => {
+                let status = res.data.status
+                if (status == responseStatus.INSERT_SUKSES) {
+                    setTimeout(() => {
+                        Toast.showSuccess("berhasil kembalikan buku")
+                        navigation.goBack()
+                    }, 300);
+                }
+                if (status == responseStatus.INSERT_GAGAL) {
+                    Toast.showError(`${res.data.message}`)
+                }
+                console.log("res sukses", res.data)
+            }).catch((err) => {
+                Toast.showError("Server Err:")
+                console.log("err", err, err.response)
+            })
         }
-        setIsLoading(true)
-        HttpRequest.insertKembalikanBuku(data).then((res) => {
-            let status = res.data.status
-            if (status == responseStatus.INSERT_SUKSES) {
-                setTimeout(() => {
-                    Toast.showSuccess("berhasil kembalikan buku")
-                    navigation.goBack()
-                }, 300);
+        if (user.role_id == RoleResponse.pegawai) {
+            let isLenght = listBuku.map((item, index) => {
+                return item.buku_pinjam
+            })
+            if (isLenght.length == 0) {
+                return Toast.showError("Daftar buku tidak ada, tidak bisa Acc pinjaman")
+            } else {
+                let data = {
+                    user_id: user.id,
+                    total_denda: denda,
+                }
+                setIsLoading(true)
+                HttpRequest.insertKembalikanBuku(data).then((res) => {
+                    let status = res.data.status
+                    if (status == responseStatus.INSERT_SUKSES) {
+                        setTimeout(() => {
+                            Toast.showSuccess("berhasil kembalikan buku")
+                            navigation.goBack()
+                        }, 300);
+                    }
+                    if (status == responseStatus.INSERT_GAGAL) {
+                        Toast.showError(`${res.data.message}`)
+                    }
+                    console.log("res sukses", res.data)
+                }).catch((err) => {
+                    Toast.showError("Server Err:")
+                    console.log("err", err, err.response)
+                })
             }
-            if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError(`${res.data.message}`)
-            }
-            console.log("res sukses", res.data)
-        }).catch((err) => {
-            Toast.showError("Server Err:")
-            console.log("err", err, err.response)
-        })
-    }, [denda])
+        }
+
+    }, [denda, user])
 
     return (
         <>

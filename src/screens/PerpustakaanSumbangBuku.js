@@ -34,7 +34,7 @@ export default function PerpustakaanSumbangBuku(props) {
     const user = useSelector(state => state.user);
     const [selectedBuku, setSelectedBuku] = useState(null)
     const [listKategori, setListKategori] = useState([])
-    const [getImage, setImage] = useState({})
+    const [getImage, setImage] = useState("")
     const [halaman, setHalaman] = useState(0)
     const [bahasa, setBahasa] = useState("")
     const [author, setAuthor] = useState("")
@@ -57,6 +57,9 @@ export default function PerpustakaanSumbangBuku(props) {
         }
         if (selectedBuku == null) {
             return Toast.showError("Kategori Buku tidak boleh kosong")
+        }
+        if (getImage == "") {
+            return Toast.showError("Gambar Buku tidak boleh kosong")
         }
         formData.append('foto', {
             name: 'image-' + moment().format('YYYY-MM-DD-HH-mm-ss') + '.jpg',
