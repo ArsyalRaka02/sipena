@@ -11,6 +11,7 @@ import { HttpRequest } from '../utils/http'
 import responseStatus from '../utils/responseStatus'
 import Toast from '../components/Toast'
 import NoData from '../components/NoData'
+import Rupiah from '../utils/Rupiah'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height
 const SCREEN_WIDTH = Dimensions.get("window").width
@@ -61,6 +62,8 @@ export default function ListTransaksiKantin(props) {
                             <Text style={[styles.txtBoldGlobal, { color: color.primary, paddingVertical: 8, paddingHorizontal: 30, fontSize: 14 }]}>Tambah</Text>
                         </TouchableOpacity>
                     </View>
+
+                    <View style={{ height: 20 }} />
                     <ScrollView>
                         {
                             listKantin.length == 0 && (
