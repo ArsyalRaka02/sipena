@@ -411,6 +411,9 @@ export default function Dashboard(props) {
                 loadJadwalSekolah()
                 loadBeritaSekolah()
             }
+            if (user.role_id == RoleResponse.dinaspendidikan) {
+                loadBeritaSekolah()
+            }
             if (user.role_id == RoleResponse.guru) {
                 if (user.data.is_walikelas == "Y") {
                     loadBerita()
