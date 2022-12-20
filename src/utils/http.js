@@ -220,6 +220,10 @@ export const HttpRequest = {
         return requestTypeFormData().post("/simpanabsensipegawai", data)
     },
 
+    insertAbsenKepalaSekola(data) {
+        return requestTypeFormData().post("/simpanabsensipegawai", data)
+    },
+
     //absen Guru
     listAbsenGuru() {
         return request().get("/requestTypeFormData")

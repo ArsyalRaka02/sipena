@@ -359,12 +359,12 @@ export default function Dashboard(props) {
             warna: color.menuBlue,
             page: "ListJadwalKepalaSekolah"
         },
-        // {
-        //     name: "Absen",
-        //     image: require("../assets/sipena/user33.png"),
-        //     warna: color.menuRed,
-        //     page: "ListAbsenKepalaSekolah"
-        // },
+        {
+            name: "Absen",
+            image: require("../assets/sipena/user33.png"),
+            warna: color.menuRed,
+            page: "ListAbsenKepalaSekolah"
+        },
         {
             name: "Absen Siswa",
             image: require("../assets/sipena/absen.png"),
@@ -395,12 +395,6 @@ export default function Dashboard(props) {
             image: require("../assets/sipena/kantin.png"),
             warna: color.menuGreen,
             page: "QrCodeKantin"
-        },
-        {
-            name: "Perpustakaan",
-            image: require("../assets/sipena/perpus.png"),
-            warna: color.menuBlueOrca,
-            page: "ListPerpustakaan"
         },
         {
             name: "Semua",
