@@ -21,16 +21,17 @@ const SCREEN_WIDTH = Dimensions.get("window").width
 export default function EditBukuPerpus(props) {
     const navigation = useNavigation()
     const user = useSelector(state => state.user);
+    const { params } = props.route.params
     const [selectedBuku, setSelectedBuku] = useState(null)
     const [listKategori, setListKategori] = useState([])
-    const [getImage, setImage] = useState({})
-    const [halaman, setHalaman] = useState(0)
-    const [bahasa, setBahasa] = useState("")
-    const [author, setAuthor] = useState("")
-    const [judul, setJudul] = useState("")
-    const [stok, setStok] = useState(0)
+    const [getImage, setImage] = useState("")
+    const [halaman, setHalaman] = useState(params.total_halaman)
+    const [bahasa, setBahasa] = useState(params.bahasa)
+    const [author, setAuthor] = useState(params.author)
+    const [judul, setJudul] = useState(params.judul)
+    const [stok, setStok] = useState(params.stok_buku)
     const [isLoading, setIsloading] = useState(false)
-    const { params } = props.route.params
+    console.log("params getImage", getImage)
 
     useEffect(() => {
         loadKatalogKategori()
@@ -55,6 +56,9 @@ export default function EditBukuPerpus(props) {
         }
         if (selectedBuku == null) {
             return Toast.showError("Kategori Buku tidak boleh kosong")
+        }
+        if (getImage == "") {
+            return Toast.showError("Gambar tidak boleh kosong")
         }
         formData.append('image', {
             name: 'image-' + moment().format('YYYY-MM-DD-HH-mm-ss') + '.jpg',
@@ -85,9 +89,10 @@ export default function EditBukuPerpus(props) {
             setIsloading(false)
         }).catch((err) => {
             setIsloading(false)
+            Toast.showError("server err")
             console.log("err", err, err.response)
         })
-    }, [user, selectedBuku, judul, author, bahasa, halaman, stok])
+    }, [user, selectedBuku, judul, author, bahasa, halaman, stok, getImage])
 
     const loadKatalogKategori = useCallback(() => {
         HttpRequest.kategoriBuku().then((res) => {

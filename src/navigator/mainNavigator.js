@@ -101,6 +101,7 @@ import ListJadwalKepalaSekolah from "../screens/ListJadwalKepalaSekolah";
 import TotalKehadiranMuridWali from "../screens/TotalKehadiranMuridWali";
 import RaportMuridWali from "../screens/RaportMuridWali";
 import ListBeritaSekolah from "../screens/ListBeritaSekolah";
+import DetailSumbangBuku from "../screens/DetailSumbangBuku";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -155,6 +156,8 @@ const DashboardStack = () => {
             <Stack.Screen name="TotalKehadiranMuridWali" component={TotalKehadiranMuridWali} />
             <Stack.Screen name="RaportMuridWali" component={RaportMuridWali} />
             <Stack.Screen name="ListBeritaSekolah" component={ListBeritaSekolah} />
+
+            
 
             <Stack.Screen name="ListJadwal" component={ListJadwal} />
             <Stack.Screen name="ListJadwalMenu" component={ListJadwalMenu} />
@@ -216,6 +219,7 @@ const DashboardStack = () => {
             <Stack.Screen name="DetailPinjamBuku" component={DetailPinjamBuku} />
             <Stack.Screen name="DetailKembalikanBuku" component={DetailKembalikanBuku} />
             <Stack.Screen name="DetailKehilanganBuku" component={DetailKehilanganBuku} />
+            <Stack.Screen name="DetailSumbangBuku" component={DetailSumbangBuku} />
 
             {/* profile */}
             <Stack.Screen name="EditUser" component={EditUser} />

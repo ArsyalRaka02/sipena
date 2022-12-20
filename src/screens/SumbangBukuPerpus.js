@@ -115,7 +115,7 @@ export default function SumbangBukuPerpus(props) {
                                                     </View>
 
                                                     <TouchableOpacity activeOpacity={1} onPress={() => {
-                                                        btnDelete()
+                                                        btnDelete(item.id)
                                                     }} style={{ marginVertical: 12 }}>
                                                         <Text style={[styles.txtGlobalBold, { color: color.danger }]}>Delete</Text>
                                                     </TouchableOpacity>

@@ -77,54 +77,66 @@ export default function Profile(props) {
 
 
                     {/* foto profile */}
-                    <View style={styles.containerHeaderBoxProfile}>
-                        <View style={[styles.containerProfile, { overflow: 'hidden' }]}>
-                            {
-                                user.role_id == RoleResponse.siswa && (
+                    {
+                        user.role_id != RoleResponse.dinaspendidikan && (
+                            <View style={styles.containerHeaderBoxProfile}>
+                                <View style={[styles.containerProfile, { overflow: 'hidden' }]}>
+                                    {
+                                        user.role_id == RoleResponse.siswa && (
+                                            <Image source={{ uri: app.BASE_URL_PICTURE + detail?.foto_profil }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
+                                        )
+                                    }
+                                    {
+                                        user.role_id == RoleResponse.guru && (
+                                            <Image source={{ uri: app.BASE_URL_PICTURE + detail?.profil_picture }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
+                                        )
+                                    }
+                                    {
+                                        user.role_id == RoleResponse.walimurid && (
+                                            <Image source={{ uri: app.BASE_URL_PICTURE + detail?.foto_profil }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
+                                        )
+                                    }
+                                    {
+                                        user.role_id == RoleResponse.pegawai && (
+                                            <Image source={{ uri: app.BASE_URL_PICTURE + detail?.profil_picture }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
+                                        )
+                                    }
+
+                                    {
+                                        user.role_id == RoleResponse.kepalasekolah && (
+                                            <>
+                                                <Image source={{ uri: app.BASE_URL_PICTURE + detail?.foto_profil }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
+                                            </>
+                                        )
+                                    }
+                                </View>
+                            </View>
+                        )
+                    }
+                    {
+                        user.role_id == RoleResponse.dinaspendidikan && (
+                            <View style={styles.containerHeaderBoxProfile}>
+                                <View style={[styles.containerProfile, { overflow: 'hidden', top: 60 }]}>
                                     <Image source={{ uri: app.BASE_URL_PICTURE + detail?.foto_profil }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
-                                )
-                            }
-                            {
-                                user.role_id == RoleResponse.guru && (
-                                    <Image source={{ uri: app.BASE_URL_PICTURE + detail?.profil_picture }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
-                                )
-                            }
-                            {
-                                user.role_id == RoleResponse.walimurid && (
-                                    <Image source={{ uri: app.BASE_URL_PICTURE + detail?.foto_profil }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
-                                )
-                            }
-                            {
-                                user.role_id == RoleResponse.pegawai && (
-                                    <Image source={{ uri: app.BASE_URL_PICTURE + detail?.profil_picture }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
-                                )
-                            }
-                            {
-                                user.role_id == RoleResponse.dinaspendidikan && (
-                                    <>
-                                        <Image source={{ uri: app.BASE_URL_PICTURE + detail?.foto_profil }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
-                                    </>
-                                )
-                            }
-                            {
-                                user.role_id == RoleResponse.kepalasekolah && (
-                                    <>
-                                        <Image source={{ uri: app.BASE_URL_PICTURE + detail?.foto_profil }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
-                                    </>
-                                )
-                            }
-                            {/* <Ionicons name="person-outline" size={40} color={color.black} /> */}
-                        </View>
-                    </View>
-                    <View style={{ position: 'absolute', alignSelf: 'center', top: 120 }}>
-                        <Text style={[styles.txtGlobalWhite, { alignSelf: 'center', fontSize: 12 }]}>Saldo Dompent</Text>
-                        <Text style={[styles.txtGlobalWhite, { alignSelf: 'center', fontFamily: fonts.interBold, fontSize: 18 }]}>{Rupiah.format(user.saldo)}</Text>
-                        <TouchableOpacity activeOpacity={1} onPress={() => {
-                            navigation.navigate("IsiSaldo")
-                        }} style={{ backgroundColor: color.white, alignItems: 'center', marginHorizontal: 20, borderRadius: 8, marginTop: 8 }}>
-                            <Text style={[styles.txtIsi, { color: color.primary, paddingVertical: 8, paddingHorizontal: 10 }]}>Isi Saldo</Text>
-                        </TouchableOpacity>
-                    </View>
+                                </View>
+                            </View>
+                        )
+                    }
+                    {
+                        user.role_id != RoleResponse.dinaspendidikan && (
+                            <>
+                                <View style={{ position: 'absolute', alignSelf: 'center', top: 120 }}>
+                                    <Text style={[styles.txtGlobalWhite, { alignSelf: 'center', fontSize: 12 }]}>Saldo Dompent</Text>
+                                    <Text style={[styles.txtGlobalWhite, { alignSelf: 'center', fontFamily: fonts.interBold, fontSize: 18 }]}>{Rupiah.format(user.saldo)}</Text>
+                                    <TouchableOpacity activeOpacity={1} onPress={() => {
+                                        navigation.navigate("IsiSaldo")
+                                    }} style={{ backgroundColor: color.white, alignItems: 'center', marginHorizontal: 20, borderRadius: 8, marginTop: 8 }}>
+                                        <Text style={[styles.txtIsi, { color: color.primary, paddingVertical: 8, paddingHorizontal: 10 }]}>Isi Saldo</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </>
+                        )
+                    }
 
                     {/* content */}
                     <View style={{ zIndex: 1 }}>

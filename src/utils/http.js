@@ -129,7 +129,7 @@ export const HttpRequest = {
         return requestTypeFormData().post("/sumbang-buku", data)
     },
     deleteSumbangBuku(id) {
-        return request().delete("/sumbangbuku/" + id)
+        return request().delete("/sumbang-buku/" + id)
     },
     deleteKatalogBuku(id) {
         return request().delete("/katalog-buku/" + id)

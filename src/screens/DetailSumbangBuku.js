@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image } from 'react-native'
+import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, ImageBackground } from 'react-native'
 import moment from 'moment'
 import color from '../utils/color'
 import HeaderBack from '../components/HeaderBack'
@@ -90,16 +90,16 @@ export default function DetailSumbangBuku(props) {
                             </View>
                         </View>
                     </ScrollView>
-                    <View style={{ flexDirection: 'row', paddingHorizontal: 20, paddingVertical: 10, backgroundColor: color.white }}>
-                        <Button
-                            style={{ flex: 1 }}
-                            onPress={() => {
-                                btnSave()
-                            }}
-                        >
-                            Tambah Buku
-                        </Button>
-                    </View>
+                </View>
+                <View style={{ flexDirection: 'row', paddingHorizontal: 20, paddingVertical: 10, backgroundColor: color.white }}>
+                    <Button
+                        style={{ flex: 1 }}
+                        onPress={() => {
+                            btnSave()
+                        }}
+                    >
+                        Tambah Buku
+                    </Button>
                 </View>
             </SafeAreaView>
         </>

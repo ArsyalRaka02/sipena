@@ -23,7 +23,7 @@ export default function TambahBukuPerpus(props) {
     const user = useSelector(state => state.user);
     const [selectedBuku, setSelectedBuku] = useState(null)
     const [listKategori, setListKategori] = useState([])
-    const [getImage, setImage] = useState({})
+    const [getImage, setImage] = useState("")
     const [halaman, setHalaman] = useState(0)
     const [bahasa, setBahasa] = useState("")
     const [author, setAuthor] = useState("")
@@ -55,6 +55,9 @@ export default function TambahBukuPerpus(props) {
         if (selectedBuku == null) {
             return Toast.showError("Kategori Buku tidak boleh kosong")
         }
+        if (getImage == "") {
+            return Toast.showError("Gambar tidak boleh kosong")
+        }
         formData.append('image', {
             name: 'image-' + moment().format('YYYY-MM-DD-HH-mm-ss') + '.jpg',
             type: 'image/jpeg',
@@ -85,7 +88,7 @@ export default function TambahBukuPerpus(props) {
             setIsloading(false)
             console.log("err", err, err.response)
         })
-    }, [user, selectedBuku, judul, author, bahasa, halaman, stok])
+    }, [user, selectedBuku, judul, author, bahasa, halaman, stok, getImage])
 
     const loadKatalogKategori = useCallback(() => {
         HttpRequest.kategoriBuku().then((res) => {
