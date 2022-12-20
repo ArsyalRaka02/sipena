@@ -221,7 +221,7 @@ export const HttpRequest = {
     },
 
     insertAbsenKepalaSekola(data) {
-        return requestTypeFormData().post("/simpanabsensipegawai", data)
+        return requestTypeFormData().post("/simpanabsensikepalasekolah", data)
     },
 
     //absen Guru

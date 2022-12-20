@@ -62,7 +62,7 @@ export default function ListAbsenKepalaSekolah(props) {
             }
         }
 
-        formData.append('pegawai_id', user.data.id);
+        formData.append('kepala_sekolah_id', user.data.id);
         formData.append('is_izin', isValue);
         formData.append("alasan_izin", selected)
         formData.append("keterangan_izin", isKeterangan)
