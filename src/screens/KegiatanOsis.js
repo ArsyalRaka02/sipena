@@ -102,7 +102,7 @@ export default function KegiatanOsis(props) {
                         navigation.goBack()
                     }}
                 >
-                    <Text style={styles.txtHeader}>Kegiatan Ekstrakulikuler</Text>
+                    <Text style={styles.txtHeader}>Kegiatan Osis</Text>
                 </HeaderBack>
                 <View style={{ padding: 20, flex: 1 }}>
                     {/* <TextInputIcon

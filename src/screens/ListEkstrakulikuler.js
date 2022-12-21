@@ -28,12 +28,12 @@ export default function ListEkstrakulikuler(props) {
     const loadData = useCallback(() => {
         HttpRequest.ekstrakulikuler().then((res) => {
             if (res.data.status == responseStatus.INSERT_SUKSES) {
-                Toast.showSuccess("Berhasil get data")
                 setListEkstra(res.data.data)
             }
             if (res.data.status == responseStatus.INSERT_GAGAL) {
                 Toast.showError(`${res.data.message}`)
             }
+            console.log("ini eksul", res.data)
         }).catch((err) => {
             Toast.showError("Server err")
             console.log("err", err, err.response)
@@ -51,13 +51,6 @@ export default function ListEkstrakulikuler(props) {
                     <Text style={styles.txtHeader}>Kegiatan Ekstrakulikuler</Text>
                 </HeaderBack>
                 <View style={{ padding: 20, flex: 1 }}>
-                    {/* <TextInputIcon
-                        // containerStyle={{ marginBottom: 10 }}
-                        wrapperStyle={{ backgroundColor: color.white, borderWidth: 0, paddingHorizontal: 10 }}
-                        jenisIcons={"Ionicons"}
-                        iconName={"search-outline"}
-                        placeholder="Nama Kegiatan"
-                    /> */}
                     <View style={{ height: 20 }} />
                     <ScrollView>
                         {
@@ -73,14 +66,12 @@ export default function ListEkstrakulikuler(props) {
                                     return (
                                         <>
                                             <View style={{ flexDirection: 'column', flex: 1, backgroundColor: color.white, borderRadius: 12, padding: 12 }}>
-                                                <Text style={[styles.txtGlobalBold, { flex: 1 }]}>{item.kegiatan}</Text>
+                                                <Text style={[styles.txtGlobalBold, { flex: 1 }]}>{item.nama}</Text>
                                                 <View style={{ flexDirection: "row", alignItems: 'center' }}>
-                                                    <Text style={[styles.txtGlobal, { flex: 1 }]}>{item.tanggal}</Text>
+                                                    <Text style={[styles.txtGlobal, { flex: 1 }]}>{item.jadwal_hari}</Text>
                                                     <View style={{ flexDirection: "row", alignItems: 'center' }}>
                                                         <Ionicons name="time-outline" size={20} color={color.black} />
-                                                        <Text style={[styles.txtGlobal]}>{item.jam_mulai}</Text>
-                                                        <Text style={[styles.txtGlobal]}> - </Text>
-                                                        <Text style={[styles.txtGlobal]}>{item.jam_selesai}</Text>
+                                                        <Text style={[styles.txtGlobal, { marginLeft: 10 }]}>{item.jam_mulai}</Text>
                                                     </View>
                                                 </View>
                                             </View>

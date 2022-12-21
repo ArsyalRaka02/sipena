@@ -34,6 +34,7 @@ export default function Dashboard(props) {
     const [listKantin, setListKantin] = useState([])
     const [listPerpus, setListPerpus] = useState([])
     const [listPerpusY, setListPerpusY] = useState([])
+    // const [obj, setObj] = useState({})
     const [listPeminjamanFasilitas, setListPeminjamanFasilitas] = useState([])
     const [detail, setDetail] = useState({})
 
@@ -168,6 +169,12 @@ export default function Dashboard(props) {
             image: require("../assets/sipena/perpus.png"),
             warna: color.menuBlueOrca,
             page: "ListPerpustakaan"
+        },
+        {
+            name: "PPDB",
+            image: require("../assets/sipena/ppdb.png"),
+            warna: color.menuBlue,
+            page: "ListPPDBMenu"
         },
     ]
 
@@ -385,16 +392,16 @@ export default function Dashboard(props) {
             page: "QrCodeKoperasi"
         },
         {
-            name: "Rapot",
-            image: require("../assets/sipena/rapot.png"),
-            warna: color.menuYellow,
-            page: "RaportRole7"
-        },
-        {
             name: "Kantin",
             image: require("../assets/sipena/kantin.png"),
             warna: color.menuGreen,
             page: "QrCodeKantin"
+        },
+        {
+            name: "PPDB",
+            image: require("../assets/sipena/ppdb.png"),
+            warna: color.menuBlue,
+            page: "ListPPDBMenu"
         },
         {
             name: "Semua",
@@ -424,7 +431,8 @@ export default function Dashboard(props) {
                 loadListJadwalGuru()
             }
             if (user.role_id == RoleResponse.siswa) {
-                loadListJadwal()
+                // loadListJadwal()
+                loadListJadwalBaru()
                 loadBerita()
             }
             if (user.role_id == RoleResponse.walimurid) {
@@ -445,6 +453,27 @@ export default function Dashboard(props) {
             }
         }
     }, [user, isFocused])
+
+    const loadListJadwalBaru = useCallback(() => {
+        // let id = user?.data?.kelas_id
+        HttpRequest.jadwalBaruPerhari().then((res) => {
+            let result = res.data.data
+            let status = res.data.status
+            if (status == responseStatus.INSERT_SUKSES) {
+                let day = moment(new Date()).format("dddd")
+                let resDay = Object.keys(res.data.data)
+                // if (result.Rabu == day) {
+                setListJadwal([])
+                // }
+            }
+            if (status == responseStatus.INSERT_GAGAL) {
+                Toast.showError("Gagal mendapatkan list jadwal")
+                setListJadwal([])
+            }
+        }).catch((err) => {
+            console.log("err", err, err.response)
+        })
+    }, [listJadwal])
 
     const loadTransaksiKantin = useCallback(() => {
         HttpRequest.getListTransaksiKantin().then((res) => {
@@ -1078,14 +1107,13 @@ export default function Dashboard(props) {
                                                     listJadwal.length > 0 && (
                                                         <>
                                                             <View style={{ marginVertical: 12 }}>
-                                                                <Text style={[styles.txtBoldGlobal]}>{moment(new Date()).format("dddd")}</Text>
+                                                                <Text style={[styles.txtBoldGlobal]}></Text>
                                                             </View>
                                                             {
                                                                 listJadwal.map((item, iJadwal) => {
                                                                     if (iJadwal < 3) {
                                                                         return (
                                                                             <>
-                                                                                {/* <Text style={[styles.txtBoldGlobal, { fontSize: 16, color: color.black, marginBottom: 12 }]}>{item.jadwal_hari}</Text> */}
                                                                                 <View style={styles.containerJadwal}>
                                                                                     <Text style={[styles.txtBoldGlobal]}>{item.mapel_nama}</Text>
                                                                                     <View style={{ flex: 1 }} />

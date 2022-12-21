@@ -368,6 +368,17 @@ export const HttpRequest = {
         return request().delete("/ekstrakulikuler/" + id)
     },
 
+    jadwalBaruPerhari() {
+        return request().get("/jadwal-kelas-sekarang")
+    },
+    jadwalBaru() {
+        return request().get("/jadwal-kelas")
+    },
+
+    ppdbList() {
+        return request().get("/list-pendaftaran")
+    }
+
 };
 
 export const FormDataConverter = {

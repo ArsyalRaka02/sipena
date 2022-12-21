@@ -256,12 +256,6 @@ export default function DashboardSemuaList(props) {
             page: "QrCodeKoperasi"
         },
         {
-            name: "Rapot",
-            image: require("../assets/sipena/rapot.png"),
-            warna: color.menuYellow,
-            page: "RaportRole7"
-        },
-        {
             name: "Kantin",
             image: require("../assets/sipena/kantin.png"),
             warna: color.menuGreen,
@@ -272,6 +266,12 @@ export default function DashboardSemuaList(props) {
             image: require("../assets/sipena/perpus.png"),
             warna: color.menuBlueOrca,
             page: "ListPerpustakaan"
+        },
+        {
+            name: "PPDB",
+            image: require("../assets/sipena/ppdb.png"),
+            warna: color.menuBlue,
+            page: "ListPPDBMenu"
         },
         {
             name: "Ekstrakulikuler",

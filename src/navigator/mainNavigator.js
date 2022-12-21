@@ -103,6 +103,8 @@ import RaportMuridWali from "../screens/RaportMuridWali";
 import ListBeritaSekolah from "../screens/ListBeritaSekolah";
 import DetailSumbangBuku from "../screens/DetailSumbangBuku";
 import RaportWaliKelasDetail from "../screens/RaportWaliKelasDetail";
+import ListPPDBMenu from "../screens/ListPPDBMenu";
+import DetailPPDB from "../screens/DetailPPDB";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -158,8 +160,10 @@ const DashboardStack = () => {
             <Stack.Screen name="RaportMuridWali" component={RaportMuridWali} />
             <Stack.Screen name="ListBeritaSekolah" component={ListBeritaSekolah} />
             <Stack.Screen name="RaportWaliKelasDetail" component={RaportWaliKelasDetail} />
+            <Stack.Screen name="ListPPDBMenu" component={ListPPDBMenu} />
+            <Stack.Screen name="DetailPPDB" component={DetailPPDB} />
 
-            
+
 
             <Stack.Screen name="ListJadwal" component={ListJadwal} />
             <Stack.Screen name="ListJadwalMenu" component={ListJadwalMenu} />
