@@ -124,20 +124,24 @@ export default function Perpustakaan(props) {
                                 {
                                     !isLoading && (
                                         <>
-                                            <View style={{ flexWrap: 'wrap', flexDirection: 'row', justifyContent: 'space-between' }}>
+                                            <View style={{ flexDirection: 'row', width: SCREEN_WIDTH, flexWrap: 'wrap', overflow: 'hidden' }}>
                                                 {
                                                     listBuku.map((item, iBook) => {
                                                         return (
                                                             <>
+                                                                {/* {iBook == 0 && <View style={{ width: 30 }} />} */}
                                                                 <TouchableOpacity activeOpacity={1} onPress={() => {
                                                                     navigation.navigate("DetailPerpustakaan", { params: item })
                                                                 }} key={iBook} style={{ flexDirection: 'column', alignItems: 'center' }}>
                                                                     <View style={{ height: SCREEN_HEIGHT / 6.3, width: SCREEN_WIDTH / 4 }}>
-                                                                        <Image source={{ uri: app.BASE_URL_PICTURE + item.foto }} style={{ height: "100%", width: "100%", borderRadius: 12 }} resizeMode={"contain"} />
+                                                                        <Image source={{ uri: app.BASE_URL_PICTURE + item.foto }} style={{ height: "100%", width: "100%", borderRadius: 12 }} resizeMode={"cover"} />
                                                                     </View>
                                                                     <Text numberOfLines={1} style={[styles.txtGlobalBold, { fontSize: 15, color: color.black, width: 70, }]}>{item.judul}</Text>
-                                                                    <Text style={[styles.txtGlobal, { fontSize: 13 }]}>{item.author}</Text>
+                                                                    <Text style={[styles.txtGlobal, { fontSize: 13, marginBottom: 20 }]}>{item.author}</Text>
                                                                 </TouchableOpacity>
+                                                                <View style={{ width: 30 }} />
+                                                                {/* {iBook != 1 && <View style={{ width: 30 }} />} */}
+                                                                {/* {iBook == 0 && <View style={{ width: 10, backgroundColor: color.black }} />} */}
                                                             </>
                                                         )
                                                     })
