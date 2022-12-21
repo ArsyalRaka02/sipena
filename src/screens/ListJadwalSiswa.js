@@ -102,202 +102,191 @@ export default function ListJadwalSiswa(props) {
                 <View style={{ padding: 20, flex: 1 }}>
                     <View style={{ flex: 1 }}>
                         <ScrollView>
+                            <View style={{ marginVertical: 12 }}>
+                                <Text style={[styles.txtBoldGlobal]}>Senin</Text>
+                            </View>
                             {
-                                listJadwal.length == 0 && (
-                                    <NoData>Tidak ada jadwal harian</NoData>
+                                senin.length == 0 && (
+                                    <NoData>Tidak ada jadwal Senin</NoData>
                                 )
                             }
                             {
-                                listJadwal.length > 0 && (
+                                senin.length > 0 && (
                                     <>
-                                        <View style={{ marginVertical: 12 }}>
-                                            <Text style={[styles.txtBoldGlobal]}>Senin</Text>
-                                        </View>
                                         {
-                                            senin.length == 0 && (
-                                                <NoData>Tidak ada jadwal Senin</NoData>
-                                            )
+                                            senin.map((item, iList) => {
+                                                return (
+                                                    <>
+                                                        <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: color.white, paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12 }}>
+                                                            <Text style={[styles.txtBoldGlobal]}>{item.mapel_nama}</Text>
+                                                            <View style={{ flex: 1 }} />
+                                                            <View style={{ flexDirection: 'row' }}>
+                                                                <Ionicons name="time-outline" size={20} color={color.black} style={{ marginRight: 12 }} />
+                                                                <Text style={[styles.txtGlobal, { marginLeft: 12 }]}>{item.jadwal_waktu_mulai} - {item.jadwal_waktu_akhir}</Text>
+                                                            </View>
+                                                        </View>
+                                                        <View style={{ height: 20 }} />
+                                                    </>
+                                                )
+                                            })
                                         }
-                                        {
-                                            senin.length > 0 && (
-                                                <>
-                                                    {
-                                                        senin.map((item, iList) => {
-                                                            return (
-                                                                <>
-                                                                    <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: color.white, paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12 }}>
-                                                                        <Text style={[styles.txtBoldGlobal]}>{item.mapel_nama}</Text>
-                                                                        <View style={{ flex: 1 }} />
-                                                                        <View style={{ flexDirection: 'row' }}>
-                                                                            <Ionicons name="time-outline" size={20} color={color.black} style={{ marginRight: 12 }} />
-                                                                            <Text style={[styles.txtGlobal, { marginLeft: 12 }]}>{item.jadwal_waktu_mulai} - {item.jadwal_waktu_akhir}</Text>
-                                                                        </View>
-                                                                    </View>
-                                                                    <View style={{ height: 20 }} />
-                                                                </>
-                                                            )
-                                                        })
-                                                    }
-                                                </>
-                                            )
-                                        }
+                                    </>
+                                )
+                            }
 
-                                        <View style={{ marginVertical: 12 }}>
-                                            <Text style={[styles.txtBoldGlobal]}>Selasa</Text>
-                                        </View>
+                            <View style={{ marginVertical: 12 }}>
+                                <Text style={[styles.txtBoldGlobal]}>Selasa</Text>
+                            </View>
+                            {
+                                selasa.length == 0 && (
+                                    <NoData>Tidak ada jadwal Selasa</NoData>
+                                )
+                            }
+                            {
+                                selasa.length > 0 && (
+                                    <>
                                         {
-                                            selasa.length == 0 && (
-                                                <NoData>Tidak ada jadwal Selasa</NoData>
-                                            )
+                                            selasa.map((item, iList) => {
+                                                return (
+                                                    <>
+                                                        <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: color.white, paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12 }}>
+                                                            <Text style={[styles.txtBoldGlobal]}>{item.mapel_nama}</Text>
+                                                            <View style={{ flex: 1 }} />
+                                                            <View style={{ flexDirection: 'row' }}>
+                                                                <Ionicons name="time-outline" size={20} color={color.black} style={{ marginRight: 12 }} />
+                                                                <Text style={[styles.txtGlobal, { marginLeft: 12 }]}>{item.jadwal_waktu_mulai} - {item.jadwal_waktu_akhir}</Text>
+                                                            </View>
+                                                        </View>
+                                                        <View style={{ height: 20 }} />
+                                                    </>
+                                                )
+                                            })
                                         }
+                                    </>
+                                )
+                            }
+                            <View style={{ marginVertical: 12 }}>
+                                <Text style={[styles.txtBoldGlobal]}>Rabu</Text>
+                            </View>
+                            {
+                                rabu.length == 0 && (
+                                    <NoData>Tidak ada jadwal Rabu</NoData>
+                                )
+                            }
+                            {
+                                rabu.length > 0 && (
+                                    <>
                                         {
-                                            selasa.length > 0 && (
-                                                <>
-                                                    {
-                                                        selasa.map((item, iList) => {
-                                                            return (
-                                                                <>
-                                                                    <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: color.white, paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12 }}>
-                                                                        <Text style={[styles.txtBoldGlobal]}>{item.mapel_nama}</Text>
-                                                                        <View style={{ flex: 1 }} />
-                                                                        <View style={{ flexDirection: 'row' }}>
-                                                                            <Ionicons name="time-outline" size={20} color={color.black} style={{ marginRight: 12 }} />
-                                                                            <Text style={[styles.txtGlobal, { marginLeft: 12 }]}>{item.jadwal_waktu_mulai} - {item.jadwal_waktu_akhir}</Text>
-                                                                        </View>
-                                                                    </View>
-                                                                    <View style={{ height: 20 }} />
-                                                                </>
-                                                            )
-                                                        })
-                                                    }
-                                                </>
-                                            )
+                                            rabu.map((item, iList) => {
+                                                return (
+                                                    <>
+                                                        <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: color.white, paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12 }}>
+                                                            <Text style={[styles.txtBoldGlobal]}>{item.mapel_nama}</Text>
+                                                            <View style={{ flex: 1 }} />
+                                                            <View style={{ flexDirection: 'row' }}>
+                                                                <Ionicons name="time-outline" size={20} color={color.black} style={{ marginRight: 12 }} />
+                                                                <Text style={[styles.txtGlobal, { marginLeft: 12 }]}>{item.jadwal_waktu_mulai} - {item.jadwal_waktu_akhir}</Text>
+                                                            </View>
+                                                        </View>
+                                                        <View style={{ height: 20 }} />
+                                                    </>
+                                                )
+                                            })
                                         }
-                                        <View style={{ marginVertical: 12 }}>
-                                            <Text style={[styles.txtBoldGlobal]}>Rabu</Text>
-                                        </View>
+                                    </>
+                                )
+                            }
+                            <View style={{ marginVertical: 12 }}>
+                                <Text style={[styles.txtBoldGlobal]}>Kamis</Text>
+                            </View>
+                            {
+                                kamis.length == 0 && (
+                                    <NoData>Tidak ada jadwal Kamis</NoData>
+                                )
+                            }
+                            {
+                                kamis.length > 0 && (
+                                    <>
                                         {
-                                            rabu.length == 0 && (
-                                                <NoData>Tidak ada jadwal Rabu</NoData>
-                                            )
+                                            kamis.map((item, iList) => {
+                                                return (
+                                                    <>
+                                                        <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: color.white, paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12 }}>
+                                                            <Text style={[styles.txtBoldGlobal]}>{item.mapel_nama}</Text>
+                                                            <View style={{ flex: 1 }} />
+                                                            <View style={{ flexDirection: 'row' }}>
+                                                                <Ionicons name="time-outline" size={20} color={color.black} style={{ marginRight: 12 }} />
+                                                                <Text style={[styles.txtGlobal, { marginLeft: 12 }]}>{item.jadwal_waktu_mulai} - {item.jadwal_waktu_akhir}</Text>
+                                                            </View>
+                                                        </View>
+                                                        <View style={{ height: 20 }} />
+                                                    </>
+                                                )
+                                            })
                                         }
-                                        {
-                                            rabu.length > 0 && (
-                                                <>
-                                                    {
-                                                        rabu.map((item, iList) => {
-                                                            return (
-                                                                <>
-                                                                    <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: color.white, paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12 }}>
-                                                                        <Text style={[styles.txtBoldGlobal]}>{item.mapel_nama}</Text>
-                                                                        <View style={{ flex: 1 }} />
-                                                                        <View style={{ flexDirection: 'row' }}>
-                                                                            <Ionicons name="time-outline" size={20} color={color.black} style={{ marginRight: 12 }} />
-                                                                            <Text style={[styles.txtGlobal, { marginLeft: 12 }]}>{item.jadwal_waktu_mulai} - {item.jadwal_waktu_akhir}</Text>
-                                                                        </View>
-                                                                    </View>
-                                                                    <View style={{ height: 20 }} />
-                                                                </>
-                                                            )
-                                                        })
-                                                    }
-                                                </>
-                                            )
-                                        }
-                                        <View style={{ marginVertical: 12 }}>
-                                            <Text style={[styles.txtBoldGlobal]}>Kamis</Text>
-                                        </View>
-                                        {
-                                            kamis.length == 0 && (
-                                                <NoData>Tidak ada jadwal Kamis</NoData>
-                                            )
-                                        }
-                                        {
-                                            kamis.length > 0 && (
-                                                <>
-                                                    {
-                                                        kamis.map((item, iList) => {
-                                                            return (
-                                                                <>
-                                                                    <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: color.white, paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12 }}>
-                                                                        <Text style={[styles.txtBoldGlobal]}>{item.mapel_nama}</Text>
-                                                                        <View style={{ flex: 1 }} />
-                                                                        <View style={{ flexDirection: 'row' }}>
-                                                                            <Ionicons name="time-outline" size={20} color={color.black} style={{ marginRight: 12 }} />
-                                                                            <Text style={[styles.txtGlobal, { marginLeft: 12 }]}>{item.jadwal_waktu_mulai} - {item.jadwal_waktu_akhir}</Text>
-                                                                        </View>
-                                                                    </View>
-                                                                    <View style={{ height: 20 }} />
-                                                                </>
-                                                            )
-                                                        })
-                                                    }
-                                                </>
-                                            )
-                                        }
+                                    </>
+                                )
+                            }
 
-                                        <View style={{ marginVertical: 12 }}>
-                                            <Text style={[styles.txtBoldGlobal]}>Jumat</Text>
-                                        </View>
+                            <View style={{ marginVertical: 12 }}>
+                                <Text style={[styles.txtBoldGlobal]}>Jumat</Text>
+                            </View>
+                            {
+                                jumat.length == 0 && (
+                                    <NoData>Tidak ada jadwal jumat</NoData>
+                                )
+                            }
+                            {
+                                jumat.length > 0 && (
+                                    <>
                                         {
-                                            jumat.length == 0 && (
-                                                <NoData>Tidak ada jadwal jumat</NoData>
-                                            )
+                                            jumat.map((item, iList) => {
+                                                return (
+                                                    <>
+                                                        <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: color.white, paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12 }}>
+                                                            <Text style={[styles.txtBoldGlobal]}>{item.mapel_nama}</Text>
+                                                            <View style={{ flex: 1 }} />
+                                                            <View style={{ flexDirection: 'row' }}>
+                                                                <Ionicons name="time-outline" size={20} color={color.black} style={{ marginRight: 12 }} />
+                                                                <Text style={[styles.txtGlobal, { marginLeft: 12 }]}>{item.jadwal_waktu_mulai} - {item.jadwal_waktu_akhir}</Text>
+                                                            </View>
+                                                        </View>
+                                                        <View style={{ height: 20 }} />
+                                                    </>
+                                                )
+                                            })
                                         }
-                                        {
-                                            jumat.length > 0 && (
-                                                <>
-                                                    {
-                                                        jumat.map((item, iList) => {
-                                                            return (
-                                                                <>
-                                                                    <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: color.white, paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12 }}>
-                                                                        <Text style={[styles.txtBoldGlobal]}>{item.mapel_nama}</Text>
-                                                                        <View style={{ flex: 1 }} />
-                                                                        <View style={{ flexDirection: 'row' }}>
-                                                                            <Ionicons name="time-outline" size={20} color={color.black} style={{ marginRight: 12 }} />
-                                                                            <Text style={[styles.txtGlobal, { marginLeft: 12 }]}>{item.jadwal_waktu_mulai} - {item.jadwal_waktu_akhir}</Text>
-                                                                        </View>
-                                                                    </View>
-                                                                    <View style={{ height: 20 }} />
-                                                                </>
-                                                            )
-                                                        })
-                                                    }
-                                                </>
-                                            )
-                                        }
+                                    </>
+                                )
+                            }
 
-                                        <View style={{ marginVertical: 12 }}>
-                                            <Text style={[styles.txtBoldGlobal]}>Sabtu</Text>
-                                        </View>
+                            <View style={{ marginVertical: 12 }}>
+                                <Text style={[styles.txtBoldGlobal]}>Sabtu</Text>
+                            </View>
+                            {
+                                sabtu.length == 0 && (
+                                    <NoData>Tidak ada jadwal Sabtu</NoData>
+                                )
+                            }
+                            {
+                                sabtu.length > 0 && (
+                                    <>
                                         {
-                                            sabtu.length == 0 && (
-                                                <NoData>Tidak ada jadwal Sabtu</NoData>
-                                            )
-                                        }
-                                        {
-                                            sabtu.length > 0 && (
-                                                <>
-                                                    {
-                                                        sabtu.map((item, iList) => {
-                                                            return (
-                                                                <>
-                                                                    <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: color.white, paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12 }}>
-                                                                        <Text style={[styles.txtBoldGlobal]}>{item.mapel_nama}</Text>
-                                                                        <View style={{ flex: 1 }} />
-                                                                        <View style={{ flexDirection: 'row' }}>
-                                                                            <Ionicons name="time-outline" size={20} color={color.black} style={{ marginRight: 12 }} />
-                                                                            <Text style={[styles.txtGlobal, { marginLeft: 12 }]}>{item.jadwal_waktu_mulai} - {item.jadwal_waktu_akhir}</Text>
-                                                                        </View>
-                                                                    </View>
-                                                                    <View style={{ height: 20 }} />
-                                                                </>
-                                                            )
-                                                        })
-                                                    }
-                                                </>
-                                            )
+                                            sabtu.map((item, iList) => {
+                                                return (
+                                                    <>
+                                                        <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: color.white, paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12 }}>
+                                                            <Text style={[styles.txtBoldGlobal]}>{item.mapel_nama}</Text>
+                                                            <View style={{ flex: 1 }} />
+                                                            <View style={{ flexDirection: 'row' }}>
+                                                                <Ionicons name="time-outline" size={20} color={color.black} style={{ marginRight: 12 }} />
+                                                                <Text style={[styles.txtGlobal, { marginLeft: 12 }]}>{item.jadwal_waktu_mulai} - {item.jadwal_waktu_akhir}</Text>
+                                                            </View>
+                                                        </View>
+                                                        <View style={{ height: 20 }} />
+                                                    </>
+                                                )
+                                            })
                                         }
                                     </>
                                 )
@@ -323,4 +312,9 @@ const styles = {
 
     txtGlobal: { fontSize: 13, fontFamily: fonts.inter },
     txtGlobalBold: { fontSize: 15, fontFamily: fonts.interBold },
+    txtBoldGlobal: {
+        fontFamily: fonts.interBold,
+        fontSize: 15,
+        color: color.black
+    },
 }
