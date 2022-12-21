@@ -15,6 +15,7 @@ import DatePicker from '../components/DatePicker'
 import RoleResponse from '../utils/RoleResponse'
 import Toast from '../components/Toast'
 import NoData from '../components/NoData'
+import Button from '../components/Button'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height
 const SCREEN_WIDTH = Dimensions.get("window").width
@@ -63,20 +64,19 @@ export default function ListAbsenMonitoring(props) {
     }, [tanggal])
 
     const btnTrigger = useCallback((value) => {
+        if (selectedKelas == null) {
+            Toast.showError("harap pilih kelas")
+        }
         let isTanggal = moment(tanggal).format("YYYY-MM-DD")
+        setIsLoading(true)
         HttpRequest.listAbsenSiswa(value, isTanggal).then((res) => {
-            console.log("ini trigger", res.data)
-            // if (res.data.status == RoleResponse.INSERT_SUKSES) {
-            //     setListabsen(res.data.data)
-            // }
-            // if (res.data.status == RoleResponse.INSERT_GAGAL) {
-            //     Toast.showError(`${res.data.message}`)
-            // }
+            setIsLoading(false)
+            setListabsen(res.data)
         }).catch((err) => {
+            setIsLoading(false)
             console.log("trigger", err, err.response)
         })
-    }, [tanggal, selectedKelas])
-
+    }, [tanggal, selectedKelas, listAbsen])
 
     return (
         <>
@@ -114,7 +114,7 @@ export default function ListAbsenMonitoring(props) {
                                 data={listKelas}
                                 onChange={(val) => {
                                     setSelectedKelas(val);
-                                    btnTrigger(val)
+                                    // btnTrigger(val)
                                 }}
                             />
                         </View>
@@ -133,11 +133,34 @@ export default function ListAbsenMonitoring(props) {
                             />
                         </View>
                     </View>
+                    <View style={{ height: 20 }} />
+                    <Button loading={isLoading} onPress={() => {
+                        btnTrigger()
+                    }}>
+                        Cari
+                    </Button>
                     <ScrollView>
                         {
                             listAbsen.length == 0 && (
                                 <NoData>Tidak ada data</NoData>
                             )
+                        }
+                        {
+                            listAbsen.map((item, i) => {
+                                return (
+                                    <>
+                                        <View style={{ backgroundColor: color.white, padding: 20, borderRadius: 16, flexDirection: 'row' }}>
+                                            <Text style={[styles.txtGlobalBold, { flex: 1 }]}>{item.nama_lengkap}</Text>
+                                            <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                navigation.navigate("DetailSiswaAbsen", { params: item })
+                                            }}>
+                                                <Text style={[styles.txtGlobal, { color: color.primary }]}>Lihat Detail</Text>
+                                            </TouchableOpacity>
+                                        </View>
+                                        <View style={{ height: 20 }} />
+                                    </>
+                                )
+                            })
                         }
                     </ScrollView>
                 </View>

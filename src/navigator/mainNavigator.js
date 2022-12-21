@@ -105,6 +105,9 @@ import DetailSumbangBuku from "../screens/DetailSumbangBuku";
 import RaportWaliKelasDetail from "../screens/RaportWaliKelasDetail";
 import ListPPDBMenu from "../screens/ListPPDBMenu";
 import DetailPPDB from "../screens/DetailPPDB";
+import ListAbsenMonitoringPegawai from "../screens/ListAbsenMonitoringPegawai";
+import DetailPegawaiAbsen from "../screens/DetailPegawaiAbsen";
+import DetailSiswaAbsen from "../screens/DetailSiswaAbsen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -163,7 +166,9 @@ const DashboardStack = () => {
             <Stack.Screen name="ListPPDBMenu" component={ListPPDBMenu} />
             <Stack.Screen name="DetailPPDB" component={DetailPPDB} />
 
-
+            <Stack.Screen name="ListAbsenMonitoringPegawai" component={ListAbsenMonitoringPegawai} />
+            <Stack.Screen name="DetailPegawaiAbsen" component={DetailPegawaiAbsen} />
+            <Stack.Screen name="DetailSiswaAbsen" component={DetailSiswaAbsen} />
 
             <Stack.Screen name="ListJadwal" component={ListJadwal} />
             <Stack.Screen name="ListJadwalMenu" component={ListJadwalMenu} />

@@ -305,6 +305,71 @@ export default function DashboardSemuaList(props) {
         },
     ]
 
+    const dataPengawasSekolah = [
+        {
+            name: "Jadwal",
+            image: require("../assets/sipena/jadwal.png"),
+            warna: color.menuBlue,
+            page: "ListJadwalKepalaSekolah"
+        },
+        {
+            name: "Absen",
+            image: require("../assets/sipena/user33.png"),
+            warna: color.menuRed,
+            page: "ListAbsenPegawai"
+        },
+        {
+            name: "Absen Siswa",
+            image: require("../assets/sipena/absen.png"),
+            warna: color.menuGreen,
+            page: "ListAbsenMonitoring"
+        },
+        {
+            name: "Absen Pegawai",
+            image: require("../assets/sipena/user-8.png"),
+            warna: color.menuPink,
+            page: "ListAbsenMonitoringPegawai"
+        },
+        {
+            name: "PPDB",
+            image: require("../assets/sipena/ppdb.png"),
+            warna: color.menuBlue,
+            page: "ListPPDBMenu"
+        },
+        {
+            name: "Koperasi Sekolah",
+            image: require("../assets/sipena/koperasi.png"),
+            warna: color.menuBrown,
+            // page: "ListKoperasi"
+            page: "QrCodeKoperasi"
+        },
+        {
+            name: "Kantin",
+            image: require("../assets/sipena/kantin.png"),
+            warna: color.menuGreen,
+            page: "QrCodeKantin"
+        },
+        {
+            name: "Mutasi",
+            image: require("../assets/sipena/mutasi.png"),
+            warna: color.menuPink,
+            page: "ListMutasiSiswaTU"
+        },
+        {
+            name: "Keuangan Sekolah",
+            image: require("../assets/sipena/Frame.png"),
+            warna: color.menuPurple,
+            page: "KeuanganSPPTU"
+        },
+        {
+            name: "Osis",
+            image: require("../assets/sipena/osis.png"),
+            warna: color.menuBlue,
+            page: "KegiatanOsis"
+        },
+
+    ]
+
 
     return (
         <View style={styles.container}>
@@ -374,6 +439,36 @@ export default function DashboardSemuaList(props) {
                                     {
                                         user.data.is_walikelas != "Y" && (
                                             guru.map((item, iMenu) => {
+                                                return (
+                                                    <>
+                                                        <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                            if (item.page != "") {
+                                                                navigation.navigate(item.page)
+                                                            }
+                                                        }} style={styles.menuChild}>
+                                                            <View style={[styles.menuIcon, {
+                                                                backgroundColor: item.warna,
+                                                            }]}>
+                                                                <Image source={item.image} style={{ width: 18, height: 18 }} />
+                                                            </View>
+                                                            <View style={{ width: 20 }} />
+                                                            <Text style={{ textAlign: 'center', fontSize: 12, fontFamily: fonts.inter, flex: 1, textAlign: 'left' }}>{item.name}</Text>
+                                                        </TouchableOpacity>
+                                                        <View style={styles.underline} />
+                                                    </>
+                                                )
+                                            })
+                                        )
+                                    }
+                                </>
+                            )
+                        }
+                        {
+                            user.role_id == RoleResponse.pegawai && (
+                                <>
+                                    {
+                                        user.data.is_pengawas_sekolah == "Y" && (
+                                            dataPengawasSekolah.map((item, iMenu) => {
                                                 return (
                                                     <>
                                                         <TouchableOpacity activeOpacity={1} onPress={() => {

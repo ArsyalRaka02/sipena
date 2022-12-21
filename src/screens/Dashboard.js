@@ -411,6 +411,59 @@ export default function Dashboard(props) {
         }
     ]
 
+    const dataPengawasSekolah = [
+        {
+            name: "Jadwal",
+            image: require("../assets/sipena/jadwal.png"),
+            warna: color.menuBlue,
+            page: "ListJadwalKepalaSekolah"
+        },
+        {
+            name: "Absen",
+            image: require("../assets/sipena/user33.png"),
+            warna: color.menuRed,
+            page: "ListAbsenPegawai"
+        },
+        {
+            name: "Absen Siswa",
+            image: require("../assets/sipena/absen.png"),
+            warna: color.menuGreen,
+            page: "ListAbsenMonitoring"
+        },
+        {
+            name: "Absen Pegawai",
+            image: require("../assets/sipena/user-8.png"),
+            warna: color.menuPink,
+            page: "ListAbsenMonitoringPegawai"
+        },
+        {
+            name: "PPDB",
+            image: require("../assets/sipena/ppdb.png"),
+            warna: color.menuBlue,
+            page: "ListPPDBMenu"
+        },
+        {
+            name: "Koperasi Sekolah",
+            image: require("../assets/sipena/koperasi.png"),
+            warna: color.menuBrown,
+            // page: "ListKoperasi"
+            page: "QrCodeKoperasi"
+        },
+        {
+            name: "Kantin",
+            image: require("../assets/sipena/kantin.png"),
+            warna: color.menuGreen,
+            page: "QrCodeKantin"
+        },
+
+        {
+            name: "Semua",
+            image: require("../assets/sipena/semua.png"),
+            warna: color.menuPink,
+            page: "DashboardSemuaList"
+        }
+    ]
+
     useEffect(() => {
         if (isFocused) {
             loadProfile()
@@ -918,6 +971,28 @@ export default function Dashboard(props) {
                                         {
                                             detail.is_kantin == "Y" && (
                                                 dataKantin.map((item, ilist) => {
+                                                    return (
+                                                        <>
+                                                            <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                                if (item.page != "") {
+                                                                    navigation.navigate(item.page)
+                                                                }
+                                                            }} style={styles.menuChild}>
+                                                                <View style={[styles.menuIcon, {
+                                                                    backgroundColor: item.warna,
+                                                                }]}>
+                                                                    <Image source={item.image} style={{ width: 18, height: 18 }} />
+                                                                </View>
+                                                                <Text style={{ textAlign: 'center', fontSize: 10, fontFamily: fonts.inter, marginVertical: 12, flex: 1 }}>{item.name}</Text>
+                                                            </TouchableOpacity>
+                                                        </>
+                                                    )
+                                                })
+                                            )
+                                        }
+                                        {
+                                            detail.is_pengawas_sekolah == "Y" && (
+                                                dataPengawasSekolah.map((item, ilist) => {
                                                     return (
                                                         <>
                                                             <TouchableOpacity activeOpacity={1} onPress={() => {
