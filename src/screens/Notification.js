@@ -10,6 +10,8 @@ import { fonts } from '../utils/fonts'
 import { HttpRequest } from '../utils/http'
 import Toast from '../components/Toast'
 import { useSelector } from 'react-redux'
+import NoData from '@febfeb/react-native-dropdown/src/NoData'
+import responseStatus from '../utils/responseStatus'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height
 const SCREEN_WIDTH = Dimensions.get("window").width
@@ -33,9 +35,15 @@ export default function Notification(props) {
     }, [])
 
     const laodData = useCallback(() => {
-        HttpRequest.getNotifikasi(user.data.id).then((res) => {
-            setListData(res.data.data)
+        HttpRequest.getNotifikasi(user.id).then((res) => {
+            if (res.data.status == responseStatus.INSERT_SUKSES) {
+                setListData(res.data.data)
+            }
+            if (res.data.status == responseStatus.INSERT_GAGAL) {
+                Toast.showError(`${res.data.message}`)
+            }
         }).catch((err) => {
+            Toast.showError("Server Err: ")
             Toast.showError("server Error")
         })
     }, [listData])
@@ -52,6 +60,13 @@ export default function Notification(props) {
                 </HeaderBack>
                 <View style={{ padding: 20, flex: 1 }}>
                     <ScrollView>
+                        {
+                            listData.length == 0 && (
+                                <>
+                                    <NoData>Belum ada notifikasi</NoData>
+                                </>
+                            )
+                        }
                         {
                             listData.map((item) => {
                                 return (
