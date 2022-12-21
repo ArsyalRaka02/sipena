@@ -11,6 +11,7 @@ import { useSelector } from 'react-redux'
 import { HttpRequest } from '../utils/http'
 import responseStatus from '../utils/responseStatus'
 import Toast from '../components/Toast'
+import NoData from '../components/NoData'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height
 const SCREEN_WIDTH = Dimensions.get("window").width
@@ -19,6 +20,12 @@ export default function ListAbsen(props) {
     const navigation = useNavigation()
     const user = useSelector(state => state.user);
     const [listJadwal, setListJadwal] = useState([])
+    const [senin, setSenin] = useState([])
+    const [selasa, setSelasa] = useState([])
+    const [rabu, setRabu] = useState([])
+    const [kamis, setKamis] = useState([])
+    const [jumat, setJumat] = useState([])
+    const [sabtu, setSabtu] = useState([])
 
     useEffect(() => {
         loadListJadwal()
@@ -29,20 +36,26 @@ export default function ListAbsen(props) {
         if (id == "") {
             return Toast.showError("tidak mendapatkan id kelas")
         }
-        HttpRequest.listJadwalKelas(id).then((res) => {
+        HttpRequest.jadwalBaru().then((res) => {
             let status = res.data.status
             if (status == responseStatus.INSERT_SUKSES) {
-                setListJadwal(res.data.data)
+                setListJadwal(res.data.data.data)
+                setSenin(res.data.data.Senin)
+                setSelasa(res.data.data.Selasa)
+                setRabu(res.data.data.Rabu)
+                setKamis(res.data.data.Kamis)
+                setJumat(res.data.data.Jumat)
+                setSabtu(res.data.data.Sabtu)
             }
             if (status == responseStatus.INSERT_GAGAL) {
                 Toast.showError("Gagal mendapatkan list jadwal")
                 setListJadwal([])
             }
-            // console.log("ini adalah jadwal matapelajaran", result)
+            console.log("ini adalah jadwal matapelajaran", res.data.data)
         }).catch((err) => {
             console.log("err", err, err.response)
         })
-    }, [listJadwal])
+    }, [listJadwal, senin, selasa, rabu, kamis, jumat, sabtu])
 
     return (
         <>
@@ -78,7 +91,238 @@ export default function ListAbsen(props) {
                     </View>
                     <View style={{ height: 20 }} />
                     <ScrollView>
+                        <View style={{ marginVertical: 12 }}>
+                            <Text style={[styles.txtBoldGlobal]}>Senin</Text>
+                        </View>
                         {
+                            senin.length == 0 && (
+                                <NoData>Tidak ada jadwal Senin</NoData>
+                            )
+                        }
+                        {
+                            senin.length > 0 && (
+                                <>
+                                    {
+                                        senin.map((item, iList) => {
+                                            return (
+                                                <>
+                                                    <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: color.white, paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12 }}>
+                                                        <Text style={[styles.txtBoldGlobal]}>{item.mapel_nama}</Text>
+                                                        <View style={{ flex: 1 }} />
+                                                        <View style={{ flexDirection: 'column' }}>
+                                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                                <Ionicons name="time-outline" size={20} color={color.black} style={{ marginRight: 10, alignSelf: 'flex-start' }} />
+                                                                <Text style={[styles.txtGlobal, { marginBottom: 12 }]}>{item.jadwal_waktu_mulai} - {item.jadwal_waktu_akhir}</Text>
+                                                            </View>
+                                                            <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                                navigation.navigate("DetailAbsen", { params: item.id })
+                                                            }}>
+                                                                <Text style={[styles.txtGlobalBold, { marginLeft: 12, textAlign: 'right', color: color.primary }]}>Absen Sekarang</Text>
+                                                            </TouchableOpacity>
+                                                        </View>
+                                                    </View>
+                                                    <View style={{ height: 20 }} />
+                                                </>
+                                            )
+                                        })
+                                    }
+                                </>
+                            )
+                        }
+
+                        <View style={{ marginVertical: 12 }}>
+                            <Text style={[styles.txtBoldGlobal]}>Selasa</Text>
+                        </View>
+                        {
+                            selasa.length == 0 && (
+                                <NoData>Tidak ada jadwal Selasa</NoData>
+                            )
+                        }
+                        {
+                            selasa.length > 0 && (
+                                <>
+                                    {
+                                        selasa.map((item, iList) => {
+                                            return (
+                                                <>
+                                                    <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: color.white, paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12 }}>
+                                                        <Text style={[styles.txtBoldGlobal]}>{item.mapel_nama}</Text>
+                                                        <View style={{ flex: 1 }} />
+                                                        <View style={{ flexDirection: 'column' }}>
+                                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                                <Ionicons name="time-outline" size={20} color={color.black} style={{ marginRight: 10, alignSelf: 'flex-start' }} />
+                                                                <Text style={[styles.txtGlobal, { marginBottom: 12 }]}>{item.jadwal_waktu_mulai} - {item.jadwal_waktu_akhir}</Text>
+                                                            </View>
+                                                            <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                                navigation.navigate("DetailAbsen", { params: item.id })
+                                                            }}>
+                                                                <Text style={[styles.txtGlobalBold, { marginLeft: 12, textAlign: 'right', color: color.primary }]}>Absen Sekarang</Text>
+                                                            </TouchableOpacity>
+                                                        </View>
+                                                    </View>
+                                                    <View style={{ height: 20 }} />
+                                                </>
+                                            )
+                                        })
+                                    }
+                                </>
+                            )
+                        }
+                        <View style={{ marginVertical: 12 }}>
+                            <Text style={[styles.txtBoldGlobal]}>Rabu</Text>
+                        </View>
+                        {
+                            rabu.length == 0 && (
+                                <NoData>Tidak ada jadwal Rabu</NoData>
+                            )
+                        }
+                        {
+                            rabu.length > 0 && (
+                                <>
+                                    {
+                                        rabu.map((item, iList) => {
+                                            return (
+                                                <>
+                                                    <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: color.white, paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12 }}>
+                                                        <Text style={[styles.txtBoldGlobal]}>{item.mapel_nama}</Text>
+                                                        <View style={{ flex: 1 }} />
+                                                        <View style={{ flexDirection: 'column' }}>
+                                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                                <Ionicons name="time-outline" size={20} color={color.black} style={{ marginRight: 10, alignSelf: 'flex-start' }} />
+                                                                <Text style={[styles.txtGlobal, { marginBottom: 12 }]}>{item.jadwal_waktu_mulai} - {item.jadwal_waktu_akhir}</Text>
+                                                            </View>
+                                                            <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                                navigation.navigate("DetailAbsen", { params: item.id })
+                                                            }}>
+                                                                <Text style={[styles.txtGlobalBold, { marginLeft: 12, textAlign: 'right', color: color.primary }]}>Absen Sekarang</Text>
+                                                            </TouchableOpacity>
+                                                        </View>
+                                                    </View>
+                                                    <View style={{ height: 20 }} />
+                                                </>
+                                            )
+                                        })
+                                    }
+                                </>
+                            )
+                        }
+                        <View style={{ marginVertical: 12 }}>
+                            <Text style={[styles.txtBoldGlobal]}>Kamis</Text>
+                        </View>
+                        {
+                            kamis.length == 0 && (
+                                <NoData>Tidak ada jadwal Kamis</NoData>
+                            )
+                        }
+                        {
+                            kamis.length > 0 && (
+                                <>
+                                    {
+                                        kamis.map((item, iList) => {
+                                            return (
+                                                <>
+                                                    <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: color.white, paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12 }}>
+                                                        <Text style={[styles.txtBoldGlobal]}>{item.mapel_nama}</Text>
+                                                        <View style={{ flex: 1 }} />
+                                                        <View style={{ flexDirection: 'column' }}>
+                                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                                <Ionicons name="time-outline" size={20} color={color.black} style={{ marginRight: 10, alignSelf: 'flex-start' }} />
+                                                                <Text style={[styles.txtGlobal, { marginBottom: 12 }]}>{item.jadwal_waktu_mulai} - {item.jadwal_waktu_akhir}</Text>
+                                                            </View>
+                                                            <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                                navigation.navigate("DetailAbsen", { params: item.id })
+                                                            }}>
+                                                                <Text style={[styles.txtGlobalBold, { marginLeft: 12, textAlign: 'right', color: color.primary }]}>Absen Sekarang</Text>
+                                                            </TouchableOpacity>
+                                                        </View>
+                                                    </View>
+                                                    <View style={{ height: 20 }} />
+                                                </>
+                                            )
+                                        })
+                                    }
+                                </>
+                            )
+                        }
+
+                        <View style={{ marginVertical: 12 }}>
+                            <Text style={[styles.txtBoldGlobal]}>Jumat</Text>
+                        </View>
+                        {
+                            jumat.length == 0 && (
+                                <NoData>Tidak ada jadwal jumat</NoData>
+                            )
+                        }
+                        {
+                            jumat.length > 0 && (
+                                <>
+                                    {
+                                        jumat.map((item, iList) => {
+                                            return (
+                                                <>
+                                                    <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: color.white, paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12 }}>
+                                                        <Text style={[styles.txtBoldGlobal]}>{item.mapel_nama}</Text>
+                                                        <View style={{ flex: 1 }} />
+                                                        <View style={{ flexDirection: 'column' }}>
+                                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                                <Ionicons name="time-outline" size={20} color={color.black} style={{ marginRight: 10, alignSelf: 'flex-start' }} />
+                                                                <Text style={[styles.txtGlobal, { marginBottom: 12 }]}>{item.jadwal_waktu_mulai} - {item.jadwal_waktu_akhir}</Text>
+                                                            </View>
+                                                            <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                                navigation.navigate("DetailAbsen", { params: item.id })
+                                                            }}>
+                                                                <Text style={[styles.txtGlobalBold, { marginLeft: 12, textAlign: 'right', color: color.primary }]}>Absen Sekarang</Text>
+                                                            </TouchableOpacity>
+                                                        </View>
+                                                    </View>
+                                                    <View style={{ height: 20 }} />
+                                                </>
+                                            )
+                                        })
+                                    }
+                                </>
+                            )
+                        }
+
+                        <View style={{ marginVertical: 12 }}>
+                            <Text style={[styles.txtBoldGlobal]}>Sabtu</Text>
+                        </View>
+                        {
+                            sabtu.length == 0 && (
+                                <NoData>Tidak ada jadwal Sabtu</NoData>
+                            )
+                        }
+                        {
+                            sabtu.length > 0 && (
+                                <>
+                                    {
+                                        sabtu.map((item, iList) => {
+                                            return (
+                                                <>
+                                                    <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: color.white, paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12 }}>
+                                                        <Text style={[styles.txtBoldGlobal]}>{item.mapel_nama}</Text>
+                                                        <View style={{ flex: 1 }} />
+                                                        <View style={{ flexDirection: 'column' }}>
+                                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                                <Ionicons name="time-outline" size={20} color={color.black} style={{ marginRight: 10, alignSelf: 'flex-start' }} />
+                                                                <Text style={[styles.txtGlobal, { marginBottom: 12 }]}>{item.jadwal_waktu_mulai} - {item.jadwal_waktu_akhir}</Text>
+                                                            </View>
+                                                            <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                                navigation.navigate("DetailAbsen", { params: item.id })
+                                                            }}>
+                                                                <Text style={[styles.txtGlobalBold, { marginLeft: 12, textAlign: 'right', color: color.primary }]}>Absen Sekarang</Text>
+                                                            </TouchableOpacity>
+                                                        </View>
+                                                    </View>
+                                                    <View style={{ height: 20 }} />
+                                                </>
+                                            )
+                                        })
+                                    }
+                                </>
+                            )
+                        }
+                        {/* {
                             listJadwal.map((item, iList) => {
                                 return (
                                     <>
@@ -102,7 +346,7 @@ export default function ListAbsen(props) {
                                     </>
                                 )
                             })
-                        }
+                        } */}
                         {/* <View style={{ flexDirection: 'column', backgroundColor: color.white, borderRadius: 8, padding: 14, marginVertical: 12 }}>
                             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                 <View style={{ flexDirection: 'column', flex: 1 }}>
