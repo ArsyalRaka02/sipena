@@ -10,6 +10,7 @@ import { fonts } from '../utils/fonts'
 import { HttpRequest } from '../utils/http'
 import Toast from '../components/Toast';
 import Rupiah from '../utils/Rupiah'
+import NoData from '../components/NoData'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height
 const SCREEN_WIDTH = Dimensions.get("window").width

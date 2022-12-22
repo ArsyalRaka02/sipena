@@ -500,18 +500,30 @@ export default function Dashboard(props) {
             page: "ListPPDBMenu"
         },
         {
-            name: "Koperasi Sekolah",
-            image: require("../assets/sipena/koperasi.png"),
-            warna: color.menuBrown,
-            // page: "ListKoperasi"
-            page: "QrCodeKoperasi"
+            name: "Mutasi",
+            image: require("../assets/sipena/mutasi.png"),
+            warna: color.menuPink,
+            page: "ListMutasiSiswaPengawas"
         },
         {
-            name: "Kantin",
-            image: require("../assets/sipena/kantin.png"),
-            warna: color.menuGreen,
-            page: "QrCodeKantin"
+            name: "Keuangan Sekolah",
+            image: require("../assets/sipena/Frame.png"),
+            warna: color.menuPurple,
+            page: "KeuanganSPPTU"
         },
+        // {
+        //     name: "Koperasi Sekolah",
+        //     image: require("../assets/sipena/koperasi.png"),
+        //     warna: color.menuBrown,
+        //     // page: "ListKoperasi"
+        //     page: "QrCodeKoperasi"
+        // },
+        // {
+        //     name: "Kantin",
+        //     image: require("../assets/sipena/kantin.png"),
+        //     warna: color.menuGreen,
+        //     page: "QrCodeKantin"
+        // },
 
         {
             name: "Semua",
