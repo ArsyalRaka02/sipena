@@ -121,10 +121,10 @@ export default function DashboardSemuaList(props) {
             page: "ListKeuangan"
         },
         {
-            name: "Rapot",
+            name: "Penilaian",
             image: require("../assets/sipena/rapot.png"),
             warna: color.menuYellow,
-            page: "ListRaport"
+            page: "ListMenuPenilaian"
         },
         {
             name: "Pinjam Fasilitas",
@@ -188,7 +188,7 @@ export default function DashboardSemuaList(props) {
             name: "Rapot",
             image: require("../assets/sipena/rapot.png"),
             warna: color.menuYellow,
-            page: "RaportWaliKelas"
+            page: "ListMenuPenilaian"
         },
         {
             name: "Absen",
@@ -220,6 +220,12 @@ export default function DashboardSemuaList(props) {
             image: require("../assets/sipena/ekstra.png"),
             warna: color.menuRed,
             page: "ListEkstrakulikuler"
+        },
+        {
+            name: "PPDB",
+            image: require("../assets/sipena/ppdb.png"),
+            warna: color.menuBlue,
+            page: "ListPPDBMenu"
         },
     ]
 
@@ -370,6 +376,58 @@ export default function DashboardSemuaList(props) {
 
     ]
 
+    const GuruEsktra = [
+        {
+            name: "Jadwal",
+            image: require("../assets/sipena/jadwal.png"),
+            warna: color.menuBlue,
+            page: "ListJadwalMenuGuru"
+        },
+        {
+            name: "Absen",
+            image: require("../assets/sipena/user33.png"),
+            warna: color.menuRed,
+            page: "ListAbsenGuru"
+        },
+        {
+            name: "Absen Siswa",
+            image: require("../assets/sipena/absen.png"),
+            warna: color.menuGreen,
+            page: "ListAbsenMonitoring"
+        },
+        {
+            name: "Pinjam Fasilitas",
+            image: require("../assets/sipena/pinjam.png"),
+            warna: color.menuOrange,
+            page: "ListPinjamFasilitas"
+        },
+        {
+            name: "Koperasi Sekolah",
+            image: require("../assets/sipena/koperasi.png"),
+            warna: color.menuBrown,
+            // page: "ListKoperasi"
+            page: "QrCodeKoperasi"
+        },
+        {
+            name: "Kantin",
+            image: require("../assets/sipena/kantin.png"),
+            warna: color.menuGreen,
+            page: "QrCodeKantin"
+        },
+        {
+            name: "Ekstrakulikuler",
+            image: require("../assets/sipena/ekstra.png"),
+            warna: color.menuRed,
+            page: "ListEkstrakulikuler"
+        },
+        {
+            name: "Semua",
+            image: require("../assets/sipena/semua.png"),
+            warna: color.menuPink,
+            page: "DashboardSemuaList"
+        }
+    ]
+
 
     return (
         <View style={styles.container}>
@@ -413,7 +471,7 @@ export default function DashboardSemuaList(props) {
                             user.role_id == RoleResponse.guru && (
                                 <>
                                     {
-                                        user.data.is_walikelas == "Y" && (
+                                        user.data.is_walikelas == "Y" && user.data.is_mapel == "Y" && (
                                             guruWali.map((item, iMenu) => {
                                                 return (
                                                     <>
@@ -437,8 +495,32 @@ export default function DashboardSemuaList(props) {
                                         )
                                     }
                                     {
-                                        user.data.is_walikelas != "Y" && (
+                                        user.data.is_walikelas == "N" && user.data.is_mapel == "Y" && (
                                             guru.map((item, iMenu) => {
+                                                return (
+                                                    <>
+                                                        <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                            if (item.page != "") {
+                                                                navigation.navigate(item.page)
+                                                            }
+                                                        }} style={styles.menuChild}>
+                                                            <View style={[styles.menuIcon, {
+                                                                backgroundColor: item.warna,
+                                                            }]}>
+                                                                <Image source={item.image} style={{ width: 18, height: 18 }} />
+                                                            </View>
+                                                            <View style={{ width: 20 }} />
+                                                            <Text style={{ textAlign: 'center', fontSize: 12, fontFamily: fonts.inter, flex: 1, textAlign: 'left' }}>{item.name}</Text>
+                                                        </TouchableOpacity>
+                                                        <View style={styles.underline} />
+                                                    </>
+                                                )
+                                            })
+                                        )
+                                    }
+                                    {
+                                        user.data.is_walikelas == "N" && user.data.is_mapel == "N" && user.data.is_ekstrakulikuler == "Y" && (
+                                            GuruEsktra.map((item, iMenu) => {
                                                 return (
                                                     <>
                                                         <TouchableOpacity activeOpacity={1} onPress={() => {

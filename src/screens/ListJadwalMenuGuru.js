@@ -14,6 +14,7 @@ import NoData from '../components/NoData'
 import { useSelector } from 'react-redux'
 import Combobox from '../components/Combobox'
 import RoleResponse from '../utils/RoleResponse'
+import Button from '../components/Button'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height
 const SCREEN_WIDTH = Dimensions.get("window").width
@@ -47,8 +48,8 @@ export default function ListJadwalMenuGuru(props) {
     useEffect(() => {
         loadProfile()
         loadJadwalSekolah()
-        loadMapel()
         loadKelas()
+        loadMapel()
     }, [user, selectedKelas])
 
     const loadProfile = useCallback(() => {
@@ -85,89 +86,30 @@ export default function ListJadwalMenuGuru(props) {
     }, [listSekolah])
 
     const loadMapel = useCallback(async () => {
-        if (user.role_id == RoleResponse.guru) {
-            if (user.data.is_mapel == "Y") {
-                let id = user.maper.id
-                HttpRequest.listJadwalKelasGuruByMapel(id).then((res) => {
-                    let status = res.data.status
-                    if (status == responseStatus.INSERT_SUKSES) {
-                        setSenin(res.data.data.Senin)
-                        setSelasa(res.data.data.Selasa)
-                        setRabu(res.data.data.Rabu)
-                        setKamis(res.data.data.Kamis)
-                        setJumat(res.data.data.Jumat)
-                        setSabtu(res.data.data.Sabtu)
-                    }
-                    if (status == responseStatus.INSERT_GAGAL) {
-                        Toast.showError("Gagal mendapatkan list jadwal")
-                        setListSekolah([])
-                    }
-                    console.log("ini adalah guru", res.data)
-                }).catch((err) => {
-                    console.log("err jadwal", err, err.response)
-                    setListSekolah([])
-                })
+        let id = user.maper.id
+        try {
+            let data = await HttpRequest.jadwalBaruMapelId(id)
+            let status = data.data.status
+            if (status == responseStatus.INSERT_SUKSES) {
+                setListMapel(data.data.data)
+                setSenin(data.data.data.Senin)
+                setSelasa(data.data.data.Selasa)
+                setRabu(data.data.data.Rabu)
+                setKamis(data.data.data.Kamis)
+                setJumat(data.data.data.Jumat)
+                setSabtu(data.data.data.Sabtu)
             }
-            if (user.data.is_walikelas == "Y") {
-                let id = user.kelas.id
-                HttpRequest.listJadwalKelas(id).then((res) => {
-                    let status = res.data.status
-                    if (status == responseStatus.INSERT_SUKSES) {
-                        setSenin(res.data.data.Senin)
-                        setSelasa(res.data.data.Selasa)
-                        setRabu(res.data.data.Rabu)
-                        setKamis(res.data.data.Kamis)
-                        setJumat(res.data.data.Jumat)
-                        setSabtu(res.data.data.Sabtu)
-                    }
-                    if (status == responseStatus.INSERT_GAGAL) {
-                        Toast.showError("Gagal mendapatkan list jadwal")
-                    }
-                }).catch((err) => {
-                    console.log("err jadwal", err, err.response)
-                    setListSekolah([])
-                })
+            if (status == responseStatus.INSERT_GAGAL) {
+                Toast.showError("Server Error: ")
+                setListMapel([])
             }
-            if (user.data.is_walikelas == "Y" && user.data.is_mapel == "Y") {
-                let id = user.kelas.id
-                HttpRequest.listJadwalKelas(id).then((res) => {
-                    let status = res.data.status
-                    if (status == responseStatus.INSERT_SUKSES) {
-                        setSenin(res.data.data.Senin)
-                        setSelasa(res.data.data.Selasa)
-                        setRabu(res.data.data.Rabu)
-                        setKamis(res.data.data.Kamis)
-                        setJumat(res.data.data.Jumat)
-                        setSabtu(res.data.data.Sabtu)
-                    }
-                    if (status == responseStatus.INSERT_GAGAL) {
-                        Toast.showError("Gagal mendapatkan list jadwal")
-                        setListSekolah([])
-                    }
-                }).catch((err) => {
-                    console.log("err jadwal", err, err.response)
-                    setListSekolah([])
-                })
-            }
+            console.log("ini list mabel", data.data.data)
+        } catch (error) {
+            setListMapel([])
+            console.log("err", error, error.response)
+            Toast.showError("Server Error: ")
         }
-        // let id = user.kelas.id
-        // try {
-        //     let data = await HttpRequest.jadwalBaru()
-        //     let status = data.data.status
-        //     if (status == responseStatus.INSERT_SUKSES) {
-        //         setListMapel(data.data.data)
-        //     }
-        //     if (status == responseStatus.INSERT_GAGAL) {
-        //         Toast.showError("Server Error: ")
-        //         setListMapel([])
-        //     }
-        //     console.log("ini list mabel", data)
-        // } catch (error) {
-        //     setListMapel([])
-        //     console.log("err", error, error.response)
-        //     Toast.showError("Server Error: ")
-        // }
-    }, [listMapel, detail, user, selectedKelas])
+    }, [listMapel, detail, user, selectedKelas, senin, selasa, rabu, kamis, jumat, sabtu])
 
     const loadKelas = useCallback(async () => {
         try {
@@ -211,9 +153,6 @@ export default function ListJadwalMenuGuru(props) {
                                 return (
                                     <TouchableOpacity activeOpacity={1} onPress={() => {
                                         setSelected(item.name)
-                                        // if (item.name == "kelas") {
-                                        //     loadMapel()
-                                        // }
                                     }} style={{ padding: 12, borderRadius: 8, backgroundColor: color.white, alignItems: 'center', flex: 1, marginHorizontal: 10 }}>
                                         <Text style={[styles.txtGlobalBold, { color: selected == item.name ? color.primary : color.black }]}>{item.name}</Text>
                                     </TouchableOpacity>
@@ -260,6 +199,38 @@ export default function ListJadwalMenuGuru(props) {
                         {
                             selected === "Kelas" && (
                                 <>
+                                    {/* <View>
+                                        <Text style={[styles.txtGlobalBold, { fontSize: 14, color: color.black, marginVertical: 10 }]}>Pilih Kelas</Text>
+                                        <Combobox
+                                            value={selectedKelas}
+                                            placeholder="Silahkan Pilih Kelas"
+                                            theme={{
+                                                boxStyle: {
+                                                    backgroundColor: color.white,
+                                                    borderColor: color.Neutral20,
+                                                },
+                                                leftIconStyle: {
+                                                    color: color.Neutral10,
+                                                    marginRight: 14
+                                                },
+                                                rightIconStyle: {
+                                                    color: color.Neutral10,
+                                                },
+                                            }}
+                                            jenisIconsRight="Ionicons"
+                                            iconNameRight="caret-down-outline"
+                                            showLeftIcons={false}
+                                            data={listKelas}
+                                            onChange={(val) => {
+                                                setSelectedKelas(val);
+                                            }}
+                                        />
+                                    </View>
+                                    <Button loading={isLoading} onPress={() => {
+                                        loadMapel()
+                                    }}>
+                                        Cari Jadwal
+                                    </Button> */}
                                     <View style={{ marginVertical: 12 }}>
                                         <Text style={[styles.txtBoldGlobal]}>Senin</Text>
                                     </View>
@@ -276,7 +247,7 @@ export default function ListJadwalMenuGuru(props) {
                                                         return (
                                                             <>
                                                                 <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: color.white, paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12 }}>
-                                                                    <Text style={[styles.txtBoldGlobal]}>{item.mapel_nama}</Text>
+                                                                    <Text style={[styles.txtBoldGlobal]}>{item.kelas_nama}</Text>
                                                                     <View style={{ flex: 1 }} />
                                                                     <View style={{ flexDirection: 'row' }}>
                                                                         <Ionicons name="time-outline" size={20} color={color.black} style={{ marginRight: 12 }} />
@@ -308,7 +279,7 @@ export default function ListJadwalMenuGuru(props) {
                                                         return (
                                                             <>
                                                                 <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: color.white, paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12 }}>
-                                                                    <Text style={[styles.txtBoldGlobal]}>{item.mapel_nama}</Text>
+                                                                    <Text style={[styles.txtBoldGlobal]}>{item.kelas_nama}</Text>
                                                                     <View style={{ flex: 1 }} />
                                                                     <View style={{ flexDirection: 'row' }}>
                                                                         <Ionicons name="time-outline" size={20} color={color.black} style={{ marginRight: 12 }} />
@@ -339,7 +310,7 @@ export default function ListJadwalMenuGuru(props) {
                                                         return (
                                                             <>
                                                                 <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: color.white, paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12 }}>
-                                                                    <Text style={[styles.txtBoldGlobal]}>{item.mapel_nama}</Text>
+                                                                    <Text style={[styles.txtBoldGlobal]}>{item.kelas_nama}</Text>
                                                                     <View style={{ flex: 1 }} />
                                                                     <View style={{ flexDirection: 'row' }}>
                                                                         <Ionicons name="time-outline" size={20} color={color.black} style={{ marginRight: 12 }} />
@@ -370,7 +341,7 @@ export default function ListJadwalMenuGuru(props) {
                                                         return (
                                                             <>
                                                                 <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: color.white, paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12 }}>
-                                                                    <Text style={[styles.txtBoldGlobal]}>{item.mapel_nama}</Text>
+                                                                    <Text style={[styles.txtBoldGlobal]}>{item.kelas_nama}</Text>
                                                                     <View style={{ flex: 1 }} />
                                                                     <View style={{ flexDirection: 'row' }}>
                                                                         <Ionicons name="time-outline" size={20} color={color.black} style={{ marginRight: 12 }} />
@@ -402,7 +373,7 @@ export default function ListJadwalMenuGuru(props) {
                                                         return (
                                                             <>
                                                                 <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: color.white, paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12 }}>
-                                                                    <Text style={[styles.txtBoldGlobal]}>{item.mapel_nama}</Text>
+                                                                    <Text style={[styles.txtBoldGlobal]}>{item.kelas_nama}</Text>
                                                                     <View style={{ flex: 1 }} />
                                                                     <View style={{ flexDirection: 'row' }}>
                                                                         <Ionicons name="time-outline" size={20} color={color.black} style={{ marginRight: 12 }} />
@@ -434,7 +405,7 @@ export default function ListJadwalMenuGuru(props) {
                                                         return (
                                                             <>
                                                                 <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: color.white, paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12 }}>
-                                                                    <Text style={[styles.txtBoldGlobal]}>{item.mapel_nama}</Text>
+                                                                    <Text style={[styles.txtBoldGlobal]}>{item.kelas_nama}</Text>
                                                                     <View style={{ flex: 1 }} />
                                                                     <View style={{ flexDirection: 'row' }}>
                                                                         <Ionicons name="time-outline" size={20} color={color.black} style={{ marginRight: 12 }} />

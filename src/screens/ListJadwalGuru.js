@@ -36,22 +36,25 @@ export default function ListJadwalGuru(props) {
         }
     }, [user])
 
-    const loadListJadwal = useCallback(() => {
-        let id = user.kelas.id
-        HttpRequest.listJadwalKelas(id).then((res) => {
-            let status = res.data.status
+    const loadListJadwal = useCallback(async () => {
+        let id = user.maper.id
+        try {
+            let data = await HttpRequest.jadwalBaruPerhariByMapel(id)
+            let status = data.data.status
             if (status == responseStatus.INSERT_SUKSES) {
-                setListJadwal(res.data.data)
+                setListMapel(data.data.data)
             }
             if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("Gagal mendapatkan list jadwal")
-                setListJadwal([])
+                Toast.showError("Server Error: ")
+                setListMapel([])
             }
-        }).catch((err) => {
-            console.log("err jadwal", err, err.response)
-            setListJadwal([])
-        })
-    }, [listJadwal])
+            console.log("ini list mabel", data.data.data)
+        } catch (error) {
+            setListMapel([])
+            console.log("err", error, error.response)
+            Toast.showError("Server Error: ")
+        }
+    }, [detail, user, selectedKelas])
 
     const loadKelas = useCallback(() => {
         HttpRequest.listMapel().then((res) => {
@@ -87,17 +90,17 @@ export default function ListJadwalGuru(props) {
                 <View style={{ padding: 20, flex: 1 }}>
                     <View style={{ flex: 1 }}>
                         <ScrollView>
+                            <View style={{ marginVertical: 12 }}>
+                                <Text style={[styles.txtGlobalBold]}>{moment(new Date()).format("dddd")}</Text>
+                            </View>
                             {
                                 listJadwal.length == 0 && (
-                                    <NoData>Tidak ada jadwal harian</NoData>
+                                    <NoData>Tidak ada jadwal kelas</NoData>
                                 )
                             }
                             {
                                 listJadwal.length > 0 && (
                                     <>
-                                        <View style={{ marginVertical: 12 }}>
-                                            <Text style={[styles.txtGlobalBold]}>{moment(new Date()).format("dddd")}</Text>
-                                        </View>
                                         {
                                             listJadwal.map((item, iList) => {
                                                 return (

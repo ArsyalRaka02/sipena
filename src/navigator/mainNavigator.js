@@ -110,6 +110,7 @@ import DetailPegawaiAbsen from "../screens/DetailPegawaiAbsen";
 import DetailSiswaAbsen from "../screens/DetailSiswaAbsen";
 import TambahNilaiGuru from "../screens/TambahNilaiGuru";
 import ListKeuanganWaliMurid from "../screens/ListKeuanganWaliMurid";
+import ListMenuPenilaian from "../screens/ListMenuPenilaian";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -169,6 +170,7 @@ const DashboardStack = () => {
             <Stack.Screen name="DetailPPDB" component={DetailPPDB} />
 
             <Stack.Screen name="TambahNilaiGuru" component={TambahNilaiGuru} />
+            <Stack.Screen name="ListMenuPenilaian" component={ListMenuPenilaian} />
 
             <Stack.Screen name="ListAbsenMonitoringPegawai" component={ListAbsenMonitoringPegawai} />
             <Stack.Screen name="DetailPegawaiAbsen" component={DetailPegawaiAbsen} />

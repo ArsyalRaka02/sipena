@@ -262,7 +262,7 @@ export default function Dashboard(props) {
             name: "Penilaian",
             image: require("../assets/sipena/rapot.png"),
             warna: color.menuYellow,
-            page: "ListRaport"
+            page: "ListMenuPenilaian"
         },
         {
             name: "Pinjam Fasilitas",
@@ -282,6 +282,58 @@ export default function Dashboard(props) {
             image: require("../assets/sipena/kantin.png"),
             warna: color.menuGreen,
             page: "QrCodeKantin"
+        },
+        {
+            name: "Semua",
+            image: require("../assets/sipena/semua.png"),
+            warna: color.menuPink,
+            page: "DashboardSemuaList"
+        }
+    ]
+
+    const GuruEsktra = [
+        {
+            name: "Jadwal",
+            image: require("../assets/sipena/jadwal.png"),
+            warna: color.menuBlue,
+            page: "ListJadwalMenuGuru"
+        },
+        {
+            name: "Absen",
+            image: require("../assets/sipena/user33.png"),
+            warna: color.menuRed,
+            page: "ListAbsenGuru"
+        },
+        {
+            name: "Absen Siswa",
+            image: require("../assets/sipena/absen.png"),
+            warna: color.menuGreen,
+            page: "ListAbsenMonitoring"
+        },
+        {
+            name: "Pinjam Fasilitas",
+            image: require("../assets/sipena/pinjam.png"),
+            warna: color.menuOrange,
+            page: "ListPinjamFasilitas"
+        },
+        {
+            name: "Koperasi Sekolah",
+            image: require("../assets/sipena/koperasi.png"),
+            warna: color.menuBrown,
+            // page: "ListKoperasi"
+            page: "QrCodeKoperasi"
+        },
+        {
+            name: "Kantin",
+            image: require("../assets/sipena/kantin.png"),
+            warna: color.menuGreen,
+            page: "QrCodeKantin"
+        },
+        {
+            name: "Ekstrakulikuler",
+            image: require("../assets/sipena/ekstra.png"),
+            warna: color.menuRed,
+            page: "ListEkstrakulikuler"
         },
         {
             name: "Semua",
@@ -314,7 +366,7 @@ export default function Dashboard(props) {
             name: "Rapot",
             image: require("../assets/sipena/rapot.png"),
             warna: color.menuYellow,
-            page: "RaportWaliKelas"
+            page: "ListMenuPenilaian"
         },
         {
             name: "Koperasi Sekolah",
@@ -895,7 +947,7 @@ export default function Dashboard(props) {
                                 user.role_id == RoleResponse.guru && (
                                     <>
                                         {
-                                            user.data.is_walikelas == "Y" && (
+                                            user.data.is_walikelas == "Y" && user.data.is_mapel == "Y" && (
                                                 guruWali.map((item, iMenu) => {
                                                     return (
                                                         <>
@@ -917,8 +969,30 @@ export default function Dashboard(props) {
                                             )
                                         }
                                         {
-                                            user.data.is_walikelas != "Y" && (
+                                            user.data.is_walikelas == "N" && user.data.is_mapel == "Y" && (
                                                 guru.map((item, iMenu) => {
+                                                    return (
+                                                        <>
+                                                            <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                                if (item.page != "") {
+                                                                    navigation.navigate(item.page)
+                                                                }
+                                                            }} style={styles.menuChild}>
+                                                                <View style={[styles.menuIcon, {
+                                                                    backgroundColor: item.warna,
+                                                                }]}>
+                                                                    <Image source={item.image} style={{ width: 18, height: 18 }} />
+                                                                </View>
+                                                                <Text style={{ textAlign: 'center', fontSize: 10, fontFamily: fonts.inter, marginVertical: 12, flex: 1 }}>{item.name}</Text>
+                                                            </TouchableOpacity>
+                                                        </>
+                                                    )
+                                                })
+                                            )
+                                        }
+                                        {
+                                            user.data.is_walikelas == "N" && user.data.is_mapel == "N" && user.data.is_ekstrakulikuler == "Y" && (
+                                                GuruEsktra.map((item, iMenu) => {
                                                     return (
                                                         <>
                                                             <TouchableOpacity activeOpacity={1} onPress={() => {
@@ -1163,19 +1237,20 @@ export default function Dashboard(props) {
                                                         <Text style={[styles.txtGlobal, { color: "#75B4FF" }]}>Selengkapnya</Text>
                                                     </TouchableOpacity>
                                                 </View>
+
+                                                <View style={{ marginVertical: 12 }}>
+                                                    <Text style={[styles.txtBoldGlobal]}>{moment(new Date()).format("dddd")}</Text>
+                                                </View>
                                                 {
                                                     listSekolah.length == 0 && (
                                                         <>
-                                                            <NoData>Tidak ada jadwal</NoData>
+                                                            <NoData>Tidak ada jadwal kelas</NoData>
                                                         </>
                                                     )
                                                 }
                                                 {
                                                     listSekolah.length > 0 && (
                                                         <>
-                                                            {/* <View style={{ marginVertical: 12 }}>
-                                                                <Text style={[styles.txtBoldGlobal]}>{moment(new Date()).format("dddd")}</Text>
-                                                            </View> */}
                                                             {
                                                                 listSekolah.map((item, iJadwal) => {
                                                                     if (iJadwal < 3) {
@@ -1214,6 +1289,9 @@ export default function Dashboard(props) {
                                                         <Text style={[styles.txtGlobal, { color: "#75B4FF" }]}>Selengkapnya</Text>
                                                     </TouchableOpacity>
                                                 </View>
+                                                <View style={{ marginVertical: 12 }}>
+                                                    <Text style={[styles.txtBoldGlobal]}>{moment(new Date()).format("dddd")}</Text>
+                                                </View>
                                                 {
                                                     listJadwal.length == 0 && (
                                                         <>
@@ -1224,9 +1302,6 @@ export default function Dashboard(props) {
                                                 {
                                                     listJadwal.length > 0 && (
                                                         <>
-                                                            <View style={{ marginVertical: 12 }}>
-                                                                <Text style={[styles.txtBoldGlobal]}></Text>
-                                                            </View>
                                                             {
                                                                 listJadwal.map((item, iJadwal) => {
                                                                     if (iJadwal < 3) {

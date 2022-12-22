@@ -392,6 +392,12 @@ export const HttpRequest = {
     jadwalBaruByID(id) {
         return request().get("/jadwal-kelas?kelas_id=" + id)
     },
+    jadwalBaruMapelId(id) {
+        return request().get("/jadwal-kelas?mapel_id=" + id)
+    },
+    jadwalBaruLengkap(id, kelas_id) {
+        return request().get("/jadwal-kelas?mapel_id=" + id + "&kelas_id=" + kelas_id)
+    },
 
     ppdbList() {
         return request().get("/list-pendaftaran")
