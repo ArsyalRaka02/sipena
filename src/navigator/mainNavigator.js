@@ -108,6 +108,8 @@ import DetailPPDB from "../screens/DetailPPDB";
 import ListAbsenMonitoringPegawai from "../screens/ListAbsenMonitoringPegawai";
 import DetailPegawaiAbsen from "../screens/DetailPegawaiAbsen";
 import DetailSiswaAbsen from "../screens/DetailSiswaAbsen";
+import TambahNilaiGuru from "../screens/TambahNilaiGuru";
+import ListKeuanganWaliMurid from "../screens/ListKeuanganWaliMurid";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -166,6 +168,8 @@ const DashboardStack = () => {
             <Stack.Screen name="ListPPDBMenu" component={ListPPDBMenu} />
             <Stack.Screen name="DetailPPDB" component={DetailPPDB} />
 
+            <Stack.Screen name="TambahNilaiGuru" component={TambahNilaiGuru} />
+
             <Stack.Screen name="ListAbsenMonitoringPegawai" component={ListAbsenMonitoringPegawai} />
             <Stack.Screen name="DetailPegawaiAbsen" component={DetailPegawaiAbsen} />
             <Stack.Screen name="DetailSiswaAbsen" component={DetailSiswaAbsen} />
@@ -174,6 +178,7 @@ const DashboardStack = () => {
             <Stack.Screen name="ListJadwalMenu" component={ListJadwalMenu} />
             <Stack.Screen name="ScreenScanQRCode" component={ScreenScanQRCode} />
             <Stack.Screen name="ListPembelian" component={ListPembelian} />
+            <Stack.Screen name="ListKeuanganWaliMurid" component={ListKeuanganWaliMurid} />
 
             <Stack.Screen name="DetailAbsen" component={DetailAbsen} />
             <Stack.Screen name="ListTotalKehadiran" component={ListTotalKehadiran} />

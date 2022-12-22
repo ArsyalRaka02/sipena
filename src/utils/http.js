@@ -90,6 +90,9 @@ export const HttpRequest = {
     listKeuanganSpp() {
         return request().get("/keuangan")
     },
+    listKeuanganSppBySiswa(id) {
+        return request().get("/keuangan?siswa_id=" + id)
+    },
 
 
     //jadwal
@@ -97,8 +100,11 @@ export const HttpRequest = {
     listJadwalKelas(id) {
         return request().get('/jadwal-kelas?kelas_id=' + id)
     },
-    listJadwalKelasGuru(id) {
+    listJadwalMapel(id) {
         return request().get('/jadwal-kelas?mapel_id=' + id)
+    },
+    listJadwalKelasGuruByMapel(id) {
+        return request().get('/jadwal-kelas-sekarang?mapel_id=' + id)
     },
     listJadwalSekolah() {
         return request().get('/jadwal-sekolah')
@@ -350,6 +356,9 @@ export const HttpRequest = {
     nilaiPembelajaranWaliKelasDefault(kelas_id) {
         return request().get("/nilai-pembelajaran?kelas_id=" + kelas_id + "&is_show=Y")
     },
+    nilaiPembelajaranGuruDefault(kelas_id, mapel_id) {
+        return request().get("/nilai-pembelajaran?kelas_id=" + kelas_id + "&mapel_id=" + mapel_id)
+    },
     nilaiPembelajaranSiswaDefault(siswa_id) {
         return request().get("/nilai-pembelajaran?siswa_id=" + siswa_id + "&is_show=Y")
     },
@@ -371,12 +380,31 @@ export const HttpRequest = {
     jadwalBaruPerhari() {
         return request().get("/jadwal-kelas-sekarang")
     },
+    jadwalBaruPerhariByKelas(id) {
+        return request().get("/jadwal-kelas-sekarang?kelas_id=" + id)
+    },
+    jadwalBaruPerhariByMapel(id) {
+        return request().get("/jadwal-kelas-sekarang?mapel_id=" + id)
+    },
     jadwalBaru() {
         return request().get("/jadwal-kelas")
+    },
+    jadwalBaruByID(id) {
+        return request().get("/jadwal-kelas?kelas_id=" + id)
     },
 
     ppdbList() {
         return request().get("/list-pendaftaran")
+    },
+    listSiswaByKelas(kelas_id) {
+        return request().get("/listsiswabykelas?kelas_id=" + kelas_id)
+    },
+
+    tambahNilai(data) {
+        return request().get('/nilai-pembelajaran', data)
+    },
+    editNilai(data) {
+        return request().get('/nilai-pembelajaran', data)
     }
 
 };
