@@ -3,13 +3,17 @@ import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Ima
 import moment from 'moment'
 import color from '../utils/color'
 import HeaderBack from '../components/HeaderBack'
-import { useNavigation } from '@react-navigation/native'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
 import TextInputIcon from '../components/TextInputIcon'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { fonts } from '../utils/fonts'
-import { Item } from 'react-native-paper/lib/typescript/components/List/List'
-import { HttpRequest } from '../utils/http'
 import { useSelector } from 'react-redux'
+import Button from '../components/Button'
+import { HttpRequest } from '../utils/http'
+import Toast from '../components/Toast'
+import responseStatus from '../utils/responseStatus'
+import NoData from '../components/NoData'
+import Combobox from '../components/Combobox'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height
 const SCREEN_WIDTH = Dimensions.get("window").width
@@ -17,24 +21,66 @@ const SCREEN_WIDTH = Dimensions.get("window").width
 export default function ListRaport(props) {
     const navigation = useNavigation()
     const user = useSelector(state => state.user);
-    const [listData, setListData] = useState([])
-    const [total, setTotal] = useState(0)
+    const [listRaport, setListRaport] = useState([])
+    const [listKelas, setListKelas] = useState([])
+    const [isLoading, setIsLoading] = useState(false)
+    const [selected, setSelected] = useState(false)
+    const [selectedI, setSelectedI] = useState(null)
+    const [selectedKelas, setSelectedKelas] = useState(null)
+    const isFocused = useIsFocused()
+    // const { params, item } = props.route.params
+
+    // console.log("ini ", item)
+
 
     useEffect(() => {
-        loadData()
-    }, [])
+        if (isFocused) {
+            loadKelas()
+        }
+    }, [isFocused])
 
-    const loadData = useCallback(() => {
-        let id = user.data.id
-        let kelas_id = user.data.kelas_id
-        let is_show = "Y"
-        HttpRequest.listNilaiGet(id, kelas_id, is_show).then((res) => {
-            // setTotal(res.data)
-            console.log("ini adalah res nilai", res.data)
+    const loadKelas = useCallback(() => {
+        HttpRequest.listMapel().then((res) => {
+            let status = res.data.status
+            if (status == responseStatus.INSERT_SUKSES) {
+                let result = res.data.data.map((item) => {
+                    return {
+                        id: item.id,
+                        label: item.nama
+                    }
+                })
+                setListKelas(result)
+            }
+            if (status == responseStatus.INSERT_GAGAL) {
+                Toast.showError("Server Error: ")
+                setListKelas([])
+            }
+            console.log("res kelas", res.data)
         }).catch((err) => {
             console.log("err", err, err.response)
         })
-    }, [user, total])
+    }, [listKelas])
+
+    const loadData = useCallback(() => {
+        // let siswa_id = params
+        let kelas_id = selectedKelas
+        let mapel_id = user.maper.id
+        setIsLoading(true)
+        HttpRequest.nilaiPembelajaranGuruDefault(kelas_id, mapel_id).then((res) => {
+            if (res.data.status == responseStatus.INSERT_SUKSES) {
+                setListRaport(res.data.data)
+            }
+            if (res.data.status == responseStatus.INSERT_GAGAL) {
+                Toast.showError(`${res.data.message}`)
+            }
+            console.log("ini res raport", res.data)
+            setIsLoading(false)
+        }).catch((err) => {
+            setIsLoading(false)
+            Toast.showError("Server Er:")
+            console.log("ini err ganjil", err, err.response)
+        })
+    }, [listRaport, selectedKelas])
 
     return (
         <>
@@ -44,89 +90,129 @@ export default function ListRaport(props) {
                         navigation.goBack()
                     }}
                 >
-                    <Text style={styles.txtHeader}>Raport</Text>
+                    <Text style={styles.txtHeader}>Raport Siswa</Text>
                 </HeaderBack>
                 <View style={{ padding: 20, flex: 1 }}>
-
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <View style={[styles.childContainer]}>
-                            <View style={{ flexDirection: 'column' }}>
-                                <Text style={[styles.txtGlobalBold, { fontSize: 13, color: color.primary }]}>Kelas</Text>
-                                <Text style={[styles.txtGlobalBold, { fontSize: 13, color: color.primary }]}>11 IPA 1</Text>
-                            </View>
-                            <View style={{ flexDirection: 'column' }}>
-                                <Text style={[styles.txtGlobalBold, { fontSize: 13, color: color.primary }]}>Rata-rata</Text>
-                                <Text style={[styles.txtGlobalBold, { fontSize: 13, color: color.primary }]}>80</Text>
-                            </View>
-                        </View>
-                        <View style={{ width: 30 }} />
-                        <View style={styles.childContainer}>
-                            <View style={{ flexDirection: 'column' }}>
-                                <Text style={[styles.txtGlobal]}>Kelas</Text>
-                                <Text style={[styles.txtGlobalBold, { fontSize: 13 }]}>11 IPA 1</Text>
-                            </View>
-                            <View style={{ flexDirection: 'column' }}>
-                                <Text style={[styles.txtGlobal]}>Rata-rata</Text>
-                                <Text style={[styles.txtGlobalBold, { fontSize: 13 }]}>80</Text>
-                            </View>
-                        </View>
+                    <View style={{ backgroundColor: color.primaryRGBA, padding: 20, borderRadius: 12, flexDirection: 'row', justifyContent: 'center', alignItems: "center" }}>
+                        <Text style={[styles.txtGlobalBold, { color: color.primary, fontSize: 16, alignSelf: 'center' }]}>{user.maper.nama}</Text>
                     </View>
+                    <View style={{ height: 20 }} />
+                    <Text style={[styles.txtGlobalBold, { fontSize: 14, color: color.black, marginVertical: 10 }]}>Pilih Kelas</Text>
+                    <Combobox
+                        value={selectedKelas}
+                        placeholder="Silahkan Pilih Kelas"
+                        theme={{
+                            boxStyle: {
+                                backgroundColor: color.white,
+                                borderColor: color.Neutral20,
+                            },
+                            leftIconStyle: {
+                                color: color.Neutral10,
+                                marginRight: 14
+                            },
+                            rightIconStyle: {
+                                color: color.Neutral10,
+                            },
+                        }}
+                        jenisIconsRight="Ionicons"
+                        iconNameRight="caret-down-outline"
+                        showLeftIcons={false}
+                        data={listKelas}
+                        onChange={(val) => {
+                            setSelectedKelas(val);
+                            // btnTrigger(val)
+                        }}
+                    />
 
-                    <View style={{ flex: 1 }}>
-                        <Text style={[styles.txtGlobalBold, { marginVertical: 18 }]}>Nilai Pelajaran</Text>
-
-                        <ScrollView>
-                            <ListPelajaran />
-                        </ScrollView>
-                    </View>
+                    <View style={{ height: 20 }} />
+                    <Button loading={isLoading} onPress={() => {
+                        loadData()
+                    }}>
+                        Cari
+                    </Button>
+                    <ScrollView>
+                        <View style={{ height: 20 }} />
+                        {
+                            listRaport.length == 0 && (
+                                <NoData>Tidak ada data raport</NoData>
+                            )
+                        }
+                        {
+                            listRaport.map((item, iRaport) => {
+                                let status = ""
+                                if (item.semester == "Ganjil") {
+                                    status = "Ganjil"
+                                }
+                                if (item.semester == "Genap") {
+                                    status = "Genap"
+                                }
+                                return (
+                                    <>
+                                        <Text style={[styles.txtGlobalBold, { color: color.black, marginBottom: 20 }]}>Semester {status}</Text>
+                                        <TouchableOpacity activeOpacity={1} onPress={() => {
+                                            setSelected(true)
+                                            setSelectedI(iRaport)
+                                        }}>
+                                            <View style={{ backgroundColor: color.white, padding: 20, flexDirection: 'row', borderTopEndRadius: 12, borderTopStartRadius: 12, alignItems: 'center' }}>
+                                                <Text style={[styles.txtGlobalBold, { fontSize: 12, flex: 1, color: color.black }]}>{item.nama_mapel}</Text>
+                                                <Text style={[styles.txtGlobal, { fontSize: 12 }]}>Nilai: </Text>
+                                                <Text style={[styles.txtGlobalBold, { fontSize: 12, color: color.black, marginRight: 10 }]}>{item.nilai_rata}</Text>
+                                                <Ionicons name="chevron-down-outline" size={24} color={color.black} />
+                                            </View>
+                                            {
+                                                selected == false && (
+                                                    <View style={{ height: 20 }} />
+                                                )
+                                            }
+                                            {
+                                                selected == true && (
+                                                    <>
+                                                        {
+                                                            selectedI == iRaport && (
+                                                                <>
+                                                                    <View style={{ flexDirection: 'row', alignItems: 'center', padding: 20, alignContent: 'center', backgroundColor: color.white, borderBottomEndRadius: 12, borderBottomStartRadius: 12, borderTopWidth: 1, borderTopColor: color.black }}>
+                                                                        <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center' }}>
+                                                                            <Text style={[styles.txtGlobal, { fontSize: 12 }]}>N-Harian</Text>
+                                                                            <Text style={[styles.txtGlobalBold, { fontSize: 16 }]}>{item.ulangan_harian}</Text>
+                                                                        </View>
+                                                                        <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center' }}>
+                                                                            <Text style={[styles.txtGlobal, { fontSize: 12 }]}>N-Tugas</Text>
+                                                                            <Text style={[styles.txtGlobalBold, { fontSize: 16 }]}>{item.nilai_tugas}</Text>
+                                                                        </View>
+                                                                        <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center' }}>
+                                                                            <Text style={[styles.txtGlobal, { fontSize: 12 }]}>N-UTS</Text>
+                                                                            <Text style={[styles.txtGlobalBold, { fontSize: 16 }]}>{item.nilai_uts}</Text>
+                                                                        </View>
+                                                                        <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center' }}>
+                                                                            <Text style={[styles.txtGlobal, { fontSize: 12 }]}>N-UAS</Text>
+                                                                            <Text style={[styles.txtGlobalBold, { fontSize: 16 }]}>{item.nilai_uas}</Text>
+                                                                        </View>
+                                                                    </View>
+                                                                </>
+                                                            )
+                                                        }
+                                                        <View style={{ height: 20 }} />
+                                                    </>
+                                                )
+                                            }
+                                        </TouchableOpacity>
+                                    </>
+                                )
+                            })
+                        }
+                    </ScrollView>
+                </View>
+                <View style={{ flexDirection: 'column', paddingHorizontal: 20, backgroundColor: color.white }}>
+                    <Button
+                        onPress={() => {
+                            navigation.navigate("TambahNilaiGuru")
+                        }}
+                    >
+                        Tambahkan Nilai
+                    </Button>
+                    <View style={{ height: 20 }} />
                 </View>
             </SafeAreaView>
-        </>
-    )
-}
-
-function ListPelajaran() {
-    let data = [
-        {
-            name: 'Matematika',
-            nilai: "90"
-        },
-        {
-            name: 'Bahasa Indoensia',
-            nilai: "90"
-        },
-        {
-            name: 'Bahasa Inggris',
-            nilai: "90"
-        },
-        {
-            name: 'Sejarah Indonesia',
-            nilai: "90"
-        },
-        {
-            name: 'Informatika',
-            nilai: "90"
-        },
-    ]
-    return (
-        <>
-            {
-                data.map((item, iList) => {
-                    return (
-                        <>
-                            <View style={{ backgroundColor: color.white, paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12, flexDirection: "row", alignItems: 'center' }}>
-                                <Text style={[styles.txtGlobalBold, { flex: 1 }]}>{item.name}</Text>
-                                <View style={{ flexDirection: 'row', marginRight: 18 }}>
-                                    <Text style={[styles.txtGlobal]}>Nilai : </Text>
-                                    <Text style={[styles.txtGlobalBold]}>{item.nilai}</Text>
-                                </View>
-                                <Ionicons name="chevron-down-outline" size={24} color={color.black} />
-                            </View>
-                            <View style={{ height: 20 }} />
-                        </>
-                    )
-                })
-            }
         </>
     )
 }
@@ -141,16 +227,6 @@ const styles = {
         color: color.white,
         fontFamily: fonts.interBold,
     },
-
     txtGlobal: { fontSize: 13, fontFamily: fonts.inter },
     txtGlobalBold: { fontSize: 15, fontFamily: fonts.interBold },
-    childContainer: {
-        backgroundColor: color.white,
-        flexDirection: "row",
-        flex: 1,
-        borderRadius: 12,
-        justifyContent: 'space-between',
-        paddingHorizontal: 18,
-        paddingVertical: 12
-    },
 }

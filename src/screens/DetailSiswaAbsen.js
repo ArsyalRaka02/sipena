@@ -58,13 +58,14 @@ export default function DetailSiswaAbsen(props) {
                                 <Text style={[styles.txtGlobal]}>Terlambat : </Text>
                                 <Text style={[styles.txtGlobalBold, { color: color.black }]}>{params?.terlambat == "Y" ? "Terlambat" : "Tepat Waktu" ?? " - "}</Text>
                             </View>
-                            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
-                                <Text style={[styles.txtGlobalBold, { color: color.black, flex: 1 }]}>Foto Absen</Text>
-                                <Text style={[styles.txtGlobalBold, { color: color.black }]}>{moment(params.waktu).format("dddd, DD-MM-YYYY")}</Text>
-                            </View>
-                            <View style={{ height: SCREEN_HEIGHT / 3, overflow: 'hidden' }}>
-                                <Image source={{ uri: app.BASE_URL_PICTURE + params.foto }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
-                            </View>
+                        </View>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
+                            <Text style={[styles.txtGlobalBold, { color: color.black, flex: 1 }]}>Foto Absen</Text>
+                            <Text style={[styles.txtGlobalBold, { color: color.black }]}>{moment(params.waktu).format("dddd, DD-MM-YYYY")}</Text>
+                        </View>
+
+                        <View style={{ height: SCREEN_HEIGHT / 3, overflow: 'hidden' }}>
+                            <Image source={{ uri: app.BASE_URL_PICTURE + params.foto }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
                         </View>
                     </View>
                 </View>

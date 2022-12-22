@@ -43,9 +43,9 @@ export default function ListJadwalSiswa(props) {
     }, [user])
 
     const loadListJadwal = useCallback(async () => {
-        // let id = user.data.kelas_id
+        let id = user.data.kelas_id
         try {
-            let data = await HttpRequest.jadwalBaru()
+            let data = await HttpRequest.jadwalBaruByID(id)
             let status = data.data.status
             if (status == responseStatus.INSERT_SUKSES) {
                 setListMapel(data.data.data)
@@ -66,7 +66,7 @@ export default function ListJadwalSiswa(props) {
             console.log("err", error, error.response)
             Toast.showError("Server Error: ")
         }
-    }, [listMapel, detail, user, selectedKelas, senin, selasa, rabu, kamis, jumat, sabtu])
+    }, [detail, user, selectedKelas, senin, selasa, rabu, kamis, jumat, sabtu])
 
     const loadKelas = useCallback(() => {
         HttpRequest.listMapel().then((res) => {

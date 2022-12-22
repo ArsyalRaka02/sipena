@@ -145,6 +145,11 @@ export default function PerpustakaanKembaliBuku(props) {
                         <ScrollView>
                             <Text style={[styles.txtGlobalBold, { fontSize: 18, color: color.black, marginVertical: 20 }]}>Daftar Buku</Text>
                             {
+                                listBuku.length == 0 && (
+                                    <NoData>Tidak ada list buku</NoData>
+                                )
+                            }
+                            {
                                 listBuku.map((item, iList) => {
                                     return (
                                         <>

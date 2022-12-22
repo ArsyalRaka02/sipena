@@ -57,9 +57,9 @@ export default function RaportMuridWali(props) {
                     <Text style={styles.txtHeader}>Raport Siswa</Text>
                 </HeaderBack>
                 <View style={{ padding: 20, flex: 1 }}>
-                    {/* <View style={{ backgroundColor: color.primaryRGBA, padding: 20, borderRadius: 12, alignItems: 'center' }}>
-                        <Text style={[styles.txtGlobalBold, { color: color.primary, fontSize: 14 }]}>{user?.kelas.nama}</Text>
-                    </View> */}
+                    <View style={{ backgroundColor: color.primaryRGBA, padding: 20, borderRadius: 12, alignItems: 'center' }}>
+                        <Text style={[styles.txtGlobalBold, { color: color.primary, fontSize: 14 }]}>{user?.siswa.nama_lengkap} - {user?.siswa.kelas.nama}</Text>
+                    </View>
                     <ScrollView>
                         {
                             listRaport.length == 0 && (

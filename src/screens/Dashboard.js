@@ -229,7 +229,7 @@ export default function Dashboard(props) {
             name: "Keuangan",
             image: require("../assets/sipena/Frame.png"),
             warna: color.menuPurple,
-            page: "ListKeuangan"
+            page: "ListKeuanganWaliMurid"
         },
         {
             name: "Rapot",
@@ -265,6 +265,12 @@ export default function Dashboard(props) {
             page: "ListRaport"
         },
         {
+            name: "Pinjam Fasilitas",
+            image: require("../assets/sipena/pinjam.png"),
+            warna: color.menuOrange,
+            page: "ListPinjamFasilitas"
+        },
+        {
             name: "Koperasi Sekolah",
             image: require("../assets/sipena/koperasi.png"),
             warna: color.menuBrown,
@@ -277,7 +283,6 @@ export default function Dashboard(props) {
             warna: color.menuGreen,
             page: "QrCodeKantin"
         },
-
         {
             name: "Semua",
             image: require("../assets/sipena/semua.png"),
@@ -489,8 +494,9 @@ export default function Dashboard(props) {
                 loadBerita()
             }
             if (user.role_id == RoleResponse.walimurid) {
-                loadJadwalSekolah()
+                // loadJadwalSekolah()
                 loadBerita()
+                loadListJadwalBaru()
             }
             if (user.role_id == RoleResponse.pegawai) {
                 if (user.data.is_kantin == "Y") {
@@ -508,15 +514,15 @@ export default function Dashboard(props) {
     }, [user, isFocused])
 
     const loadListJadwalBaru = useCallback(() => {
-        // let id = user?.data?.kelas_id
-        HttpRequest.jadwalBaruPerhari().then((res) => {
-            let result = res.data.data
+        let id = user?.data?.kelas_id
+        HttpRequest.jadwalBaruPerhari(id).then((res) => {
+            // let result = res.data.data
             let status = res.data.status
             if (status == responseStatus.INSERT_SUKSES) {
-                let day = moment(new Date()).format("dddd")
-                let resDay = Object.keys(res.data.data)
+                // let day = moment(new Date()).format("dddd")
+                // let resDay = Object.keys(res.data.data)
                 // if (result.Rabu == day) {
-                setListJadwal([])
+                setListJadwal(res.data.data)
                 // }
             }
             if (status == responseStatus.INSERT_GAGAL) {
@@ -583,6 +589,57 @@ export default function Dashboard(props) {
     }, [listJadwal])
 
     const loadListJadwalGuru = useCallback(() => {
+        if (user.role_id == RoleResponse.guru) {
+            if (user.data.is_mapel == "Y") {
+                let id = user.maper.id
+                HttpRequest.listJadwalKelasGuruByMapel(id).then((res) => {
+                    let status = res.data.status
+                    if (status == responseStatus.INSERT_SUKSES) {
+                        setListSekolah(res.data.data)
+                    }
+                    if (status == responseStatus.INSERT_GAGAL) {
+                        Toast.showError("Gagal mendapatkan list jadwal")
+                        setListSekolah([])
+                    }
+                    console.log("ini adalah guru", res.data)
+                }).catch((err) => {
+                    console.log("err jadwal", err, err.response)
+                    setListSekolah([])
+                })
+            }
+            // if (user.data.is_walikelas == "Y") {
+            //     let id = user.kelas.id
+            //     HttpRequest.listJadwalKelas(id).then((res) => {
+            //         let status = res.data.status
+            //         if (status == responseStatus.INSERT_SUKSES) {
+            //             setListSekolah(res.data.data)
+            //         }
+            //         if (status == responseStatus.INSERT_GAGAL) {
+            //             Toast.showError("Gagal mendapatkan list jadwal")
+            //             setListSekolah([])
+            //         }
+            //     }).catch((err) => {
+            //         console.log("err jadwal", err, err.response)
+            //         setListSekolah([])
+            //     })
+            // }
+            // if (user.data.is_walikelas == "Y" && user.data.is_mapel == "Y") {
+            //     let id = user.kelas.id
+            //     HttpRequest.listJadwalKelas(id).then((res) => {
+            //         let status = res.data.status
+            //         if (status == responseStatus.INSERT_SUKSES) {
+            //             setListSekolah(res.data.data)
+            //         }
+            //         if (status == responseStatus.INSERT_GAGAL) {
+            //             Toast.showError("Gagal mendapatkan list jadwal")
+            //             setListSekolah([])
+            //         }
+            //     }).catch((err) => {
+            //         console.log("err jadwal", err, err.response)
+            //         setListSekolah([])
+            //     })
+            // }
+        }
         // HttpRequest.listJadwalSekolah().then((res) => {
         //     let status = res.data.status
         //     if (status == responseStatus.INSERT_SUKSES) {
@@ -596,20 +653,6 @@ export default function Dashboard(props) {
         //     Toast.showError("Server Err : ")
         //     console.log("err", err, err.response)
         // })
-        let id = user.kelas.id
-        HttpRequest.listJadwalKelas(id).then((res) => {
-            let status = res.data.status
-            if (status == responseStatus.INSERT_SUKSES) {
-                setListSekolah(res.data.data)
-            }
-            if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("Gagal mendapatkan list jadwal")
-                setListSekolah([])
-            }
-        }).catch((err) => {
-            console.log("err jadwal", err, err.response)
-            setListSekolah([])
-        })
     }, [listSekolah])
 
     const loadBerita = useCallback(async () => {
@@ -835,7 +878,7 @@ export default function Dashboard(props) {
                                                     if (item.page != "") {
                                                         navigation.navigate(item.page)
                                                     }
-                                                }} style={styles.menuChild}>
+                                                }} style={[styles.menuChild, {}]}>
                                                     <View style={[styles.menuIcon, {
                                                         backgroundColor: item.warna,
                                                     }]}>
@@ -1130,9 +1173,9 @@ export default function Dashboard(props) {
                                                 {
                                                     listSekolah.length > 0 && (
                                                         <>
-                                                            <View style={{ marginVertical: 12 }}>
+                                                            {/* <View style={{ marginVertical: 12 }}>
                                                                 <Text style={[styles.txtBoldGlobal]}>{moment(new Date()).format("dddd")}</Text>
-                                                            </View>
+                                                            </View> */}
                                                             {
                                                                 listSekolah.map((item, iJadwal) => {
                                                                     if (iJadwal < 3) {
@@ -1706,16 +1749,18 @@ const styles = {
         marginTop: -90,
         // top: 90,
         // position: "absolute",
-        // justifyContent: 'center',
+        justifyContent: 'center',
         flexWrap: 'wrap',
         flexDirection: 'row',
         borderRadius: 12,
     },
     menuChild: {
-        width: SCREEN_WIDTH / 5,
+        width: SCREEN_WIDTH / 5.2,
         // flex: 1,
         justifyContent: 'center',
+        alignContent: 'space-between',
         alignItems: 'center',
+        // alignItems: 'center',
         // backgroundColor: color.primary,
         marginVertical: 7,
 

@@ -64,14 +64,15 @@ export default function ListAbsenMonitoring(props) {
     }, [tanggal])
 
     const btnTrigger = useCallback((value) => {
-        if (selectedKelas == null) {
-            Toast.showError("harap pilih kelas")
-        }
+        // if (selectedKelas == null) {
+        //     Toast.showError("harap pilih kelas")
+        // }
         let isTanggal = moment(tanggal).format("YYYY-MM-DD")
         setIsLoading(true)
-        HttpRequest.listAbsenSiswa(value, isTanggal).then((res) => {
+        HttpRequest.listAbsenSiswa(2, isTanggal).then((res) => {
             setIsLoading(false)
             setListabsen(res.data)
+            console.log("res", res.data)
         }).catch((err) => {
             setIsLoading(false)
             console.log("trigger", err, err.response)
@@ -140,6 +141,7 @@ export default function ListAbsenMonitoring(props) {
                         Cari
                     </Button>
                     <ScrollView>
+                        <View style={{ height: 20 }} />
                         {
                             listAbsen.length == 0 && (
                                 <NoData>Tidak ada data</NoData>

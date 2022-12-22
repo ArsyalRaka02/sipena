@@ -64,7 +64,7 @@ export default function ListPPDBMenu(props) {
                                 return (
                                     <>
                                         <View style={{ backgroundColor: color.white, padding: 20, borderRadius: 16, flexDirection: 'row' }}>
-                                            <Text style={[styles.txtGlobalBold, { flex: 1 }]}>{item.username}</Text>
+                                            <Text style={[styles.txtGlobalBold, { flex: 1 }]}>{item.nama_lengkap}</Text>
                                             <TouchableOpacity activeOpacity={1} onPress={() => {
                                                 navigation.navigate("DetailPPDB", { params: item })
                                             }}>

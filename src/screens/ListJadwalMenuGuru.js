@@ -85,29 +85,88 @@ export default function ListJadwalMenuGuru(props) {
     }, [listSekolah])
 
     const loadMapel = useCallback(async () => {
-        let id = user.kelas.id
-        try {
-            let data = await HttpRequest.jadwalBaru()
-            let status = data.data.status
-            if (status == responseStatus.INSERT_SUKSES) {
-                setListMapel(data.data.data)
-                setSenin(data.data.data.Senin)
-                setSelasa(data.data.data.Selasa)
-                setRabu(data.data.data.Rabu)
-                setKamis(data.data.data.Kamis)
-                setJumat(data.data.data.Jumat)
-                setSabtu(data.data.data.Sabtu)
+        if (user.role_id == RoleResponse.guru) {
+            if (user.data.is_mapel == "Y") {
+                let id = user.maper.id
+                HttpRequest.listJadwalKelasGuruByMapel(id).then((res) => {
+                    let status = res.data.status
+                    if (status == responseStatus.INSERT_SUKSES) {
+                        setSenin(res.data.data.Senin)
+                        setSelasa(res.data.data.Selasa)
+                        setRabu(res.data.data.Rabu)
+                        setKamis(res.data.data.Kamis)
+                        setJumat(res.data.data.Jumat)
+                        setSabtu(res.data.data.Sabtu)
+                    }
+                    if (status == responseStatus.INSERT_GAGAL) {
+                        Toast.showError("Gagal mendapatkan list jadwal")
+                        setListSekolah([])
+                    }
+                    console.log("ini adalah guru", res.data)
+                }).catch((err) => {
+                    console.log("err jadwal", err, err.response)
+                    setListSekolah([])
+                })
             }
-            if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("Server Error: ")
-                setListMapel([])
+            if (user.data.is_walikelas == "Y") {
+                let id = user.kelas.id
+                HttpRequest.listJadwalKelas(id).then((res) => {
+                    let status = res.data.status
+                    if (status == responseStatus.INSERT_SUKSES) {
+                        setSenin(res.data.data.Senin)
+                        setSelasa(res.data.data.Selasa)
+                        setRabu(res.data.data.Rabu)
+                        setKamis(res.data.data.Kamis)
+                        setJumat(res.data.data.Jumat)
+                        setSabtu(res.data.data.Sabtu)
+                    }
+                    if (status == responseStatus.INSERT_GAGAL) {
+                        Toast.showError("Gagal mendapatkan list jadwal")
+                    }
+                }).catch((err) => {
+                    console.log("err jadwal", err, err.response)
+                    setListSekolah([])
+                })
             }
-            console.log("ini list mabel", data)
-        } catch (error) {
-            setListMapel([])
-            console.log("err", error, error.response)
-            Toast.showError("Server Error: ")
+            if (user.data.is_walikelas == "Y" && user.data.is_mapel == "Y") {
+                let id = user.kelas.id
+                HttpRequest.listJadwalKelas(id).then((res) => {
+                    let status = res.data.status
+                    if (status == responseStatus.INSERT_SUKSES) {
+                        setSenin(res.data.data.Senin)
+                        setSelasa(res.data.data.Selasa)
+                        setRabu(res.data.data.Rabu)
+                        setKamis(res.data.data.Kamis)
+                        setJumat(res.data.data.Jumat)
+                        setSabtu(res.data.data.Sabtu)
+                    }
+                    if (status == responseStatus.INSERT_GAGAL) {
+                        Toast.showError("Gagal mendapatkan list jadwal")
+                        setListSekolah([])
+                    }
+                }).catch((err) => {
+                    console.log("err jadwal", err, err.response)
+                    setListSekolah([])
+                })
+            }
         }
+        // let id = user.kelas.id
+        // try {
+        //     let data = await HttpRequest.jadwalBaru()
+        //     let status = data.data.status
+        //     if (status == responseStatus.INSERT_SUKSES) {
+        //         setListMapel(data.data.data)
+        //     }
+        //     if (status == responseStatus.INSERT_GAGAL) {
+        //         Toast.showError("Server Error: ")
+        //         setListMapel([])
+        //     }
+        //     console.log("ini list mabel", data)
+        // } catch (error) {
+        //     setListMapel([])
+        //     console.log("err", error, error.response)
+        //     Toast.showError("Server Error: ")
+        // }
     }, [listMapel, detail, user, selectedKelas])
 
     const loadKelas = useCallback(async () => {

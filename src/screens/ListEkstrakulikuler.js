@@ -12,14 +12,29 @@ import RoleResponse from '../utils/RoleResponse'
 import responseStatus from '../utils/responseStatus'
 import Toast from '../components/Toast'
 import NoData from '../components/NoData'
+import { useSelector } from 'react-redux'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height
 const SCREEN_WIDTH = Dimensions.get("window").width
 
+const tab = [
+    {
+        name: "Semua",
+    },
+    {
+        name: 'Eskul',
+    },
+    {
+        name: 'Tambah'
+    }
+]
+
 export default function ListEkstrakulikuler(props) {
     const navigation = useNavigation()
 
+    const user = useSelector(state => state.user);
     const [listEkstra, setListEkstra] = useState([])
+    const [selected, setSelected] = useState("Semua")
 
     useEffect(() => {
         loadData()
@@ -40,6 +55,8 @@ export default function ListEkstrakulikuler(props) {
         })
     }, [listEkstra])
 
+    console.log("selected", selected)
+
     return (
         <>
             <SafeAreaView style={styles.container}>
@@ -54,31 +71,94 @@ export default function ListEkstrakulikuler(props) {
                     <View style={{ height: 20 }} />
                     <ScrollView>
                         {
-                            listEkstra.length == 0 && (
+                            user.data.is_ekstrakulikuler == "Y" && (
                                 <>
-                                    <NoData>Tidak ada data ekstrakulikuler</NoData>
+                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                        {
+                                            tab.map((item, index) => {
+                                                return (
+                                                    <>
+                                                        <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                            setSelected(item.name)
+                                                        }} style={{ backgroundColor: color.white, padding: 12, alignContent: 'center', alignItems: 'center', borderRadius: 12, flex: 1, marginHorizontal: 4 }}>
+                                                            <Text style={[{ color: selected === item.name ? color.primary : color.black }]}>{item.name}</Text>
+                                                        </TouchableOpacity>
+                                                        {/* <View style={{ width: 10 }} /> */}
+                                                    </>
+                                                )
+                                            })
+                                        }
+                                    </View>
+                                    {
+                                        selected == "Semua" && (
+                                            <>
+                                                <View style={{ height: 20 }} />
+                                                {
+                                                    listEkstra.length == 0 && (
+                                                        <>
+                                                            <NoData>Tidak ada data ekstrakulikuler</NoData>
+                                                        </>
+                                                    )
+                                                }
+                                                {
+                                                    listEkstra.length > 0 && (
+                                                        listEkstra.map((item, iList) => {
+                                                            return (
+                                                                <>
+                                                                    <View style={{ flexDirection: 'column', flex: 1, backgroundColor: color.white, borderRadius: 12, padding: 12 }}>
+                                                                        <Text style={[styles.txtGlobalBold, { flex: 1 }]}>{item.nama}</Text>
+                                                                        <View style={{ flexDirection: "row", alignItems: 'center' }}>
+                                                                            <Text style={[styles.txtGlobal, { flex: 1 }]}>{item.jadwal_hari}</Text>
+                                                                            <View style={{ flexDirection: "row", alignItems: 'center' }}>
+                                                                                <Ionicons name="time-outline" size={20} color={color.black} />
+                                                                                <Text style={[styles.txtGlobal, { marginLeft: 10 }]}>{item.jam_mulai}</Text>
+                                                                            </View>
+                                                                        </View>
+                                                                    </View>
+                                                                    <View style={{ height: 20 }} />
+                                                                </>
+                                                            )
+                                                        })
+                                                    )
+                                                }
+                                            </>
+                                        )
+                                    }
                                 </>
                             )
                         }
                         {
-                            listEkstra.length > 0 && (
-                                listEkstra.map((item, iList) => {
-                                    return (
-                                        <>
-                                            <View style={{ flexDirection: 'column', flex: 1, backgroundColor: color.white, borderRadius: 12, padding: 12 }}>
-                                                <Text style={[styles.txtGlobalBold, { flex: 1 }]}>{item.nama}</Text>
-                                                <View style={{ flexDirection: "row", alignItems: 'center' }}>
-                                                    <Text style={[styles.txtGlobal, { flex: 1 }]}>{item.jadwal_hari}</Text>
-                                                    <View style={{ flexDirection: "row", alignItems: 'center' }}>
-                                                        <Ionicons name="time-outline" size={20} color={color.black} />
-                                                        <Text style={[styles.txtGlobal, { marginLeft: 10 }]}>{item.jam_mulai}</Text>
-                                                    </View>
-                                                </View>
-                                            </View>
-                                            <View style={{ height: 20 }} />
-                                        </>
-                                    )
-                                })
+                            user.data.is_ekstrakulikuler != "Y" && (
+                                <>
+                                    {
+                                        listEkstra.length == 0 && (
+                                            <>
+                                                <NoData>Tidak ada data ekstrakulikuler</NoData>
+                                            </>
+                                        )
+                                    }
+                                    {
+                                        listEkstra.length > 0 && (
+                                            listEkstra.map((item, iList) => {
+                                                return (
+                                                    <>
+                                                        <View style={{ flexDirection: 'column', flex: 1, backgroundColor: color.white, borderRadius: 12, padding: 12 }}>
+                                                            <Text style={[styles.txtGlobalBold, { flex: 1 }]}>{item.nama}</Text>
+                                                            <View style={{ flexDirection: "row", alignItems: 'center' }}>
+                                                                <Text style={[styles.txtGlobal, { flex: 1 }]}>{item.jadwal_hari}</Text>
+                                                                <View style={{ flexDirection: "row", alignItems: 'center' }}>
+                                                                    <Ionicons name="time-outline" size={20} color={color.black} />
+                                                                    <Text style={[styles.txtGlobal, { marginLeft: 10 }]}>{item.jam_mulai}</Text>
+                                                                </View>
+                                                            </View>
+                                                        </View>
+                                                        <View style={{ height: 20 }} />
+                                                    </>
+                                                )
+                                            })
+                                        )
+                                    }
+                                </>
                             )
                         }
                     </ScrollView>

@@ -1,3 +1,4 @@
+
 import React, { useCallback, useEffect, useState } from 'react'
 import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, ToastAndroid } from 'react-native'
 import moment from 'moment'
@@ -10,12 +11,15 @@ import { fonts } from '../utils/fonts'
 import { HttpRequest } from '../utils/http'
 import Toast from '../components/Toast';
 import Rupiah from '../utils/Rupiah'
+import { useSelector } from 'react-redux'
+import NoData from '../components/NoData'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height
 const SCREEN_WIDTH = Dimensions.get("window").width
 
-export default function KeuanganSPPTU(props) {
+export default function ListKeuanganWaliMurid(props) {
     const navigation = useNavigation()
+    const user = useSelector(state => state.user);
     const [listData, setListData] = useState([])
 
     useEffect(() => {
@@ -23,7 +27,8 @@ export default function KeuanganSPPTU(props) {
     }, [])
 
     const loadList = useCallback(() => {
-        HttpRequest.listKeuanganSpp().then((res) => {
+        let id = user?.siswa.id
+        HttpRequest.listKeuanganSppBySiswa(id).then((res) => {
             setListData(res.data)
             console.log("ini ers keuangan", res.data)
         }).catch((err) => {
@@ -46,7 +51,7 @@ export default function KeuanganSPPTU(props) {
                         {
                             listData.length == 0 && (
                                 <>
-                                    <NoData>Tidak ada list keuangan sekolah</NoData>
+                                    <NoData>Tidak ada list keuangan siswa</NoData>
                                 </>
                             )
                         }
