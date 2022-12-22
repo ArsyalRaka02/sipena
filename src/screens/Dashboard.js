@@ -396,13 +396,13 @@ export default function Dashboard(props) {
     ]
 
     const dataDinas7 = [
-        {
-            name: "Koperasi Sekolah",
-            image: require("../assets/sipena/koperasi.png"),
-            warna: color.menuBrown,
-            // page: "ListKoperasi"
-            page: "QrCodeKoperasi"
-        },
+        // {
+        //     name: "Koperasi Sekolah",
+        //     image: require("../assets/sipena/koperasi.png"),
+        //     warna: color.menuBrown,
+        //     // page: "ListKoperasi"
+        //     page: "QrCodeKoperasi"
+        // },
         {
             name: "Rapot",
             image: require("../assets/sipena/rapot.png"),
@@ -410,11 +410,29 @@ export default function Dashboard(props) {
             page: "RaportRole7"
         },
         {
-            name: "Kantin",
-            image: require("../assets/sipena/kantin.png"),
-            warna: color.menuGreen,
-            page: "QrCodeKantin"
+            name: "PPDB",
+            image: require("../assets/sipena/ppdb.png"),
+            warna: color.menuBlue,
+            page: "ListPPDBMenu"
         },
+        {
+            name: "Keuangan Sekolah",
+            image: require("../assets/sipena/Frame.png"),
+            warna: color.menuPurple,
+            page: "KeuanganSPPTU"
+        },
+        {
+            name: "Mutasi",
+            image: require("../assets/sipena/mutasi.png"),
+            warna: color.menuPink,
+            page: "ListMutasiSiswaPengawas"
+        },
+        // {
+        //     name: "Kantin",
+        //     image: require("../assets/sipena/kantin.png"),
+        //     warna: color.menuGreen,
+        //     page: "QrCodeKantin"
+        // },
     ]
     const dataKepalaSekolah = [
         {

@@ -7,59 +7,72 @@ import { useNavigation } from '@react-navigation/native'
 import TextInputIcon from '../components/TextInputIcon'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { fonts } from '../utils/fonts'
+import Combobox from '../components/Combobox'
 import DatePicker from '../components/DatePicker'
 import Button from '../components/Button'
-import { user } from '../store/reducers'
-import { HttpRequest } from '../utils/http'
 import { useSelector } from 'react-redux'
 import Toast from '../components/Toast'
+import { HttpRequest } from '../utils/http'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height
 const SCREEN_WIDTH = Dimensions.get("window").width
 
-export default function EditKegiatanOsis(props) {
+const day = [
+    {
+        id: 'Senin',
+        label: "Senin"
+    },
+    {
+        id: 'Selasa',
+        label: "Selasa"
+    },
+    {
+        id: 'Rabu',
+        label: "Rabu"
+    },
+    {
+        id: 'Kamis',
+        label: "Kamis"
+    },
+    {
+        id: 'Jumat',
+        label: "Jumat"
+    },
+    {
+        id: 'Sabtu',
+        label: "Sabtu"
+    },
+    {
+        id: 'Minggu',
+        label: "Minggu"
+    },
+]
+
+export default function EditEksul(props) {
     const navigation = useNavigation()
     const { params } = props.route.params
     const user = useSelector(state => state.user);
-    const [judul, setJudul] = useState("")
+    const [judul, setJudul] = useState(params.nama)
     const [tanggalPinjaman, setTanggalPinjaman] = useState(new Date())
     const [jamAwal, setJamAwal] = useState(moment(new Date()).format("HH:mm"))
     const [jamAkhir, setJamAkhir] = useState(moment(new Date()).format("HH:mm"))
+    const [selectedJam, setSelectedJam] = useState(null)
     const [isLoading, setIsloading] = useState(false)
-
-    const toggleSetDay = useCallback((day) => {
-        setTanggalPinjaman(day)
-    }, [tanggalPinjaman])
-
-    const toggleSetWaktuAwal = useCallback((day) => {
-        setJamAwal(day)
-    }, [jamAwal])
-
-    const toggleSetWaktuAkhir = useCallback((day) => {
-        setJamAkhir(day)
-    }, [jamAkhir])
-
-    useEffect(() => {
-        loadDetail()
-    }, [])
-
-    const loadDetail = useCallback(() => {
-        setJudul(params.kegiatan)
-    }, [judul, jamAkhir, jamAwal, tanggalPinjaman])
+    const [selectedHari, setSelectedHari] = useState(params.jadwal_hari)
 
     const btnSave = useCallback(() => {
         let data = {
+            // id: params.id,
             id: params.id,
-            kegiatan: judul,
+            guru_id: user.data.id,
+            nama: judul,
             jam_mulai: jamAwal,
-            jam_selesai: jamAkhir,
+            jadwal_hari: selectedHari,
             pelaksana: user.data.nama_lengkap,
-            tanggal: moment(tanggalPinjaman).format("YYYY-MM-DD")
         }
         // console.log("da", data)
-        HttpRequest.updateOsis(data).then((res) => {
-            console.log("res", res.data)
-            Toast.showSuccess("Berhasil update kegiatan osis")
+        HttpRequest.postEkstrakulikuler(data).then((res) => {
+            Toast.showSuccess("Berhasil Edit")
             setTimeout(() => {
                 navigation.goBack()
             }, 300);
@@ -68,6 +81,9 @@ export default function EditKegiatanOsis(props) {
         })
     }, [judul, jamAkhir, jamAwal, tanggalPinjaman])
 
+    const toggleSetWaktuAwal = useCallback((day) => {
+        setJamAwal(day)
+    }, [jamAwal])
     return (
         <>
             <SafeAreaView style={styles.container}>
@@ -76,7 +92,7 @@ export default function EditKegiatanOsis(props) {
                         navigation.goBack()
                     }}
                 >
-                    <Text style={styles.txtHeader}>Edit Kegiatan</Text>
+                    <Text style={styles.txtHeader}>Edit Ekstrakulikuler</Text>
                 </HeaderBack>
                 <View style={{ padding: 20, flex: 1 }}>
                     <ScrollView>
@@ -84,18 +100,6 @@ export default function EditKegiatanOsis(props) {
                         <TextInputIcon
                             value={judul}
                             onChangeText={setJudul}
-                        />
-                        <View style={{ height: 20 }} />
-                        <Text style={[styles.txtGlobalBold, { fontSize: 14, color: color.black, marginBottom: 10 }]}>Tanggal Pinjaman</Text>
-                        <DatePicker
-                            style={{ backgroundColor: color.white }}
-                            format='YYYY-MM-DD'
-                            displayFormat='DD MMM YYYY'
-                            nameLabel="tanggal"
-                            value={tanggalPinjaman}
-                            onChange={(tanggal) => {
-                                toggleSetDay(tanggal)
-                            }}
                         />
 
                         <View style={{ height: 20 }} />
@@ -116,16 +120,29 @@ export default function EditKegiatanOsis(props) {
                             </View>
                             <View style={{ width: 20 }} />
                             <View style={{ flex: 1 }}>
-                                <Text style={[styles.txtGlobalBold, { fontSize: 14, color: color.black, marginBottom: 10 }]}>Jam Akhir</Text>
-                                <DatePicker
-                                    style={{ backgroundColor: color.white }}
-                                    mode="time"
-                                    format='HH:ss'
-                                    displayFormat='HH:ss'
-                                    nameLabel="jam akhir"
-                                    value={jamAkhir}
-                                    onChange={(tanggal) => {
-                                        toggleSetWaktuAkhir(tanggal)
+                                <Text style={[styles.txtGlobalBold, { fontSize: 14, color: color.black, marginBottom: 10 }]}>Pilih Hari</Text>
+                                <Combobox
+                                    value={selectedHari}
+                                    placeholder="Silahkan Pilih"
+                                    theme={{
+                                        boxStyle: {
+                                            backgroundColor: color.white,
+                                            borderColor: color.Neutral20,
+                                        },
+                                        leftIconStyle: {
+                                            color: color.Neutral10,
+                                            marginRight: 14
+                                        },
+                                        rightIconStyle: {
+                                            color: color.Neutral10,
+                                        },
+                                    }}
+                                    jenisIconsRight="Ionicons"
+                                    iconNameRight="caret-down-outline"
+                                    showLeftIcons={false}
+                                    data={day}
+                                    onChange={(val) => {
+                                        setSelectedHari(val);
                                     }}
                                 />
                             </View>

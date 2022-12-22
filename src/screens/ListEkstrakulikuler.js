@@ -3,7 +3,7 @@ import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Ima
 import moment from 'moment'
 import color from '../utils/color'
 import HeaderBack from '../components/HeaderBack'
-import { useNavigation } from '@react-navigation/native'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
 import TextInputIcon from '../components/TextInputIcon'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { fonts } from '../utils/fonts'
@@ -13,6 +13,9 @@ import responseStatus from '../utils/responseStatus'
 import Toast from '../components/Toast'
 import NoData from '../components/NoData'
 import { useSelector } from 'react-redux'
+import DatePicker from '../components/DatePicker'
+import Button from '../components/Button'
+import Combobox from '../components/Combobox'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height
 const SCREEN_WIDTH = Dimensions.get("window").width
@@ -29,16 +32,57 @@ const tab = [
     }
 ]
 
+const day = [
+    {
+        id: 'Senin',
+        label: "Senin"
+    },
+    {
+        id: 'Selasa',
+        label: "Selasa"
+    },
+    {
+        id: 'Rabu',
+        label: "Rabu"
+    },
+    {
+        id: 'Kamis',
+        label: "Kamis"
+    },
+    {
+        id: 'Jumat',
+        label: "Jumat"
+    },
+    {
+        id: 'Sabtu',
+        label: "Sabtu"
+    },
+    {
+        id: 'Minggu',
+        label: "Minggu"
+    },
+]
+
 export default function ListEkstrakulikuler(props) {
     const navigation = useNavigation()
 
+    const isFocused = useIsFocused()
     const user = useSelector(state => state.user);
     const [listEkstra, setListEkstra] = useState([])
     const [selected, setSelected] = useState("Semua")
+    const [judul, setJudul] = useState("")
+    const [tanggalPinjaman, setTanggalPinjaman] = useState(new Date())
+    const [jamAwal, setJamAwal] = useState(moment(new Date()).format("HH:mm"))
+    const [jamAkhir, setJamAkhir] = useState(moment(new Date()).format("HH:mm"))
+    const [selectedJam, setSelectedJam] = useState(null)
+    const [isLoading, setIsloading] = useState(false)
+    const [selectedHari, setSelectedHari] = useState(null)
 
     useEffect(() => {
-        loadData()
-    }, [])
+        if (isFocused) {
+            loadData()
+        }
+    }, [isFocused])
 
     const loadData = useCallback(() => {
         HttpRequest.ekstrakulikuler().then((res) => {
@@ -55,7 +99,52 @@ export default function ListEkstrakulikuler(props) {
         })
     }, [listEkstra])
 
-    console.log("selected", selected)
+    const btnDeleted = useCallback((value) => {
+        HttpRequest.deletedEkstrakulikulerBy(value).then((res) => {
+            let status = res.data.status
+            if (status == responseStatus.INSERT_SUKSES) {
+                Toast.showSuccess("Berhasil hapus")
+                loadData()
+                setSelected("Eskul")
+            }
+            if (status == responseStatus.INSERT_GAGAL) {
+                Toast.showError("gagal hapus" + `${result.message}`)
+            }
+            console.log("suske", res.data)
+            // setListPeminjamanFasilitas(result)
+        }).catch((err) => {
+            Toast.showError("Server Error: ")
+            console.log("gagal delete fasilitas ", err, err.response)
+        })
+    }, [listEkstra])
+
+    const btnSave = useCallback(() => {
+        let data = {
+            // id: params.id,
+            // id: params.id,
+            guru_id: user.data.id,
+            nama: judul,
+            jam_mulai: jamAwal,
+            jadwal_hari: selectedHari,
+            pelaksana: user.data.nama_lengkap,
+        }
+        console.log("da", data)
+        HttpRequest.postEkstrakulikuler(data).then((res) => {
+            console.log("res", res.data)
+            loadData()
+            setSelected("Semua")
+            Toast.showSuccess("Berhasil tambah kegiatan ekstrakulikuler")
+            // setTimeout(() => {
+            //     navigation.goBack()
+            // }, 300);
+        }).catch((err) => {
+            Toast.showError("Server Error: ")
+        })
+    }, [judul, jamAkhir, jamAwal, tanggalPinjaman])
+
+    const toggleSetWaktuAwal = useCallback((day) => {
+        setJamAwal(day)
+    }, [jamAwal])
 
     return (
         <>
@@ -124,6 +213,111 @@ export default function ListEkstrakulikuler(props) {
                                             </>
                                         )
                                     }
+                                    {
+                                        selected == "Eskul" && (
+                                            <>
+                                                <View style={{ height: 20 }} />
+                                                {
+                                                    listEkstra.length == 0 && (
+                                                        <>
+                                                            <NoData>Tidak ada data ekstrakulikuler</NoData>
+                                                        </>
+                                                    )
+                                                }
+                                                {
+                                                    listEkstra.length > 0 && (
+                                                        listEkstra.map((item, iList) => {
+                                                            return (
+                                                                <>
+                                                                    <View style={{ flexDirection: 'column', flex: 1, backgroundColor: color.white, borderRadius: 12, padding: 12 }}>
+                                                                        <Text style={[styles.txtGlobalBold, { flex: 1 }]}>{item.nama}</Text>
+                                                                        <View style={{ flexDirection: "row", alignItems: 'center' }}>
+                                                                            <Text style={[styles.txtGlobal, { flex: 1 }]}>{item.jadwal_hari}</Text>
+                                                                            <View style={{ flexDirection: "row", alignItems: 'center' }}>
+                                                                                <Ionicons name="time-outline" size={20} color={color.black} />
+                                                                                <Text style={[styles.txtGlobal, { marginLeft: 10 }]}>{item.jam_mulai}</Text>
+                                                                            </View>
+                                                                        </View>
+                                                                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                                            <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                                                navigation.navigate("EditEksul", { params: item })
+                                                                            }}>
+                                                                                <Text style={[styles.txtGlobal, { color: color.primary, }]}>Edit</Text>
+                                                                            </TouchableOpacity>
+                                                                            <View style={{ flex: 1 }} />
+                                                                            <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                                                btnDeleted(item.id)
+                                                                            }}>
+                                                                                <Text style={[styles.txtGlobal, { color: color.danger }]}>Hapus</Text>
+                                                                            </TouchableOpacity>
+                                                                        </View>
+                                                                    </View>
+                                                                    <View style={{ height: 20 }} />
+                                                                </>
+                                                            )
+                                                        })
+                                                    )
+                                                }
+                                            </>
+                                        )
+                                    }
+                                    {
+                                        selected == "Tambah" && (
+                                            <>
+                                                <Text style={[styles.txtGlobalBold, { fontSize: 14, color: color.black, marginVertical: 10 }]}>Judul</Text>
+                                                <TextInputIcon
+                                                    value={judul}
+                                                    onChangeText={setJudul}
+                                                />
+
+                                                <View style={{ height: 20 }} />
+                                                <View style={{ flexDirection: 'row' }}>
+                                                    <View style={{ flex: 1 }}>
+                                                        <Text style={[styles.txtGlobalBold, { fontSize: 14, color: color.black, marginBottom: 10 }]}>Jam Mulai</Text>
+                                                        <DatePicker
+                                                            style={{ backgroundColor: color.white }}
+                                                            mode="time"
+                                                            format='HH:ss'
+                                                            displayFormat='HH:ss'
+                                                            nameLabel="jam mulai"
+                                                            value={jamAwal}
+                                                            onChange={(tanggal) => {
+                                                                toggleSetWaktuAwal(tanggal)
+                                                            }}
+                                                        />
+                                                    </View>
+                                                    <View style={{ width: 20 }} />
+                                                    <View style={{ flex: 1 }}>
+                                                        <Text style={[styles.txtGlobalBold, { fontSize: 14, color: color.black, marginBottom: 10 }]}>Pilih Hari</Text>
+                                                        <Combobox
+                                                            value={selectedHari}
+                                                            placeholder="Silahkan Pilih"
+                                                            theme={{
+                                                                boxStyle: {
+                                                                    backgroundColor: color.white,
+                                                                    borderColor: color.Neutral20,
+                                                                },
+                                                                leftIconStyle: {
+                                                                    color: color.Neutral10,
+                                                                    marginRight: 14
+                                                                },
+                                                                rightIconStyle: {
+                                                                    color: color.Neutral10,
+                                                                },
+                                                            }}
+                                                            jenisIconsRight="Ionicons"
+                                                            iconNameRight="caret-down-outline"
+                                                            showLeftIcons={false}
+                                                            data={day}
+                                                            onChange={(val) => {
+                                                                setSelectedHari(val);
+                                                            }}
+                                                        />
+                                                    </View>
+                                                </View>
+                                            </>
+                                        )
+                                    }
                                 </>
                             )
                         }
@@ -163,6 +357,20 @@ export default function ListEkstrakulikuler(props) {
                         }
                     </ScrollView>
                 </View>
+                {
+                    selected == "Tambah" && (
+                        <>
+                            <View style={{ backgroundColor: color.white, paddingTop: 40, paddingBottom: 20, paddingHorizontal: 20 }}>
+                                <Button
+                                    loading={isLoading} activeOpacity={1} onPress={() => {
+                                        btnSave()
+                                    }}>
+                                    Simpan
+                                </Button>
+                            </View>
+                        </>
+                    )
+                }
             </SafeAreaView>
         </>
     )

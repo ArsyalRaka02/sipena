@@ -86,13 +86,28 @@ export default function KegiatanOsis(props) {
         // console.log("da", data)
         HttpRequest.inssertOsis(data).then((res) => {
             console.log("res", res.data)
-            setTimeout(() => {
-                navigation.goBack()
-            }, 300);
+            Toast.showSuccess("Berhasil Tambah")
+            setSelected("Kegiatan")
+            loadKegiatan()
+            // setTimeout(() => {
+            //     navigation.goBack()
+            // }, 300);
         }).catch((err) => {
             Toast.showError("Server Error: ")
         })
     }, [judul, jamAkhir, jamAwal, tanggalPinjaman])
+
+    const toggleSetDay = useCallback((day) => {
+        setTanggalPinjaman(day)
+    }, [tanggalPinjaman])
+
+    const toggleSetWaktuAwal = useCallback((day) => {
+        setJamAwal(day)
+    }, [jamAwal])
+
+    const toggleSetWaktuAkhir = useCallback((day) => {
+        setJamAkhir(day)
+    }, [jamAkhir])
 
     return (
         <>

@@ -411,7 +411,14 @@ export const HttpRequest = {
     },
     editNilai(data) {
         return request().post('/nilai-pembelajaran', data)
-    }
+    },
+
+    postEkstrakulikuler(data) {
+        return request().post('/ekstrakulikuler', data)
+    },
+    deletedEkstrakulikulerBy(id) {
+        return request().delete('/ekstrakulikuler/' + id)
+    },
 
 };
 

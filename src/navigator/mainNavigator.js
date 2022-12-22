@@ -113,6 +113,7 @@ import ListKeuanganWaliMurid from "../screens/ListKeuanganWaliMurid";
 import ListMenuPenilaian from "../screens/ListMenuPenilaian";
 import EditNilai from "../screens/EditNilai";
 import ListMutasiSiswaPengawas from "../screens/ListMutasiSiswaPengawas";
+import EditEksul from "../screens/EditEksul";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -185,6 +186,7 @@ const DashboardStack = () => {
             <Stack.Screen name="ListKeuanganWaliMurid" component={ListKeuanganWaliMurid} />
             <Stack.Screen name="EditNilai" component={EditNilai} />
             <Stack.Screen name="ListMutasiSiswaPengawas" component={ListMutasiSiswaPengawas} />
+            <Stack.Screen name="EditEksul" component={EditEksul} />
 
             <Stack.Screen name="DetailAbsen" component={DetailAbsen} />
             <Stack.Screen name="ListTotalKehadiran" component={ListTotalKehadiran} />
