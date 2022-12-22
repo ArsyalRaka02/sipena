@@ -16,6 +16,7 @@ import { useSelector } from 'react-redux'
 import DatePicker from '../components/DatePicker'
 import Button from '../components/Button'
 import Combobox from '../components/Combobox'
+import { ActivityIndicator } from 'react-native-paper'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height
 const SCREEN_WIDTH = Dimensions.get("window").width
@@ -80,11 +81,17 @@ export default function ListEkstrakulikuler(props) {
 
     useEffect(() => {
         if (isFocused) {
-            loadData()
+            if (selected == "Semua") {
+                loadData()
+            }
+            if (selected == "Eskul") {
+                ekstrakulikulerByGuru()
+            }
         }
-    }, [isFocused])
+    }, [isFocused, selected])
 
     const loadData = useCallback(() => {
+        setIsloading(true)
         HttpRequest.ekstrakulikuler().then((res) => {
             if (res.data.status == responseStatus.INSERT_SUKSES) {
                 setListEkstra(res.data.data)
@@ -92,8 +99,28 @@ export default function ListEkstrakulikuler(props) {
             if (res.data.status == responseStatus.INSERT_GAGAL) {
                 Toast.showError(`${res.data.message}`)
             }
+            setIsloading(false)
             console.log("ini eksul", res.data)
         }).catch((err) => {
+            setIsloading(false)
+            Toast.showError("Server err")
+            console.log("err", err, err.response)
+        })
+    }, [listEkstra])
+
+    const ekstrakulikulerByGuru = useCallback(() => {
+        setIsloading(true)
+        HttpRequest.ekstrakulikulerById(user.data.id).then((res) => {
+            if (res.data.status == responseStatus.INSERT_SUKSES) {
+                setListEkstra(res.data.data)
+            }
+            if (res.data.status == responseStatus.INSERT_GAGAL) {
+                Toast.showError(`${res.data.message}`)
+            }
+            console.log("ini eksul by id", res)
+            setIsloading(false)
+        }).catch((err) => {
+            setIsloading(false)
             Toast.showError("Server err")
             console.log("err", err, err.response)
         })
@@ -181,33 +208,48 @@ export default function ListEkstrakulikuler(props) {
                                     {
                                         selected == "Semua" && (
                                             <>
-                                                <View style={{ height: 20 }} />
                                                 {
-                                                    listEkstra.length == 0 && (
+                                                    isLoading && (
                                                         <>
-                                                            <NoData>Tidak ada data ekstrakulikuler</NoData>
+                                                            <View style={{ height: 20 }} />
+                                                            <ActivityIndicator size="small" color={color.primary} />
+                                                            <Text style={[styles.txtGlobalBold, { color: color.primary, alignSelf: 'center' }]}>loading data</Text>
                                                         </>
                                                     )
                                                 }
                                                 {
-                                                    listEkstra.length > 0 && (
-                                                        listEkstra.map((item, iList) => {
-                                                            return (
-                                                                <>
-                                                                    <View style={{ flexDirection: 'column', flex: 1, backgroundColor: color.white, borderRadius: 12, padding: 12 }}>
-                                                                        <Text style={[styles.txtGlobalBold, { flex: 1 }]}>{item.nama}</Text>
-                                                                        <View style={{ flexDirection: "row", alignItems: 'center' }}>
-                                                                            <Text style={[styles.txtGlobal, { flex: 1 }]}>{item.jadwal_hari}</Text>
-                                                                            <View style={{ flexDirection: "row", alignItems: 'center' }}>
-                                                                                <Ionicons name="time-outline" size={20} color={color.black} />
-                                                                                <Text style={[styles.txtGlobal, { marginLeft: 10 }]}>{item.jam_mulai}</Text>
-                                                                            </View>
-                                                                        </View>
-                                                                    </View>
-                                                                    <View style={{ height: 20 }} />
-                                                                </>
-                                                            )
-                                                        })
+                                                    !isLoading && (
+                                                        <>
+                                                            <View style={{ height: 20 }} />
+                                                            {
+                                                                listEkstra.length == 0 && (
+                                                                    <>
+                                                                        <NoData>Tidak ada data ekstrakulikuler</NoData>
+                                                                    </>
+                                                                )
+                                                            }
+                                                            {
+                                                                listEkstra.length > 0 && (
+                                                                    listEkstra.map((item, iList) => {
+                                                                        return (
+                                                                            <>
+                                                                                <View style={{ flexDirection: 'column', flex: 1, backgroundColor: color.white, borderRadius: 12, padding: 12 }}>
+                                                                                    <Text style={[styles.txtGlobalBold, { flex: 1 }]}>{item.nama}</Text>
+                                                                                    <View style={{ flexDirection: "row", alignItems: 'center' }}>
+                                                                                        <Text style={[styles.txtGlobal, { flex: 1 }]}>{item.jadwal_hari}</Text>
+                                                                                        <View style={{ flexDirection: "row", alignItems: 'center' }}>
+                                                                                            <Ionicons name="time-outline" size={20} color={color.black} />
+                                                                                            <Text style={[styles.txtGlobal, { marginLeft: 10 }]}>{item.jam_mulai}</Text>
+                                                                                        </View>
+                                                                                    </View>
+                                                                                </View>
+                                                                                <View style={{ height: 20 }} />
+                                                                            </>
+                                                                        )
+                                                                    })
+                                                                )
+                                                            }
+                                                        </>
                                                     )
                                                 }
                                             </>
@@ -216,48 +258,64 @@ export default function ListEkstrakulikuler(props) {
                                     {
                                         selected == "Eskul" && (
                                             <>
-                                                <View style={{ height: 20 }} />
                                                 {
-                                                    listEkstra.length == 0 && (
+                                                    isLoading && (
                                                         <>
-                                                            <NoData>Tidak ada data ekstrakulikuler</NoData>
+                                                            <View style={{ height: 20 }} />
+                                                            <ActivityIndicator size="small" color={color.primary} />
+                                                            <Text style={[styles.txtGlobalBold, { color: color.primary, alignSelf: 'center' }]}>loading data</Text>
                                                         </>
                                                     )
                                                 }
                                                 {
-                                                    listEkstra.length > 0 && (
-                                                        listEkstra.map((item, iList) => {
-                                                            return (
-                                                                <>
-                                                                    <View style={{ flexDirection: 'column', flex: 1, backgroundColor: color.white, borderRadius: 12, padding: 12 }}>
-                                                                        <Text style={[styles.txtGlobalBold, { flex: 1 }]}>{item.nama}</Text>
-                                                                        <View style={{ flexDirection: "row", alignItems: 'center' }}>
-                                                                            <Text style={[styles.txtGlobal, { flex: 1 }]}>{item.jadwal_hari}</Text>
-                                                                            <View style={{ flexDirection: "row", alignItems: 'center' }}>
-                                                                                <Ionicons name="time-outline" size={20} color={color.black} />
-                                                                                <Text style={[styles.txtGlobal, { marginLeft: 10 }]}>{item.jam_mulai}</Text>
-                                                                            </View>
-                                                                        </View>
-                                                                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                                                            <TouchableOpacity activeOpacity={1} onPress={() => {
-                                                                                navigation.navigate("EditEksul", { params: item })
-                                                                            }}>
-                                                                                <Text style={[styles.txtGlobal, { color: color.primary, }]}>Edit</Text>
-                                                                            </TouchableOpacity>
-                                                                            <View style={{ flex: 1 }} />
-                                                                            <TouchableOpacity activeOpacity={1} onPress={() => {
-                                                                                btnDeleted(item.id)
-                                                                            }}>
-                                                                                <Text style={[styles.txtGlobal, { color: color.danger }]}>Hapus</Text>
-                                                                            </TouchableOpacity>
-                                                                        </View>
-                                                                    </View>
-                                                                    <View style={{ height: 20 }} />
-                                                                </>
-                                                            )
-                                                        })
+                                                    !isLoading && (
+                                                        <>
+                                                            <View style={{ height: 20 }} />
+                                                            {
+                                                                listEkstra.length == 0 && (
+                                                                    <>
+                                                                        <NoData>Tidak ada data ekstrakulikuler</NoData>
+                                                                    </>
+                                                                )
+                                                            }
+                                                            {
+                                                                listEkstra.length > 0 && (
+                                                                    listEkstra.map((item, iList) => {
+                                                                        return (
+                                                                            <>
+                                                                                <View style={{ flexDirection: 'column', flex: 1, backgroundColor: color.white, borderRadius: 12, padding: 12 }}>
+                                                                                    <Text style={[styles.txtGlobalBold, { flex: 1 }]}>{item.nama}</Text>
+                                                                                    <View style={{ flexDirection: "row", alignItems: 'center' }}>
+                                                                                        <Text style={[styles.txtGlobal, { flex: 1 }]}>{item.jadwal_hari}</Text>
+                                                                                        <View style={{ flexDirection: "row", alignItems: 'center' }}>
+                                                                                            <Ionicons name="time-outline" size={20} color={color.black} />
+                                                                                            <Text style={[styles.txtGlobal, { marginLeft: 10 }]}>{item.jam_mulai}</Text>
+                                                                                        </View>
+                                                                                    </View>
+                                                                                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                                                        <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                                                            navigation.navigate("EditEksul", { params: item })
+                                                                                        }}>
+                                                                                            <Text style={[styles.txtGlobal, { color: color.primary, }]}>Edit</Text>
+                                                                                        </TouchableOpacity>
+                                                                                        <View style={{ flex: 1 }} />
+                                                                                        <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                                                            btnDeleted(item.id)
+                                                                                        }}>
+                                                                                            <Text style={[styles.txtGlobal, { color: color.danger }]}>Hapus</Text>
+                                                                                        </TouchableOpacity>
+                                                                                    </View>
+                                                                                </View>
+                                                                                <View style={{ height: 20 }} />
+                                                                            </>
+                                                                        )
+                                                                    })
+                                                                )
+                                                            }
+                                                        </>
                                                     )
                                                 }
+
                                             </>
                                         )
                                     }

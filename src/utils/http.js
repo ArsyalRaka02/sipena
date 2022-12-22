@@ -370,6 +370,9 @@ export const HttpRequest = {
     ekstrakulikuler() {
         return request().get("/ekstrakulikuler")
     },
+    ekstrakulikulerById(id) {
+        return request().get("/ekstrakulikuler?guru_id=" + id)
+    },
     instertEkstra(data) {
         return request().post("/ekstrakulikuler", data)
     },
