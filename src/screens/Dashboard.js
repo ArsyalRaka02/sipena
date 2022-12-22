@@ -1726,10 +1726,14 @@ export default function Dashboard(props) {
                                                                 <Ionicons name="eye-outline" size={18} color={color.black} style={{ marginRight: 8, alignSelf: 'flex-start' }} />
                                                                 <Text numberOfLines={2} style={[styles.txtGlobal]}>{item.total_views}</Text>
                                                             </View>
-                                                            <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center' }}>
-                                                                <Ionicons name="book-outline" size={18} color={color.black} style={{ marginRight: 8, alignSelf: 'flex-start' }} />
-                                                                <Text numberOfLines={2} style={[styles.txtGlobal]}>{item.kelas_id}</Text>
-                                                            </View>
+                                                            {
+                                                                item.kelas_id != null && (
+                                                                    <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center' }}>
+                                                                        <Ionicons name="book-outline" size={18} color={color.black} style={{ marginRight: 8, alignSelf: 'flex-start' }} />
+                                                                        <Text numberOfLines={2} style={[styles.txtGlobal]}>{item.kelas_id}</Text>
+                                                                    </View>
+                                                                )
+                                                            }
                                                         </View>
                                                     </TouchableOpacity>
                                                     <View style={{ width: 20 }} />

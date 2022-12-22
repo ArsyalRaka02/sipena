@@ -407,10 +407,10 @@ export const HttpRequest = {
     },
 
     tambahNilai(data) {
-        return request().get('/nilai-pembelajaran', data)
+        return request().post('/nilai-pembelajaran', data)
     },
     editNilai(data) {
-        return request().get('/nilai-pembelajaran', data)
+        return request().post('/nilai-pembelajaran', data)
     }
 
 };

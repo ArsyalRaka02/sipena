@@ -111,6 +111,7 @@ import DetailSiswaAbsen from "../screens/DetailSiswaAbsen";
 import TambahNilaiGuru from "../screens/TambahNilaiGuru";
 import ListKeuanganWaliMurid from "../screens/ListKeuanganWaliMurid";
 import ListMenuPenilaian from "../screens/ListMenuPenilaian";
+import EditNilai from "../screens/EditNilai";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -181,6 +182,7 @@ const DashboardStack = () => {
             <Stack.Screen name="ScreenScanQRCode" component={ScreenScanQRCode} />
             <Stack.Screen name="ListPembelian" component={ListPembelian} />
             <Stack.Screen name="ListKeuanganWaliMurid" component={ListKeuanganWaliMurid} />
+            <Stack.Screen name="EditNilai" component={EditNilai} />
 
             <Stack.Screen name="DetailAbsen" component={DetailAbsen} />
             <Stack.Screen name="ListTotalKehadiran" component={ListTotalKehadiran} />

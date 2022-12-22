@@ -61,6 +61,7 @@ export default function RaportMurid(props) {
                         <Text style={[styles.txtGlobalBold, { color: color.primary, fontSize: 14 }]}>{user?.nama}</Text>
                     </View>
                     <ScrollView>
+                        <View style={{ height: 20 }} />
                         {
                             listRaport.length == 0 && (
                                 <NoData>Tidak ada data raport</NoData>

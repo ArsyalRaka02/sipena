@@ -28,9 +28,9 @@ const semester = [
     },
 ]
 
-export default function TambahNilaiGuru(props) {
+export default function EditNilai(props) {
     const navigation = useNavigation()
-
+    const { params } = props.route.params
     const user = useSelector(state => state.user);
     const [listSiswa, setListSiswa] = useState([])
     const [listKelas, setListKelas] = useState([])
@@ -39,10 +39,12 @@ export default function TambahNilaiGuru(props) {
     const [selectedSiswa, setSelectedSiswa] = useState(null)
     const [selectedSemester, setSelectedSemester] = useState(null)
 
-    const [nilaiHarian, setNilaiHarian] = useState(0)
-    const [nilaiTugas, setNilaiTugas] = useState(0)
-    const [nilaiUas, setNilaiUas] = useState(0)
-    const [nilaiUts, setNilaiUts] = useState(0)
+    const [nilaiHarian, setNilaiHarian] = useState(params.ulangan_harian)
+    const [nilaiTugas, setNilaiTugas] = useState(params.nilai_tugas)
+    const [nilaiUas, setNilaiUas] = useState(params.nilai_uas)
+    const [nilaiUts, setNilaiUts] = useState(params.nilai_uts)
+    console.log("ini adalah params", params)
+
 
     useEffect(() => {
         loadKelas()
@@ -88,15 +90,6 @@ export default function TambahNilaiGuru(props) {
 
 
     const btnSave = useCallback(() => {
-        if (selectedKelas == null) {
-            return Toast.showError("tidak boleh kosong kelas")
-        }
-        if (selectedSiswa == null) {
-            return Toast.showError("tidak boleh kosong siswa")
-        }
-        if (selectedSemester == null) {
-            return Toast.showError("tidak boleh kosong semester")
-        }
         if (nilaiHarian == 0) {
             return Toast.showError("Nilasi harian tidak boleh kosong")
         }
@@ -114,20 +107,22 @@ export default function TambahNilaiGuru(props) {
         }
 
         let data = {
-            kelas_id: selectedKelas,
-            mapel_id: user.maper.id,
-            siswa_id: selectedSiswa,
-            semester: selectedSemester,
+            id: params.id,
+            kelas_id: params.kelas_id,
+            mapel_id: params.mapel_id,
+            siswa_id: params.siswa_id,
+            semester: params.semester,
             ulangan_harian: nilaiHarian,
             nilai_tugas: nilaiTugas,
             nilai_uts: nilaiUts,
             nilai_uas: nilaiUas,
         }
         setIsLoading(true)
-        HttpRequest.tambahNilai(data).then((res) => {
+        console.log("json", data)
+        HttpRequest.editNilai(data).then((res) => {
             let status = res.data.status
             if (status == responseStatus.INSERT_SUKSES) {
-                Toast.showSuccess("Berhasil tambah nilai" + " " + + `${selectedSemester}`)
+                Toast.showSuccess("Berhasil edit nilai" + " " + `${params.semester}`)
                 setTimeout(() => {
                     navigation.goBack()
                 }, 300);
@@ -143,7 +138,7 @@ export default function TambahNilaiGuru(props) {
             setIsLoading(false)
             Toast.showError("Server Err:")
         })
-    }, [selectedKelas, selectedSiswa, selectedSemester, nilaiHarian, nilaiTugas, nilaiUts, nilaiUas])
+    }, [params, nilaiHarian, nilaiTugas, nilaiUts, nilaiUas])
 
     return (
         <>
@@ -153,7 +148,7 @@ export default function TambahNilaiGuru(props) {
                         navigation.goBack()
                     }}
                 >
-                    <Text style={styles.txtHeader}>Tambah Nilai</Text>
+                    <Text style={styles.txtHeader}>Edit Nilai</Text>
                 </HeaderBack>
                 <View style={{ padding: 20, flex: 1 }}>
                     <View style={{ backgroundColor: color.primaryRGBA, padding: 20, borderRadius: 12, flexDirection: 'row', justifyContent: 'center', alignItems: "center" }}>
@@ -163,81 +158,23 @@ export default function TambahNilaiGuru(props) {
 
                     <ScrollView>
                         <Text style={[styles.txtGlobalBold, { fontSize: 14, color: color.black, marginVertical: 10 }]}>Pilih Kelas</Text>
-                        <Combobox
-                            value={selectedKelas}
-                            placeholder="Silahkan Pilih Kelas"
-                            theme={{
-                                boxStyle: {
-                                    backgroundColor: color.white,
-                                    borderColor: color.Neutral20,
-                                },
-                                leftIconStyle: {
-                                    color: color.Neutral10,
-                                    marginRight: 14
-                                },
-                                rightIconStyle: {
-                                    color: color.Neutral10,
-                                },
-                            }}
-                            jenisIconsRight="Ionicons"
-                            iconNameRight="caret-down-outline"
-                            showLeftIcons={false}
-                            data={listKelas}
-                            onChange={(val) => {
-                                setSelectedKelas(val);
-                                loadSiswa()
-                            }}
+                        <TextInputIcon
+                            editable={false}
+                            value={params.nama_kelas}
+                            wrapperStyle={{ backgroundColor: color.themeGray, borderColor: color.themeGray }}
                         />
 
                         <Text style={[styles.txtGlobalBold, { fontSize: 14, color: color.black, marginVertical: 10 }]}>Pilih Siswa</Text>
-                        <Combobox
-                            value={selectedSiswa}
-                            placeholder="Silahkan Pilih Siswa"
-                            theme={{
-                                boxStyle: {
-                                    backgroundColor: color.white,
-                                    borderColor: color.Neutral20,
-                                },
-                                leftIconStyle: {
-                                    color: color.Neutral10,
-                                    marginRight: 14
-                                },
-                                rightIconStyle: {
-                                    color: color.Neutral10,
-                                },
-                            }}
-                            jenisIconsRight="Ionicons"
-                            iconNameRight="caret-down-outline"
-                            showLeftIcons={false}
-                            data={listSiswa}
-                            onChange={(val) => {
-                                setSelectedSiswa(val);
-                            }}
+                        <TextInputIcon
+                            editable={false}
+                            value={params.nama_siswa}
+                            wrapperStyle={{ backgroundColor: color.themeGray, borderColor: color.themeGray }}
                         />
                         <Text style={[styles.txtGlobalBold, { fontSize: 14, color: color.black, marginVertical: 10 }]}>Pilih Semester</Text>
-                        <Combobox
-                            value={selectedSemester}
-                            placeholder="Silahkan Pilih Semester"
-                            theme={{
-                                boxStyle: {
-                                    backgroundColor: color.white,
-                                    borderColor: color.Neutral20,
-                                },
-                                leftIconStyle: {
-                                    color: color.Neutral10,
-                                    marginRight: 14
-                                },
-                                rightIconStyle: {
-                                    color: color.Neutral10,
-                                },
-                            }}
-                            jenisIconsRight="Ionicons"
-                            iconNameRight="caret-down-outline"
-                            showLeftIcons={false}
-                            data={semester}
-                            onChange={(val) => {
-                                setSelectedSemester(val);
-                            }}
+                        <TextInputIcon
+                            editable={false}
+                            value={params.semester}
+                            wrapperStyle={{ backgroundColor: color.themeGray, borderColor: color.themeGray }}
                         />
 
                         <Text style={styles.label}>Nilai Ulangan Harian</Text>
@@ -273,7 +210,7 @@ export default function TambahNilaiGuru(props) {
                             btnSave()
                         }}
                     >
-                        Tambahkan Nilai
+                        Edit Nilai
                     </Button>
                     <View style={{ height: 20 }} />
                 </View>

@@ -36,6 +36,7 @@ export default function ListRaport(props) {
     useEffect(() => {
         if (isFocused) {
             loadKelas()
+            loadData()
         }
     }, [isFocused])
 
@@ -170,23 +171,30 @@ export default function ListRaport(props) {
                                                         {
                                                             selectedI == iRaport && (
                                                                 <>
-                                                                    <View style={{ flexDirection: 'row', alignItems: 'center', padding: 20, alignContent: 'center', backgroundColor: color.white, borderBottomEndRadius: 12, borderBottomStartRadius: 12, borderTopWidth: 1, borderTopColor: color.black }}>
-                                                                        <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center' }}>
-                                                                            <Text style={[styles.txtGlobal, { fontSize: 12 }]}>N-Harian</Text>
-                                                                            <Text style={[styles.txtGlobalBold, { fontSize: 16 }]}>{item.ulangan_harian}</Text>
+                                                                    <View style={{ flexDirection: 'column', backgroundColor: color.white }}>
+                                                                        <View style={{ flexDirection: 'row', alignItems: 'center', padding: 20, alignContent: 'center', backgroundColor: color.white, borderBottomEndRadius: 12, borderBottomStartRadius: 12, borderTopWidth: 1, borderTopColor: color.black }}>
+                                                                            <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center' }}>
+                                                                                <Text style={[styles.txtGlobal, { fontSize: 12 }]}>N-Harian</Text>
+                                                                                <Text style={[styles.txtGlobalBold, { fontSize: 16 }]}>{item.ulangan_harian}</Text>
+                                                                            </View>
+                                                                            <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center' }}>
+                                                                                <Text style={[styles.txtGlobal, { fontSize: 12 }]}>N-Tugas</Text>
+                                                                                <Text style={[styles.txtGlobalBold, { fontSize: 16 }]}>{item.nilai_tugas}</Text>
+                                                                            </View>
+                                                                            <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center' }}>
+                                                                                <Text style={[styles.txtGlobal, { fontSize: 12 }]}>N-UTS</Text>
+                                                                                <Text style={[styles.txtGlobalBold, { fontSize: 16 }]}>{item.nilai_uts}</Text>
+                                                                            </View>
+                                                                            <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center' }}>
+                                                                                <Text style={[styles.txtGlobal, { fontSize: 12 }]}>N-UAS</Text>
+                                                                                <Text style={[styles.txtGlobalBold, { fontSize: 16 }]}>{item.nilai_uas}</Text>
+                                                                            </View>
                                                                         </View>
-                                                                        <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center' }}>
-                                                                            <Text style={[styles.txtGlobal, { fontSize: 12 }]}>N-Tugas</Text>
-                                                                            <Text style={[styles.txtGlobalBold, { fontSize: 16 }]}>{item.nilai_tugas}</Text>
-                                                                        </View>
-                                                                        <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center' }}>
-                                                                            <Text style={[styles.txtGlobal, { fontSize: 12 }]}>N-UTS</Text>
-                                                                            <Text style={[styles.txtGlobalBold, { fontSize: 16 }]}>{item.nilai_uts}</Text>
-                                                                        </View>
-                                                                        <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center' }}>
-                                                                            <Text style={[styles.txtGlobal, { fontSize: 12 }]}>N-UAS</Text>
-                                                                            <Text style={[styles.txtGlobalBold, { fontSize: 16 }]}>{item.nilai_uas}</Text>
-                                                                        </View>
+                                                                        <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                                            navigation.navigate("EditNilai", { params: item })
+                                                                        }} style={{ marginVertical: 12, paddingHorizontal: 20, backgroundColor: color.primary, width: SCREEN_WIDTH / 4, marginLeft: 20, paddingVertical: 10, borderRadius: 12, alignItems: 'center', justifyContent: 'center' }}>
+                                                                            <Text style={{ fontSize: 12, color: color.white, }}>Edit Nilai</Text>
+                                                                        </TouchableOpacity>
                                                                     </View>
                                                                 </>
                                                             )
