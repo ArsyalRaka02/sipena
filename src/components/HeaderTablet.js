@@ -50,7 +50,7 @@ export default function HeaderTablet(props) {
     }, [user]);
 
     const loadGetTotal = useCallback(() => {
-        let id = user?.data?.id
+        let id = user.data.id
         HttpRequest.notifikasiTotal(id).then((res) => {
             let data = res.data
             if (data.status == responseStatus.INSERT_SUKSES) {
@@ -133,7 +133,7 @@ export default function HeaderTablet(props) {
                             user.role_id == RoleResponse.admin && (
                                 <>
                                     <Text {...props} numberOfLines={1} style={props.textProfile}>Admin</Text>
-                                    <Text {...props} style={props.textAlamat}>role: admin</Text>
+                                    <Text {...props} style={props.textAlamat}>admin</Text>
                                 </>
                             )
                         }
@@ -141,7 +141,37 @@ export default function HeaderTablet(props) {
                             user.role_id != RoleResponse.admin && (
                                 <>
                                     <Text {...props} numberOfLines={1} style={props.textProfile}>{detail?.nama_lengkap}</Text>
-                                    <Text {...props} style={props.textAlamat}>Role: {user.rolenama} </Text>
+                                    {
+                                        user.data.is_kantin == "Y" && (
+                                            <Text style={props.textAlamat}>Kantin</Text>
+                                        )
+                                    }
+                                    {
+                                        user.data.is_koperasi == "Y" && (
+                                            <Text style={props.textAlamat}>Kantin</Text>
+                                        )
+                                    }
+                                    {
+                                        user.data.is_perpus == "Y" && (
+                                            <Text style={props.textAlamat}>Perpustakaan</Text>
+                                        )
+                                    }
+                                    {
+                                        user.data.is_tata_usaha == "Y" && (
+                                            <Text style={props.textAlamat}>Tata Usaha</Text>
+                                        )
+                                    }
+                                    {
+                                        user.data.is_walikelas == "Y" && user.data.is_mapel == "Y" && (
+                                            <Text style={props.textAlamat}>WaliKelas</Text>
+                                        )
+                                    }
+                                    {
+                                        user.data.is_mapel == "Y" && user.data.is_walikelas == "N" && (
+                                            <Text style={props.textAlamat}>Guru</Text>
+                                        )
+                                    }
+                                    {/* <Text {...props} style={props.textAlamat}>{user.rolenama} </Text> */}
                                 </>
                             )
                         }

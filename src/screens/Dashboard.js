@@ -920,9 +920,9 @@ export default function Dashboard(props) {
                         textHeader={app.NAME}
                         textProfile={styles.txtProfile}
                         textAlamat={styles.txtProfile}
-                        iconProfile={() => {
-                            navigation.navigate("Profile")
-                        }}
+                        // iconProfile={() => {
+                        //     navigation.navigate("Profile")
+                        // }}
                         iconRight={() => {
                             navigation.navigate("Notification")
                         }}

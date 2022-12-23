@@ -91,7 +91,7 @@ export default function Login({ navigation }) {
             </View>
 
             <View style={styles.content}>
-                <Text style={styles.label}>Email</Text>
+                <Text style={styles.label}>Username</Text>
                 <TextInputIcon
                     placeholder="Username"
                     value={username}
@@ -99,7 +99,7 @@ export default function Login({ navigation }) {
                     wrapperStyle={{ borderWidth: 1, borderColor: color.gray }}
                     containerStyle={styles.input} />
 
-                <Text style={styles.label}>Password</Text>
+                <Text style={styles.label}>Kata Sandi</Text>
 
                 <TextInputIcon
                     placeholder="Password"
