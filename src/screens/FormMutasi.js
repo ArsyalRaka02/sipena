@@ -332,14 +332,14 @@ export default function FormMutasi(props) {
                         <Text style={[styles.txtGlobalBold, { fontSize: 16, color: color.black, marginVertical: 12 }]}>Nama Siswa</Text>
                         <TextInputIcon
                             editable={false}
-                            value={detail.nama_lengkap}
+                            value={user.siswa.nama_lengkap}
                             wrapperStyle={{ backgroundColor: color.themeGray, borderColor: color.themeGray }}
                         />
 
-                        <Text style={[styles.txtGlobalBold, { fontSize: 16, color: color.black, marginVertical: 12 }]}>NIS</Text>
+                        <Text style={[styles.txtGlobalBold, { fontSize: 16, color: color.black, marginVertical: 12 }]}>NISN</Text>
                         <TextInputIcon
                             editable={false}
-                            value={user.nisn}
+                            value={user.siswa.nisn}
                             wrapperStyle={{ backgroundColor: color.themeGray, borderColor: color.themeGray }}
                         />
 

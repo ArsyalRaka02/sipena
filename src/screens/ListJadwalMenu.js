@@ -88,17 +88,7 @@ export default function ListJadwalMenu(props) {
 
     const loadMapel = useCallback(async () => {
         // let id = user.data.id
-        let id = ""
-        if (user.role_id == RoleResponse.siswa) {
-            id = user.data.kelas_id
-        }
-        if (user.role_id = RoleResponse.guru) {
-            if (user.data.is_walikelas == "Y") {
-                id = user.kelas.id
-            } else {
-                id = selectedKelas
-            }
-        }
+        let id = user.siswa.kelas_id
         try {
             let data = await HttpRequest.listJadwalKelas(id)
             let status = data.data.status
@@ -113,7 +103,7 @@ export default function ListJadwalMenu(props) {
                 setSabtu(data.data.data.Sabtu)
             }
             if (status == responseStatus.INSERT_GAGAL) {
-                Alert.alert("Informasi", "Server err dari api")
+                Alert.alert("Informasi", `${res.data.message}`)
                 setListMapel([])
             }
             console.log("ini list mabel", data)

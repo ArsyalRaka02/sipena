@@ -60,16 +60,16 @@ export default function ListJadwal(props) {
 
     const loadListJadwal = useCallback(() => {
         // let id = user.data.kelas_id
-        let id = ""
-        if (user.role_id == RoleResponse.siswa) {
-            id = user.data.kelas_id
-        }
-        if (user.role_id = RoleResponse.guru) {
-            id = selectedKelas
-        }
-        if (id == "") {
-            return Alert.alert("Informasi", "Maaf id tidak tersedia")
-        }
+        let id = user.siswa.kelas_id
+        // if (user.role_id == RoleResponse.siswa) {
+        //     id = user.data.kelas_id
+        // }
+        // if (user.role_id = RoleResponse.guru) {
+        //     id = selectedKelas
+        // }
+        // if (id == "") {
+        //     return Alert.alert("Informasi", "Maaf id tidak tersedia")
+        // }
         HttpRequest.listJadwalKelas(id).then((res) => {
             let status = res.data.status
             if (status == responseStatus.INSERT_SUKSES) {
