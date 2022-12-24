@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { View, Text, Dimensions, TouchableOpacity, ImageBackground, Image, ScrollView, StatusBar } from 'react-native';
+import { View, Text, Dimensions, TouchableOpacity, ImageBackground, Image, ScrollView, StatusBar, Linking, Alert } from 'react-native';
 import HeaderTablet from '../components/HeaderTablet';
 import app from '../config/app';
 import { fonts } from '../utils/fonts';
@@ -236,6 +236,21 @@ export default function Dashboard(props) {
             image: require("../assets/sipena/rapot.png"),
             warna: color.menuYellow,
             page: "RaportMuridWali"
+        },
+        {
+            name: "Mutasi",
+            image: require("../assets/sipena/mutasi.png"),
+            warna: color.menuPink,
+            page: "ListMutasi"
+        },
+    ]
+
+    const waliMuridNonSiswa = [
+        {
+            name: "PPDB",
+            image: require("../assets/sipena/ppdb.png"),
+            warna: color.menuBlue,
+            page: "https://sipena.wapfive.com/ppdb-register"
         },
     ]
 
@@ -608,7 +623,7 @@ export default function Dashboard(props) {
                 // }
             }
             if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("Gagal mendapatkan list jadwal")
+                Alert.alert("Informasi", `${res.data.message}`)
                 setListJadwal([])
             }
         }).catch((err) => {
@@ -624,11 +639,11 @@ export default function Dashboard(props) {
                 setListKantin(res.data.data)
             }
             if (data.status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("Error: " + `${res.data.message}`)
+                Alert.alert("Error: " + `${res.data.message}`)
                 setListKantin([])
             }
         }).catch((err) => {
-            Toast.showError("Server Err: ")
+            Alert.alert("Informasi", "Server err dari api")
             console.log("err kantin", err, err.response)
         })
     }, [listKantin])
@@ -642,12 +657,12 @@ export default function Dashboard(props) {
                 setListPerpus(res.data.data)
             }
             if (data.status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("Error: " + `${res.data.message}`)
+                Alert.alert("Error: " + `${res.data.message}`)
                 setListPerpus([])
                 setListPerpusY([])
             }
         }).catch((err) => {
-            Toast.showError("Server Err: ")
+            Alert.alert("Informasi", "Server err dari api")
             console.log("err perpus", err, err.response)
         })
     }, [listPerpus, user, listPerpusY])
@@ -661,7 +676,7 @@ export default function Dashboard(props) {
                 setListJadwal(result)
             }
             if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("Gagal mendapatkan list jadwal")
+                Alert.alert("Informasi", `${res.data.message}`)
                 setListJadwal([])
             }
             console.log("ini adalah jadwal matapelajaran", result)
@@ -680,7 +695,7 @@ export default function Dashboard(props) {
                         setListSekolah(res.data.data)
                     }
                     if (status == responseStatus.INSERT_GAGAL) {
-                        Toast.showError("Gagal mendapatkan list jadwal")
+                        Alert.alert("Informasi", `${res.data.message}`)
                         setListSekolah([])
                     }
                     console.log("ini adalah guru", res.data)
@@ -697,7 +712,7 @@ export default function Dashboard(props) {
             //             setListSekolah(res.data.data)
             //         }
             //         if (status == responseStatus.INSERT_GAGAL) {
-            //             Toast.showError("Gagal mendapatkan list jadwal")
+            //             Alert.alert("Informasi", `${res.data.message}`)
             //             setListSekolah([])
             //         }
             //     }).catch((err) => {
@@ -713,7 +728,7 @@ export default function Dashboard(props) {
             //             setListSekolah(res.data.data)
             //         }
             //         if (status == responseStatus.INSERT_GAGAL) {
-            //             Toast.showError("Gagal mendapatkan list jadwal")
+            //             Alert.alert("Informasi", `${res.data.message}`)
             //             setListSekolah([])
             //         }
             //     }).catch((err) => {
@@ -728,11 +743,11 @@ export default function Dashboard(props) {
         //         setListSekolah(res.data.data)
         //     }
         //     if (status == responseStatus.INSERT_GAGAL) {
-        //         Toast.showError("Gagal mendapatkan list jadwal")
+        //         Alert.alert("Informasi", `${res.data.message}`)
         //         setListSekolah([])
         //     }
         // }).catch((err) => {
-        //     Toast.showError("Server Err : ")
+        //     Alert.alert("Informasi", "Server Err : ")
         //     console.log("err", err, err.response)
         // })
     }, [listSekolah])
@@ -776,11 +791,11 @@ export default function Dashboard(props) {
                 setListJadwal(res.data.data)
             }
             if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("Error: " + `${result.message}`)
+                Alert.alert("Error: " + `${result.message}`)
             }
             console.log("sekolah", res.data.data)
         }).catch((err) => {
-            Toast.showError("Server error: ")
+            Alert.alert("Informasi", "Server err dari api")
             console.log("err", err, err.response)
         })
     }, [listJadwal])
@@ -805,16 +820,17 @@ export default function Dashboard(props) {
             // let result = res.data
             let status = res.data.status
             if (status == responseStatus.INSERT_SUKSES) {
-                Toast.showSuccess("Berhasil Akhiri Peminjaman")
+                // Toast.showSuccess("")
+                Alert.alert("Informasi", "Berhasil Akhiri Peminjaman")
                 loadPinjamanFasilitas()
             }
             if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("gagal hapus" + `${result.message}`)
+                Alert.alert("gagal hapus" + `${result.message}`)
             }
             // console.log("suske", result)
             // setListPeminjamanFasilitas(result)
         }).catch((err) => {
-            Toast.showError("Server Error: ")
+            Alert.alert("Informasi", "Server err dari api")
             console.log("gagal delete fasilitas ", err, err.response)
         })
     }, [listPeminjamanFasilitas])
@@ -823,14 +839,15 @@ export default function Dashboard(props) {
         HttpRequest.deletedKantin(value).then((res) => {
             let status = res.data.status
             if (status == responseStatus.INSERT_SUKSES) {
-                Toast.showSuccess("Berhasil Hapus Transaksi")
+                Alert.alert("Informasi", "Berhasil Hapus Transaksi")
+                // Toast.showSuccess("")
                 loadTransaksiKantin()
             }
             if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("gagal hapus" + `${result.message}`)
+                Alert.alert("gagal hapus" + `${result.message}`)
             }
         }).catch((err) => {
-            Toast.showError("Server Error: ")
+            Alert.alert("Informasi", "Server err dari api")
             console.log("gagal delete fasilitas ", err, err.response)
         })
     }, [listKantin])
@@ -839,14 +856,14 @@ export default function Dashboard(props) {
         HttpRequest.deletedPinjamanBuku(value).then((res) => {
             let status = res.data.status
             if (status == responseStatus.INSERT_SUKSES) {
-                Toast.showSuccess("Berhasil tolak pinjam buku")
+                Alert.alert("Informasi", "Berhasil tolak pinjam buku")
                 loadTransaksiPerpus()
             }
             if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("gagal hapus" + `${res.data.message}`)
+                Alert.alert("gagal hapus" + `${res.data.message}`)
             }
         }).catch((err) => {
-            Toast.showError("Server Error: ")
+            Alert.alert("Informasi", "Server err dari api")
             console.log("gagal delete fasilitas ", err, err.response)
         })
     }, [listPerpus, listPerpusY])
@@ -860,12 +877,12 @@ export default function Dashboard(props) {
                 setDetail(result)
             }
             if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("Gagal status == 2")
+                Alert.alert("gagal hapus" + `${res.data.message}`)
                 setDetail({})
             }
             // console.log("user s ", result)
         }).catch((err) => {
-            Toast.showError("Server Error: ")
+            Alert.alert("Informasi", "Server err dari api")
             console.log("err", err, err.response)
         })
     }, [detail])
@@ -903,11 +920,11 @@ export default function Dashboard(props) {
                 return navigation.navigate("DetailBerita", { params: item, jenis: isJenis })
             }
             if (res.data.status == responseStatus.INSERT_GAGAL) {
-                Toast.showError(`${res.data.message}`)
+                Alert.alert("Informasi", `${res.data.message}`)
             }
         }).catch((err) => {
             console.llog("err", err, err.response)
-            Toast.showError("Server error")
+            Alert.alert("Informasi", "Server err dari api")
         })
     }, [user])
 
@@ -1048,24 +1065,48 @@ export default function Dashboard(props) {
 
                             {
                                 user.role_id == RoleResponse.walimurid && (
-                                    dataWaliMurid.map((item, ilist) => {
-                                        return (
-                                            <>
-                                                <TouchableOpacity activeOpacity={1} onPress={() => {
-                                                    if (item.page != "") {
-                                                        navigation.navigate(item.page)
-                                                    }
-                                                }} style={styles.menuChild}>
-                                                    <View style={[styles.menuIcon, {
-                                                        backgroundColor: item.warna,
-                                                    }]}>
-                                                        <Image source={item.image} style={{ width: 18, height: 18 }} />
-                                                    </View>
-                                                    <Text style={{ textAlign: 'center', fontSize: 10, fontFamily: fonts.inter, marginVertical: 12, flex: 1 }}>{item.name}</Text>
-                                                </TouchableOpacity>
-                                            </>
-                                        )
-                                    })
+                                    <>
+                                        {
+                                            user.siswa.id != undefined && (
+                                                dataWaliMurid.map((item, ilist) => {
+                                                    return (
+                                                        <>
+                                                            <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                                if (item.page != "") {
+                                                                    navigation.navigate(item.page)
+                                                                }
+                                                            }} style={styles.menuChild}>
+                                                                <View style={[styles.menuIcon, {
+                                                                    backgroundColor: item.warna,
+                                                                }]}>
+                                                                    <Image source={item.image} style={{ width: 18, height: 18 }} />
+                                                                </View>
+                                                                <Text style={{ textAlign: 'center', fontSize: 10, fontFamily: fonts.inter, marginVertical: 12, flex: 1 }}>{item.name}</Text>
+                                                            </TouchableOpacity>
+                                                        </>
+                                                    )
+                                                })
+                                            )
+                                        }
+                                        {
+                                            user.siswa.id == undefined && (
+                                                waliMuridNonSiswa.map((item) => {
+                                                    return (
+                                                        <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                            Linking.openURL(item.page)
+                                                        }} style={[styles.menuChild]}>
+                                                            <View style={[styles.menuIcon, {
+                                                                backgroundColor: item.warna,
+                                                            }]}>
+                                                                <Image source={item.image} style={{ width: 18, height: 18 }} />
+                                                            </View>
+                                                            <Text style={{ textAlign: 'center', fontSize: 10, fontFamily: fonts.inter, marginVertical: 12, flex: 1 }}>{item.name}</Text>
+                                                        </TouchableOpacity>
+                                                    )
+                                                })
+                                            )
+                                        }
+                                    </>
                                 )
                             }
                             {

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image } from 'react-native'
+import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, Alert } from 'react-native'
 import moment from 'moment'
 import color from '../utils/color'
 import HeaderBack from '../components/HeaderBack'
@@ -51,18 +51,18 @@ export default function DetailAbsen(props) {
         let isValue = "N"
         let isKeterangan = ""
         if (pasFoto == "") {
-            return Toast.showError("Maaf foto harus ada")
+            return Alert.alert("Informasi", "Maaf foto harus ada")
         }
 
         if (selected == null) {
-            return Toast.showError("Maaf pilih harus ada")
+            return Alert.alert("Informasi", "Maaf pilih harus ada")
         }
 
         if (selected != "MASUK") {
             isValue = "Y"
             isKeterangan = keterangan
             if (keterangan == "") {
-                return Toast.showError("Maaf keterangan harus ada")
+                return Alert.alert("Informasi", "Maaf keterangan harus ada")
             }
         }
         formData.append('jadwal_pembelajaran_id', params);
@@ -79,19 +79,28 @@ export default function DetailAbsen(props) {
         HttpRequest.insertAbsenSiswa(formData).then((res) => {
             let data = res.data
             if (data.status == responseStatus.STATUS_ISTIMEWA) {
-                Toast.showError(`${data.message}`)
+                Alert.alert("Informasi", `${data.message}`)
             }
             if (data.status == responseStatus.INSERT_SUKSES) {
-                Toast.showSuccess("Berhasil")
-                setTimeout(() => {
-                    navigation.goBack()
-                }, 300);
+                Alert.alert("Informasi", "Berhasil", [
+                    {
+                        text: "Oke", onPress: () => {
+                            setTimeout(() => {
+                                navigation.goBack()
+                            }, 300);
+                        }
+                    }
+                ])
+                // Toast.showSuccess("Berhasil")
+                // setTimeout(() => {
+                //     navigation.goBack()
+                // }, 300);
             }
             if (data.status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("Gagal")
+                Alert.alert("Informasi", "Gagal")
             }
             setIsloading(false)
-            console.log("sukses", data)
+            // console.log("sukses", data)
         }).catch((err) => {
             setIsloading(false)
             console.log("err", err, err.response)

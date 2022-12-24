@@ -81,12 +81,12 @@ export default function DashboardSemuaList(props) {
             warna: color.menuBlue,
             page: "ListOsis"
         },
-        {
-            name: "Mutasi",
-            image: require("../assets/sipena/mutasi.png"),
-            warna: color.menuPink,
-            page: "ListMutasi"
-        },
+        // {
+        //     name: "Mutasi",
+        //     image: require("../assets/sipena/mutasi.png"),
+        //     warna: color.menuPink,
+        //     page: "ListMutasi"
+        // },
         {
             name: "Ekstrakulikuler",
             image: require("../assets/sipena/ekstra.png"),

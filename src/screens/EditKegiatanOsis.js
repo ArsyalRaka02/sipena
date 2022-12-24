@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image } from 'react-native'
+import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, Alert } from 'react-native'
 import moment from 'moment'
 import color from '../utils/color'
 import HeaderBack from '../components/HeaderBack'
@@ -59,12 +59,21 @@ export default function EditKegiatanOsis(props) {
         // console.log("da", data)
         HttpRequest.updateOsis(data).then((res) => {
             console.log("res", res.data)
-            Toast.showSuccess("Berhasil update kegiatan osis")
-            setTimeout(() => {
-                navigation.goBack()
-            }, 300);
+            // Toast.showSuccess("Berhasil update kegiatan osis")
+            // setTimeout(() => {
+            //     navigation.goBack()
+            // }, 300);
+            Alert.alert("Informasi", "Berhasil", [
+                {
+                    text: "Oke", onPress: () => {
+                        setTimeout(() => {
+                            navigation.goBack()
+                        }, 300);
+                    }
+                }
+            ])
         }).catch((err) => {
-            Toast.showError("Server Error: ")
+            Alert.alert("Informasi", "Server err dari api")
         })
     }, [judul, jamAkhir, jamAwal, tanggalPinjaman])
 

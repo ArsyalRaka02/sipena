@@ -5,7 +5,8 @@ import {
     StyleSheet,
     Text,
     TouchableOpacity,
-    Linking
+    Linking,
+    Alert
 } from 'react-native';
 
 import QRCodeScanner from 'react-native-qrcode-scanner';
@@ -21,7 +22,7 @@ export default function QrCodeKantin(props) {
             pindahPage(e.data)
             console.log("a", e.data)
         } else {
-            Toast.showError("Maaf ini bukan qrcode")
+            Alert.alert("Informasi", "Maaf ini bukan qrcode")
         }
     }, [])
 

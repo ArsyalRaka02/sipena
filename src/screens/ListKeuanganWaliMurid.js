@@ -1,6 +1,6 @@
 
 import React, { useCallback, useEffect, useState } from 'react'
-import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, ToastAndroid } from 'react-native'
+import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, ToastAndroid, Alert } from 'react-native'
 import moment from 'moment'
 import color from '../utils/color'
 import HeaderBack from '../components/HeaderBack'
@@ -32,7 +32,7 @@ export default function ListKeuanganWaliMurid(props) {
             setListData(res.data)
             console.log("ini ers keuangan", res.data)
         }).catch((err) => {
-            Toast.showError("Server Err")
+            Alert.alert("Informasi", "Error dari server")
         })
     }, [listData])
 

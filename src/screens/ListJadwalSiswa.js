@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, TouchableOpacityBase } from 'react-native'
+import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, TouchableOpacityBase, Alert } from 'react-native'
 import moment from 'moment'
 import color from '../utils/color'
 import HeaderBack from '../components/HeaderBack'
@@ -51,14 +51,14 @@ export default function ListJadwalSiswa(props) {
                 setListMapel(data.data.data)
             }
             if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("Server Error: ")
+                Alert.alert("Informasi", "Server err dari api")
                 setListMapel([])
             }
             console.log("ini list mabel", data.data.data)
         } catch (error) {
             setListMapel([])
             console.log("err", error, error.response)
-            Toast.showError("Server Error: ")
+            Alert.alert("Informasi", "Server err dari api")
         }
     }, [detail, user, selectedKelas])
 
@@ -75,7 +75,7 @@ export default function ListJadwalSiswa(props) {
                 setListKelas(result)
             }
             if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError(`${res.data.message}`)
+                Alert.alert("Informasi", `${res.data.message}`)
             }
             console.log("res", res.data)
         }).catch((err) => {

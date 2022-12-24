@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image } from 'react-native'
+import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, Alert } from 'react-native'
 import moment from 'moment'
 import color from '../utils/color'
 import HeaderBack from '../components/HeaderBack'
@@ -29,18 +29,27 @@ export default function ListMutasiSiswaPengawas(props) {
             setList(data)
             console.log('ini adalah data', data)
         }).catch((err) => {
-            Toast.showError("err", err, err.response)
+            Alert.alert("Informasi", "err", err, err.response)
         })
     }, [list])
 
     const Delete = useCallback((value) => {
         HttpRequest.hapusMutasi(value).then((res) => {
-            Toast.showSuccess("Berhasil hapus mutasi siswa")
-            setTimeout(() => {
-                navigation.goBack()
-            }, 300)
+            // Toast.showSuccess("Berhasil hapus mutasi siswa")
+            // setTimeout(() => {
+            //     navigation.goBack()
+            // }, 300)
+            Alert.alert("Informasi", "Berhasil", [
+                {
+                    text: "Oke", onPress: () => {
+                        setTimeout(() => {
+                            navigation.goBack()
+                        }, 300);
+                    }
+                }
+            ])
         }).catch((err) => {
-            Toast.showError("err server")
+            Alert.alert("Informasi", "err server")
         })
     })
 

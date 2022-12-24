@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image } from 'react-native'
+import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, Alert } from 'react-native'
 import moment from 'moment'
 import color from '../utils/color'
 import HeaderBack from '../components/HeaderBack'
@@ -35,12 +35,12 @@ export default function SumbangBukuPerpus(props) {
                 setListSumbangBuku(res.data.data)
             }
             if (data.status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("Error: " + `${res.data.message}`)
+                Alert.alert("Informasi", "Error: " + `${res.data.message}`)
                 setListSumbangBuku([])
             }
             console.log("ini adalah sumbang buku", res.data)
         }).catch((err) => {
-            Toast.showError("Server Err: ")
+            Alert.alert("Informasi", "Server err dari api")
             console.log("ini adalah err", err, err.response)
         })
     }, [listSumbangBuku])
@@ -53,10 +53,10 @@ export default function SumbangBukuPerpus(props) {
                 loadData()
             }
             if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("gagal hapus" + `${res.data.message}`)
+                Alert.alert("Informasi", "gagal hapus" + `${res.data.message}`)
             }
         }).catch((err) => {
-            Toast.showError("Server Error: ")
+            Alert.alert("Informasi", "Server err dari api")
             console.log("gagal delete fasilitas ", err, err.response)
         })
     }, [listSumbangBuku])

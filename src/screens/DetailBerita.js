@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image } from 'react-native'
+import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, Alert } from 'react-native'
 import moment from 'moment'
 import color from '../utils/color'
 import HeaderBack from '../components/HeaderBack'
@@ -46,7 +46,7 @@ export default function DetailBerita(props) {
                 setListBerita([])
             }
         } catch (error) {
-            Toast.showError("Server error: ")
+            Alert.alert("Informasi", "Server err dari api")
             console.log("ini adalah list beita", error)
         }
     }, [listBerita, jenis])
@@ -63,7 +63,7 @@ export default function DetailBerita(props) {
                 setListBerita([])
             }
         } catch (error) {
-            Toast.showError("Server error: ")
+            Alert.alert("Informasi", "Server err dari api")
             console.log("ini adalah list beita", error)
         }
     }, [listBerita, jenis])
@@ -101,11 +101,11 @@ export default function DetailBerita(props) {
                 return navigation.navigate("DetailBerita", { params: item, jenis: isJenis })
             }
             if (res.data.status == responseStatus.INSERT_GAGAL) {
-                Toast.showError(`${res.data.message}`)
+                Alert.alert("Informasi", `${res.data.message}`) 
             }
         }).catch((err) => {
             console.llog("err", err, err.response)
-            Toast.showError("Server error")
+            Alert.alert("Informasi", "Server err dari api")
         })
     }, [user])
 

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, ImageBackground } from 'react-native'
+import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, ImageBackground, Alert } from 'react-native'
 import moment from 'moment'
 import color from '../utils/color'
 import HeaderBack from '../components/HeaderBack'
@@ -28,17 +28,26 @@ export default function DetailSumbangBuku(props) {
         HttpRequest.accSumbangbuku(id, pegawai_id).then((res) => {
             let data = res.data
             if (data.status == responseStatus.INSERT_SUKSES) {
-                setTimeout(() => {
-                    Toast.showSuccess("Berhasil acc pinjam bukus")
-                    navigation.goBack()
-                }, 300);
+                // setTimeout(() => {
+                //     Toast.showSuccess("Berhasil acc pinjam bukus")
+                //     navigation.goBack()
+                // }, 300);
+                Alert.alert("Informasi", "Berhasil", [
+                    {
+                        text: "Oke", onPress: () => {
+                            setTimeout(() => {
+                                navigation.goBack()
+                            }, 300);
+                        }
+                    }
+                ])
             }
             if (data.status == responseStatus.INSERT_GAGAL) {
-                Toast.showError(`${data.message}`)
+                Alert.alert("Informasi", `${data.message}`)
             }
             // console.log("ini adalah ", res.data)
         }).catch((err) => {
-            Toast.showError("Server Err: ")
+            Alert.alert("Informasi", "Server err dari api")
             console.log("ini adalah err acc pinjam buku", err, err.response)
         })
     }, [])

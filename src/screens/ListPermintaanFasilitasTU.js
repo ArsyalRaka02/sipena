@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image } from 'react-native'
+import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, Alert } from 'react-native'
 import moment from 'moment'
 import color from '../utils/color'
 import HeaderBack from '../components/HeaderBack'
@@ -57,14 +57,14 @@ export default function ListPermintaanFasilitasTU(props) {
 
             // }
             // if (status == responseStatus.DELETE_GAGAL) {
-            //     Toast.showError("gagal hapus status == 2")
+            //     Alert.alert("Informasi", "gagal hapus status == 2")
             //     setListPeminjamanFasilitas([])
             // }
-            Toast.showSuccess("Berhasil Tolak Peminjaman")
+            Alert.alert("Informasi", "Berhasil Tolak Peminjaman")
             setListPeminjamanFasilitas(result)
             console.log("suske", result)
         }).catch((err) => {
-            Toast.showError("Server Error: ")
+            Alert.alert("Informasi", "Server err dari api")
             console.log("gagal delete fasilitas ", err, err.response)
         })
     }, [listPeminjamanFasilitas])
@@ -79,17 +79,17 @@ export default function ListPermintaanFasilitasTU(props) {
             let status = res.data.status
             if (status == responseStatus.INSERT_SUKSES) {
                 // setListPeminjamanFasilitas(result)
-                Toast.showSuccess("Sukses: " + `${res.data.message}`)
+                Alert.alert("Informasi", "Sukses: " + `${res.data.message}`)
                 setTimeout(() => {
                     navigation.goBack()
                 }, 300);
             }
             if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("Error: " + `${res.data.message}`)
+                Alert.alert("Informasi", "Error: " + `${res.data.message}`)
                 // setListPeminjamanFasilitas([])
             }
         }).catch((err) => {
-            Toast.showError("Server Err: ")
+            Alert.alert("Informasi", "Server err dari api")
         })
     }, [detail, listPeminjamanFasilitas])
 
@@ -102,12 +102,12 @@ export default function ListPermintaanFasilitasTU(props) {
                 setDetail(result)
             }
             if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("Gagal status == 2")
+                Alert.alert("Informasi", `${res.data.message}`)
                 setDetail([])
             }
             // console.log("user s ", result)
         }).catch((err) => {
-            Toast.showError("Server Error: ")
+            Alert.alert("Informasi", "Server err dari api")
             console.log("err", err, err.response)
         })
     }, [detail])

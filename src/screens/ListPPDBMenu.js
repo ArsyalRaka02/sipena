@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image } from 'react-native'
+import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, Alert } from 'react-native'
 import moment from 'moment'
 import color from '../utils/color'
 import HeaderBack from '../components/HeaderBack'
@@ -30,11 +30,11 @@ export default function ListPPDBMenu(props) {
                 setList(res.data.data)
             }
             if (res.data.status == responseStatus.INSERT_GAGAL) {
-                Toast.showError(`${res.data.message}`)
+                Alert.alert("Informasi", `${res.data.message}`)
             }
             console.log("res ppdb", res.data.data)
         }).catch((err) => {
-            Toast.showError("Server Err: ")
+            Alert.alert("Informasi", "Server err dari api")
             console.log("err loaddata", err, err.response)
         })
     }, [list])

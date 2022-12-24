@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image } from 'react-native'
+import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, Alert } from 'react-native'
 import moment from 'moment'
 import color from '../utils/color'
 import HeaderBack from '../components/HeaderBack'
@@ -24,15 +24,21 @@ export default function DaftarOsis(props) {
     const btnSave = useCallback(() => {
         HttpRequest.daftarOsis(user.data.id).then((res) => {
             if (res.status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("id user tidak di temukan")
+                // Alert.alert("Informasi", "id user tidak di temukan")
+                Alert.alert("Informasi", "id user tidak di temukan")
             } else {
-                Toast.showSuccess("Berhasil Daftar silahkan menunngu")
-                setTimeout(() => {
-                    navigation.goBack()
-                }, 300);
+                Alert.alert("Informasi", "Berhasil Daftar silahkan menunngu", [
+                    {
+                        text: "Oke", onPress: () => {
+                            setTimeout(() => {
+                                navigation.goBack()
+                            }, 300);
+                        }
+                    }
+                ])
             }
         }).catch((err) => {
-            Toast.showError("err", err, err.response)
+            Alert.alert("Error Dari Rest Api")
         })
     }, [user])
 

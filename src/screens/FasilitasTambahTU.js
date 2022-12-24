@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image } from 'react-native'
+import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, Alert } from 'react-native'
 import moment from 'moment'
 import color from '../utils/color'
 import HeaderBack from '../components/HeaderBack'
@@ -29,19 +29,28 @@ export default function FasilitasTambahTU(props) {
         HttpRequest.insertListFasilitas(data).then((res) => {
             let result = res.data
             if (result.status == responseStatus.INSERT_SUKSES) {
-                Toast.showSuccess("Berhasil tambah")
-                setTimeout(() => {
-                    navigation.goBack()
-                }, 300);
+                // Toast.showSuccess("Berhasil tambah")
+                // setTimeout(() => {
+                //     navigation.goBack()
+                // }, 300);
+                Alert.alert("Informasi", "Berhasil", [
+                    {
+                        text: "Oke", onPress: () => {
+                            setTimeout(() => {
+                                navigation.goBack()
+                            }, 300);
+                        }
+                    }
+                ])
             }
             if (result.status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("gagal status == 2")
+                Alert.alert("Informasi", `${res.data.message}`)
             }
             setIsloading(false)
             console.log("ini adalah result", result)
         }).catch((err) => {
             setIsloading(false)
-            Toast.showError("Server Err:")
+            Alert.alert("Informasi", "Server Err:")
             console.log("err", err, err.response)
         })
     }, [fasilitas])

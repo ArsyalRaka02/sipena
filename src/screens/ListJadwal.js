@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, TouchableOpacityBase } from 'react-native'
+import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, TouchableOpacityBase, Alert } from 'react-native'
 import moment from 'moment'
 import color from '../utils/color'
 import HeaderBack from '../components/HeaderBack'
@@ -49,11 +49,11 @@ export default function ListJadwal(props) {
     //             setDetail(result)
     //         }
     //         if (status == responseStatus.INSERT_GAGAL) {
-    //             Toast.showError("Gagal status == 2")
+    //             Alert.alert("Informasi", `${res.data.message}`)
     //             setDetail([])
     //         }
     //     }).catch((err) => {
-    //         Toast.showError("Server Error: ")
+    //         Alert.alert("Informasi", "Server err dari api")
     //         console.log("err", err, err.response)
     //     })
     // }, [detail, user])
@@ -68,7 +68,7 @@ export default function ListJadwal(props) {
             id = selectedKelas
         }
         if (id == "") {
-            return Toast.showError("Maaf id tidak tersedia")
+            return Alert.alert("Informasi", "Maaf id tidak tersedia")
         }
         HttpRequest.listJadwalKelas(id).then((res) => {
             let status = res.data.status
@@ -76,7 +76,7 @@ export default function ListJadwal(props) {
                 setListJadwal(res.data.data)
             }
             if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("Gagal mendapatkan list jadwal")
+                Alert.alert("Informasi", `${res.data.message}`)
                 setListJadwal([])
             }
         }).catch((err) => {
@@ -98,7 +98,7 @@ export default function ListJadwal(props) {
                 setListKelas(result)
             }
             if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError(`${res.data.message}`)
+                Alert.alert("Informasi", `${res.data.message}`)
             }
             console.log("res", res.data)
         }).catch((err) => {
@@ -113,11 +113,11 @@ export default function ListJadwal(props) {
                 setListSekolah(res.data.data)
             }
             if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("Error: " + `${result.message}`)
+                Alert.alert("Informasi", "Error: " + `${result.message}`)
             }
             console.log("sekolah", res.data.data)
         }).catch((err) => {
-            Toast.showError("Server error: ")
+            Alert.alert("Informasi", "Server err dari api")
             console.log("err", err, err.response)
         })
     }, [listSekolah])

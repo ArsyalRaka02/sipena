@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image } from 'react-native'
+import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, Alert } from 'react-native'
 import moment from 'moment'
 import color from '../utils/color'
 import HeaderBack from '../components/HeaderBack'
@@ -40,11 +40,11 @@ export default function RaportWaliKelasDetail(props) {
                 setListRaport(res.data.data)
             }
             if (res.data.status == responseStatus.INSERT_GAGAL) {
-                Toast.showError(`${res.data.message}`)
+                Alert.alert("Informasi", `${res.data.message}`)
             }
             console.log("ini res raport", res.data)
         }).catch((err) => {
-            Toast.showError("Server Er:")
+            Alert.alert("Informasi", "Server Er:")
             console.log("ini err ganjil", err, err.response)
         })
     }, [listRaport])

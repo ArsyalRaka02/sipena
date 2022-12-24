@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image } from 'react-native'
+import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, Alert } from 'react-native'
 import moment from 'moment'
 import color from '../utils/color'
 import HeaderBack from '../components/HeaderBack'
@@ -39,7 +39,7 @@ export default function ListAbsenMonitoringPegawai(props) {
             setListabsen(res.data)
             // }
             // if (status == responseStatus.INSERT_GAGAL) {
-            //     Toast.showError("Server Error: ")
+            //     Alert.alert("Informasi", "Server err dari api")
             //     setListabsen([])
             // }
             console.log("res pegawai", res.data)

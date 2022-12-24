@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image } from 'react-native'
+import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, Alert } from 'react-native'
 import moment from 'moment'
 import color from '../utils/color'
 import HeaderBack from '../components/HeaderBack'
@@ -72,12 +72,21 @@ export default function EditEksul(props) {
         }
         // console.log("da", data)
         HttpRequest.postEkstrakulikuler(data).then((res) => {
-            Toast.showSuccess("Berhasil Edit")
-            setTimeout(() => {
-                navigation.goBack()
-            }, 300);
+            // Toast.showSuccess("Berhasil Edit")
+            // setTimeout(() => {
+            //     navigation.goBack()
+            // }, 300);
+            Alert.alert("Informasi", "Berhasil", [
+                {
+                    text: "Oke", onPress: () => {
+                        setTimeout(() => {
+                            navigation.goBack()
+                        }, 300);
+                    }
+                }
+            ])
         }).catch((err) => {
-            Toast.showError("Server Error: ")
+            Alert.alert("Informasi", "Server err dari api")
         })
     }, [judul, jamAkhir, jamAwal, tanggalPinjaman])
 

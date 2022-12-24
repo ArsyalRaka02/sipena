@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, ImageBackground, BackHandler } from 'react-native'
+import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, ImageBackground, BackHandler, Alert } from 'react-native'
 import moment from 'moment'
 import color from '../utils/color'
 import HeaderBack from '../components/HeaderBack'
@@ -57,7 +57,8 @@ export default function DetailPerpustakaan(props) {
         // }
         // navigation.navigate("KeranjangDetailBuku")
         console.log("ini data get jml", valid)
-        Toast.showSuccess("Berhasil simpan buku di keranjang")
+        Alert.alert("Informasi", "Berhasil simpan buku di keranjang")
+        // Toast.showSuccess("Berhasil simpan buku di keranjang")
     }, [])
 
     return (

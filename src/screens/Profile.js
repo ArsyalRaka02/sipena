@@ -39,12 +39,12 @@ export default function Profile(props) {
                 setDetail(res.data.data.data)
             }
             if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("Error: " + `${res.data.message}`)
+                Alert.alert("Informasi", "Error: " + `${res.data.message}`)
                 setDetail({})
             }
             // console.log("user s ", result)
         }).catch((err) => {
-            Toast.showError("Server Error: ")
+            Alert.alert("Informasi", "Server err dari api")
             console.log("err", err, err.response)
         })
     }, [detail])
@@ -56,12 +56,12 @@ export default function Profile(props) {
             // if (status == responseStatus.INSERT_SUKSES) {
             // }
             // if (status == responseStatus.INSERT_GAGAL) {
-            //     Toast.showError("gagal status == 2")
+            //     Alert.alert("Informasi", `${res.data.message}`)
             // }
             Linking.openURL(result.linkGenerate)
             // console.log("re", res)
         }).catch((err) => {
-            Toast.showError("Error Server: ")
+            Alert.alert("Informasi", "Error Server: ")
             console.log("err", err, err.response)
         })
     }, [detail])

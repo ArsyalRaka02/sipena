@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, ActivityIndicator } from 'react-native'
+import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, ActivityIndicator, Alert } from 'react-native'
 import moment from 'moment'
 import color from '../utils/color'
 import HeaderBack from '../components/HeaderBack'
@@ -47,7 +47,7 @@ export default function ListKatalogBukuPerpus(props) {
             console.log("list", res.data)
         }).catch((err) => {
             setIsLoading(false)
-            Toast.showError("Server Error: ")
+            Alert.alert("Informasi", "Server err dari api")
             console.log("ini adalah list beita", err)
         })
     }, [listBuku])
@@ -60,11 +60,11 @@ export default function ListKatalogBukuPerpus(props) {
                 setListKategori(data.data.data)
             }
             if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError(`${data.data.message}`)
+                Alert.alert("Informasi", `${data.data.message}`)
                 setListKategori([])
             }
         } catch (error) {
-            Toast.showError("Server Error: ")
+            Alert.alert("Informasi", "Server err dari api")
             console.log("ini adalah list beita", error)
         }
     }, [listKategori])
@@ -72,14 +72,14 @@ export default function ListKatalogBukuPerpus(props) {
     const btnDelete = useCallback((value) => {
         HttpRequest.deleteKatalogBuku(value).then((res) => {
             if (res.data.status == responseStatus.INSERT_SUKSES) {
-                Toast.showSuccess("Berhasil menghapus")
+                Alert.alert("Informasi", "Berhasil menghapus")
                 loadBuku()
             }
             if (res.data.status == responseStatus.INSERT_GAGAL) {
-                return Toast.showError(`${res.data.message}`)
+                return Alert.alert("Informasi", `${res.data.message}`)
             }
         }).catch((err) => {
-            Toast.showError("Server Err: ")
+            Alert.alert("Informasi", "Server err dari api")
             console.log("err delet", err, err.response)
         })
     }, [])

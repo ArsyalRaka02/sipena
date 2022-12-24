@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image } from 'react-native'
+import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, Alert } from 'react-native'
 import moment from 'moment'
 import color from '../utils/color'
 import HeaderBack from '../components/HeaderBack'
@@ -34,7 +34,7 @@ export default function ListAbsen(props) {
     const loadListJadwal = useCallback(() => {
         let id = user.data.kelas_id
         if (id == "") {
-            return Toast.showError("tidak mendapatkan id kelas")
+            return Alert.alert("Informasi", "tidak mendapatkan id kelas")
         }
         HttpRequest.jadwalBaruPerhariByKelas(id).then((res) => {
             let status = res.data.status
@@ -48,7 +48,7 @@ export default function ListAbsen(props) {
                 // setSabtu(res.data.data.Sabtu)
             }
             if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError(`${res.data.message}`)
+                Alert.alert("Informasi", `${res.data.message}`) 
                 setListJadwal([])
             }
             console.log("ini adalah jadwal matapelajaran", res.data.data)

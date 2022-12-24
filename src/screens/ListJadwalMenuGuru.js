@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image } from 'react-native'
+import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, Alert } from 'react-native'
 import moment from 'moment'
 import color from '../utils/color'
 import HeaderBack from '../components/HeaderBack'
@@ -60,11 +60,11 @@ export default function ListJadwalMenuGuru(props) {
                 setDetail(res.data.data.data)
             }
             if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("Gagal status == 2")
+                Alert.alert("Informasi", `${res.data.message}`)
                 setDetail([])
             }
         }).catch((err) => {
-            Toast.showError("Server Error: ")
+            Alert.alert("Informasi", "Server err dari api")
             console.log("err", err, err.response)
         })
     }, [detail])
@@ -76,11 +76,11 @@ export default function ListJadwalMenuGuru(props) {
                 setListSekolah(res.data.data)
             }
             if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("Error: " + `${result.message}`)
+                Alert.alert("Informasi", "Error: " + `${result.message}`)
             }
             console.log("sekolah", res.data.data)
         }).catch((err) => {
-            Toast.showError("Server error: ")
+            Alert.alert("Informasi", "Server err dari api")
             console.log("err", err, err.response)
         })
     }, [listSekolah])
@@ -100,14 +100,14 @@ export default function ListJadwalMenuGuru(props) {
                 setSabtu(data.data.data.Sabtu)
             }
             if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("Server Error: ")
+                Alert.alert("Informasi", "Server err dari api")
                 setListMapel([])
             }
             console.log("ini list mabel", data.data.data)
         } catch (error) {
             setListMapel([])
             console.log("err", error, error.response)
-            Toast.showError("Server Error: ")
+            Alert.alert("Informasi", "Server err dari api")
         }
     }, [listMapel, detail, user, selectedKelas, senin, selasa, rabu, kamis, jumat, sabtu])
 
@@ -125,14 +125,14 @@ export default function ListJadwalMenuGuru(props) {
                 setListKelas(result)
             }
             if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("Server Error: ")
+                Alert.alert("Informasi", "Server err dari api")
                 setListKelas([])
             }
             console.log("ini list kelas", data)
         } catch (error) {
             setListKelas([])
             console.log("err", error, error.response)
-            Toast.showError("Server Error: ")
+            Alert.alert("Informasi", "Server err dari api")
         }
     }, [listKelas])
 

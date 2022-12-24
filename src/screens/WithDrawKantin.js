@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image } from 'react-native'
+import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, Alert } from 'react-native'
 import moment from 'moment'
 import color from '../utils/color'
 import HeaderBack from '../components/HeaderBack'
@@ -37,23 +37,23 @@ export default function WithDrawKantin(props) {
                 setDetail(res.data.data)
             }
             if (data.status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("Error: " + `${res.data.message}`)
+                Alert.alert("Informasi", "Error: " + `${res.data.message}`)
             }
         }).catch((err) => {
-            Toast.showError("Server Err: ")
+            Alert.alert("Informasi", "Server err dari api")
             console.log("err kantin", err, err.response)
         })
     }, [detail])
 
     const btnSave = useCallback(() => {
         if (detail.saldo < nominal) {
-            return Toast.showError("saldo kurang dari nominal")
+            return Alert.alert("Informasi", "saldo kurang dari nominal")
         }
         if (keterangan == "") {
-            return Toast.showError("Nomor rekening tidak boleh kosong")
+            return Alert.alert("Informasi", "Nomor rekening tidak boleh kosong")
         }
         if (nominal == "") {
-            return Toast.showError("Nominal tidak boleh kosong")
+            return Alert.alert("Informasi", "Nominal tidak boleh kosong")
         }
         let data = {
             user_id: user.data.id,
@@ -66,18 +66,27 @@ export default function WithDrawKantin(props) {
         HttpRequest.withdrawKantin(data).then((res) => {
             let data = res.data
             if (data.status == responseStatus.INSERT_SUKSES) {
-                Toast.showSuccess(`${res.data.message}`)
-                setTimeout(() => {
-                    navigation.goBack()
-                }, 300);
+                // Toast.showSuccess(`${res.data.message}`)
+                // setTimeout(() => {
+                //     navigation.goBack()
+                // }, 300);
+                Alert.alert("Informasi", `${res.data.message}`, [
+                    {
+                        text: "Oke", onPress: () => {
+                            setTimeout(() => {
+                                navigation.goBack()
+                            }, 300);
+                        }
+                    }
+                ])
             }
             if (data.status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("Error: " + `${res.data.message}`)
+                Alert.alert("Informasi", "Error: " + `${res.data.message}`)
             }
             setIsLoading(false)
         }).catch((err) => {
             setIsLoading(false)
-            Toast.showError("Server Err: ")
+            Alert.alert("Informasi", "Server err dari api")
             console.log("err kantin", err, err.response)
         })
     }, [nominal, keterangan])

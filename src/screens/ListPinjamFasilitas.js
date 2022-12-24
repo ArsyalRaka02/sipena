@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image } from 'react-native'
+import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, Alert } from 'react-native'
 import moment from 'moment'
 import color from '../utils/color'
 import HeaderBack from '../components/HeaderBack'
@@ -67,12 +67,12 @@ export default function ListPinjamFasilitas(props) {
                 console.log("res", result)
             }
             if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("Gagal status == 2")
+                Alert.alert("Informasi", `${data.data.message}`)
                 setFasilitas([])
             }
             console.log("ini adalah list fasilitas", result)
         } catch (error) {
-            Toast.showError("Server Error: ")
+            Alert.alert("Informasi", "Server err dari api")
             setFasilitas([])
             console.log("err", error, error.response)
         }
@@ -80,7 +80,7 @@ export default function ListPinjamFasilitas(props) {
 
     const btnPinjam = useCallback(() => {
         if (selectedFasilitas == null) {
-            return Toast.showError("Mohon Pilih Fasilitas")
+            return Alert.alert("Informasi", "Mohon Pilih Fasilitas")
         }
         let data = {
             peminjaman_fasilitas_id: selectedFasilitas,
@@ -93,17 +93,26 @@ export default function ListPinjamFasilitas(props) {
         HttpRequest.postAjukanPinjaman(data).then((res) => {
             let status = res.data.status
             if (status == responseStatus.INSERT_SUKSES) {
-                Toast.showSuccess("Berhasil meminjam")
-                setTimeout(() => {
-                    navigation.goBack()
-                }, 300);
+                // Toast.showSuccess("Berhasil meminjam")
+                // setTimeout(() => {
+                //     navigation.goBack()
+                // }, 300);
+                Alert.alert("Informasi", "Berhasil", [
+                    {
+                        text: "Oke", onPress: () => {
+                            setTimeout(() => {
+                                navigation.goBack()
+                            }, 300);
+                        }
+                    }
+                ])
             }
             if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("error" + `${res.data.message}`)
+                Alert.alert("Informasi", "error" + `${res.data.message}`)
             }
             console.log("berhasil ajukan", res)
         }).catch((err) => {
-            Toast.showError("Server Error: ")
+            Alert.alert("Informasi", "Server err dari api")
             console.log("err", err, err.response)
         })
     }, [user, selectedFasilitas, jamAkhir, jamAwal, tanggalPinjaman])

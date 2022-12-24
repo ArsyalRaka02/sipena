@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image } from 'react-native'
+import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, Alert } from 'react-native'
 import moment from 'moment'
 import color from '../utils/color'
 import HeaderBack from '../components/HeaderBack'
@@ -50,7 +50,7 @@ export default function ListAbsenMonitoring(props) {
                 setListKelas(result)
             }
             if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("Server Error: ")
+                Alert.alert("Informasi", "Server err dari api")
                 setListKelas([])
             }
             console.log("res kelas", res.data)
@@ -65,7 +65,7 @@ export default function ListAbsenMonitoring(props) {
 
     const btnTrigger = useCallback((value) => {
         // if (selectedKelas == null) {
-        //     Toast.showError("harap pilih kelas")
+        //     Alert.alert("Informasi", "harap pilih kelas")
         // }
         let isTanggal = moment(tanggal).format("YYYY-MM-DD")
         setIsLoading(true)

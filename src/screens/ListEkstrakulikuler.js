@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image } from 'react-native'
+import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, Alert } from 'react-native'
 import moment from 'moment'
 import color from '../utils/color'
 import HeaderBack from '../components/HeaderBack'
@@ -97,13 +97,13 @@ export default function ListEkstrakulikuler(props) {
                 setListEkstra(res.data.data)
             }
             if (res.data.status == responseStatus.INSERT_GAGAL) {
-                Toast.showError(`${res.data.message}`)
+                Alert.alert("Informasi", `${res.data.message}`)
             }
             setIsloading(false)
             console.log("ini eksul", res.data)
         }).catch((err) => {
             setIsloading(false)
-            Toast.showError("Server err")
+            Alert.alert("Informasi", "Error dari server")
             console.log("err", err, err.response)
         })
     }, [listEkstra])
@@ -115,13 +115,13 @@ export default function ListEkstrakulikuler(props) {
                 setListEkstra(res.data.data)
             }
             if (res.data.status == responseStatus.INSERT_GAGAL) {
-                Toast.showError(`${res.data.message}`)
+                Alert.alert("Informasi", `${res.data.message}`)
             }
             console.log("ini eksul by id", res)
             setIsloading(false)
         }).catch((err) => {
             setIsloading(false)
-            Toast.showError("Server err")
+            Alert.alert("Informasi", "Error dari server")
             console.log("err", err, err.response)
         })
     }, [listEkstra])
@@ -130,17 +130,17 @@ export default function ListEkstrakulikuler(props) {
         HttpRequest.deletedEkstrakulikulerBy(value).then((res) => {
             let status = res.data.status
             if (status == responseStatus.INSERT_SUKSES) {
-                Toast.showSuccess("Berhasil hapus")
+                Alert.alert("Informasi", "Berhasil")
                 loadData()
                 setSelected("Eskul")
             }
             if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("gagal hapus" + `${result.message}`)
+                Alert.alert("Informasi", "gagal hapus" + `${result.message}`)
             }
             console.log("suske", res.data)
             // setListPeminjamanFasilitas(result)
         }).catch((err) => {
-            Toast.showError("Server Error: ")
+            Alert.alert("Informasi", "Server err dari api")
             console.log("gagal delete fasilitas ", err, err.response)
         })
     }, [listEkstra])
@@ -160,12 +160,12 @@ export default function ListEkstrakulikuler(props) {
             console.log("res", res.data)
             loadData()
             setSelected("Semua")
-            Toast.showSuccess("Berhasil tambah kegiatan ekstrakulikuler")
+            Alert.alert("Informasi", "Berhasil tambah kegiatan ekstrakulikuler")
             // setTimeout(() => {
             //     navigation.goBack()
             // }, 300);
         }).catch((err) => {
-            Toast.showError("Server Error: ")
+            Alert.alert("Informasi", "Server err dari api")
         })
     }, [judul, jamAkhir, jamAwal, tanggalPinjaman])
 

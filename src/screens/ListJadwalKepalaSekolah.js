@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, TouchableOpacityBase } from 'react-native'
+import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, TouchableOpacityBase, Alert } from 'react-native'
 import moment from 'moment'
 import color from '../utils/color'
 import HeaderBack from '../components/HeaderBack'
@@ -42,11 +42,11 @@ export default function ListJadwalKepalaSekolah(props) {
                 setListSekolah(res.data.data)
             }
             if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("Error: " + `${result.message}`)
+                Alert.alert("Informasi", "Error: " + `${result.message}`)
             }
             console.log("sekolah", res.data.data)
         }).catch((err) => {
-            Toast.showError("Server error: ")
+            Alert.alert("Informasi", "Server err dari api")
             console.log("err", err, err.response)
         })
     }, [listSekolah])

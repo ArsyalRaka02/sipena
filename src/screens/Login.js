@@ -57,7 +57,7 @@ export default function Login({ navigation }) {
         HttpRequest.login(data).then((res) => {
             let result = res.data
             if (result.data.role_id == RoleResponse.admin) {
-                // Toast.showError("Admin tidak boleh akses disini!!")
+                // Alert.alert("Informasi", "Admin tidak boleh akses disini!!")
                 setMessage("Admin tidak boleh akses disini!!")
                 toogleOpen()
                 setLoading(false);
@@ -65,7 +65,7 @@ export default function Login({ navigation }) {
                 if (result.data.data.is_koperasi == "Y") {
                     setMessage("Koperasi tidak bisa akses disini!!")
                     toogleOpen()
-                    // Toast.showError("")
+                    // Alert.alert("Informasi", "")
                 } else {
                     if (result.status == responseStatus.INSERT_SUKSES) {
                         // Toast.showSuccess("Berhasil Login")
@@ -93,7 +93,7 @@ export default function Login({ navigation }) {
         }).catch((err) => {
             setLoading(false);
             toogleGagalOpen()
-            // Toast.showError("Email/Password Salah")
+            // Alert.alert("Informasi", "Email/Password Salah")
             console.log(err, err.response);
         });
     }, [username, password, message]);

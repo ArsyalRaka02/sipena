@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image } from 'react-native'
+import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, Alert } from 'react-native'
 import moment from 'moment'
 import color from '../utils/color'
 import HeaderBack from '../components/HeaderBack'
@@ -82,12 +82,12 @@ export default function PerpustakaanSumbangBuku(props) {
                 setListKategori(loop)
             }
             if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError(`${data.data.message}`)
+                Alert.alert("Informasi", `${data.data.message}`)
                 setListKategori([])
             }
             console.log("res kategori", result)
         } catch (error) {
-            Toast.showError("Server Error: ")
+            Alert.alert("Informasi", "Server err dari api")
             console.log("ini adalah list beita", error)
         }
     }, [listKategori])
@@ -95,22 +95,22 @@ export default function PerpustakaanSumbangBuku(props) {
     const btnSave = useCallback(() => {
         let formData = new FormData();
         if (judul == "") {
-            return Toast.showError("Judul Tidak boleh kosong")
+            return Alert.alert("Informasi", "Judul Tidak boleh kosong")
         }
         if (author == "") {
-            return Toast.showError("Nama Penulis tidak boleh kosong")
+            return Alert.alert("Informasi", "Nama Penulis tidak boleh kosong")
         }
         if (halaman == 0) {
-            return Toast.showError("Halaman tidak boleh kosong")
+            return Alert.alert("Informasi", "Halaman tidak boleh kosong")
         }
         if (bahasa == "") {
-            return Toast.showError("Bahasa tidak boleh kosong")
+            return Alert.alert("Informasi", "Bahasa tidak boleh kosong")
         }
         if (selectedBuku == null) {
-            return Toast.showError("Kategori Buku tidak boleh kosong")
+            return Alert.alert("Informasi", "Kategori Buku tidak boleh kosong")
         }
         if (getImage == "") {
-            return Toast.showError("Gambar Buku tidak boleh kosong")
+            return Alert.alert("Informasi", "Gambar Buku tidak boleh kosong")
         }
         formData.append('image', {
             name: 'image-' + moment().format('YYYY-MM-DD-HH-mm-ss') + '.jpg',
@@ -127,26 +127,32 @@ export default function PerpustakaanSumbangBuku(props) {
         HttpRequest.insertSumbangBuku(formData).then((res) => {
             let data = res.data
             if (data.status == responseStatus.STATUS_ISTIMEWA) {
-                toogleOpen()
-                setMessage(`${res.data.message}`)
+                Alert.alert("Informasi", `${res.data.message}`)
+                // toogleOpen()
+                // setMessage(`${res.data.message}`)
             }
             if (data.status == responseStatus.INSERT_SUKSES) {
-                // Toast.showSuccess("Berhasil")
-                // setTimeout(() => {
-                //     navigation.goBack()
-                // }, 300);
-                toggleSuksesOpen()
-                setMessage("Berhasil")
+                Alert.alert("Informasi", "Berhasil", [
+                    {
+                        text: "Oke", onPress: () => {
+                            setTimeout(() => {
+                                navigation.popToTop()
+                            }, 300);
+                        }
+                    }
+                ])
+                // toggleSuksesOpen()
+                // setMessage("Berhasil")
             }
             if (data.status == responseStatus.INSERT_GAGAL) {
-                toogleOpen()
-                setMessage(`${res.data.message}`)
+                // toogleOpen()
+                Alert.alert("Informasi", `${res.data.message}`)
             }
             setIsloading(false)
             console.log("res", data)
         }).catch((err) => {
             setIsloading(false)
-            Toast.showError("Server Error: ")
+            Alert.alert("Informasi", "Server err dari api")
             console.log("ini adalah err", err, err.response)
         })
     }, [user, selectedBuku, judul, author, bahasa, halaman, getImage, message])

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image } from 'react-native'
+import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, Alert } from 'react-native'
 import moment from 'moment'
 import color from '../utils/color'
 import HeaderBack from '../components/HeaderBack'
@@ -32,16 +32,16 @@ export default function IsiSaldoUniversal(props) {
     const btnSave = useCallback(() => {
         let formData = new FormData();
         if (kategori == "") {
-            return Toast.showError("Kategori tidak boleh kosong")
+            return Alert.alert("Informasi", "Kategori tidak boleh kosong")
         }
         if (keterangan == "") {
-            return Toast.showError("Keterangan tidak boleh kosong")
+            return Alert.alert("Informasi", "Keterangan tidak boleh kosong")
         }
         if (nominal == 0) {
-            return Toast.showError("Nominal tidak boleh kosong")
+            return Alert.alert("Informasi", "Nominal tidak boleh kosong")
         }
         if (uploadBukti == "") {
-            return Toast.showError("foto bukti tidak boleh kosong")
+            return Alert.alert("Informasi", "foto bukti tidak boleh kosong")
         }
         formData.append('siswa_id', user.data.id);
         formData.append('keuangan_kategori_id', kategori);
@@ -56,22 +56,31 @@ export default function IsiSaldoUniversal(props) {
         HttpRequest.simpanUniversal(formData).then((res) => {
             let data = res.data
             if (data.status == responseStatus.STATUS_ISTIMEWA) {
-                Toast.showError(`${data.message}`)
+                Alert.alert("Informasi", `${data.message}`)
             }
             if (data.status == responseStatus.INSERT_SUKSES) {
-                Toast.showSuccess("Berhasil")
-                setTimeout(() => {
-                    navigation.goBack()
-                }, 300);
+                // Toast.showSuccess("Berhasil")
+                // setTimeout(() => {
+                //     navigation.goBack()
+                // }, 300);
+                Alert.alert("Informasi", "Berhasil", [
+                    {
+                        text: "Oke", onPress: () => {
+                            setTimeout(() => {
+                                navigation.goBack()
+                            }, 300);
+                        }
+                    }
+                ])
             }
             if (data.status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("Gagal")
+                Alert.alert("Informasi", "Gagal")
             }
             console.log("sadsa", res)
             setIsloading(false)
         }).catch((err) => {
             setIsloading(false)
-            Toast.showError("Server Error: ")
+            Alert.alert("Informasi", "Server err dari api")
             console.log("err", err, err.response)
         })
     }, [nominal, uploadBukti, keterangan, kategori])

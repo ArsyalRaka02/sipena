@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image } from 'react-native'
+import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, Alert } from 'react-native'
 import moment from 'moment'
 import color from '../utils/color'
 import HeaderBack from '../components/HeaderBack'
@@ -38,11 +38,11 @@ export default function RaportWaliKelas(props) {
                 setListRaport(res.data.data)
             }
             if (res.data.status == responseStatus.INSERT_GAGAL) {
-                Toast.showError(`${res.data.message}`)
+                Alert.alert("Informasi", `${res.data.message}`)
             }
             console.log("res rapoer", res.data)
         }).catch((err) => {
-            Toast.showError("Server Er:")
+            Alert.alert("Informasi", "Server Er:")
             console.log("ini err ganjil", err, err.response)
         })
     }, [listRaport])
@@ -51,13 +51,13 @@ export default function RaportWaliKelas(props) {
         let kelas_id = user.kelas.id
         HttpRequest.accNilaiPembelajaranWaliKelas(kelas_id, "Ganjil").then((res) => {
             if (res.data.status == responseStatus.INSERT_SUKSES) {
-                Toast.showSuccess(`${res.data.message}`)
+                Alert.alert("Informasi", `${res.data.message}`)
             }
             if (res.data.status == responseStatus.INSERT_GAGAL) {
-                Toast.showError(`${res.data.message}`)
+                Alert.alert("Informasi", `${res.data.message}`)
             }
         }).catch((err) => {
-            Toast.showError("Server Err ganjil:")
+            Alert.alert("Informasi", "Server Err ganjil:")
             console.log("ini err ganjil", err, err.response)
         })
     }, [user])
@@ -66,13 +66,13 @@ export default function RaportWaliKelas(props) {
         let kelas_id = user.kelas.id
         HttpRequest.accNilaiPembelajaranWaliKelas(kelas_id, "Genap").then((res) => {
             if (res.data.status == responseStatus.INSERT_SUKSES) {
-                Toast.showSuccess(`${res.data.message}`)
+                Alert.alert("Informasi", `${res.data.message}`)
             }
             if (res.data.status == responseStatus.INSERT_GAGAL) {
-                Toast.showError(`${res.data.message}`)
+                Alert.alert("Informasi", `${res.data.message}`)
             }
         }).catch((err) => {
-            Toast.showError("Server Err genap:")
+            Alert.alert("Informasi", "Server dari api:")
             console.log("ini err ganjil", err, err.response)
         })
     }, [user])

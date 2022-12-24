@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image } from 'react-native'
+import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, Alert } from 'react-native'
 import moment from 'moment'
 import color from '../utils/color'
 import HeaderBack from '../components/HeaderBack'
@@ -40,25 +40,25 @@ export default function EditBukuPerpus(props) {
     const btnSave = useCallback(() => {
         let formData = new FormData();
         if (judul == "") {
-            return Toast.showError("Judul Tidak boleh kosong")
+            return Alert.alert("Informasi", "Judul Tidak boleh kosong")
         }
         if (author == "") {
-            return Toast.showError("Nama Penulis tidak boleh kosong")
+            return Alert.alert("Informasi", "Nama Penulis tidak boleh kosong")
         }
         if (halaman == 0) {
-            return Toast.showError("Halaman tidak boleh kosong")
+            return Alert.alert("Informasi", "Halaman tidak boleh kosong")
         }
         if (stok == 0) {
-            return Toast.showError("Stok tidak boleh kosong")
+            return Alert.alert("Informasi", "Stok tidak boleh kosong")
         }
         if (bahasa == "") {
-            return Toast.showError("Bahasa tidak boleh kosong")
+            return Alert.alert("Informasi", "Bahasa tidak boleh kosong")
         }
         if (selectedBuku == null) {
-            return Toast.showError("Kategori Buku tidak boleh kosong")
+            return Alert.alert("Informasi", "Kategori Buku tidak boleh kosong")
         }
         if (getImage == "") {
-            return Toast.showError("Gambar tidak boleh kosong")
+            return Alert.alert("Informasi", "Gambar tidak boleh kosong")
         }
         formData.append('image', {
             name: 'image-' + moment().format('YYYY-MM-DD-HH-mm-ss') + '.jpg',
@@ -78,18 +78,27 @@ export default function EditBukuPerpus(props) {
         // console.log("data", formData)
         HttpRequest.insertKatalogBuku(formData).then((res) => {
             if (res.data.status == responseStatus.INSERT_SUKSES) {
-                setTimeout(() => {
-                    navigation.goBack()
-                    Toast.showSuccess("Berhasil tambah buku")
-                }, 300);
+                // setTimeout(() => {
+                //     navigation.goBack()
+                //     Toast.showSuccess("Berhasil tambah buku")
+                // }, 300);
+                Alert.alert("Informasi", "Berhasil", [
+                    {
+                        text: "Oke", onPress: () => {
+                            setTimeout(() => {
+                                navigation.goBack()
+                            }, 300);
+                        }
+                    }
+                ])
             }
             if (res.data.status == responseStatus.INSERT_GAGAL) {
-                Toast.showError(`${res.data.message}`)
+                Alert.alert("Informasi", `${res.data.message}`)
             }
             setIsloading(false)
         }).catch((err) => {
             setIsloading(false)
-            Toast.showError("server err")
+            Alert.alert("Informasi", "Error dari server")
             console.log("err", err, err.response)
         })
     }, [user, selectedBuku, judul, author, bahasa, halaman, stok, getImage])
@@ -107,11 +116,11 @@ export default function EditBukuPerpus(props) {
                 setListKategori(loop)
             }
             if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError(`${res.data.message}`)
+                Alert.alert("Informasi", `${res.data.message}`)
                 setListKategori([])
             }
         }).catch((err) => {
-            Toast.showError("Server Error: ")
+            Alert.alert("Informasi", "Server err dari api")
             console.log("ini adalah list beita", error)
         })
     }, [listKategori])

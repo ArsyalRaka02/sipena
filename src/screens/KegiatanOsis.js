@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image } from 'react-native'
+import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, Alert } from 'react-native'
 import moment from 'moment'
 import color from '../utils/color'
 import HeaderBack from '../components/HeaderBack'
@@ -45,13 +45,13 @@ export default function KegiatanOsis(props) {
                 setListKegiatan(result)
             }
             if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError(`${data.data.message}`)
+                Alert.alert("Informasi", `${data.data.message}`)
                 setListKegiatan([])
             }
             console.log("res kegiatan", result)
         } catch (error) {
             setListKegiatan([])
-            Toast.showError("Server Error: ")
+            Alert.alert("Informasi", "Server err dari api")
             console.log("ini adalah list beita", error)
         }
     }, [listKegiatan])
@@ -60,16 +60,16 @@ export default function KegiatanOsis(props) {
         HttpRequest.deletedOsis(value).then((res) => {
             let status = res.data.status
             if (status == responseStatus.INSERT_SUKSES) {
-                Toast.showSuccess("Berhasil hapus")
+                Alert.alert("Informasi", "Berhasil hapus")
                 loadKegiatan()
             }
             if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("gagal hapus" + `${result.message}`)
+                Alert.alert("Informasi", "gagal hapus" + `${result.message}`)
             }
             console.log("suske", res.data)
             // setListPeminjamanFasilitas(result)
         }).catch((err) => {
-            Toast.showError("Server Error: ")
+            Alert.alert("Informasi", "Server err dari api")
             console.log("gagal delete fasilitas ", err, err.response)
         })
     }, [listKegiatan])
@@ -86,14 +86,14 @@ export default function KegiatanOsis(props) {
         // console.log("da", data)
         HttpRequest.inssertOsis(data).then((res) => {
             console.log("res", res.data)
-            Toast.showSuccess("Berhasil Tambah")
+            Alert.alert("Informasi", "Berhasil")
             setSelected("Kegiatan")
             loadKegiatan()
             // setTimeout(() => {
             //     navigation.goBack()
             // }, 300);
         }).catch((err) => {
-            Toast.showError("Server Error: ")
+            Alert.alert("Informasi", "Server err dari api")
         })
     }, [judul, jamAkhir, jamAwal, tanggalPinjaman])
 

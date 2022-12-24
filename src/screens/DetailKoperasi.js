@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image } from 'react-native'
+import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, Alert } from 'react-native'
 import moment from 'moment'
 import color from '../utils/color'
 import HeaderBack from '../components/HeaderBack'
@@ -37,11 +37,11 @@ export default function DetailKoperasi(props) {
                 setDetail(res.data.data)
                 setArr(res.data.data.list)
             } else {
-                Toast.showError("error get detail kantin" + `${res.data.data.message}`)
+                Alert.alert("Informasi", "error get detail kantin" + `${res.data.data.message}`)
             }
             console.log("ers", res.data)
         }).catch((err) => {
-            Toast.showError("Server Err: ")
+            Alert.alert("Informasi", "Server err dari api")
             console.log("err", err, err.response)
         })
     }, [user, params, detail, arr])
@@ -53,14 +53,23 @@ export default function DetailKoperasi(props) {
         }
         setIsLoading(true)
         HttpRequest.bayarKoperasi(data).then((res) => {
-            Toast.showSuccess("Berhasil Bayar Koperasi")
-            setTimeout(() => {
-                navigation.popToTop()
-            }, 300);
+            // Toast.showSuccess("Berhasil Bayar Koperasi")
+            // setTimeout(() => {
+            //     navigation.popToTop()
+            // }, 300);
+            Alert.alert("Informasi", "Berhasil", [
+                {
+                    text: "Oke", onPress: () => {
+                        setTimeout(() => {
+                            navigation.popToTop()
+                        }, 300);
+                    }
+                }
+            ])
             setIsLoading(false)
         }).catch((err) => {
             setIsLoading(false)
-            Toast.showError("err", err, err.response)
+            Alert.alert("Informasi", "error dari rest api")
         })
     }, [user, detail])
 

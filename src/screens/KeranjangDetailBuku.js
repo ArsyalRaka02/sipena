@@ -52,14 +52,13 @@ export default function KeranjangDetailBuku(props) {
 
     const btnSave = useCallback(() => {
         if (listData.length == 0) {
-            toogleOpen()
-            setMessage("List buku kosong, harap pilih kembali")
-            return
+            // toogleOpen()
+            return Alert.alert("Informasi", "List buku kosong, harap pilih kembali")
+            // return
         }
         if (listData.length > 3) {
-            toogleOpen()
-            setMessage("list buku tidak boleh lebih dari 3, harap pilih kembali")
-            return
+            // toogleOpen()
+            return Alert.alert("Informasi", "list buku tidak boleh lebih dari 3, harap pilih kembali")
         }
         let loop = listData.map((item) => {
             return item.id
@@ -76,18 +75,28 @@ export default function KeranjangDetailBuku(props) {
                 // setTimeout(() => {
                 //     navigation.goBack()
                 // }, 300);
-                toggleSuksesOpen()
-                setMessage("Berhasil meminjam, mohon kembalikan tepat waktu")
+                // toggleSuksesOpen()
+                // setMessage("Berhasil meminjam, mohon kembalikan tepat waktu")
+                Alert.alert("Informasi", "Berhasil meminjam, mohon kembalikan tepat waktu", [
+                    {
+                        text: "Oke", onPress: () => {
+                            setTimeout(() => {
+                                navigation.popToTop()
+                            }, 300);
+                        }
+                    }
+                ])
             }
             if (status.status == responseStatus.INSERT_GAGAL) {
-                toogleOpen()
-                setMessage(`${res.data.message}`)
+                // toogleOpen()
+                // setMessage(`${res.data.message}`)
+                Alert.alert("Informasi", `${res.data.message}`)
                 return
             }
             setIsLoading(false)
         }).catch((err) => {
             setIsLoading(false)
-            Toast.showError("Server Error")
+            Alert.alert("Informasi", "Server err dari api")
         })
     }, [message])
 
@@ -143,7 +152,7 @@ export default function KeranjangDetailBuku(props) {
                                                     Alert.alert("Informasi", "Apakah yakin hapus dari keranjang?", [
                                                         {
                                                             text: "Ya", onPress: () => {
-                                                                Toast.showSuccess("Berhasil membatalkan")
+                                                                Alert.alert("Informasi", "Berhasil membatalkan")
                                                                 let data = list.splice(index, 1)
                                                                 dispatch(setSimpanBuku(data))
                                                             }

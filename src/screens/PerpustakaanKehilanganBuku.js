@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image } from 'react-native'
+import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, Alert } from 'react-native'
 import moment from 'moment'
 import color from '../utils/color'
 import HeaderBack from '../components/HeaderBack'
@@ -69,10 +69,10 @@ export default function PerpustakaanKehilanganBuku(props) {
                 setListBuku(loop)
             }
             if (data.status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("Error Status == 2")
+                Alert.alert("Informasi", "Error Status == 2")
             }
         }).catch((err) => {
-            Toast.showError("Server Err: ")
+            Alert.alert("Informasi", "Server err dari api")
             console.log("err", err, err.response)
         })
     }, [listBuku])
@@ -85,22 +85,22 @@ export default function PerpustakaanKehilanganBuku(props) {
                 setDetail(res.data.data)
             }
             if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("Gagal status == 2")
+                Alert.alert("Informasi", `${res.data.message}`)
                 setDetail({})
             }
             console.log("ini adalha", res.data)
         }).catch((err) => {
-            Toast.showError("Server Error: ")
+            Alert.alert("Informasi", "Server err dari api")
             console.log("err", err, err.response)
         })
     }, [user])
 
     const btnSave = useCallback(() => {
         if (selectedBuku == null) {
-            return Toast.showError("harap pilih buku hilang terlebih dahulu")
+            return Alert.alert("Informasi", "harap pilih buku hilang terlebih dahulu")
         }
         if (detail.saldo < 50000) {
-            return Toast.showError("Maaf Saldo kurang dari Rp. 50.000,-")
+            return Alert.alert("Informasi", "Maaf Saldo kurang dari Rp. 50.000,-")
         }
         let data = {
             user_id: user.data.id,
@@ -112,22 +112,28 @@ export default function PerpustakaanKehilanganBuku(props) {
         HttpRequest.insertKehilanganBuku(data).then((res) => {
             let data = res.data
             if (data.status == responseStatus.INSERT_GAGAL) {
-                toogleOpen()
-                setMessage(`${res.data.message}`)
+                // toogleOpen()
+                // setMessage(`${res.data.message}`)
+                Alert.alert("Informasi", `${res.data.message}`)
             }
             if (data.status == responseStatus.INSERT_SUKSES) {
-                // Toast.showSuccess("Berhasil bayar kehilangan buku")
-                // setTimeout(() => {
-                //     navigation.goBack()
-                // }, 300);
-                toggleSuksesOpen()
-                setMessage("Berhasil")
+                Alert.alert("Informasi", "Berhasil", [
+                    {
+                        text: "Oke", onPress: () => {
+                            setTimeout(() => {
+                                navigation.popToTop()
+                            }, 300);
+                        }
+                    }
+                ])
+                // toggleSuksesOpen()
+                // setMessage("Berhasil")
             }
             console.log("ini ", res.data)
             setIsLoading(false)
         }).catch((err) => {
             setIsLoading(false)
-            Toast.showError("Server Err:")
+            Alert.alert("Informasi", "Server Err:")
             console.log("err", err, err.response)
         })
     }, [detail, user, selectedBuku, message])

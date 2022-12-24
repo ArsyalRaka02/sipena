@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image } from 'react-native'
+import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, Alert } from 'react-native'
 import moment from 'moment'
 import color from '../utils/color'
 import HeaderBack from '../components/HeaderBack'
@@ -23,18 +23,27 @@ export default function TransaksiEditKantin(props) {
 
     const btnSave = useCallback(() => {
         if (keterangan == "") {
-            return Toast.showError("keterangan tidak boleh kosong")
+            return Alert.alert("Informasi", "keterangan tidak boleh kosong")
         }
         setIsloading(true)
         HttpRequest.editKantin(params.id, keterangan).then((res) => {
-            Toast.showSuccess("Berhasil Edit")
-            setTimeout(() => {
-                navigation.goBack()
-            }, 300);
+            // Toast.showSuccess("Berhasil Edit")
+            // setTimeout(() => {
+            //     navigation.goBack()
+            // }, 300);
+            Alert.alert("Informasi", "Berhasil", [
+                {
+                    text: "Oke", onPress: () => {
+                        setTimeout(() => {
+                            navigation.goBack()
+                        }, 300);
+                    }
+                }
+            ])
             setIsloading(false)
         }).catch((err) => {
             setIsloading(false)
-            Toast.showError("Server Err: ")
+            Alert.alert("Informasi", "Server err dari api")
             console.log("err edit kantin", err, err.response)
         })
     }, [keterangan, params])

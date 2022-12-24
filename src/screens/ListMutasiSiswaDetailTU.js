@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, Linking } from 'react-native'
+import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, Linking, Alert } from 'react-native'
 import moment from 'moment'
 import color from '../utils/color'
 import HeaderBack from '../components/HeaderBack'
@@ -30,7 +30,7 @@ export default function ListMutasiSiswaDetailTU(props) {
             setDetail(res.data)
             console.log("ini adalah detail", res.data)
         }).catch((err) => {
-            Toast.showError("Server Err: ")
+            Alert.alert("Informasi", "Server err dari api")
             console.log("err", err, err.response)
         })
     }, [detail])
@@ -75,7 +75,7 @@ export default function ListMutasiSiswaDetailTU(props) {
                             if (detail.tanda_bukti_mutasi_dispen_provinsi != "" && detail.tanda_bukti_mutasi_dispen_provinsi != null) {
                                 Linking.openURL(app.BASE_URL_PICTURE + detail.tanda_bukti_mutasi_dispen_provinsi)
                             } else {
-                                Toast.showError("Link tidak tersedia")
+                                Alert.alert("Informasi", "Link tidak tersedia")
                             }
                         }} style={{ backgroundColor: color.primary, width: "30%", alignItems: 'center', justifyContent: 'center', borderRadius: 12 }}>
                             <Text style={[styles.txtGlobalBold, { color: color.white, padding: 6 }]}>Cetak</Text>
@@ -86,7 +86,7 @@ export default function ListMutasiSiswaDetailTU(props) {
                             if (detail.surat_keterangan_pindah_sekolah_asal != "" && detail.surat_keterangan_pindah_sekolah_asal != null) {
                                 Linking.openURL(app.BASE_URL_PICTURE + detail.surat_keterangan_pindah_sekolah_asal)
                             } else {
-                                Toast.showError("Link tidak tersedia")
+                                Alert.alert("Informasi", "Link tidak tersedia")
                             }
                         }} style={{ backgroundColor: color.primary, width: "30%", alignItems: 'center', justifyContent: 'center', borderRadius: 12 }}>
                             <Text style={[styles.txtGlobalBold, { color: color.white, padding: 6 }]}>Cetak</Text>
@@ -97,7 +97,7 @@ export default function ListMutasiSiswaDetailTU(props) {
                             if (detail.raport_asal != "" && detail.raport_asal != null) {
                                 Linking.openURL(app.BASE_URL_PICTURE + detail.raport_asal)
                             } else {
-                                Toast.showError("Link tidak tersedia")
+                                Alert.alert("Informasi", "Link tidak tersedia")
                             }
                         }} style={{ backgroundColor: color.primary, width: "30%", alignItems: 'center', justifyContent: 'center', borderRadius: 12 }}>
                             <Text style={[styles.txtGlobalBold, { color: color.white, padding: 6 }]}>Cetak</Text>
@@ -108,7 +108,7 @@ export default function ListMutasiSiswaDetailTU(props) {
                             if (detail.fotocoy_raport != "" && detail.fotocoy_raport != null) {
                                 Linking.openURL(app.BASE_URL_PICTURE + detail.fotocoy_raport)
                             } else {
-                                Toast.showError("Link tidak tersedia")
+                                Alert.alert("Informasi", "Link tidak tersedia")
                             }
                         }} style={{ backgroundColor: color.primary, width: "30%", alignItems: 'center', justifyContent: 'center', borderRadius: 12 }}>
                             <Text style={[styles.txtGlobalBold, { color: color.white, padding: 6 }]}>Cetak</Text>
@@ -119,7 +119,7 @@ export default function ListMutasiSiswaDetailTU(props) {
                             if (detail.fotocopy_sertifikat != "" && detail.fotocopy_sertifikat != null) {
                                 Linking.openURL(app.BASE_URL_PICTURE + detail.fotocopy_sertifikat)
                             } else {
-                                Toast.showError("Link tidak tersedia")
+                                Alert.alert("Informasi", "Link tidak tersedia")
                             }
                         }} style={{ backgroundColor: color.primary, width: "30%", alignItems: 'center', justifyContent: 'center', borderRadius: 12 }}>
                             <Text style={[styles.txtGlobalBold, { color: color.white, padding: 6 }]}>Cetak</Text>
@@ -130,7 +130,7 @@ export default function ListMutasiSiswaDetailTU(props) {
                             if (detail.surat_rekomendasi_penerimaan != "" && detail.surat_rekomendasi_penerimaan != null) {
                                 Linking.openURL(app.BASE_URL_PICTURE + detail.surat_rekomendasi_penerimaan)
                             } else {
-                                Toast.showError("Link tidak tersedia")
+                                Alert.alert("Informasi", "Link tidak tersedia")
                             }
                         }} style={{ backgroundColor: color.primary, width: "30%", alignItems: 'center', justifyContent: 'center', borderRadius: 12 }}>
                             <Text style={[styles.txtGlobalBold, { color: color.white, padding: 6 }]}>Cetak</Text>
@@ -141,7 +141,7 @@ export default function ListMutasiSiswaDetailTU(props) {
                             if (detail.tanda_bukti_mutasi_dispen_provinsi != "" && detail.tanda_bukti_mutasi_dispen_provinsi != null) {
                                 Linking.openURL(app.BASE_URL_PICTURE + detail.tanda_bukti_mutasi_dispen_provinsi)
                             } else {
-                                Toast.showError("Link tidak tersedia")
+                                Alert.alert("Informasi", "Link tidak tersedia")
                             }
                         }} style={{ backgroundColor: color.primary, width: "30%", alignItems: 'center', justifyContent: 'center', borderRadius: 12 }}>
                             <Text style={[styles.txtGlobalBold, { color: color.white, padding: 6 }]}>Cetak</Text>
@@ -151,7 +151,7 @@ export default function ListMutasiSiswaDetailTU(props) {
                             if (detail.pas_foto != "" && detail.pas_foto != null) {
                                 Linking.openURL(app.BASE_URL_PICTURE + detail.pas_foto)
                             } else {
-                                Toast.showError("Link tidak tersedia")
+                                Alert.alert("Informasi", "Link tidak tersedia")
                             }
                         }} style={{ backgroundColor: color.primary, width: "30%", alignItems: 'center', justifyContent: 'center', borderRadius: 12 }}>
                             <Text style={[styles.txtGlobalBold, { color: color.white, padding: 6 }]}>Cetak</Text>

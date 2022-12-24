@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, ActivityIndicator } from 'react-native'
+import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, ActivityIndicator, Alert } from 'react-native'
 import moment from 'moment'
 import color from '../utils/color'
 import HeaderBack from '../components/HeaderBack'
@@ -50,7 +50,7 @@ export default function Perpustakaan(props) {
             console.log("list", res.data)
         }).catch((err) => {
             setIsLoading(false)
-            Toast.showError("Server Error: ")
+            Alert.alert("Informasi", "Server err dari api")
             console.log("ini adalah list beita", err)
         })
     }, [listBuku, selectedKategori])
@@ -63,11 +63,11 @@ export default function Perpustakaan(props) {
                 setListKategori(data.data.data)
             }
             if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError(`${data.data.message}`)
+                Alert.alert("Informasi", `${data.data.message}`)
                 setListKategori([])
             }
         } catch (error) {
-            Toast.showError("Server Error: ")
+            Alert.alert("Informasi", "Server err dari api")
             console.log("ini adalah list beita", error)
         }
     }, [listKategori])

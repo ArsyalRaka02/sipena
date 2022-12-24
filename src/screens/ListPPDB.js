@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image } from 'react-native'
+import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, Alert } from 'react-native'
 import moment from 'moment'
 import color from '../utils/color'
 import HeaderBack from '../components/HeaderBack'
@@ -29,13 +29,13 @@ export default function ListPPDB(props) {
                 isValid = "Non-Aktif"
             }
             if (data.status == responseStatus.INSERT_SUKSES) {
-                return Toast.showSuccess("Berhasil" + " " + isValid)
+                return Alert.alert("Informasi", "Berhasil" + " " + isValid)
             }
             if (data.status == responseStatus.INSERT_GAGAL) {
-                return Toast.showError("Error : " + `${data.message}`)
+                return Alert.alert("Informasi", "Error : " + `${data.message}`)
             }
         }).catch((err) => {
-            Toast.showError("Server Err:")
+            Alert.alert("Informasi", "Server Err:")
             console.log("err", err, err.response)
         })
     }, [])

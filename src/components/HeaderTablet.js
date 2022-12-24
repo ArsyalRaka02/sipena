@@ -56,7 +56,7 @@ export default function HeaderTablet(props) {
             if (data.status == responseStatus.INSERT_SUKSES) {
                 setCount(data.data)
             } else {
-                Toast.showError("Err: " + `${data.message}`)
+                Alert.alert("Informasi", `${data.message}`)
             }
             console.log("ini notifikasi", data)
         }).catch((err) => {
@@ -75,11 +75,11 @@ export default function HeaderTablet(props) {
                 // console.log("user cuy", result)
             }
             if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("Gagal mendapatkan list jadwal")
+                Alert.alert("Informasi", `${res.data.message}`)
                 setDetail([])
             }
         }).catch((err) => {
-            Toast.showError("Server Error: ")
+            Alert.alert("Informasi", "Server err dari api")
             console.log("err", err, err.response)
         })
     }, [detail])

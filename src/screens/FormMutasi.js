@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image } from 'react-native'
+import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, Alert } from 'react-native'
 import moment from 'moment'
 import color from '../utils/color'
 import HeaderBack from '../components/HeaderBack'
@@ -54,31 +54,31 @@ export default function FormMutasi(props) {
     const btnSave = useCallback(() => {
         let formData = new FormData();
         if (selectedOpsi == null) {
-            return Toast.showError("Opsi harap di pilih")
+            return Alert.alert("Informasi", "Opsi harap di pilih")
         }
         if (pasFoto == "") {
-            return Toast.showError("foto pas kosong harap di pilih")
+            return Alert.alert("Informasi", "foto pas kosong harap di pilih")
         }
         if (buktiMutasiDinas.length == 0) {
-            return Toast.showError("Bukti Mutasi Dinas Pendidikan Provinsi Asal Tidak Boleh Kosong")
+            return Alert.alert("Informasi", "Bukti Mutasi Dinas Pendidikan Provinsi Asal Tidak Boleh Kosong")
         }
         if (keteranganKeluar.length == 0) {
-            return Toast.showError("Keterangan Keluar/Pindah Sekolah Asal Tidak Boleh Kosong")
+            return Alert.alert("Informasi", "Keterangan Keluar/Pindah Sekolah Asal Tidak Boleh Kosong")
         }
         if (raportAsli.length == 0) {
-            return Toast.showError("Raport Asal Boleh Kosong")
+            return Alert.alert("Informasi", "Raport Asal Boleh Kosong")
         }
         if (fotoCopyRaport.length == 0) {
-            return Toast.showError("Fotocopy Raport Tidak Boleh Kosong")
+            return Alert.alert("Informasi", "Fotocopy Raport Tidak Boleh Kosong")
         }
         if (fotoCopySertifikat.length == 0) {
-            return Toast.showError("Fotocopy Sertifikat Tidak Boleh Kosong")
+            return Alert.alert("Informasi", "Fotocopy Sertifikat Tidak Boleh Kosong")
         }
         if (suratRekomendasiSekolah.length == 0) {
-            return Toast.showError("Surat Rekomendasi Sekolah Tidak Boleh Kosong")
+            return Alert.alert("Informasi", "Surat Rekomendasi Sekolah Tidak Boleh Kosong")
         }
         if (suratRekomendasiJendral.length == 0) {
-            return Toast.showError("Surat Rekomendasi Jendral Dikdasmen Tidak Boleh Kosong")
+            return Alert.alert("Informasi", "Surat Rekomendasi Jendral Dikdasmen Tidak Boleh Kosong")
         }
 
         formData.append('image', {
@@ -127,22 +127,31 @@ export default function FormMutasi(props) {
         HttpRequest.mutasiSiswaPost(formData).then((res) => {
             let data = res.data
             if (data.status == responseStatus.STATUS_ISTIMEWA) {
-                Toast.showError(`${data.message}`)
+                Alert.alert("Informasi", `${data.message}`)
             }
             if (data.status == responseStatus.INSERT_SUKSES) {
-                Toast.showSuccess("Berhasil")
-                setTimeout(() => {
-                    navigation.goBack()
-                }, 300);
+                // Toast.showSuccess("Berhasil")
+                // setTimeout(() => {
+                //     navigation.goBack()
+                // }, 300);
+                Alert.alert("Informasi", "Berhasil", [
+                    {
+                        text: "Oke", onPress: () => {
+                            setTimeout(() => {
+                                navigation.goBack()
+                            }, 300);
+                        }
+                    }
+                ])
             }
             if (data.status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("Gagal")
+                Alert.alert("Informasi", "Gagal")
             }
             setIsloading(false)
             console.log("ini hasil res", data)
         }).catch((err) => {
             setIsloading(false)
-            Toast.showError("Server error: ")
+            Alert.alert("Informasi", "Server err dari api")
             console.log("err", err, err.response)
         })
     }, [
@@ -170,12 +179,12 @@ export default function FormMutasi(props) {
                 setDetail(result)
             }
             if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("Gagal status == 2")
+                Alert.alert("Informasi", `${res.data.message}`)
                 setDetail([])
             }
             console.log("user s ", result)
         }).catch((err) => {
-            Toast.showError("Server Error: ")
+            Alert.alert("Informasi", "Server err dari api")
             console.log("err", err, err.response)
         })
     }, [detail])
@@ -195,13 +204,13 @@ export default function FormMutasi(props) {
                 type: [DocumentPicker.types.pdf],
             });
             if (response[0].type != "application/pdf") {
-                Toast.showError("Maaf Harus .Pdf")
+                Alert.alert("Informasi", "Maaf Harus .Pdf")
             } else {
                 setBuktiMutasiDinas(response);
             }
             console.log("ini adlaah ", response)
         } catch (err) {
-            Toast.showError("gagal mendapatkan file")
+            Alert.alert("Informasi", "gagal mendapatkan file")
             console.log(err);
         }
     }, [buktiMutasiDinas])
@@ -213,12 +222,12 @@ export default function FormMutasi(props) {
                 type: [DocumentPicker.types.pdf],
             });
             if (response[0].type != "application/pdf") {
-                Toast.showError("Maaf Harus .Pdf")
+                Alert.alert("Informasi", "Maaf Harus .Pdf")
             } else {
                 setKeteranganKeluar(response);
             }
         } catch (err) {
-            Toast.showError("gagal mendapatkan file")
+            Alert.alert("Informasi", "gagal mendapatkan file")
             console.log(err);
         }
     }, [keteranganKeluar])
@@ -230,12 +239,12 @@ export default function FormMutasi(props) {
                 type: [DocumentPicker.types.pdf],
             });
             if (response[0].type != "application/pdf") {
-                Toast.showError("Maaf Harus .Pdf")
+                Alert.alert("Informasi", "Maaf Harus .Pdf")
             } else {
                 setRaportAsli(response);
             }
         } catch (err) {
-            Toast.showError("gagal mendapatkan file")
+            Alert.alert("Informasi", "gagal mendapatkan file")
             console.log(err);
         }
     }, [raportAsli])
@@ -247,12 +256,12 @@ export default function FormMutasi(props) {
                 type: [DocumentPicker.types.pdf],
             });
             if (response[0].type != "application/pdf") {
-                Toast.showError("Maaf Harus .Pdf")
+                Alert.alert("Informasi", "Maaf Harus .Pdf")
             } else {
                 setFotoCopyRaport(response);
             }
         } catch (err) {
-            Toast.showError("gagal mendapatkan file")
+            Alert.alert("Informasi", "gagal mendapatkan file")
             console.log(err);
         }
     }, [fotoCopyRaport])
@@ -264,12 +273,12 @@ export default function FormMutasi(props) {
                 type: [DocumentPicker.types.pdf],
             });
             if (response[0].type != "application/pdf") {
-                Toast.showError("Maaf Harus .Pdf")
+                Alert.alert("Informasi", "Maaf Harus .Pdf")
             } else {
                 setFotoCopySertifikat(response);
             }
         } catch (err) {
-            Toast.showError("gagal mendapatkan file")
+            Alert.alert("Informasi", "gagal mendapatkan file")
             console.log(err);
         }
     }, [fotoCopySertifikat])
@@ -281,12 +290,12 @@ export default function FormMutasi(props) {
                 type: [DocumentPicker.types.pdf],
             });
             if (response[0].type != "application/pdf") {
-                Toast.showError("Maaf Harus .Pdf")
+                Alert.alert("Informasi", "Maaf Harus .Pdf")
             } else {
                 setSuratRekomendasiSekolah(response);
             }
         } catch (err) {
-            Toast.showError("gagal mendapatkan file")
+            Alert.alert("Informasi", "gagal mendapatkan file")
             console.log(err);
         }
     }, [suratRekomendasiSekolah])
@@ -298,12 +307,12 @@ export default function FormMutasi(props) {
                 type: [DocumentPicker.types.pdf],
             });
             if (response[0].type != "application/pdf") {
-                Toast.showError("Maaf Harus .Pdf")
+                Alert.alert("Informasi", "Maaf Harus .Pdf")
             } else {
                 setSuratRekomendasiJendral(response);
             }
         } catch (err) {
-            Toast.showError("gagal mendapatkan file")
+            Alert.alert("Informasi", "gagal mendapatkan file")
             console.log(err);
         }
     }, [suratRekomendasiJendral])

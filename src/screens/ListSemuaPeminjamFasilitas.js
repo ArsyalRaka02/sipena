@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image } from 'react-native'
+import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, Alert } from 'react-native'
 import moment from 'moment'
 import color from '../utils/color'
 import HeaderBack from '../components/HeaderBack'
@@ -51,17 +51,17 @@ export default function ListSemuaPeminjamFasilitas(props) {
             let result = res.data
             let status = res.data.status
             if (status == responseStatus.INSERT_SUKSES) {
-                Toast.showSuccess("Berhasil Akhiri Peminjaman")
+                Alert.alert("Informasi", "Berhasil Akhiri Peminjaman")
                 loadPinjamanFasilitas()
             }
             if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("gagal hapus" + `${result.message}`)
+                Alert.alert("Informasi", "gagal hapus" + `${result.message}`)
             }
             // Toast.showSuccess("Berhasil Tolak Peminjaman")
             // setListPeminjamanFasilitas(result)
             console.log("suske", result)
         }).catch((err) => {
-            Toast.showError("Server Error: ")
+            Alert.alert("Informasi", "Server err dari api")
             console.log("gagal delete fasilitas ", err, err.response)
         })
     }, [listPeminjamanFasilitas])

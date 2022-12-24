@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image } from 'react-native'
+import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, Alert } from 'react-native'
 import moment from 'moment'
 import color from '../utils/color'
 import HeaderBack from '../components/HeaderBack'
@@ -28,24 +28,33 @@ export default function DetailKembalikanBuku(props) {
 
     const btnSave = useCallback(() => {
         if (params.buku_pinjam.length == 0) {
-            return Toast.showError("Daftar buku tidak ada, tidak bisa Acc pinjaman")
+            return Alert.alert("Informasi", "Daftar buku tidak ada, tidak bisa Acc pinjaman")
         } else {
             let id = params.id
             let pegawai_id = user.data.id
             HttpRequest.accKembalikanbuku(id, pegawai_id).then((res) => {
                 let data = res.data
                 if (data.status == responseStatus.INSERT_SUKSES) {
-                    setTimeout(() => {
-                        Toast.showSuccess("Berhasil acc kembalikan buku")
-                        navigation.goBack()
-                    }, 300);
+                    // setTimeout(() => {
+                    //     Toast.showSuccess("Berhasil acc kembalikan buku")
+                    //     navigation.goBack()
+                    // }, 300);
+                    Alert.alert("Informasi", "Berhasil", [
+                        {
+                            text: "Oke", onPress: () => {
+                                setTimeout(() => {
+                                    navigation.goBack()
+                                }, 300);
+                            }
+                        }
+                    ])
                 }
                 if (data.status == responseStatus.INSERT_GAGAL) {
-                    Toast.showError(`${data.message}`)
+                    Alert.alert("Informasi", `${data.message}`)
                 }
                 // console.log("ini adalah ", res.data)
             }).catch((err) => {
-                Toast.showError("Server Err: ")
+                Alert.alert("Informasi", "Server err dari api")
                 console.log("ini adalah err acc pinjam buku", err, err.response)
             })
         }

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image } from 'react-native'
+import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, Alert } from 'react-native'
 import moment from 'moment'
 import color from '../utils/color'
 import HeaderBack from '../components/HeaderBack'
@@ -39,21 +39,21 @@ export default function DetailKantin(props) {
             if (res.data.status == responseStatus.INSERT_SUKSES) {
                 setDetail(res.data.data)
             } else {
-                Toast.showError("error get detail kantin" + `${res.data.data.message}`)
+                Alert.alert("Informasi", "error get detail kantin" + `${res.data.data.message}`)
             }
             console.log("ers", res.data)
         }).catch((err) => {
-            Toast.showError("Server Err: ")
+            Alert.alert("Informasi", "Server err dari api")
             console.log("err", err, err.response)
         })
     })
 
     const btnSave = useCallback(() => {
         if (keterangan == "") {
-            return Toast.showError("keterangan tidak boleh kosong")
+            return Alert.alert("Informasi", "keterangan tidak boleh kosong")
         }
         if (nominal == "") {
-            return Toast.showError("Harga tidak boleh kosong/0")
+            return Alert.alert("Informasi", "Harga tidak boleh kosong/0")
         }
         let data = {
             user_id: user.data.id,
@@ -63,14 +63,23 @@ export default function DetailKantin(props) {
         }
         setIsloading(true)
         HttpRequest.bayarKantin(data).then((res) => {
-            Toast.showSuccess("Berhasil Bayar kantin")
-            setTimeout(() => {
-                navigation.popToTop()
-            }, 300);
+            // Toast.showSuccess("Berhasil Bayar kantin")
+            // setTimeout(() => {
+            //     navigation.popToTop()
+            // }, 300);
+            Alert.alert("Informasi", "Berhasil", [
+                {
+                    text: "Oke", onPress: () => {
+                        setTimeout(() => {
+                            navigation.goBack()
+                        }, 300);
+                    }
+                }
+            ])
             setIsloading(false)
         }).catch((err) => {
             setIsloading(false)
-            Toast.showError("err", err, err.response)
+            Alert.alert("Informasi", "Error dari api")
         })
     }, [keterangan, nominal, user, params])
 

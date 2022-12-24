@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image } from 'react-native'
+import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, Alert } from 'react-native'
 import moment from 'moment'
 import color from '../utils/color'
 import HeaderBack from '../components/HeaderBack'
@@ -74,14 +74,13 @@ export default function PerpustakaanKembaliBuku(props) {
                 setListBuku(data.data.data)
             }
             if (status == responseStatus.INSERT_GAGAL) {
-                toogleOpen()
-                setMessage(`${data.data.message}`)
+                Alert.alert("Informasi", `${res.data.message}`)
                 setListBuku([])
                 return
             }
             console.log("res load", data.data)
         } catch (error) {
-            Toast.showError("Server Error: ")
+            Alert.alert("Informasi", "Server err dari api")
             console.log("ini adalah list beita", error)
         }
     }, [listBuku, user, denda, message])
@@ -97,23 +96,32 @@ export default function PerpustakaanKembaliBuku(props) {
                 let status = res.data.status
                 if (status == responseStatus.INSERT_SUKSES) {
                     // setTimeout(() => {
-                    toggleSuksesOpen()
-                    setMessage("berhasil kembalikan buku")
+                    // toggleSuksesOpen()
+                    // setMessage("berhasil kembalikan buku")
                     // Toast.showSuccess("berhasil kembalikan buku")
                     // navigation.goBack()
                     // }, 300);
+                    Alert.alert("Informasi", "Berhasil", [
+                        {
+                            text: "Oke", onPress: () => {
+                                setTimeout(() => {
+                                    navigation.popToTop()
+                                }, 300);
+                            }
+                        }
+                    ])
                 }
                 if (status == responseStatus.INSERT_GAGAL) {
-                    // Toast.showError(`${res.data.message}`)
-                    toogleOpen()
-                    setMessage(`${res.data.message}`)
+                    Alert.alert("Informasi", `${res.data.message}`)
+                    // toogleOpen()
+                    // setMessage(`${res.data.message}`)
                     return
                 }
                 setIsLoading(false)
                 console.log("res sukses", res.data)
             }).catch((err) => {
                 setIsLoading(false)
-                Toast.showError("Server Err:")
+                Alert.alert("Informasi", "Server err dari api")
                 console.log("err", err, err.response)
             })
         }
@@ -122,10 +130,10 @@ export default function PerpustakaanKembaliBuku(props) {
                 return item.buku_pinjam
             })
             if (isLenght.length == 0) {
-                toogleOpen()
-                setMessage("Daftar buku tidak ada, tidak bisa Acc pinjaman")
-                return
-                // return Toast.showError("Daftar buku tidak ada, tidak bisa Acc pinjaman")
+                // toogleOpen()
+                // setMessage("Daftar buku tidak ada, tidak bisa Acc pinjaman")
+                // return
+                return Alert.alert("Informasi", "Daftar buku tidak ada, tidak bisa Acc pinjaman")
             } else {
                 let data = {
                     user_id: user.id,
@@ -136,22 +144,31 @@ export default function PerpustakaanKembaliBuku(props) {
                     let status = res.data.status
                     if (status == responseStatus.INSERT_SUKSES) {
                         // setTimeout(() => {
-                        toggleSuksesOpen()
-                        setMessage("berhasil kembalikan buku")
+                        // toggleSuksesOpen()
+                        // setMessage("berhasil kembalikan buku")
                         // navigation.goBack()
                         // }, 300);
+                        Alert.alert("Informasi", "Berhasil", [
+                            {
+                                text: "Oke", onPress: () => {
+                                    setTimeout(() => {
+                                        navigation.popToTop()
+                                    }, 300);
+                                }
+                            }
+                        ])
                     }
                     if (status == responseStatus.INSERT_GAGAL) {
-                        // Toast.showError(`${res.data.message}`)
-                        toogleOpen()
-                        setMessage(`${res.data.message}`)
+                        Alert.alert("Informasi", `${res.data.message}`)
+                        // toogleOpen()
+                        // setMessage(`${res.data.message}`)
                         return
                     }
                     setIsLoading(false)
                     console.log("res sukses", res.data)
                 }).catch((err) => {
                     setIsLoading(false)
-                    Toast.showError("Server Err:")
+                    Alert.alert("Informasi", "Server dari api")
                     console.log("err", err, err.response)
                 })
             }

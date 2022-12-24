@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image } from 'react-native'
+import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, Alert } from 'react-native'
 import moment from 'moment'
 import color from '../utils/color'
 import HeaderBack from '../components/HeaderBack'
@@ -63,7 +63,7 @@ export default function TambahNilaiGuru(props) {
                 setListKelas(result)
             }
             if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError(`${res.data.message}`)
+                Alert.alert("Informasi", `${res.data.message}`)
             }
             // console.log("res kelas", res.data)
         }).catch((err) => {
@@ -89,28 +89,28 @@ export default function TambahNilaiGuru(props) {
 
     const btnSave = useCallback(() => {
         if (selectedKelas == null) {
-            return Toast.showError("tidak boleh kosong kelas")
+            return Alert.alert("Informasi", "tidak boleh kosong kelas")
         }
         if (selectedSiswa == null) {
-            return Toast.showError("tidak boleh kosong siswa")
+            return Alert.alert("Informasi", "tidak boleh kosong siswa")
         }
         if (selectedSemester == null) {
-            return Toast.showError("tidak boleh kosong semester")
+            return Alert.alert("Informasi", "tidak boleh kosong semester")
         }
         if (nilaiHarian == 0) {
-            return Toast.showError("Nilasi harian tidak boleh kosong")
+            return Alert.alert("Informasi", "Nilasi harian tidak boleh kosong")
         }
         if (nilaiHarian == 0) {
-            return Toast.showError("Nilasi harian tidak boleh kosong")
+            return Alert.alert("Informasi", "Nilasi harian tidak boleh kosong")
         }
         if (nilaiTugas == 0) {
-            return Toast.showError("Nilasi tugas tidak boleh kosong")
+            return Alert.alert("Informasi", "Nilasi tugas tidak boleh kosong")
         }
         if (nilaiUts == 0) {
-            return Toast.showError("Nilasi uts tidak boleh kosong")
+            return Alert.alert("Informasi", "Nilasi uts tidak boleh kosong")
         }
         if (nilaiUas == 0) {
-            return Toast.showError("Nilasi uas tidak boleh kosong")
+            return Alert.alert("Informasi", "Nilasi uas tidak boleh kosong")
         }
 
         let data = {
@@ -127,21 +127,30 @@ export default function TambahNilaiGuru(props) {
         HttpRequest.tambahNilai(data).then((res) => {
             let status = res.data.status
             if (status == responseStatus.INSERT_SUKSES) {
-                Toast.showSuccess("Berhasil tambah nilai" + " " + + `${selectedSemester}`)
-                setTimeout(() => {
-                    navigation.goBack()
-                }, 300);
+                // Toast.showSuccess("Berhasil tambah nilai" + " " + + `${selectedSemester}`)
+                // setTimeout(() => {
+                //     navigation.goBack()
+                // }, 300);
+                Alert.alert("Informasi", "tambah nilai" + " " + `${selectedSemester}`, [
+                    {
+                        text: "Oke", onPress: () => {
+                            setTimeout(() => {
+                                navigation.goBack()
+                            }, 300);
+                        }
+                    }
+                ])
             }
             if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError(`${res.data.message}`)
+                Alert.alert("Informasi", `${res.data.message}`)
             }
             if (status == responseStatus.STATUS_ISTIMEWA) {
-                Toast.showError(`${res.data.message}`)
+                Alert.alert("Informasi", `${res.data.message}`)
             }
             setIsLoading(false)
         }).catch((err) => {
             setIsLoading(false)
-            Toast.showError("Server Err:")
+            Alert.alert("Informasi", "Server Err:")
         })
     }, [selectedKelas, selectedSiswa, selectedSemester, nilaiHarian, nilaiTugas, nilaiUts, nilaiUas])
 

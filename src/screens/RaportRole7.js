@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image } from 'react-native'
+import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, Alert } from 'react-native'
 import moment from 'moment'
 import color from '../utils/color'
 import HeaderBack from '../components/HeaderBack'
@@ -40,13 +40,13 @@ export default function RaportRole7(props) {
                 setListRaport(res.data.data)
             }
             if (res.data.status == responseStatus.INSERT_GAGAL) {
-                Toast.showError(`${res.data.message}`)
+                Alert.alert("Informasi", `${res.data.message}`) 
             }
             setIsLoading(false)
             console.log("res", res.data)
         }).catch((err) => {
             setIsLoading(false)
-            Toast.showError("Server Er:")
+            Alert.alert("Informasi", "Server Er:")
             console.log("ini err ganjil", err, err.response)
         })
     }, [listRaport])
@@ -64,7 +64,7 @@ export default function RaportRole7(props) {
                 setListKelas(result)
             }
             if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("Server Error: ")
+                Alert.alert("Informasi", "Server err dari api")
                 setListKelas([])
             }
             console.log("res kelas", res.data)
@@ -115,7 +115,7 @@ export default function RaportRole7(props) {
                         if (selectedKelas != null) {
                             loadData()
                         } else {
-                            Toast.showError("Pilih kelas terlebih dahulu")
+                            Alert.alert("Informasi", "Pilih kelas terlebih dahulu")
                         }
                     }}>
                         Cari Data
