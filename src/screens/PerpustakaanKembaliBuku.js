@@ -15,6 +15,8 @@ import Toast from '../components/Toast'
 import NoData from '../components/NoData'
 import Rupiah from '../utils/Rupiah'
 import RoleResponse from '../utils/RoleResponse'
+import ModalWarningMessage from '../components/ModalWarningMessage'
+import ModalBerhasilMessage from '../components/ModalBerhasilMessage'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height
 const SCREEN_WIDTH = Dimensions.get("window").width
@@ -27,6 +29,26 @@ export default function PerpustakaanKembaliBuku(props) {
     const [denda, setDenda] = useState(0)
     const [waktu, setWaktu] = useState("")
     const [isLoading, setIsLoading] = useState(false)
+
+    const [isModal, setModal] = useState(false)
+    const [isModalSukses, setModalSukses] = useState(false)
+    const [message, setMessage] = useState("")
+
+    const toogleOpen = useCallback(() => {
+        setModal(!isModal)
+    }, [isModal])
+
+    const toogleClose = useCallback(() => {
+        setModal(!isModal)
+    }, [isModal])
+
+    const toggleSuksesOpen = useCallback(() => {
+        setModalSukses(!isModalSukses)
+    }, [isModalSukses])
+
+    const toggleSuksesClose = useCallback(() => {
+        setModalSukses(!isModalSukses)
+    }, [isModalSukses])
 
     useEffect(() => {
         if (user) {
@@ -52,15 +74,17 @@ export default function PerpustakaanKembaliBuku(props) {
                 setListBuku(data.data.data)
             }
             if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("gagal status = 2")
+                toogleOpen()
+                setMessage(`${data.data.message}`)
                 setListBuku([])
+                return
             }
             console.log("res load", data.data)
         } catch (error) {
             Toast.showError("Server Error: ")
             console.log("ini adalah list beita", error)
         }
-    }, [listBuku, user, denda])
+    }, [listBuku, user, denda, message])
 
     const btnSave = useCallback(() => {
         if (user.role_id != RoleResponse.pegawai) {
@@ -72,16 +96,23 @@ export default function PerpustakaanKembaliBuku(props) {
             HttpRequest.insertKembalikanBuku(data).then((res) => {
                 let status = res.data.status
                 if (status == responseStatus.INSERT_SUKSES) {
-                    setTimeout(() => {
-                        Toast.showSuccess("berhasil kembalikan buku")
-                        navigation.goBack()
-                    }, 300);
+                    // setTimeout(() => {
+                    toggleSuksesOpen()
+                    setMessage("berhasil kembalikan buku")
+                    // Toast.showSuccess("berhasil kembalikan buku")
+                    // navigation.goBack()
+                    // }, 300);
                 }
                 if (status == responseStatus.INSERT_GAGAL) {
-                    Toast.showError(`${res.data.message}`)
+                    // Toast.showError(`${res.data.message}`)
+                    toogleOpen()
+                    setMessage(`${res.data.message}`)
+                    return
                 }
+                setIsLoading(false)
                 console.log("res sukses", res.data)
             }).catch((err) => {
+                setIsLoading(false)
                 Toast.showError("Server Err:")
                 console.log("err", err, err.response)
             })
@@ -91,7 +122,10 @@ export default function PerpustakaanKembaliBuku(props) {
                 return item.buku_pinjam
             })
             if (isLenght.length == 0) {
-                return Toast.showError("Daftar buku tidak ada, tidak bisa Acc pinjaman")
+                toogleOpen()
+                setMessage("Daftar buku tidak ada, tidak bisa Acc pinjaman")
+                return
+                // return Toast.showError("Daftar buku tidak ada, tidak bisa Acc pinjaman")
             } else {
                 let data = {
                     user_id: user.id,
@@ -101,23 +135,29 @@ export default function PerpustakaanKembaliBuku(props) {
                 HttpRequest.insertKembalikanBuku(data).then((res) => {
                     let status = res.data.status
                     if (status == responseStatus.INSERT_SUKSES) {
-                        setTimeout(() => {
-                            Toast.showSuccess("berhasil kembalikan buku")
-                            navigation.goBack()
-                        }, 300);
+                        // setTimeout(() => {
+                        toggleSuksesOpen()
+                        setMessage("berhasil kembalikan buku")
+                        // navigation.goBack()
+                        // }, 300);
                     }
                     if (status == responseStatus.INSERT_GAGAL) {
-                        Toast.showError(`${res.data.message}`)
+                        // Toast.showError(`${res.data.message}`)
+                        toogleOpen()
+                        setMessage(`${res.data.message}`)
+                        return
                     }
+                    setIsLoading(false)
                     console.log("res sukses", res.data)
                 }).catch((err) => {
+                    setIsLoading(false)
                     Toast.showError("Server Err:")
                     console.log("err", err, err.response)
                 })
             }
         }
 
-    }, [denda, user])
+    }, [denda, user, message])
 
     return (
         <>
@@ -200,6 +240,7 @@ export default function PerpustakaanKembaliBuku(props) {
                 </View>
                 <View style={{ backgroundColor: color.white, paddingTop: 40, paddingBottom: 20, paddingHorizontal: 20 }}>
                     <Button
+                        loading={isLoading}
                         onPress={() => {
                             btnSave()
                         }}
@@ -207,6 +248,29 @@ export default function PerpustakaanKembaliBuku(props) {
                         Kembalikan Buku
                     </Button>
                 </View>
+                <ModalWarningMessage
+                    isShowModal={isModal}
+                    // isLoading={loading}
+                    reqClose={() => {
+                        toogleClose()
+                    }}
+                    message={message}
+                    onPress={() => {
+                        toogleClose()
+                    }}
+                />
+                <ModalBerhasilMessage
+                    isShowModal={isModalSukses}
+                    // isLoading={loading}
+                    reqClose={() => {
+                        toggleSuksesClose()
+                    }}
+                    message={message}
+                    onPress={() => {
+                        navigation.goBack()
+                        toggleSuksesClose()
+                    }}
+                />
             </SafeAreaView>
         </>
     )

@@ -12,6 +12,9 @@ import { HttpRequest } from '../utils/http'
 import app from '../config/app'
 import Toast from '../components/Toast'
 import NoData from '../components/NoData'
+import { setObjBuku } from '../store/actions'
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
+import { useDispatch, useSelector } from 'react-redux'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height
 const SCREEN_WIDTH = Dimensions.get("window").width
@@ -19,10 +22,12 @@ const SCREEN_WIDTH = Dimensions.get("window").width
 export default function Perpustakaan(props) {
     const navigation = useNavigation()
     const isFocused = useIsFocused()
+    const dispatch = useDispatch();
     const [listKategori, setListKategori] = useState([])
     const [selectedKategori, setSelectedKategori] = useState(null)
     const [listBuku, setListBuku] = useState([])
     const [isLoading, setIsLoading] = useState(false)
+    const [arr, setArr] = useState([])
 
     useEffect(() => {
         if (isFocused) {
@@ -58,7 +63,7 @@ export default function Perpustakaan(props) {
                 setListKategori(data.data.data)
             }
             if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("gagal status = 2")
+                Toast.showError(`${data.data.message}`)
                 setListKategori([])
             }
         } catch (error) {
@@ -75,7 +80,14 @@ export default function Perpustakaan(props) {
                         navigation.goBack()
                     }}
                 >
-                    <Text style={styles.txtHeader}>Perpustakaan</Text>
+                    {/* <View style={{ flexDirection: 'row', alignItems: 'center' }}> */}
+                    <Text style={[styles.txtHeader, { flex: 1 }]}>Perpustakaan</Text>
+                    {/* <TouchableOpacity activeOpacity={1} onPress={() => {
+                            navigation.navigate("KeranjangDetailBuku")
+                        }} style={{ backgroundColor: color.primary, paddingHorizontal: 20, paddingVertical: 16, borderRadius: 12, marginRight: 12, alignItems: 'center', justifyContent: 'center' }}>
+                            <SimpleLineIcons name="handbag" size={18} color={color.white} style={{ alignSelf: 'center' }} />
+                        </TouchableOpacity>
+                    </View> */}
                 </HeaderBack>
                 <View style={{ padding: 20, flex: 1 }}>
                     {/* <TextInputIcon
@@ -131,6 +143,8 @@ export default function Perpustakaan(props) {
                                                             <>
                                                                 {/* {iBook == 0 && <View style={{ width: 30 }} />} */}
                                                                 <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                                    arr.push(item)
+                                                                    dispatch(setObjBuku(arr));
                                                                     navigation.navigate("DetailPerpustakaan", { params: item })
                                                                 }} key={iBook} style={{ flexDirection: 'column', alignItems: 'center' }}>
                                                                     <View style={{ height: SCREEN_HEIGHT / 6.3, width: SCREEN_WIDTH / 4 }}>

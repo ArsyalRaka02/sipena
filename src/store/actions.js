@@ -55,3 +55,10 @@ export const setSimpanBuku = (payload) => (dispatch) => {
         payload
     })
 }
+
+export const setObjBuku = (payload) => (dispatch) => {
+    dispatch({
+        type: types.SET_OBJ_BUKU,
+        payload
+    })
+}

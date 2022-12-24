@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, ImageBackground } from 'react-native'
+import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Image, ImageBackground, BackHandler } from 'react-native'
 import moment from 'moment'
 import color from '../utils/color'
 import HeaderBack from '../components/HeaderBack'
@@ -10,8 +10,9 @@ import { fonts } from '../utils/fonts'
 import Button from '../components/Button'
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
 import app from '../config/app'
-import { useDispatch } from 'react-redux'
-import { setSimpanBuku } from '../store/actions'
+import { useDispatch, useSelector } from 'react-redux'
+import { setSimpanBuku, setObjBuku } from '../store/actions'
+import _, { drop } from 'lodash';
 import Toast from '../components/Toast'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height
@@ -20,24 +21,43 @@ const SCREEN_WIDTH = Dimensions.get("window").width
 export default function DetailPerpustakaan(props) {
     const dispatch = useDispatch();
     const navigation = useNavigation()
-
+    const [arr, setArr] = useState([])
+    const list = useSelector(state => state.setSimpanBuku);
+    const buku = useSelector(state => state.objBuku);
     const { params } = props.route.params
+    const [detail, setDetail] = useState([])
+    const [arrBuku, setArrBuku] = useState([])
+
 
     useEffect(() => {
+        const backAction = () => {
+            dispatch(setSimpanBuku(detail));
+            navigation.goBack()
+            return true;
+        };
 
-    }, [params])
+        const backHandler = BackHandler.addEventListener(
+            "hardwareBackPress",
+            backAction
+        );
+
+        return () => backHandler.remove();
+    }, [])
 
     const btnSave = useCallback(() => {
-        let arr = []
-        let jml = 1
-
-        for (jml = 1; jml <= 1; jml++) {
-            arr.push(params);
-            dispatch(setSimpanBuku(arr));
-        }
-        navigation.navigate("KeranjangDetailBuku")
-        // console.log("ini data get jml", arr)
-        // Toast.showSuccess("Berhasil simpan buku di keranjang")
+        // for (jml = 1; jml <= arr.length; jml++) {
+        // setArr(list)
+        // arr.push(buku)
+        arrBuku.push(params)
+        let isObj = _.clone(arrBuku)
+        let valid = _.concat(isObj, list)
+        setDetail(valid)
+        // let data = arr
+        dispatch(setSimpanBuku(valid));
+        // }
+        // navigation.navigate("KeranjangDetailBuku")
+        console.log("ini data get jml", valid)
+        Toast.showSuccess("Berhasil simpan buku di keranjang")
     }, [])
 
     return (
@@ -45,6 +65,7 @@ export default function DetailPerpustakaan(props) {
             <SafeAreaView style={styles.container}>
                 <HeaderBack
                     onBack={() => {
+                        dispatch(setObjBuku([]));
                         navigation.goBack()
                     }}
                 >
@@ -88,11 +109,11 @@ export default function DetailPerpustakaan(props) {
                         </View>
                     </ScrollView>
                     <View style={{ flexDirection: 'row', paddingHorizontal: 20, paddingVertical: 10, backgroundColor: color.white }}>
-                        {/* <TouchableOpacity activeOpacity={1} onPress={() => {
+                        <TouchableOpacity activeOpacity={1} onPress={() => {
                             navigation.navigate("KeranjangDetailBuku")
                         }} style={{ backgroundColor: color.primaryRGBA, paddingHorizontal: 20, paddingVertical: 16, borderRadius: 12, marginRight: 12, alignItems: 'center', justifyContent: 'center' }}>
                             <SimpleLineIcons name="handbag" size={18} color={color.primary} style={{ alignSelf: 'center' }} />
-                        </TouchableOpacity> */}
+                        </TouchableOpacity>
                         <Button
                             style={{ flex: 1 }}
                             onPress={() => {

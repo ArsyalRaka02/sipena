@@ -45,7 +45,7 @@ export default function KegiatanOsis(props) {
                 setListKegiatan(result)
             }
             if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("gagal status = 2")
+                Toast.showError(`${data.data.message}`)
                 setListKegiatan([])
             }
             console.log("res kegiatan", result)

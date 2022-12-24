@@ -90,7 +90,7 @@ export default function ListJadwalMenuSiswa(props) {
             let data = await HttpRequest.jadwalBaru()
             let status = data.data.status
             if (status == responseStatus.INSERT_SUKSES) {
-                setListMapel(data.data.data)
+                // setListMapel(data.data.data)
                 setSenin(data.data.data.Senin)
                 setSelasa(data.data.data.Selasa)
                 setRabu(data.data.data.Rabu)
@@ -102,11 +102,11 @@ export default function ListJadwalMenuSiswa(props) {
                 Toast.showError("Server Error: ")
                 setListMapel([])
             }
-            console.log("ini list mabel", data.data.data)
+            console.log("ini list mabel", data.data)
         } catch (error) {
             setListMapel([])
             console.log("err", error, error.response)
-            Toast.showError("Server Error: ")
+            // Toast.showError("Server Error: ")
         }
     }, [listMapel, detail, user, selectedKelas, senin, selasa, rabu, kamis, jumat, sabtu])
 

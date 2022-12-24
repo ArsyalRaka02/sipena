@@ -68,3 +68,10 @@ export function setSimpanBuku(state = false, action) {
 
     return state
 }
+export function objBuku(state = false, action) {
+    if (action.type == types.SET_OBJ_BUKU) {
+        return action.payload;
+    }
+
+    return state
+}

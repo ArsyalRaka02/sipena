@@ -60,7 +60,7 @@ export default function ListKatalogBukuPerpus(props) {
                 setListKategori(data.data.data)
             }
             if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("gagal status = 2")
+                Toast.showError(`${data.data.message}`)
                 setListKategori([])
             }
         } catch (error) {

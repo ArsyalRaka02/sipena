@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, Modal, TouchableOpacity } from "react-native";
+import { View, Text, Modal, TouchableOpacity, SafeAreaView } from "react-native";
 
 export default function SimpleModal(props) {
     return (
@@ -10,7 +10,7 @@ export default function SimpleModal(props) {
             onRequestClose={() => {
                 props.onRequestClose();
             }} >
-            <TouchableOpacity activeOpacity={0.9} onPress={() => {
+            <TouchableOpacity activeOpacity={1} onPress={() => {
                 props.onRequestClose();
             }} style={styles.modalRoot}>
                 <TouchableOpacity activeOpacity={1} style={[styles.modalContent, props.contentStyle]}>

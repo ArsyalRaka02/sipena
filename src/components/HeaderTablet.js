@@ -147,6 +147,16 @@ export default function HeaderTablet(props) {
                                         )
                                     }
                                     {
+                                        user.data.is_osis == "Y" && (
+                                            <Text style={props.textAlamat}>Osis</Text>
+                                        )
+                                    }
+                                    {
+                                        user.data.is_osis == "N" && (
+                                            <Text style={props.textAlamat}>Siswa</Text>
+                                        )
+                                    }
+                                    {
                                         user.data.is_koperasi == "Y" && (
                                             <Text style={props.textAlamat}>Kantin</Text>
                                         )

@@ -19,6 +19,8 @@ import TextInputIcon from "../components/TextInputIcon";
 import { fonts } from "../utils/fonts"
 import responseStatus from "../utils/responseStatus";
 import RoleResponse from "../utils/RoleResponse";
+import ModalWarningMessage from "../components/ModalWarningMessage";
+import ModalGagalMessage from "../components/ModalGagalMessage";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
@@ -28,6 +30,26 @@ export default function Login({ navigation }) {
     const [isLoading, setLoading] = useState(false);
     const [username, setUsername] = useState(__DEV__ ? app.EXAMPLE_EMAIL : "");
     const [password, setPassword] = useState(__DEV__ ? app.EXAMPLE_PASSWORD : "");
+    const [isModal, setModal] = useState(false)
+    const [isModalGagal, setModalGagal] = useState(false)
+    const [message, setMessage] = useState("")
+
+
+    const toogleGagalOpen = useCallback(() => {
+        setModalGagal(!isModalGagal)
+    }, [isModalGagal])
+
+    const toogleGagalClose = useCallback(() => {
+        setModalGagal(!isModalGagal)
+    }, [isModalGagal])
+
+    const toogleOpen = useCallback(() => {
+        setModal(!isModal)
+    }, [isModal])
+
+    const toogleClose = useCallback(() => {
+        setModal(!isModal)
+    }, [isModal])
 
     const login = useCallback(() => {
         setLoading(true);
@@ -35,29 +57,33 @@ export default function Login({ navigation }) {
         HttpRequest.login(data).then((res) => {
             let result = res.data
             if (result.data.role_id == RoleResponse.admin) {
-                Toast.showError("Admin tidak boleh akses disini!!")
+                // Toast.showError("Admin tidak boleh akses disini!!")
+                setMessage("Admin tidak boleh akses disini!!")
+                toogleOpen()
                 setLoading(false);
             } else if (result.data.role_id == RoleResponse.pegawai) {
                 if (result.data.data.is_koperasi == "Y") {
-                    Toast.showError("Koperasi tidak bisa akses disini!!")
+                    setMessage("Koperasi tidak bisa akses disini!!")
+                    toogleOpen()
+                    // Toast.showError("")
                 } else {
                     if (result.status == responseStatus.INSERT_SUKSES) {
-                        Toast.showSuccess("Berhasil Login")
+                        // Toast.showSuccess("Berhasil Login")
                         dispatch(setUser(res.data.data));
                     }
                     if (result.status == responseStatus.INSERT_GAGAL) {
-                        Toast.showError("Email/Password Salah")
+                        toogleGagalOpen()
                     }
                     setLoading(false);
                 }
                 setLoading(false);
             } else {
                 if (result.status == responseStatus.INSERT_SUKSES) {
-                    Toast.showSuccess("Berhasil Login")
+                    // Toast.showSuccess("Berhasil Login")
                     dispatch(setUser(res.data.data));
                 }
                 if (result.status == responseStatus.INSERT_GAGAL) {
-                    Toast.showError("Email/Password Salah")
+                    toogleGagalOpen()
                 }
                 setLoading(false);
             }
@@ -66,10 +92,11 @@ export default function Login({ navigation }) {
             // setLoading(false);
         }).catch((err) => {
             setLoading(false);
-            Toast.showError("Email/Password Salah")
+            toogleGagalOpen()
+            // Toast.showError("Email/Password Salah")
             console.log(err, err.response);
         });
-    }, [username, password]);
+    }, [username, password, message]);
 
     return (
         <SafeAreaView style={styles.container}>
@@ -113,8 +140,31 @@ export default function Login({ navigation }) {
                     loading={isLoading}
                     style={{ marginBottom: 10 }}
                     onPress={() => login()}>
-                    Log In
+                    Masuk
                 </Button>
+
+                <ModalWarningMessage
+                    isShowModal={isModal}
+                    // isLoading={loading}
+                    reqClose={() => {
+                        toogleClose()
+                    }}
+                    message={message}
+                    onPress={() => {
+                        toogleClose()
+                    }}
+                />
+                <ModalGagalMessage
+                    isShowModal={isModalGagal}
+                    // isLoading={loading}
+                    reqClose={() => {
+                        toogleGagalClose()
+                    }}
+                    message={"Email/Password Salah"}
+                    onPress={() => {
+                        toogleGagalClose()
+                    }}
+                />
             </View>
         </SafeAreaView>
     )

@@ -1,7 +1,7 @@
 export default {
     format(angka) {
         if (angka == null) {
-            return "Rp. 0,-";
+            return "Rp 0,-";
         }
 
         let ori = parseFloat(angka);
@@ -27,9 +27,9 @@ export default {
 
         rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
         if (sisaDecimal) {
-            return 'Rp. ' + rupiah + "," + sisaDecimal;
+            return 'Rp ' + rupiah + "," + sisaDecimal;
         } else {
-            return 'Rp. ' + rupiah + ",-";
+            return 'Rp ' + rupiah + ",-";
         }
     }
 };

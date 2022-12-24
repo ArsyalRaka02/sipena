@@ -36,19 +36,19 @@ export default function ListAbsen(props) {
         if (id == "") {
             return Toast.showError("tidak mendapatkan id kelas")
         }
-        HttpRequest.jadwalBaru().then((res) => {
+        HttpRequest.jadwalBaruPerhariByKelas(id).then((res) => {
             let status = res.data.status
             if (status == responseStatus.INSERT_SUKSES) {
-                setListJadwal(res.data.data.data)
-                setSenin(res.data.data.Senin)
-                setSelasa(res.data.data.Selasa)
-                setRabu(res.data.data.Rabu)
-                setKamis(res.data.data.Kamis)
-                setJumat(res.data.data.Jumat)
-                setSabtu(res.data.data.Sabtu)
+                setListJadwal(res.data.data)
+                // setSenin(res.data.data.Senin)
+                // setSelasa(res.data.data.Selasa)
+                // setRabu(res.data.data.Rabu)
+                // setKamis(res.data.data.Kamis)
+                // setJumat(res.data.data.Jumat)
+                // setSabtu(res.data.data.Sabtu)
             }
             if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("Gagal mendapatkan list jadwal")
+                Toast.showError(`${res.data.message}`)
                 setListJadwal([])
             }
             console.log("ini adalah jadwal matapelajaran", res.data.data)
@@ -91,10 +91,10 @@ export default function ListAbsen(props) {
                     </View>
                     <View style={{ height: 20 }} />
                     <ScrollView>
-                        <View style={{ marginVertical: 12 }}>
+                        {/* <View style={{ marginVertical: 12 }}>
                             <Text style={[styles.txtBoldGlobal]}>Senin</Text>
-                        </View>
-                        {
+                        </View> */}
+                        {/* {
                             senin.length == 0 && (
                                 <NoData>Tidak ada jadwal Senin</NoData>
                             )
@@ -297,6 +297,46 @@ export default function ListAbsen(props) {
                                 <>
                                     {
                                         sabtu.map((item, iList) => {
+                                            return (
+                                                <>
+                                                    <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: color.white, paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12 }}>
+                                                        <Text style={[styles.txtBoldGlobal]}>{item.mapel_nama}</Text>
+                                                        <View style={{ flex: 1 }} />
+                                                        <View style={{ flexDirection: 'column' }}>
+                                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                                <Ionicons name="time-outline" size={20} color={color.black} style={{ marginRight: 10, alignSelf: 'flex-start' }} />
+                                                                <Text style={[styles.txtGlobal, { marginBottom: 12 }]}>{item.jadwal_waktu_mulai} - {item.jadwal_waktu_akhir}</Text>
+                                                            </View>
+                                                            <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                                navigation.navigate("DetailAbsen", { params: item.id })
+                                                            }}>
+                                                                <Text style={[styles.txtGlobalBold, { marginLeft: 12, textAlign: 'right', color: color.primary }]}>Absen Sekarang</Text>
+                                                            </TouchableOpacity>
+                                                        </View>
+                                                    </View>
+                                                    <View style={{ height: 20 }} />
+                                                </>
+                                            )
+                                        })
+                                    }
+                                </>
+                            )
+                        } */}
+                        <View style={{ marginVertical: 12 }}>
+                            <Text style={[styles.txtBoldGlobal]}>{moment(new Date()).format("dddd")}</Text>
+                        </View>
+                        {
+                            listJadwal.length == 0 && (
+                                <>
+                                    <NoData>Tidak ada jadwal</NoData>
+                                </>
+                            )
+                        }
+                        {
+                            listJadwal.length > 0 && (
+                                <>
+                                    {
+                                        listJadwal.map((item, iJadwal) => {
                                             return (
                                                 <>
                                                     <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: color.white, paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12 }}>

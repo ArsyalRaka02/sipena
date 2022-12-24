@@ -103,7 +103,7 @@ export default function TambahBukuPerpus(props) {
                 setListKategori(loop)
             }
             if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("gagal status = 2")
+                Toast.showError(`${res.data.message}`)
                 setListKategori([])
             }
         }).catch((err) => {

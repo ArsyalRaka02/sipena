@@ -15,6 +15,8 @@ import Toast from '../components/Toast'
 import responseStatus from '../utils/responseStatus'
 import { useSelector } from 'react-redux'
 import Koma from '../utils/Koma'
+import ModalWarningMessage from '../components/ModalWarningMessage'
+import ModalBerhasilMessage from '../components/ModalBerhasilMessage'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height
 const SCREEN_WIDTH = Dimensions.get("window").width
@@ -27,6 +29,9 @@ export default function PerpustakaanKehilanganBuku(props) {
     const [listBuku, setListBuku] = useState([])
     const [detail, setDetail] = useState({})
     const [isLoading, setIsLoading] = useState(false)
+    const [isModal, setModal] = useState(false)
+    const [isModalSukses, setModalSukses] = useState(false)
+    const [message, setMessage] = useState("")
 
     useEffect(() => {
         getData()
@@ -34,6 +39,22 @@ export default function PerpustakaanKehilanganBuku(props) {
             getProfile()
         }
     }, [user])
+
+    const toogleOpen = useCallback(() => {
+        setModal(!isModal)
+    }, [isModal])
+
+    const toogleClose = useCallback(() => {
+        setModal(!isModal)
+    }, [isModal])
+
+    const toggleSuksesOpen = useCallback(() => {
+        setModalSukses(!isModalSukses)
+    }, [isModalSukses])
+
+    const toggleSuksesClose = useCallback(() => {
+        setModalSukses(!isModalSukses)
+    }, [isModalSukses])
 
     const getData = useCallback(() => {
         HttpRequest.kehilanganBuku().then((res) => {
@@ -91,13 +112,16 @@ export default function PerpustakaanKehilanganBuku(props) {
         HttpRequest.insertKehilanganBuku(data).then((res) => {
             let data = res.data
             if (data.status == responseStatus.INSERT_GAGAL) {
-                return Toast.showError("Message" + `${data.message}`)
+                toogleOpen()
+                setMessage(`${res.data.message}`)
             }
             if (data.status == responseStatus.INSERT_SUKSES) {
-                Toast.showSuccess("Berhasil bayar kehilangan buku")
-                setTimeout(() => {
-                    navigation.goBack()
-                }, 300);
+                // Toast.showSuccess("Berhasil bayar kehilangan buku")
+                // setTimeout(() => {
+                //     navigation.goBack()
+                // }, 300);
+                toggleSuksesOpen()
+                setMessage("Berhasil")
             }
             console.log("ini ", res.data)
             setIsLoading(false)
@@ -106,7 +130,7 @@ export default function PerpustakaanKehilanganBuku(props) {
             Toast.showError("Server Err:")
             console.log("err", err, err.response)
         })
-    }, [detail, user, selectedBuku])
+    }, [detail, user, selectedBuku, message])
 
     return (
         <>
@@ -168,6 +192,30 @@ export default function PerpustakaanKehilanganBuku(props) {
                         Bayar Sekarang
                     </Button>
                 </View>
+
+                <ModalWarningMessage
+                    isShowModal={isModal}
+                    // isLoading={loading}
+                    reqClose={() => {
+                        toogleClose()
+                    }}
+                    message={message}
+                    onPress={() => {
+                        toogleClose()
+                    }}
+                />
+                <ModalBerhasilMessage
+                    isShowModal={isModalSukses}
+                    // isLoading={loading}
+                    reqClose={() => {
+                        toggleSuksesClose()
+                    }}
+                    message={message}
+                    onPress={() => {
+                        navigation.goBack()
+                        toggleSuksesClose()
+                    }}
+                />
             </SafeAreaView>
         </>
     )

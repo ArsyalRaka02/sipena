@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { View, Text, Dimensions, TouchableOpacity, ImageBackground, Image, ScrollView, Linking } from 'react-native';
+import { View, Text, Dimensions, TouchableOpacity, ImageBackground, Image, ScrollView, Linking, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import color from '../utils/color';
 import { fonts } from '../utils/fonts';
@@ -126,7 +126,7 @@ export default function Profile(props) {
                         user.role_id != RoleResponse.dinaspendidikan && (
                             <>
                                 <View style={{ position: 'absolute', alignSelf: 'center', top: 120 }}>
-                                    <Text style={[styles.txtGlobalWhite, { alignSelf: 'center', fontSize: 12 }]}>Saldo Dompent</Text>
+                                    <Text style={[styles.txtGlobalWhite, { alignSelf: 'center', fontSize: 12 }]}>Saldo Dompet</Text>
                                     <Text style={[styles.txtGlobalWhite, { alignSelf: 'center', fontFamily: fonts.interBold, fontSize: 18 }]}>{Rupiah.format(user.saldo)}</Text>
                                     <TouchableOpacity activeOpacity={1} onPress={() => {
                                         navigation.navigate("IsiSaldo")
@@ -149,14 +149,7 @@ export default function Profile(props) {
                                             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                                 <Text style={styles.txtTitle}>NIS</Text>
                                                 <View style={{ flex: 1 }} />
-                                                <Text style={styles.txtIsi}>{detail?.nisn == "" ? "-" : user.nisn}</Text>
-                                            </View>
-                                            <View style={styles.underline} />
-
-                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                                <Text style={styles.txtTitle}>Email</Text>
-                                                <View style={{ flex: 1 }} />
-                                                <Text style={styles.txtIsi}>{detail?.email == "" ? "-" : detail?.email}</Text>
+                                                <Text style={styles.txtIsi}>{user?.data.nisn == "" ? "-" : user?.data.nisn}</Text>
                                             </View>
                                             <View style={styles.underline} />
 
@@ -256,13 +249,6 @@ export default function Profile(props) {
                                                     </>
                                                 )
                                             }
-
-                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                                <Text style={styles.txtTitle}>Email</Text>
-                                                <View style={{ flex: 1 }} />
-                                                <Text style={styles.txtIsi}>{user.email ?? "-"}</Text>
-                                            </View>
-                                            <View style={styles.underline} />
 
                                             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                                 <Text style={styles.txtTitle}>Nama</Text>
@@ -528,9 +514,20 @@ export default function Profile(props) {
                                 </View>
                                 <View style={{ flex: 1, flexDirection: 'row', marginBottom: 12 }}>
                                     <TouchableOpacity activeOpacity={1} onPress={() => {
-                                        dispatch(setUser(null));
-                                        navigation.popToTop()
-                                        navigation.navigate("Auth")
+                                        Alert.alert("Logout", "Apakah ingin keluar?", [
+                                            {
+                                                text: "Ya", onPress: () => {
+                                                    dispatch(setUser(null));
+                                                    navigation.popToTop()
+                                                    navigation.navigate("Auth")
+                                                }
+                                            },
+                                            {
+                                                text: "Tidak", onPress: () => {
+                                                    return null
+                                                }
+                                            }
+                                        ])
                                     }} style={{ backgroundColor: color.danger, flexDirection: 'row', paddingHorizontal: 25, paddingVertical: 6, alignItems: 'center', justifyContent: 'center', borderRadius: 12 }}>
                                         <Ionicons name="log-out-outline" size={24} color={color.white} />
                                         <Text style={[styles.txtGlobalWhite, { marginLeft: 8 }]}>Keluar</Text>

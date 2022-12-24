@@ -14,6 +14,8 @@ import { HttpRequest } from '../utils/http'
 import Toast from '../components/Toast'
 import { useSelector } from 'react-redux'
 import responseStatus from '../utils/responseStatus'
+import ModalWarningMessage from '../components/ModalWarningMessage'
+import ModalBerhasilMessage from '../components/ModalBerhasilMessage'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height
 const SCREEN_WIDTH = Dimensions.get("window").width
@@ -39,7 +41,56 @@ export default function PerpustakaanSumbangBuku(props) {
     const [bahasa, setBahasa] = useState("")
     const [author, setAuthor] = useState("")
     const [judul, setJudul] = useState("")
+
+    const [isModal, setModal] = useState(false)
+    const [isModalSukses, setModalSukses] = useState(false)
+    const [message, setMessage] = useState("")
     const [isLoading, setIsloading] = useState(false)
+
+    const toogleOpen = useCallback(() => {
+        setModal(!isModal)
+    }, [isModal])
+
+    const toogleClose = useCallback(() => {
+        setModal(!isModal)
+    }, [isModal])
+
+    const toggleSuksesOpen = useCallback(() => {
+        setModalSukses(!isModalSukses)
+    }, [isModalSukses])
+
+    const toggleSuksesClose = useCallback(() => {
+        setModalSukses(!isModalSukses)
+    }, [isModalSukses])
+
+    useEffect(() => {
+        loadKatalogKategori()
+    }, [user])
+
+    const loadKatalogKategori = useCallback(async () => {
+        try {
+            let data = await HttpRequest.kategoriBuku()
+            let result = data.data.data
+            let status = data.data.status
+            if (status == responseStatus.INSERT_SUKSES) {
+                let loop = result.map((item) => {
+                    return {
+                        id: item.id,
+                        label: item.nama
+                    }
+                })
+                setListKategori(loop)
+            }
+            if (status == responseStatus.INSERT_GAGAL) {
+                Toast.showError(`${data.data.message}`)
+                setListKategori([])
+            }
+            console.log("res kategori", result)
+        } catch (error) {
+            Toast.showError("Server Error: ")
+            console.log("ini adalah list beita", error)
+        }
+    }, [listKategori])
 
     const btnSave = useCallback(() => {
         let formData = new FormData();
@@ -61,7 +112,7 @@ export default function PerpustakaanSumbangBuku(props) {
         if (getImage == "") {
             return Toast.showError("Gambar Buku tidak boleh kosong")
         }
-        formData.append('foto', {
+        formData.append('image', {
             name: 'image-' + moment().format('YYYY-MM-DD-HH-mm-ss') + '.jpg',
             type: 'image/jpeg',
             uri: getImage,
@@ -76,53 +127,29 @@ export default function PerpustakaanSumbangBuku(props) {
         HttpRequest.insertSumbangBuku(formData).then((res) => {
             let data = res.data
             if (data.status == responseStatus.STATUS_ISTIMEWA) {
-                Toast.showError(`${data.message}`)
+                toogleOpen()
+                setMessage(`${res.data.message}`)
             }
             if (data.status == responseStatus.INSERT_SUKSES) {
-                Toast.showSuccess("Berhasil")
-                setTimeout(() => {
-                    navigation.goBack()
-                }, 300);
+                // Toast.showSuccess("Berhasil")
+                // setTimeout(() => {
+                //     navigation.goBack()
+                // }, 300);
+                toggleSuksesOpen()
+                setMessage("Berhasil")
             }
             if (data.status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("Gagal")
+                toogleOpen()
+                setMessage(`${res.data.message}`)
             }
             setIsloading(false)
+            console.log("res", data)
         }).catch((err) => {
             setIsloading(false)
             Toast.showError("Server Error: ")
-            console.log("ini adalah list beita", err, err.response)
+            console.log("ini adalah err", err, err.response)
         })
-    }, [user, selectedBuku, judul, author, bahasa, halaman])
-
-    useEffect(() => {
-        loadKatalogKategori()
-    }, [user])
-
-    const loadKatalogKategori = useCallback(async () => {
-        try {
-            let data = await HttpRequest.kategoriBuku()
-            let result = data.data.data
-            let status = data.data.status
-            if (status == responseStatus.INSERT_SUKSES) {
-                let loop = result.map((item) => {
-                    return {
-                        id: item.id,
-                        label: item.nama
-                    }
-                })
-                setListKategori(loop)
-            }
-            if (status == responseStatus.INSERT_GAGAL) {
-                Toast.showError("gagal status = 2")
-                setListKategori([])
-            }
-            console.log("res kategori", result)
-        } catch (error) {
-            Toast.showError("Server Error: ")
-            console.log("ini adalah list beita", error)
-        }
-    }, [listKategori])
+    }, [user, selectedBuku, judul, author, bahasa, halaman, getImage, message])
 
     return (
         <>
@@ -195,12 +222,36 @@ export default function PerpustakaanSumbangBuku(props) {
                     </ScrollView>
                 </View>
                 <View style={{ backgroundColor: color.white, paddingTop: 40, paddingBottom: 20, paddingHorizontal: 20 }}>
-                    <Button onPress={() => {
+                    <Button loading={isLoading} onPress={() => {
                         btnSave()
                     }}>
                         Sumbang Sekarang
                     </Button>
                 </View>
+
+                <ModalWarningMessage
+                    isShowModal={isModal}
+                    // isLoading={loading}
+                    reqClose={() => {
+                        toogleClose()
+                    }}
+                    message={message}
+                    onPress={() => {
+                        toogleClose()
+                    }}
+                />
+                <ModalBerhasilMessage
+                    isShowModal={isModalSukses}
+                    // isLoading={loading}
+                    reqClose={() => {
+                        toggleSuksesClose()
+                    }}
+                    message={message}
+                    onPress={() => {
+                        navigation.goBack()
+                        toggleSuksesClose()
+                    }}
+                />
             </SafeAreaView>
         </>
     )
