@@ -457,7 +457,29 @@ export const HttpRequest = {
     },
     saldoKoperasi() {
         return request().get("/saldo-koperasi")
+    },
+
+    cekPembina(id) {
+        return request().get("/pembina-osis?guru_id=" + id)
+    },
+
+    listPermintaanOsis() {
+        return request().get("/calon-osis/permintaan")
+    },
+    accPermintaanOsis(id) {
+        return request().get("/calon-osis/acc?id=" + id)
+    },
+
+    laporanSiswa() {
+        return request().get("/listsiswa")
+    },
+    laporanPegawai() {
+        return request().get("/listpegawai")
+    },
+    laporanGuru() {
+        return request().get("/listguru")
     }
+
 
 };
 

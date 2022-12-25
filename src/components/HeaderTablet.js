@@ -177,13 +177,13 @@ export default function HeaderTablet(props) {
                                         )
                                     }
                                     {
-                                        user.data.is_walikelas == "Y" && user.data.is_mapel == "Y" && (
-                                            <Text style={props.textAlamat}>WaliKelas</Text>
+                                        user.role_id == RoleResponse.guru && (
+                                            <Text style={props.textAlamat}>Guru {user.data.is_walikelas == "Y" ? "Walikelas" : ""}</Text>
                                         )
                                     }
                                     {
-                                        user.data.is_mapel == "Y" && user.data.is_walikelas == "N" && (
-                                            <Text style={props.textAlamat}>Guru</Text>
+                                        user.role_id == RoleResponse.dinaspendidikan && (
+                                            <Text style={props.textAlamat}>Dinas Pendidikan</Text>
                                         )
                                     }
                                     {/* <Text {...props} style={props.textAlamat}>{user.rolenama} </Text> */}

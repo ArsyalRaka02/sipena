@@ -11,25 +11,25 @@ import { fonts } from '../utils/fonts'
 const SCREEN_HEIGHT = Dimensions.get("window").height
 const SCREEN_WIDTH = Dimensions.get("window").width
 
-const listMenu = [
+const menu = [
     {
-        name: "Kegiatan OSIS",
-        page: "KegiatanOsis",
-        image: require("../assets/sipena/user-edit.png")
+        name: 'Siswa',
+        icon: "reader-outline",
+        page: "ListLaporanSiswa"
     },
     {
-        name: "Daftar OSIS",
-        page: "DaftarOsis",
-        image: require("../assets/sipena/profile-add.png")
+        name: 'Guru',
+        icon: "reader-outline",
+        page: "ListLaporanGuru"
     },
-    // {
-    //     name: "Anggota OSIS",
-    //     page: "AnggotaOsis",
-    //     image: require("../assets/sipena/profile-2user.png")
-    // },
+    {
+        name: 'Pegawai',
+        icon: "reader-outline",
+        page: "ListLaporanPegawai"
+    },
 ]
 
-export default function ListOsis(props) {
+export default function ListLaporan(props) {
     const navigation = useNavigation()
     return (
         <>
@@ -39,20 +39,18 @@ export default function ListOsis(props) {
                         navigation.goBack()
                     }}
                 >
-                    <Text style={styles.txtHeader}>List Osis</Text>
+                    <Text style={styles.txtHeader}>List</Text>
                 </HeaderBack>
                 <View style={{ padding: 20, flex: 1 }}>
                     {
-                        listMenu.map((item, iList) => {
+                        menu.map((item, iMenu) => {
                             return (
                                 <>
                                     <TouchableOpacity activeOpacity={1} onPress={() => {
                                         navigation.navigate(item.page)
-                                    }} style={{ backgroundColor: color.white, borderRadius: 12, flexDirection: 'row', paddingHorizontal: 10, paddingVertical: 14 }}>
-                                        <View style={{ height: 24, width: 24, marginHorizontal: 12 }}>
-                                            <Image source={item.image} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
-                                        </View>
-                                        <Text style={[styles.txtGlobalBold, { fontSize: 14, color: color.black }]}>{item.name}</Text>
+                                    }} style={{ flexDirection: 'row', paddingVertical: 16, paddingHorizontal: 20, borderRadius: 12, backgroundColor: color.white }}>
+                                        <Ionicons name={item.icon} size={24} color={color.primary} />
+                                        <Text style={[styles.txtGlobalBold, { marginLeft: 12, color: color.black }]}>{item.name}</Text>
                                     </TouchableOpacity>
                                     <View style={{ height: 20 }} />
                                 </>
@@ -79,3 +77,4 @@ const styles = {
     txtGlobal: { fontSize: 13, fontFamily: fonts.inter },
     txtGlobalBold: { fontSize: 15, fontFamily: fonts.interBold },
 }
+

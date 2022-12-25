@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { View, Text, Dimensions, TouchableOpacity, ImageBackground, Image, ScrollView, StatusBar } from 'react-native';
+import { View, Text, Dimensions, TouchableOpacity, ImageBackground, Image, ScrollView, StatusBar, Alert } from 'react-native';
 import HeaderTablet from '../components/HeaderTablet';
 import app from '../config/app';
 import { fonts } from '../utils/fonts';
@@ -8,6 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import HeaderBack from '../components/HeaderBack';
 import { useSelector } from 'react-redux';
 import RoleResponse from '../utils/RoleResponse';
+import { HttpRequest } from '../utils/http';
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
@@ -16,6 +17,7 @@ export default function DashboardSemuaList(props) {
     const user = useSelector(state => state.user);
     const navigation = useNavigation()
     const [isOpenCard, setisOpenCard] = useState(false)
+    const [isOsis, setOsis] = useState(false)
 
     const btnOpenCard = useCallback(() => {
         setisOpenCard(!isOpenCard)
@@ -24,6 +26,20 @@ export default function DashboardSemuaList(props) {
     const btnCloseCard = useCallback(() => {
         setisOpenCard(!isOpenCard)
     }, [isOpenCard])
+
+    useEffect(() => {
+        if (user.role_id == RoleResponse.guru) {
+            loadPembina()
+        }
+    }, [])
+
+    const loadPembina = useCallback(() => {
+        HttpRequest.cekPembina(user.data.id).then((res) => {
+            setOsis(res.data.data)
+        }).catch((err) => {
+            Alert.alert("Informsai", "Server api error cek pembina")
+        })
+    }, [isOsis])
 
     const data = [
         {
@@ -427,6 +443,63 @@ export default function DashboardSemuaList(props) {
             page: "DashboardSemuaList"
         }
     ]
+    const GuruEsktraOsis = [
+        {
+            name: "Jadwal",
+            image: require("../assets/sipena/jadwal.png"),
+            warna: color.menuBlue,
+            page: "ListJadwalMenuGuru"
+        },
+        {
+            name: "Absen",
+            image: require("../assets/sipena/user33.png"),
+            warna: color.menuRed,
+            page: "ListAbsenGuru"
+        },
+        {
+            name: "Absen Siswa",
+            image: require("../assets/sipena/absen.png"),
+            warna: color.menuGreen,
+            page: "ListAbsenMonitoring"
+        },
+        {
+            name: "Pinjam Fasilitas",
+            image: require("../assets/sipena/pinjam.png"),
+            warna: color.menuOrange,
+            page: "ListPinjamFasilitas"
+        },
+        {
+            name: "Koperasi Sekolah",
+            image: require("../assets/sipena/koperasi.png"),
+            warna: color.menuBrown,
+            // page: "ListKoperasi"
+            page: "QrCodeKoperasi"
+        },
+        {
+            name: "Kantin",
+            image: require("../assets/sipena/kantin.png"),
+            warna: color.menuGreen,
+            page: "QrCodeKantin"
+        },
+        {
+            name: "Ekstrakulikuler",
+            image: require("../assets/sipena/ekstra.png"),
+            warna: color.menuRed,
+            page: "ListEkstrakulikuler"
+        },
+        {
+            name: "Osis",
+            image: require("../assets/sipena/osis.png"),
+            warna: color.menuBlue,
+            page: "ListOsisGuru"
+        },
+        {
+            name: "Semua",
+            image: require("../assets/sipena/semua.png"),
+            warna: color.menuPink,
+            page: "DashboardSemuaList"
+        }
+    ]
 
 
     return (
@@ -471,56 +544,86 @@ export default function DashboardSemuaList(props) {
                             user.role_id == RoleResponse.guru && (
                                 <>
                                     {
-                                        user.data.is_walikelas == "Y" && user.data.is_mapel == "Y" && (
-                                            guruWali.map((item, iMenu) => {
-                                                return (
-                                                    <>
-                                                        <TouchableOpacity activeOpacity={1} onPress={() => {
-                                                            if (item.page != "") {
-                                                                navigation.navigate(item.page)
-                                                            }
-                                                        }} style={styles.menuChild}>
-                                                            <View style={[styles.menuIcon, {
-                                                                backgroundColor: item.warna,
-                                                            }]}>
-                                                                <Image source={item.image} style={{ width: 18, height: 18 }} />
-                                                            </View>
-                                                            <View style={{ width: 20 }} />
-                                                            <Text style={{ textAlign: 'center', fontSize: 12, fontFamily: fonts.inter, flex: 1, textAlign: 'left' }}>{item.name}</Text>
-                                                        </TouchableOpacity>
-                                                        <View style={styles.underline} />
-                                                    </>
-                                                )
-                                            })
+                                        isOsis == false && (
+                                            <>
+                                                {
+                                                    user.data.is_walikelas == "Y" && user.data.is_mapel == "Y" && (
+                                                        guruWali.map((item, iMenu) => {
+                                                            return (
+                                                                <>
+                                                                    <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                                        if (item.page != "") {
+                                                                            navigation.navigate(item.page)
+                                                                        }
+                                                                    }} style={styles.menuChild}>
+                                                                        <View style={[styles.menuIcon, {
+                                                                            backgroundColor: item.warna,
+                                                                        }]}>
+                                                                            <Image source={item.image} style={{ width: 18, height: 18 }} />
+                                                                        </View>
+                                                                        <View style={{ width: 20 }} />
+                                                                        <Text style={{ textAlign: 'center', fontSize: 12, fontFamily: fonts.inter, flex: 1, textAlign: 'left' }}>{item.name}</Text>
+                                                                    </TouchableOpacity>
+                                                                    <View style={styles.underline} />
+                                                                </>
+                                                            )
+                                                        })
+                                                    )
+                                                }
+                                                {
+                                                    user.data.is_walikelas == "N" && user.data.is_mapel == "Y" && (
+                                                        guru.map((item, iMenu) => {
+                                                            return (
+                                                                <>
+                                                                    <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                                        if (item.page != "") {
+                                                                            navigation.navigate(item.page)
+                                                                        }
+                                                                    }} style={styles.menuChild}>
+                                                                        <View style={[styles.menuIcon, {
+                                                                            backgroundColor: item.warna,
+                                                                        }]}>
+                                                                            <Image source={item.image} style={{ width: 18, height: 18 }} />
+                                                                        </View>
+                                                                        <View style={{ width: 20 }} />
+                                                                        <Text style={{ textAlign: 'center', fontSize: 12, fontFamily: fonts.inter, flex: 1, textAlign: 'left' }}>{item.name}</Text>
+                                                                    </TouchableOpacity>
+                                                                    <View style={styles.underline} />
+                                                                </>
+                                                            )
+                                                        })
+                                                    )
+                                                }
+                                                {
+                                                    user.data.is_walikelas == "N" && user.data.is_mapel == "N" && user.data.is_ekstrakulikuler == "Y" && (
+                                                        GuruEsktra.map((item, iMenu) => {
+                                                            return (
+                                                                <>
+                                                                    <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                                        if (item.page != "") {
+                                                                            navigation.navigate(item.page)
+                                                                        }
+                                                                    }} style={styles.menuChild}>
+                                                                        <View style={[styles.menuIcon, {
+                                                                            backgroundColor: item.warna,
+                                                                        }]}>
+                                                                            <Image source={item.image} style={{ width: 18, height: 18 }} />
+                                                                        </View>
+                                                                        <View style={{ width: 20 }} />
+                                                                        <Text style={{ textAlign: 'center', fontSize: 12, fontFamily: fonts.inter, flex: 1, textAlign: 'left' }}>{item.name}</Text>
+                                                                    </TouchableOpacity>
+                                                                    <View style={styles.underline} />
+                                                                </>
+                                                            )
+                                                        })
+                                                    )
+                                                }
+                                            </>
                                         )
                                     }
                                     {
-                                        user.data.is_walikelas == "N" && user.data.is_mapel == "Y" && (
-                                            guru.map((item, iMenu) => {
-                                                return (
-                                                    <>
-                                                        <TouchableOpacity activeOpacity={1} onPress={() => {
-                                                            if (item.page != "") {
-                                                                navigation.navigate(item.page)
-                                                            }
-                                                        }} style={styles.menuChild}>
-                                                            <View style={[styles.menuIcon, {
-                                                                backgroundColor: item.warna,
-                                                            }]}>
-                                                                <Image source={item.image} style={{ width: 18, height: 18 }} />
-                                                            </View>
-                                                            <View style={{ width: 20 }} />
-                                                            <Text style={{ textAlign: 'center', fontSize: 12, fontFamily: fonts.inter, flex: 1, textAlign: 'left' }}>{item.name}</Text>
-                                                        </TouchableOpacity>
-                                                        <View style={styles.underline} />
-                                                    </>
-                                                )
-                                            })
-                                        )
-                                    }
-                                    {
-                                        user.data.is_walikelas == "N" && user.data.is_mapel == "N" && user.data.is_ekstrakulikuler == "Y" && (
-                                            GuruEsktra.map((item, iMenu) => {
+                                        isOsis == true && (
+                                            GuruEsktraOsis.map((item, iMenu) => {
                                                 return (
                                                     <>
                                                         <TouchableOpacity activeOpacity={1} onPress={() => {

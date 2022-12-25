@@ -469,6 +469,30 @@ export default function Dashboard(props) {
             warna: color.menuPink,
             page: "ListMutasiSiswaPengawas"
         },
+        {
+            name: "Ekstrakulikuler",
+            image: require("../assets/sipena/ekstra.png"),
+            warna: color.menuRed,
+            page: "ListEkstrakulikuler"
+        },
+        {
+            name: "Perpustakaan",
+            image: require("../assets/sipena/perpus.png"),
+            warna: color.menuBlueOrca,
+            page: "ListPerpustakaanLaporan"
+        },
+        {
+            name: "List",
+            image: require("../assets/sipena/perpus.png"),
+            warna: color.menuBlueOrca,
+            page: "ListLaporan"
+        },
+        {
+            name: "Kartu Digital",
+            image: require("../assets/sipena/perpus.png"),
+            warna: color.menuBlueOrca,
+            page: "ListKartuPelajarTU"
+        },
         // {
         //     name: "Kantin",
         //     image: require("../assets/sipena/kantin.png"),

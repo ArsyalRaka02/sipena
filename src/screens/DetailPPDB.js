@@ -46,19 +46,19 @@ export default function DetailPPDB(props) {
                         </View>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                             <Text style={[styles.txtGlobal]}>Tanggal Pendaftaran : </Text>
-                            <Text style={[styles.txtGlobalBold, { color: color.black }]}>{params?.tanggal_pendaftaran ?? " - "}</Text>
+                            <Text style={[styles.txtGlobalBold, { color: color.black }]}>{moment(params?.tanggal_daftar).format("DD-MM-YYYY") ?? " - "}</Text>
                         </View>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                             <Text style={[styles.txtGlobal]}>Tanggal Lahir : </Text>
-                            <Text style={[styles.txtGlobalBold, { color: color.black }]}>{params?.tanggal_lahir ?? " - "}</Text>
+                            <Text style={[styles.txtGlobalBold, { color: color.black }]}>{moment(params?.tanggal_lahir).format("DD-MM-YYYY") ?? " - "}</Text>
                         </View>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                             <Text style={[styles.txtGlobal]}>Jenis Kelamin : </Text>
-                            <Text style={[styles.txtGlobalBold, { color: color.black }]}>{params?.jenis_Kelamin ?? " - "}</Text>
+                            <Text style={[styles.txtGlobalBold, { color: color.black }]}>{params?.jenis_kelamin == "L" ? "Laki - Laki" : "Perempuan" ?? " - "}</Text>
                         </View>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                             <Text style={[styles.txtGlobal]}>Nama Ayah : </Text>
-                            <Text style={[styles.txtGlobalBold, { color: color.black }]}>{params?.nama_bapak ?? " - "}</Text>
+                            <Text style={[styles.txtGlobalBold, { color: color.black }]}>{params?.nama_ayah ?? " - "}</Text>
                         </View>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                             <Text style={[styles.txtGlobal]}>Nama Ibu : </Text>

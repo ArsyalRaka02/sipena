@@ -287,12 +287,12 @@ export default function Profile(props) {
                                     user.role_id == RoleResponse.guru && (
                                         <>
                                             <Text style={[styles.txtBio, { marginTop: 4, marginBottom: 18 }]}>Biodata</Text>
-                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                            {/* <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                                 <Text style={styles.txtTitle}>NIP</Text>
                                                 <View style={{ flex: 1 }} />
                                                 <Text style={styles.txtIsi}>{detail?.nip ?? "-"}</Text>
                                             </View>
-                                            <View style={styles.underline} />
+                                            <View style={styles.underline} /> */}
 
                                             {
                                                 detail?.is_walikelas == "Y" && (

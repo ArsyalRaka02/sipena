@@ -95,7 +95,7 @@ export default function EditKegiatanOsis(props) {
                             onChangeText={setJudul}
                         />
                         <View style={{ height: 20 }} />
-                        <Text style={[styles.txtGlobalBold, { fontSize: 14, color: color.black, marginBottom: 10 }]}>Tanggal Pinjaman</Text>
+                        <Text style={[styles.txtGlobalBold, { fontSize: 14, color: color.black, marginBottom: 10 }]}>Tanggal</Text>
                         <DatePicker
                             style={{ backgroundColor: color.white }}
                             format='YYYY-MM-DD'
