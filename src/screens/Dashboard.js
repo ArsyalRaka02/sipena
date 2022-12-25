@@ -119,6 +119,13 @@ export default function Dashboard(props) {
             warna: color.menuGreen,
             page: "KantinMenu"
         },
+
+        {
+
+        },
+        {
+
+        },
     ]
 
     const dataTU = [
@@ -244,6 +251,16 @@ export default function Dashboard(props) {
             warna: color.menuPink,
             page: "ListMutasi"
         },
+        {
+
+        },
+        {
+
+        },
+        {
+
+        },
+
     ]
 
     const waliMuridNonSiswa = [
@@ -252,6 +269,15 @@ export default function Dashboard(props) {
             image: require("../assets/sipena/ppdb.png"),
             warna: color.menuBlue,
             page: "https://sipena.wapfive.com/ppdb-register"
+        },
+        {
+
+        },
+        {
+
+        },
+        {
+
         },
     ]
 

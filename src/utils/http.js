@@ -452,6 +452,10 @@ export const HttpRequest = {
         return request().delete('/ekstrakulikuler/' + id)
     },
 
+    listSiswaByWali(id) {
+        return request().get("/listsiswabywalimurid?walimurid_id=" + id)
+    }
+
 };
 
 export const FormDataConverter = {

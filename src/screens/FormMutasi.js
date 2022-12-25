@@ -47,6 +47,10 @@ export default function FormMutasi(props) {
     const [suratRekomendasiJendral, setSuratRekomendasiJendral] = useState([])
     const [pasFoto, setPasFoto] = useState("")
     const user = useSelector(state => state.user);
+    const [selected, setSelected] = useState(null)
+    const [listSiswa, setListSiswa] = useState([])
+    const [listLengkap, setListLengkap] = useState([])
+    const [isNis, setNis] = useState("Pilih Nama Siswa")
 
     console.log("pas", pasFoto)
 
@@ -55,6 +59,9 @@ export default function FormMutasi(props) {
         let formData = new FormData();
         if (selectedOpsi == null) {
             return Alert.alert("Informasi", "Opsi harap di pilih")
+        }
+        if (selected == null) {
+            return Alert.alert("Informasi", "Nama Siswa harap di pilih")
         }
         if (pasFoto == "") {
             return Alert.alert("Informasi", "foto pas kosong harap di pilih")
@@ -121,7 +128,7 @@ export default function FormMutasi(props) {
             type: 'image/jpeg',
             uri: pasFoto,
         });
-        formData.append('siswa_id', detail.id);
+        formData.append('siswa_id', selected);
         formData.append('status', selectedOpsi);
         setIsloading(true)
         HttpRequest.mutasiSiswaPost(formData).then((res) => {
@@ -157,7 +164,8 @@ export default function FormMutasi(props) {
     }, [
         buktiMutasiDinas, keteranganKeluar, raportAsli,
         fotoCopyRaport, fotoCopySertifikat, suratRekomendasiSekolah,
-        suratRekomendasiJendral, isLoading, user, pasFoto, selectedOpsi
+        suratRekomendasiJendral, isLoading, user, pasFoto, selectedOpsi,
+        selected
     ])
 
     const getFormData = (object) => {
@@ -168,6 +176,7 @@ export default function FormMutasi(props) {
 
     useEffect(() => {
         loadProfile()
+        loadData()
     }, [user]);
 
     const loadProfile = useCallback(() => {
@@ -189,13 +198,20 @@ export default function FormMutasi(props) {
         })
     }, [detail])
 
-    // const loadData = useCallback(() => {
-    //     HttpRequest.listMutasiSiswa().then((res) => {
-    //         console.log("ini adalah res", res)
-    //     }).catch((err) => {
-    //         console.log("err", err, err.response)
-    //     })
-    // }, [])
+    const loadData = useCallback(() => {
+        HttpRequest.listSiswaByWali(user.data.id).then((res) => {
+            let loop = res.data.map((item) => {
+                return {
+                    id: item.id,
+                    label: item.nama_lengkap
+                }
+            })
+            setListSiswa(loop)
+            setListLengkap(res.data)
+        }).catch((err) => {
+            console.log("err", err, err.response)
+        })
+    }, [listSiswa, listLengkap])
 
     const uploadFile = useCallback(async () => {
         try {
@@ -329,17 +345,46 @@ export default function FormMutasi(props) {
                 </HeaderBack>
                 <View style={{ padding: 20, flex: 1 }}>
                     <ScrollView>
-                        <Text style={[styles.txtGlobalBold, { fontSize: 16, color: color.black, marginVertical: 12 }]}>Nama Siswa</Text>
+                        <Text style={[styles.txtGlobalBold, { fontSize: 14, color: color.black, marginVertical: 10 }]}>Nama Siswa</Text>
+                        <Combobox
+                            value={selected}
+                            placeholder="Silahkan Pilih"
+                            theme={{
+                                boxStyle: {
+                                    backgroundColor: color.white,
+                                    borderColor: color.Neutral20,
+                                },
+                                leftIconStyle: {
+                                    color: color.Neutral10,
+                                    marginRight: 14
+                                },
+                                rightIconStyle: {
+                                    color: color.Neutral10,
+                                },
+                            }}
+                            jenisIconsRight="Ionicons"
+                            iconNameRight="caret-down-outline"
+                            showLeftIcons={false}
+                            data={listSiswa}
+                            onChange={(val) => {
+                                setSelected(val);
+                                let data = listLengkap.filter((item) => item.id == val).map((item) => {
+                                    return item.nisn
+                                })
+                                setNis(data[0])
+                            }}
+                        />
+                        {/* <Text style={[styles.txtGlobalBold, { fontSize: 16, color: color.black, marginVertical: 12 }]}>Nama Siswa</Text>
                         <TextInputIcon
                             editable={false}
                             value={user.siswa.nama_lengkap}
                             wrapperStyle={{ backgroundColor: color.themeGray, borderColor: color.themeGray }}
-                        />
+                        /> */}
 
                         <Text style={[styles.txtGlobalBold, { fontSize: 16, color: color.black, marginVertical: 12 }]}>NISN</Text>
                         <TextInputIcon
                             editable={false}
-                            value={user.siswa.nisn}
+                            value={isNis}
                             wrapperStyle={{ backgroundColor: color.themeGray, borderColor: color.themeGray }}
                         />
 
