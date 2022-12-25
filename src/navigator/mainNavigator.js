@@ -114,6 +114,13 @@ import ListMenuPenilaian from "../screens/ListMenuPenilaian";
 import EditNilai from "../screens/EditNilai";
 import ListMutasiSiswaPengawas from "../screens/ListMutasiSiswaPengawas";
 import EditEksul from "../screens/EditEksul";
+import ListMenuKoperasi from "../screens/ListMenuKoperasi";
+import ListPenjualanKoperasi from "../screens/ListPenjualanKoperasi";
+import ListSemuaPenjualan from "../screens/ListSemuaPenjualan";
+import ListAllKoperasi from "../screens/ListAllKoperasi";
+import TambahKoperasiList from "../screens/TambahKoperasiList";
+import EditKoperasiList from "../screens/EditKoperasiList";
+import EditPenjualan from "../screens/EditPenjualan";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -171,6 +178,13 @@ const DashboardStack = () => {
             <Stack.Screen name="RaportWaliKelasDetail" component={RaportWaliKelasDetail} />
             <Stack.Screen name="ListPPDBMenu" component={ListPPDBMenu} />
             <Stack.Screen name="DetailPPDB" component={DetailPPDB} />
+            <Stack.Screen name="ListMenuKoperasi" component={ListMenuKoperasi} />
+            <Stack.Screen name="ListPenjualanKoperasi" component={ListPenjualanKoperasi} />
+            <Stack.Screen name="ListSemuaPenjualan" component={ListSemuaPenjualan} />
+            <Stack.Screen name="ListAllKoperasi" component={ListAllKoperasi} />
+            <Stack.Screen name="TambahKoperasiList" component={TambahKoperasiList} />
+            <Stack.Screen name="EditKoperasiList" component={EditKoperasiList} />
+            <Stack.Screen name="EditPenjualan" component={EditPenjualan} />
 
             <Stack.Screen name="TambahNilaiGuru" component={TambahNilaiGuru} />
             <Stack.Screen name="ListMenuPenilaian" component={ListMenuPenilaian} />

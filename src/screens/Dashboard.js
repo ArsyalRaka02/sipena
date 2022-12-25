@@ -34,6 +34,7 @@ export default function Dashboard(props) {
     const [listKantin, setListKantin] = useState([])
     const [listPerpus, setListPerpus] = useState([])
     const [listPerpusY, setListPerpusY] = useState([])
+    const [listKoperasi, setListKoperasi] = useState([])
     // const [obj, setObj] = useState({})
     const [listPeminjamanFasilitas, setListPeminjamanFasilitas] = useState([])
     const [detail, setDetail] = useState({})
@@ -566,6 +567,34 @@ export default function Dashboard(props) {
         }
     ]
 
+    const dataKoperasi = [
+        {
+            name: "Absen",
+            image: require("../assets/sipena/user33.png"),
+            warna: color.menuRed,
+            page: "ListAbsenPegawai"
+        },
+        {
+            name: "Perpustakaan",
+            image: require("../assets/sipena/perpus.png"),
+            warna: color.menuBlueOrca,
+            page: "ListPerpustakaan"
+        },
+        {
+            name: "Koperasi Sekolah",
+            image: require("../assets/sipena/koperasi.png"),
+            warna: color.menuBrown,
+            // page: "ListKoperasi"
+            page: "ListMenuKoperasi"
+        },
+        {
+            name: "Kantin",
+            image: require("../assets/sipena/kantin.png"),
+            warna: color.menuGreen,
+            page: "QrCodeKantin"
+        },
+    ]
+
     useEffect(() => {
         if (isFocused) {
             loadProfile()
@@ -605,10 +634,31 @@ export default function Dashboard(props) {
                 if (user.data.is_tata_usaha == "Y") {
                     loadPinjamanFasilitas()
                 }
+                if (user.data.is_koperasi == "Y") {
+                    loadTransaksiKoperasi()
+                }
                 loadBeritaSekolah()
             }
         }
     }, [user, isFocused])
+
+    const loadTransaksiKoperasi = useCallback(() => {
+        HttpRequest.getListPembelianKoperasi().then((res) => {
+            console.log("ini adalah res kantin", res.data)
+            let data = res.data
+            if (data.status == responseStatus.INSERT_SUKSES) {
+                setListKoperasi(res.data.data)
+            }
+            if (data.status == responseStatus.INSERT_GAGAL) {
+                Alert.alert("Informasi", "Error list: " + `${res.data.message}`)
+                setListKoperasi([])
+            }
+            console.log("listPembelian", res.data)
+        }).catch((err) => {
+            Alert.alert("Informasi", "Server err dari api")
+            console.log("err kantin", err, err.response)
+        })
+    }, [listKoperasi])
 
     const loadListJadwalBaru = useCallback(() => {
         let id = user?.data?.kelas_id
@@ -928,6 +978,15 @@ export default function Dashboard(props) {
         })
     }, [user])
 
+    const btnKoperasiDelete = useCallback((value) => {
+        HttpRequest.deleteListPembelianKoperasi(value).then((res) => {
+            Alert.alert("Informasi", "Berhasil")
+            loadTransaksiKoperasi()
+        }).catch((err) => {
+            Alert.alert("Informasi", "Kesalahan di server api")
+        })
+    }, [])
+
     return (
         <View style={styles.container}>
             <StatusBar backgroundColor={color.primary} barStyle='light-content' />
@@ -1196,6 +1255,26 @@ export default function Dashboard(props) {
                                                                 <Text style={{ textAlign: 'center', fontSize: 10, fontFamily: fonts.inter, marginVertical: 12, flex: 1 }}>{item.name}</Text>
                                                             </TouchableOpacity>
                                                         </>
+                                                    )
+                                                })
+                                            )
+                                        }
+                                        {
+                                            detail.is_koperasi == "Y" && (
+                                                dataKoperasi.map((item) => {
+                                                    return (
+                                                        <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                            if (item.page != "") {
+                                                                navigation.navigate(item.page)
+                                                            }
+                                                        }} style={styles.menuChild}>
+                                                            <View style={[styles.menuIcon, {
+                                                                backgroundColor: item.warna,
+                                                            }]}>
+                                                                <Image source={item.image} style={{ width: 18, height: 18 }} />
+                                                            </View>
+                                                            <Text style={{ textAlign: 'center', fontSize: 10, fontFamily: fonts.inter, marginVertical: 12, flex: 1 }}>{item.name}</Text>
+                                                        </TouchableOpacity>
                                                     )
                                                 })
                                             )
@@ -1625,6 +1704,65 @@ export default function Dashboard(props) {
                                                                                 btnDeleteTransaksiKantin(item.id)
                                                                             }}>
                                                                                 <Text style={[styles.txtBoldGlobal, { color: color.danger, fontSize: 14 }]}>Hapus</Text>
+                                                                            </TouchableOpacity>
+                                                                        </View>
+                                                                    </View>
+                                                                    <View style={{ height: 20 }} />
+                                                                </>
+                                                            )
+                                                        }
+                                                    })
+                                                }
+                                            </>
+                                        )
+                                    }
+                                    {
+                                        detail.is_koperasi == "Y" && (
+                                            <>
+                                                <View style={{ flexDirection: 'row', marginVertical: 20 }}>
+                                                    <Text style={[styles.txtBoldGlobal]}>Pembelian hari ini</Text>
+                                                    <View style={{ flex: 1 }} />
+                                                    <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                        navigation.navigate("ListSemuaPenjualan")
+                                                    }}>
+                                                        <Text style={[styles.txtGlobal, { color: "#75B4FF" }]}>Selengkapnya</Text>
+                                                    </TouchableOpacity>
+                                                </View>
+                                                {
+                                                    listKoperasi.length == 0 && (
+                                                        <NoData>Tidak ada transaksi</NoData>
+                                                    )
+                                                }
+                                                {
+                                                    listKoperasi.map((item, iKantin) => {
+                                                        if (iKantin < 3) {
+                                                            return (
+                                                                <>
+                                                                    <View style={[{ flexDirection: 'column', backgroundColor: color.white, padding: 18, borderRadius: 8 }]}>
+                                                                        <View style={{ flexDirection: 'row' }}>
+                                                                            <Text style={[styles.txtBoldGlobal, { color: color.black, flex: 1 }]}>{item.nama_barang}</Text>
+                                                                        </View>
+                                                                        <View style={{ flexDirection: 'row', marginVertical: 8 }}>
+                                                                            <View style={{ flexDirection: "row", flex: 1 }}>
+                                                                                <Text style={[styles.txtGlobal]}>Nominal : </Text>
+                                                                                <Text style={[styles.txtBoldGlobal, { fontSize: 14, color: color.black }]}>{Rupiah.format(item.harga_barang)}</Text>
+                                                                            </View>
+                                                                            <View style={{ flexDirection: "row", }}>
+                                                                                <Text style={[styles.txtGlobal]}>Jumlah : </Text>
+                                                                                <Text style={[styles.txtBoldGlobal, { fontSize: 14, color: color.black }]}>{item.jumlah_pembelian}</Text>
+                                                                            </View>
+                                                                        </View>
+                                                                        <View style={{ flexDirection: 'row', marginVertical: 8 }}>
+                                                                            <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                                                navigation.navigate("EditPenjualan", { params: item })
+                                                                            }}>
+                                                                                <Text style={[styles.txtBoldGlobal, { color: color.primary }]}>Edit</Text>
+                                                                            </TouchableOpacity>
+                                                                            <View style={{ flex: 1 }} />
+                                                                            <TouchableOpacity activeOpacity={1} onPress={() => {
+                                                                                btnKoperasiDelete(item.id)
+                                                                            }}>
+                                                                                <Text style={[styles.txtBoldGlobal, { color: color.danger }]}>Tolak</Text>
                                                                             </TouchableOpacity>
                                                                         </View>
                                                                     </View>

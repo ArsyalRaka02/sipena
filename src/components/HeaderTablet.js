@@ -158,6 +158,11 @@ export default function HeaderTablet(props) {
                                     }
                                     {
                                         user.data.is_koperasi == "Y" && (
+                                            <Text style={props.textAlamat}>Koperasi</Text>
+                                        )
+                                    }
+                                    {
+                                        user.data.is_kantin == "Y" && (
                                             <Text style={props.textAlamat}>Kantin</Text>
                                         )
                                     }

@@ -278,6 +278,35 @@ export const HttpRequest = {
         return request().get("/transaksi-kantin")
     },
 
+
+    getListKoperasiById(id) {
+        return request().get("/transaksi-koperasi?id=" + id)
+    },
+    getListTransaksiKoperasi() {
+        return request().get("/transaksi-koperasi")
+    },
+    getListKoperasi() {
+        return request().get("/list-koperasi")
+    },
+    getListPembelianKoperasi() {
+        return request().get("/list-pembelian")
+    },
+    deleteListPembelianKoperasi(id) {
+        return request().delete("/list-pembelian/" + id)
+    },
+    insertKoperasiList(data) {
+        return request().post("/list-koperasi", data)
+    },
+    insertPenjualanList(data) {
+        return requestTypeFormData().post("/list-pembelian", data)
+    },
+    insertKoperasiListById(id, data) {
+        return request().post("/list-koperasi?id=" + id, data)
+    },
+    deletedKoperasi(id) {
+        return request().delete("/list-koperasi/" + id)
+    },
+
     //isisaldouniversal
     kategoriUniversal() {
         return request().get('/kategorikeuangan')
