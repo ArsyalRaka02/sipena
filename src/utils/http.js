@@ -454,6 +454,9 @@ export const HttpRequest = {
 
     listSiswaByWali(id) {
         return request().get("/listsiswabywalimurid?walimurid_id=" + id)
+    },
+    saldoKoperasi() {
+        return request().get("/saldo-koperasi")
     }
 
 };

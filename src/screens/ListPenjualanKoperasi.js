@@ -29,6 +29,7 @@ export default function ListPenjualanKoperasi(props) {
     useEffect(() => {
         if (isFocused) {
             loadTransaksiKoperasi()
+            loadDetail()
         }
         // loadDetail()
     }, [isFocused])
@@ -51,20 +52,20 @@ export default function ListPenjualanKoperasi(props) {
         })
     }, [listKantin])
 
-    // const loadDetail = useCallback(() => {
-    //     HttpRequest.getListTransaksiKoperasi().then((res) => {
-    //         let data = res.data
-    //         if (data.status == responseStatus.INSERT_SUKSES) {
-    //             setDetail(res.data.data)
-    //         }
-    //         if (data.status == responseStatus.INSERT_GAGAL) {
-    //             Alert.alert("Informasi", "Error detail: " + `${res.data.message}`)
-    //         }
-    //     }).catch((err) => {
-    //         Alert.alert("Informasi", "Server err dari api")
-    //         console.log("err kantin", err, err.response)
-    //     })
-    // }, [detail])
+    const loadDetail = useCallback(() => {
+        HttpRequest.saldoKoperasi().then((res) => {
+            let data = res.data
+            if (data.status == responseStatus.INSERT_SUKSES) {
+                setDetail(res.data.data)
+            }
+            if (data.status == responseStatus.INSERT_GAGAL) {
+                Alert.alert("Informasi", "Error detail: " + `${res.data.message}`)
+            }
+        }).catch((err) => {
+            Alert.alert("Informasi", "Server err dari api")
+            console.log("err kantin", err, err.response)
+        })
+    }, [detail])
 
     return (
         <>
@@ -83,7 +84,7 @@ export default function ListPenjualanKoperasi(props) {
                         </View>
                         <View style={{ flexDirection: 'column', flex: 1 }}>
                             <Text style={[styles.txtGlobalBold, { color: color.black, fontSize: 14, marginBottom: 6 }]}>Total Penjualan</Text>
-                            {/* <Text style={[styles.txtGlobalBold, { fontSize: 18, marginBottom: 6 }]}>{Rupiah.format(detail.saldo)}</Text> */}
+                            <Text style={[styles.txtGlobalBold, { fontSize: 18, marginBottom: 6 }]}>{Rupiah.format(detail)}</Text>
                             {/* <TouchableOpacity activeOpacity={1} onPress={() => {
                                 navigation.navigate("WithDrawKantin")
                             }}>
