@@ -79,42 +79,49 @@ export default function ListPinjamFasilitas(props) {
     }, [fasilitas])
 
     const btnPinjam = useCallback(() => {
-        if (selectedFasilitas == null) {
-            return Alert.alert("Informasi", "Mohon Pilih Fasilitas")
-        }
-        let data = {
-            peminjaman_fasilitas_id: selectedFasilitas,
-            user_id: user.id,
-            jam_mulai: String(jamAwal),
-            jam_selesai: String(jamAkhir),
-            tanggal: moment(tanggalPinjaman).format("YYYY-MM-DD")
-        }
-        // console.log("data", data)
-        HttpRequest.postAjukanPinjaman(data).then((res) => {
-            let status = res.data.status
-            if (status == responseStatus.INSERT_SUKSES) {
-                // Toast.showSuccess("Berhasil meminjam")
-                // setTimeout(() => {
-                //     navigation.goBack()
-                // }, 300);
-                Alert.alert("Informasi", "Berhasil", [
-                    {
-                        text: "Oke", onPress: () => {
-                            setTimeout(() => {
-                                navigation.goBack()
-                            }, 300);
+        let now = moment(new Date()).format('HH:mm')
+        let dateNow = new Date()
+        let validateTime = now > jamAwal && moment(tanggalPinjaman).isBefore(dateNow) ? false : true
+        if (validateTime == false) {
+            return Alert.alert("Informasi", "Tidak boleh kurang dari waktu ini!!")
+        } else {
+            if (selectedFasilitas == null) {
+                return Alert.alert("Informasi", "Mohon Pilih Fasilitas")
+            }
+            let data = {
+                peminjaman_fasilitas_id: selectedFasilitas,
+                user_id: user.id,
+                jam_mulai: String(jamAwal),
+                jam_selesai: String(jamAkhir),
+                tanggal: moment(tanggalPinjaman).format("YYYY-MM-DD")
+            }
+            // console.log("data", data)
+            HttpRequest.postAjukanPinjaman(data).then((res) => {
+                let status = res.data.status
+                if (status == responseStatus.INSERT_SUKSES) {
+                    // Toast.showSuccess("Berhasil meminjam")
+                    // setTimeout(() => {
+                    //     navigation.goBack()
+                    // }, 300);
+                    Alert.alert("Informasi", "Berhasil", [
+                        {
+                            text: "Oke", onPress: () => {
+                                setTimeout(() => {
+                                    navigation.goBack()
+                                }, 300);
+                            }
                         }
-                    }
-                ])
-            }
-            if (status == responseStatus.INSERT_GAGAL) {
-                Alert.alert("Informasi", "error" + `${res.data.message}`)
-            }
-            console.log("berhasil ajukan", res)
-        }).catch((err) => {
-            Alert.alert("Informasi", "Server err dari api")
-            console.log("err", err, err.response)
-        })
+                    ])
+                }
+                if (status == responseStatus.INSERT_GAGAL) {
+                    Alert.alert("Informasi", "error" + `${res.data.message}`)
+                }
+                console.log("berhasil ajukan", res)
+            }).catch((err) => {
+                Alert.alert("Informasi", "Server err dari api")
+                console.log("err", err, err.response)
+            })
+        }
     }, [user, selectedFasilitas, jamAkhir, jamAwal, tanggalPinjaman])
 
     const getFormData = (object) => {
