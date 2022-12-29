@@ -38,7 +38,7 @@ export default function IsiSaldo(props) {
         if (uploadBukti == "") {
             return Alert.alert("Informasi", "foto bukti tidak boleh kosong")
         }
-        formData.append('id', detail.id);
+        formData.append('id', user.id);
         formData.append('keterangan', keterangan);
         formData.append('nominal', nominal);
         formData.append('image', {
@@ -71,12 +71,13 @@ export default function IsiSaldo(props) {
                 Alert.alert("Informasi", "Gagal")
             }
             // console.log("sadsa", res)
-            // setIsloading(false)
+            setIsloading(false)
         }).catch((err) => {
+            setIsloading(false)
             Alert.alert("Informasi", "Server err dari api")
             console.log("err", err, err.response)
         })
-    }, [nominal, uploadBukti, keterangan])
+    }, [nominal, uploadBukti, keterangan, user])
 
     useEffect(() => {
         if (user) {
