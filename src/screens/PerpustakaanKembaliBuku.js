@@ -91,6 +91,7 @@ export default function PerpustakaanKembaliBuku(props) {
                 user_id: user.id,
                 total_denda: denda,
             }
+            console.log("data lempar", data)
             setIsLoading(true)
             HttpRequest.insertKembalikanBuku(data).then((res) => {
                 let status = res.data.status
@@ -112,10 +113,9 @@ export default function PerpustakaanKembaliBuku(props) {
                     ])
                 }
                 if (status == responseStatus.INSERT_GAGAL) {
-                    Alert.alert("Informasi", `${res.data.message}`)
+                    Alert.alert("Informasi status", `${res.data.message}`)
                     // toogleOpen()
                     // setMessage(`${res.data.message}`)
-                    return
                 }
                 setIsLoading(false)
                 console.log("res sukses", res.data)
@@ -161,8 +161,7 @@ export default function PerpustakaanKembaliBuku(props) {
                     if (status == responseStatus.INSERT_GAGAL) {
                         Alert.alert("Informasi", `${res.data.message}`)
                         // toogleOpen()
-                        // setMessage(`${res.data.message}`)
-                        return
+                        // setMessage(`${res.data.message}`)å
                     }
                     setIsLoading(false)
                     console.log("res sukses", res.data)
@@ -174,7 +173,7 @@ export default function PerpustakaanKembaliBuku(props) {
             }
         }
 
-    }, [denda, user, message])
+    }, [denda, user, message, isLoading])
 
     return (
         <>

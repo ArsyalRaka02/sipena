@@ -150,8 +150,8 @@ export default function Perpustakaan(props) {
                                                                     <View style={{ height: SCREEN_HEIGHT / 6.3, width: SCREEN_WIDTH / 4 }}>
                                                                         <Image source={{ uri: app.BASE_URL_PICTURE + item.foto }} style={{ height: "100%", width: "100%", borderRadius: 12 }} resizeMode={"cover"} />
                                                                     </View>
-                                                                    <Text numberOfLines={1} style={[styles.txtGlobalBold, { fontSize: 15, color: color.black, width: 70, }]}>{item.judul}</Text>
-                                                                    <Text style={[styles.txtGlobal, { fontSize: 13, marginBottom: 20 }]}>{item.author}</Text>
+                                                                    <Text numberOfLines={1} style={[styles.txtGlobalBold, { fontSize: 15, color: color.black, width: 80, alignContent: 'center' }]}>{item.judul}</Text>
+                                                                    <Text numberOfLines={2} style={[styles.txtGlobal, { fontSize: 13, marginBottom: 20, width: 50, alignContent: 'center' }]}>{item.author}</Text>
                                                                 </TouchableOpacity>
                                                                 <View style={{ width: 30 }} />
                                                                 {/* {iBook != 1 && <View style={{ width: 30 }} />} */}

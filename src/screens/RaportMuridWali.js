@@ -37,7 +37,7 @@ export default function RaportMuridWali(props) {
                 setListRaport(res.data.data)
             }
             if (res.data.status == responseStatus.INSERT_GAGAL) {
-                Alert.alert("Informasi", `${res.data.message}`) 
+                Alert.alert("Informasi", `${res.data.message}`)
             }
             console.log("ini res raport", res.data)
         }).catch((err) => {
@@ -61,6 +61,7 @@ export default function RaportMuridWali(props) {
                         <Text style={[styles.txtGlobalBold, { color: color.primary, fontSize: 14 }]}>{user?.siswa.nama_lengkap} - {user?.siswa.kelas.nama}</Text>
                     </View>
                     <ScrollView>
+                        <View style={{ height: 20 }} />
                         {
                             listRaport.length == 0 && (
                                 <NoData>Tidak ada data raport</NoData>
@@ -75,7 +76,10 @@ export default function RaportMuridWali(props) {
                                             setSelectedI(iRaport)
                                         }}>
                                             <View style={{ backgroundColor: color.white, padding: 20, flexDirection: 'row', borderTopEndRadius: 12, borderTopStartRadius: 12, alignItems: 'center' }}>
-                                                <Text style={[styles.txtGlobalBold, { fontSize: 12, flex: 1, color: color.black }]}>{item.nama_mapel}</Text>
+                                                <View style={{ flexDirection: 'column', flex: 1, alignItems: 'flex-start' }}>
+                                                    <Text style={[styles.txtGlobalBold, { fontSize: 12, flex: 1, color: color.black }]}>Semester {item.semester}</Text>
+                                                    <Text style={[styles.txtGlobalBold, { fontSize: 12, flex: 1, color: color.black }]}>{item.nama_mapel}</Text>
+                                                </View>
                                                 <Text style={[styles.txtGlobal, { fontSize: 12 }]}>Nilai: </Text>
                                                 <Text style={[styles.txtGlobalBold, { fontSize: 12, color: color.black, marginRight: 10 }]}>{item.nilai_rata}</Text>
                                                 <Ionicons name="chevron-down-outline" size={24} color={color.black} />

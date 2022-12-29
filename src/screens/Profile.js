@@ -78,42 +78,6 @@ export default function Profile(props) {
 
                     {/* foto profile */}
                     {
-                        user.role_id != RoleResponse.dinaspendidikan && user.data.is_pengawas_sekolah == "N" && (
-                            <View style={styles.containerHeaderBoxProfile}>
-                                <View style={[styles.containerProfile, { overflow: 'hidden' }]}>
-                                    {
-                                        user.role_id == RoleResponse.siswa && (
-                                            <Image source={{ uri: app.BASE_URL_PICTURE + detail?.foto_profil }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
-                                        )
-                                    }
-                                    {
-                                        user.role_id == RoleResponse.guru && (
-                                            <Image source={{ uri: app.BASE_URL_PICTURE + detail?.profil_picture }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
-                                        )
-                                    }
-                                    {
-                                        user.role_id == RoleResponse.walimurid && (
-                                            <Image source={{ uri: app.BASE_URL_PICTURE + detail?.foto_profil }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
-                                        )
-                                    }
-                                    {
-                                        user.role_id == RoleResponse.pegawai && (
-                                            <Image source={{ uri: app.BASE_URL_PICTURE + detail?.profil_picture }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
-                                        )
-                                    }
-
-                                    {
-                                        user.role_id == RoleResponse.kepalasekolah && (
-                                            <>
-                                                <Image source={{ uri: app.BASE_URL_PICTURE + detail?.foto_profil }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
-                                            </>
-                                        )
-                                    }
-                                </View>
-                            </View>
-                        )
-                    }
-                    {
                         user.role_id != RoleResponse.dinaspendidikan && (
                             <View style={styles.containerHeaderBoxProfile}>
                                 <View style={[styles.containerProfile, { overflow: 'hidden' }]}>
@@ -149,6 +113,42 @@ export default function Profile(props) {
                             </View>
                         )
                     }
+                    {/* {
+                        user.role_id != RoleResponse.dinaspendidikan && (
+                            <View style={styles.containerHeaderBoxProfile}>
+                                <View style={[styles.containerProfile, { overflow: 'hidden' }]}>
+                                    {
+                                        user.role_id == RoleResponse.siswa && (
+                                            <Image source={{ uri: app.BASE_URL_PICTURE + detail?.foto_profil }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
+                                        )
+                                    }
+                                    {
+                                        user.role_id == RoleResponse.guru && (
+                                            <Image source={{ uri: app.BASE_URL_PICTURE + detail?.profil_picture }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
+                                        )
+                                    }
+                                    {
+                                        user.role_id == RoleResponse.walimurid && (
+                                            <Image source={{ uri: app.BASE_URL_PICTURE + detail?.foto_profil }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
+                                        )
+                                    }
+                                    {
+                                        user.role_id == RoleResponse.pegawai && (
+                                            <Image source={{ uri: app.BASE_URL_PICTURE + detail?.profil_picture }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
+                                        )
+                                    }
+
+                                    {
+                                        user.role_id == RoleResponse.kepalasekolah && (
+                                            <>
+                                                <Image source={{ uri: app.BASE_URL_PICTURE + detail?.foto_profil }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
+                                            </>
+                                        )
+                                    }
+                                </View>
+                            </View>
+                        )
+                    } */}
                     {
                         user.data.is_pengawas_sekolah == "Y" && (
                             <View style={styles.containerHeaderBoxProfile}>
@@ -168,7 +168,7 @@ export default function Profile(props) {
                         )
                     }
                     {
-                        user.role_id != RoleResponse.dinaspendidikan && user.data.is_pengawas_sekolah == "N" && (
+                        user.role_id != RoleResponse.dinaspendidikan && (
                             <>
                                 <View style={{ position: 'absolute', alignSelf: 'center', top: 120 }}>
                                     <Text style={[styles.txtGlobalWhite, { alignSelf: 'center', fontSize: 12 }]}>Saldo Dompet</Text>
@@ -182,7 +182,16 @@ export default function Profile(props) {
                             </>
                         )
                     }
-                    {
+                    {/* {
+                        user.role_id == RoleResponse.pegawai && user.data.is_pengawas_sekolah == "Y" && (
+                            <View style={styles.containerHeaderBoxProfile}>
+                                <View style={[styles.containerProfile, { overflow: 'hidden', top: 60 }]}>
+                                    <Image source={{ uri: app.BASE_URL_PICTURE + detail?.foto_profil }} style={{ height: "100%", width: "100%" }} resizeMode="cover" />
+                                </View>
+                            </View>
+                        )
+                    } */}
+                    {/* {
                         user.role_id != RoleResponse.dinaspendidikan && (
                             <View style={{ position: 'absolute', alignSelf: 'center', top: 120 }}>
                                 <Text style={[styles.txtGlobalWhite, { alignSelf: 'center', fontSize: 12 }]}>Saldo Dompet</Text>
@@ -194,7 +203,7 @@ export default function Profile(props) {
                                 </TouchableOpacity>
                             </View>
                         )
-                    }
+                    } */}
 
                     {/* content */}
                     <View style={{ zIndex: 1 }}>

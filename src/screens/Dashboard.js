@@ -559,12 +559,12 @@ export default function Dashboard(props) {
             warna: color.menuBlue,
             page: "ListJadwalKepalaSekolah"
         },
-        {
-            name: "Absen",
-            image: require("../assets/sipena/user33.png"),
-            warna: color.menuRed,
-            page: "ListAbsenPegawai"
-        },
+        // {
+        //     name: "Absen",
+        //     image: require("../assets/sipena/user33.png"),
+        //     warna: color.menuRed,
+        //     page: "ListAbsenPegawai"
+        // },
         {
             name: "Absen Siswa",
             image: require("../assets/sipena/absen.png"),
@@ -608,12 +608,14 @@ export default function Dashboard(props) {
         //     warna: color.menuGreen,
         //     page: "QrCodeKantin"
         // },
-
         {
             name: "Semua",
             image: require("../assets/sipena/semua.png"),
             warna: color.menuPink,
             page: "DashboardSemuaList"
+        },
+        {
+
         }
     ]
 
@@ -672,7 +674,7 @@ export default function Dashboard(props) {
             if (user.role_id == RoleResponse.walimurid) {
                 // loadJadwalSekolah()
                 loadBerita()
-                loadListJadwalBaru()
+                loadListJadwalWalimurid()
             }
             if (user.role_id == RoleResponse.pegawai) {
                 if (user.data.is_kantin == "Y") {
@@ -712,7 +714,7 @@ export default function Dashboard(props) {
 
     const loadListJadwalBaru = useCallback(() => {
         let id = user?.data?.kelas_id
-        HttpRequest.jadwalBaruPerhari(id).then((res) => {
+        HttpRequest.jadwalBaruPerhariByKelas(id).then((res) => {
             // let result = res.data.data
             let status = res.data.status
             if (status == responseStatus.INSERT_SUKSES) {
@@ -728,6 +730,23 @@ export default function Dashboard(props) {
             }
         }).catch((err) => {
             console.log("err", err, err.response)
+        })
+    }, [listJadwal])
+
+    const loadListJadwalWalimurid = useCallback(() => {
+        let id = user.siswa.kelas_id
+        HttpRequest.jadwalBaruPerhariByKelas(id).then((res) => {
+            let status = res.data.status
+            if (status == responseStatus.INSERT_SUKSES) {
+                setListJadwal(res.data.data)
+            }
+            if (status == responseStatus.INSERT_GAGAL) {
+                Alert.alert("Informasi", `${res.data.message}`)
+            }
+            console.log("list", res.data)
+        }).catch((err) => {
+            console.log("err jadwal", err, err.response)
+            setListJadwal([])
         })
     }, [listJadwal])
 
@@ -1410,10 +1429,10 @@ export default function Dashboard(props) {
                                                                     <>
                                                                         {/* <Text style={[styles.txtBoldGlobal, { fontSize: 16, color: color.black, marginBottom: 12 }]}>{item.jadwal_hari}</Text> */}
                                                                         <View style={styles.containerJadwal}>
-                                                                            <Text style={[styles.txtBoldGlobal]}>{item.kegiatan}</Text>
+                                                                            <Text style={[styles.txtBoldGlobal]}>{item.mapel_nama}</Text>
                                                                             <View style={{ flex: 1 }} />
                                                                             <Ionicons name="time-outline" size={24} color={color.black} />
-                                                                            <Text style={[styles.txtGlobal, { marginLeft: 12 }]}>{item.jam_mulai} - {item.jam_selesai}</Text>
+                                                                            <Text style={[styles.txtGlobal, { marginLeft: 12 }]}>{item.jadwal_waktu_mulai} - {item.jadwal_waktu_akhir}</Text>
                                                                         </View>
                                                                         <View style={{ height: 20 }} />
                                                                     </>

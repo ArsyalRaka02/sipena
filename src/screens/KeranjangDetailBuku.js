@@ -51,16 +51,16 @@ export default function KeranjangDetailBuku(props) {
 
 
     const btnSave = useCallback(() => {
-        if (listData.length == 0) {
+        if (list.length == 0) {
             // toogleOpen()
             return Alert.alert("Informasi", "List buku kosong, harap pilih kembali")
             // return
         }
-        if (listData.length > 3) {
+        if (list.length > 3) {
             // toogleOpen()
             return Alert.alert("Informasi", "list buku tidak boleh lebih dari 3, harap pilih kembali")
         }
-        let loop = listData.map((item) => {
+        let loop = list.map((item) => {
             return item.id
         })
         let data = {
@@ -152,9 +152,9 @@ export default function KeranjangDetailBuku(props) {
                                                     Alert.alert("Informasi", "Apakah yakin hapus dari keranjang?", [
                                                         {
                                                             text: "Ya", onPress: () => {
-                                                                Alert.alert("Informasi", "Berhasil membatalkan")
-                                                                let data = list.splice(index, 1)
+                                                                let data = listData.splice(index, 1)
                                                                 dispatch(setSimpanBuku(data))
+                                                                Alert.alert("Informasi", "Berhasil membatalkan")
                                                             }
                                                         },
                                                         {

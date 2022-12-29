@@ -30,31 +30,31 @@ export default function ListJadwalGuru(props) {
     const [listSekolah, setListSekolah] = useState([])
 
     useEffect(() => {
-        if (user) {
+        if (isFocused) {
             loadListJadwal()
             loadKelas()
         }
-    }, [user])
+    }, [isFocused])
 
     const loadListJadwal = useCallback(async () => {
         let id = user.maper.id
         try {
-            let data = await HttpRequest.jadwalBaruPerhariByMapel(id)
+            let data = await HttpRequest.listJadwalKelasGuruByMapel(id)
             let status = data.data.status
             if (status == responseStatus.INSERT_SUKSES) {
-                setListMapel(data.data.data)
+                setListJadwal(data.data.data)
             }
             if (status == responseStatus.INSERT_GAGAL) {
                 Alert.alert("Informasi", "Server err dari api")
-                setListMapel([])
+                setListJadwal([])
             }
             console.log("ini list mabel", data.data.data)
         } catch (error) {
-            setListMapel([])
+            setListJadwal([])
             console.log("err", error, error.response)
             Alert.alert("Informasi", "Server err dari api")
         }
-    }, [detail, user, selectedKelas])
+    }, [detail, user, selectedKelas, listJadwal])
 
     const loadKelas = useCallback(() => {
         HttpRequest.listMapel().then((res) => {

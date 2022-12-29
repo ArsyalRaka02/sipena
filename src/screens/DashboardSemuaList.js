@@ -436,13 +436,8 @@ export default function DashboardSemuaList(props) {
             warna: color.menuRed,
             page: "ListEkstrakulikuler"
         },
-        {
-            name: "Semua",
-            image: require("../assets/sipena/semua.png"),
-            warna: color.menuPink,
-            page: "DashboardSemuaList"
-        }
     ]
+
     const GuruEsktraOsis = [
         {
             name: "Jadwal",
@@ -493,12 +488,6 @@ export default function DashboardSemuaList(props) {
             warna: color.menuBlue,
             page: "ListOsisGuru"
         },
-        {
-            name: "Semua",
-            image: require("../assets/sipena/semua.png"),
-            warna: color.menuPink,
-            page: "DashboardSemuaList"
-        }
     ]
 
 

@@ -28,6 +28,7 @@ export default function KeuanganSPPTU(props) {
             setListData(res.data)
             console.log("ini ers keuangan", res.data)
         }).catch((err) => {
+            console.log("err", err, err.response)
             Alert.alert("Informasi", "Error dari server")
         })
     }, [listData])

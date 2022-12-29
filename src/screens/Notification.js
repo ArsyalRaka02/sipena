@@ -3,7 +3,7 @@ import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Ima
 import moment from 'moment'
 import color from '../utils/color'
 import HeaderBack from '../components/HeaderBack'
-import { useNavigation } from '@react-navigation/native'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
 import TextInputIcon from '../components/TextInputIcon'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { fonts } from '../utils/fonts'
@@ -27,20 +27,24 @@ let data = {
 
 export default function Notification(props) {
     const navigation = useNavigation()
+
     const user = useSelector(state => state.user);
     const [listData, setListData] = useState([])
+    const isFocused = useIsFocused()
 
     useEffect(() => {
-        laodData()
-    }, [])
+        if (isFocused) {
+            laodData()
+        }
+    }, [isFocused])
 
     const laodData = useCallback(() => {
-        HttpRequest.getNotifikasi(user.id).then((res) => {
+        HttpRequest.getNotifikasi(user.data.id).then((res) => {
             if (res.data.status == responseStatus.INSERT_SUKSES) {
                 setListData(res.data.data)
             }
             if (res.data.status == responseStatus.INSERT_GAGAL) {
-                Alert.alert("Informasi", `${res.data.message}`)  
+                Alert.alert("Informasi", `${res.data.message}`)
             }
         }).catch((err) => {
             Alert.alert("Informasi", "Server err dari api")

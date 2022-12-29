@@ -93,6 +93,9 @@ export const HttpRequest = {
     listKeuanganSppBySiswa(id) {
         return request().get("/keuangan?siswa_id=" + id)
     },
+    listKeuanganSppByWali(id) {
+        return request().get("/keuangan?wali_murid_id=" + id)
+    },
 
 
     //jadwal
@@ -105,6 +108,9 @@ export const HttpRequest = {
     },
     listJadwalKelasGuruByMapel(id) {
         return request().get('/jadwal-kelas-sekarang?mapel_id=' + id)
+    },
+    listJadwalWalimuridByKelas(id) {
+        return request().get('/jadwal-kelas-sekarang?kelas_id=' + id)
     },
     listJadwalSekolah() {
         return request().get('/jadwal-sekolah')

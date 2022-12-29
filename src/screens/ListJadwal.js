@@ -33,7 +33,7 @@ export default function ListJadwal(props) {
         if (user) {
             // loadProfile()
             loadListJadwal()
-            loadKelas()
+            // loadKelas()
             // if (user.role_id == RoleResponse.guru) {
             //     loadJadwalSekolah()
             // }
@@ -59,26 +59,16 @@ export default function ListJadwal(props) {
     // }, [detail, user])
 
     const loadListJadwal = useCallback(() => {
-        // let id = user.data.kelas_id
         let id = user.siswa.kelas_id
-        // if (user.role_id == RoleResponse.siswa) {
-        //     id = user.data.kelas_id
-        // }
-        // if (user.role_id = RoleResponse.guru) {
-        //     id = selectedKelas
-        // }
-        // if (id == "") {
-        //     return Alert.alert("Informasi", "Maaf id tidak tersedia")
-        // }
-        HttpRequest.listJadwalKelas(id).then((res) => {
+        HttpRequest.jadwalBaruPerhariByKelas(id).then((res) => {
             let status = res.data.status
             if (status == responseStatus.INSERT_SUKSES) {
                 setListJadwal(res.data.data)
             }
             if (status == responseStatus.INSERT_GAGAL) {
                 Alert.alert("Informasi", `${res.data.message}`)
-                setListJadwal([])
             }
+            console.log("list", res.data)
         }).catch((err) => {
             console.log("err jadwal", err, err.response)
             setListJadwal([])
@@ -227,6 +217,38 @@ export default function ListJadwal(props) {
                                                     }
                                                 </>
                                             )
+                                        }
+                                    </>
+                                )
+                            }
+
+                            {
+                                listJadwal.length == 0 && (
+                                    <NoData>Tidak ada jadwal harian</NoData>
+                                )
+                            }
+                            {
+                                listJadwal.length > 0 && (
+                                    <>
+                                        <View style={{ marginVertical: 12 }}>
+                                            <Text style={[styles.txtGlobalBold]}>{moment(new Date()).format("dddd")}</Text>
+                                        </View>
+                                        {
+                                            listJadwal.map((item, iList) => {
+                                                return (
+                                                    <>
+                                                        <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: color.white, paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12 }}>
+                                                            <Text style={[styles.txtGlobalBold]}>{item.mapel_nama}</Text>
+                                                            <View style={{ flex: 1 }} />
+                                                            <View style={{ flexDirection: 'row' }}>
+                                                                <Ionicons name="time-outline" size={20} color={color.black} style={{ marginRight: 12 }} />
+                                                                <Text style={[styles.txtGlobal, { marginLeft: 12 }]}>{item.jadwal_waktu_mulai} - {item.jadwal_waktu_akhir}</Text>
+                                                            </View>
+                                                        </View>
+                                                        <View style={{ height: 20 }} />
+                                                    </>
+                                                )
+                                            })
                                         }
                                     </>
                                 )

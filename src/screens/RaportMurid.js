@@ -76,7 +76,10 @@ export default function RaportMurid(props) {
                                             setSelectedI(iRaport)
                                         }}>
                                             <View style={{ backgroundColor: color.white, padding: 20, flexDirection: 'row', borderTopEndRadius: 12, borderTopStartRadius: 12, alignItems: 'center' }}>
-                                                <Text style={[styles.txtGlobalBold, { fontSize: 12, flex: 1, color: color.black }]}>{item.nama_mapel}</Text>
+                                                <View style={{ flexDirection: 'column', flex: 1, alignItems: 'flex-start' }}>
+                                                    <Text style={[styles.txtGlobalBold, { fontSize: 12, flex: 1, color: color.black }]}>Semester {item.semester}</Text>
+                                                    <Text style={[styles.txtGlobalBold, { fontSize: 12, flex: 1, color: color.black }]}>{item.nama_mapel}</Text>
+                                                </View>
                                                 <Text style={[styles.txtGlobal, { fontSize: 12 }]}>Nilai: </Text>
                                                 <Text style={[styles.txtGlobalBold, { fontSize: 12, color: color.black, marginRight: 10 }]}>{item.nilai_rata}</Text>
                                                 <Ionicons name="chevron-down-outline" size={24} color={color.black} />

@@ -27,8 +27,8 @@ export default function ListKeuanganWaliMurid(props) {
     }, [])
 
     const loadList = useCallback(() => {
-        let id = user?.siswa.id
-        HttpRequest.listKeuanganSppBySiswa(id).then((res) => {
+        let id = user?.id
+        HttpRequest.listKeuanganSppByWali(id).then((res) => {
             setListData(res.data)
             console.log("ini ers keuangan", res.data)
         }).catch((err) => {

@@ -57,7 +57,13 @@ export default function DetailPerpustakaan(props) {
         // }
         // navigation.navigate("KeranjangDetailBuku")
         console.log("ini data get jml", valid)
-        Alert.alert("Informasi", "Berhasil simpan buku di keranjang")
+        Alert.alert("Informasi", "Berhasil simpan buku di keranjang", [
+            {
+                text: "oke", onPress: () => {
+                    navigation.navigate("KeranjangDetailBuku")
+                }
+            }
+        ])
         // Toast.showSuccess("Berhasil simpan buku di keranjang")
     }, [])
 

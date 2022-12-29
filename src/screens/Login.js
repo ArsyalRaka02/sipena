@@ -56,40 +56,45 @@ export default function Login({ navigation }) {
         let data = { username, password };
         HttpRequest.login(data).then((res) => {
             let result = res.data
-            if (result.data.role_id == RoleResponse.admin) {
-                // Alert.alert("Informasi", "Admin tidak boleh akses disini!!")
-                setMessage("Admin tidak boleh akses disini!!")
+            if (res.data.data.is_active == "Y") {
+                if (result.data.role_id == RoleResponse.admin) {
+                    // Alert.alert("Informasi", "Admin tidak boleh akses disini!!")
+                    setMessage("Admin tidak boleh akses disini!!")
+                    toogleOpen()
+                    setLoading(false);
+                }
+                // else if (result.data.role_id == RoleResponse.pegawai) {
+                // if (result.data.data.is_koperasi == "Y") {
+                //     setMessage("Koperasi tidak bisa akses disini!!")
+                //     toogleOpen()
+                //     // Alert.alert("Informasi", "")
+                // } else {
+                //     if (result.status == responseStatus.INSERT_SUKSES) {
+                //         // Toast.showSuccess("Berhasil Login")
+                //         dispatch(setUser(res.data.data));
+                //     }
+                //     if (result.status == responseStatus.INSERT_GAGAL) {
+                //         toogleGagalOpen()
+                //     }
+                //     setLoading(false);
+                // }
+                // setLoading(false);
+                // } 
+                else {
+                    if (result.status == responseStatus.INSERT_SUKSES) {
+                        // Toast.showSuccess("Berhasil Login")
+                        dispatch(setUser(res.data.data));
+                    }
+                    if (result.status == responseStatus.INSERT_GAGAL) {
+                        toogleGagalOpen()
+                    }
+                    setLoading(false);
+                }
+            } else {
+                setMessage("Akun belum di konfirmasi admin!!")
                 toogleOpen()
                 setLoading(false);
             }
-            // else if (result.data.role_id == RoleResponse.pegawai) {
-            // if (result.data.data.is_koperasi == "Y") {
-            //     setMessage("Koperasi tidak bisa akses disini!!")
-            //     toogleOpen()
-            //     // Alert.alert("Informasi", "")
-            // } else {
-            //     if (result.status == responseStatus.INSERT_SUKSES) {
-            //         // Toast.showSuccess("Berhasil Login")
-            //         dispatch(setUser(res.data.data));
-            //     }
-            //     if (result.status == responseStatus.INSERT_GAGAL) {
-            //         toogleGagalOpen()
-            //     }
-            //     setLoading(false);
-            // }
-            // setLoading(false);
-            // } 
-            else {
-                if (result.status == responseStatus.INSERT_SUKSES) {
-                    // Toast.showSuccess("Berhasil Login")
-                    dispatch(setUser(res.data.data));
-                }
-                if (result.status == responseStatus.INSERT_GAGAL) {
-                    toogleGagalOpen()
-                }
-                setLoading(false);
-            }
-
             console.log("ini adalah result", result)
             // setLoading(false);
         }).catch((err) => {

@@ -22,6 +22,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 import responseStatus from "../utils/responseStatus";
 import app from "../config/app";
 import RoleResponse from "../utils/RoleResponse";
+import { useIsFocused } from "@react-navigation/native";
 
 const SCREEN_WIDTH = Dimensions.get("window").width
 const SCREEN_HEIGHT = Dimensions.get("window").height;
@@ -30,6 +31,7 @@ export default function HeaderTablet(props) {
     const dispatch = useDispatch();
     const user = useSelector(state => state.user);
 
+    const isFocused = useIsFocused()
     const [isCount, setCount] = useState(0)
 
     const [isLoading, setIsLoading] = useState(false);
@@ -43,11 +45,13 @@ export default function HeaderTablet(props) {
     const [detail, setDetail] = useState({})
 
     useEffect(() => {
-        if (user) {
-            loadProfile()
+        if (isFocused) {
+            if (user) {
+                loadProfile()
+            }
             loadGetTotal()
         }
-    }, [user]);
+    }, [user, isFocused, isCount]);
 
     const loadGetTotal = useCallback(() => {
         let id = user.data.id
@@ -184,6 +188,21 @@ export default function HeaderTablet(props) {
                                     {
                                         user.role_id == RoleResponse.dinaspendidikan && (
                                             <Text style={props.textAlamat}>Dinas Pendidikan</Text>
+                                        )
+                                    }
+                                    {
+                                        user.role_id == RoleResponse.kepalasekolah && (
+                                            <Text style={props.textAlamat}>Kepala Sekolah</Text>
+                                        )
+                                    }
+                                    {
+                                        user.role_id == RoleResponse.walimurid && (
+                                            <Text style={props.textAlamat}>Walimurid</Text>
+                                        )
+                                    }
+                                    {
+                                        user.data.is_pengawas_sekolah == "Y" && (
+                                            <Text style={props.textAlamat}>Pengawas Sekolah</Text>
                                         )
                                     }
                                     {/* <Text {...props} style={props.textAlamat}>{user.rolenama} </Text> */}
