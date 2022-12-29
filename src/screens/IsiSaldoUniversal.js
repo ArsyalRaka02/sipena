@@ -18,6 +18,58 @@ import Combobox from '../components/Combobox'
 const SCREEN_HEIGHT = Dimensions.get("window").height
 const SCREEN_WIDTH = Dimensions.get("window").width
 
+const bulan = [
+    {
+        id: 'January',
+        label: 'January'
+    },
+    {
+        id: 'February',
+        label: 'February'
+    },
+    {
+        id: 'Maret',
+        label: 'Maret'
+    },
+    {
+        id: 'April',
+        label: 'April'
+    },
+    {
+        id: 'Mei',
+        label: 'Mei'
+    },
+    {
+        id: 'Juni',
+        label: 'Juni'
+    },
+    {
+        id: 'Juli',
+        label: 'Juli'
+    },
+    {
+        id: 'Agustus',
+        label: 'Agustus'
+    },
+    {
+        id: 'September',
+        label: 'September'
+    },
+    {
+        id: 'Oktober',
+        label: 'Oktober'
+    },
+    {
+        id: 'November',
+        label: 'November'
+    },
+    {
+        id: 'Desember',
+        label: 'Desember'
+    },
+
+]
+
 export default function IsiSaldoUniversal(props) {
     const navigation = useNavigation()
     const user = useSelector(state => state.user);
@@ -27,6 +79,7 @@ export default function IsiSaldoUniversal(props) {
     const [isLoading, setIsloading] = useState(false)
     const [kategori, selectedKategori] = useState("")
     const [listKategori, setListKategori] = useState([])
+    const [selectedBulan, setSelectedBulan] = useState(null)
 
 
     const btnSave = useCallback(() => {
@@ -52,6 +105,7 @@ export default function IsiSaldoUniversal(props) {
             type: 'image/jpeg',
             uri: uploadBukti,
         });
+        // console.log("ini post data", formData)
         setIsloading(true)
         HttpRequest.simpanUniversal(formData).then((res) => {
             let data = res.data
@@ -98,7 +152,7 @@ export default function IsiSaldoUniversal(props) {
                 }
             })
             setListKategori(data)
-            console.log("data", data)
+            // console.log("data", data)
         }).catch((err) => {
             setListKategori([])
             console.log("err", err, err.response)
@@ -141,6 +195,7 @@ export default function IsiSaldoUniversal(props) {
                             data={listKategori}
                             onChange={(val) => {
                                 selectedKategori(val);
+                                console.log("ini val", val)
                             }}
                         />
                         <Text style={[styles.txtGlobalBold, { fontSize: 14, color: color.black, marginVertical: 10 }]}>Nominal</Text>
@@ -149,12 +204,51 @@ export default function IsiSaldoUniversal(props) {
                             value={nominal}
                             onChangeText={setNominal}
                         />
+                        {
+                            kategori == 1 && (
+                                <>
+                                    <Text style={[styles.txtGlobalBold, { fontSize: 14, color: color.black, marginVertical: 10 }]}>Bulan</Text>
+                                    <Combobox
+                                        value={selectedBulan}
+                                        placeholder="Silahkan pilih Bulan"
+                                        theme={{
+                                            boxStyle: {
+                                                backgroundColor: color.white,
+                                                borderColor: color.Neutral20,
+                                            },
+                                            leftIconStyle: {
+                                                color: color.Neutral10,
+                                                marginRight: 14
+                                            },
+                                            rightIconStyle: {
+                                                color: color.Neutral10,
+                                            },
+                                        }}
+                                        jenisIconsRight="Ionicons"
+                                        iconNameRight="caret-down-outline"
+                                        showLeftIcons={false}
+                                        data={bulan}
+                                        onChange={(val) => {
+                                            setSelectedBulan(val);
+                                            setKeterangam(val)
+                                            console.log("ini Bulan", val)
+                                        }}
+                                    />
+                                </>
+                            )
+                        }
 
-                        <Text style={[styles.txtGlobalBold, { fontSize: 14, color: color.black, marginVertical: 10 }]}>Keterangan</Text>
-                        <TextInputIcon
-                            value={keterangan}
-                            onChangeText={setKeterangam}
-                        />
+                        {
+                            kategori == 3 && (
+                                <>
+                                    <Text style={[styles.txtGlobalBold, { fontSize: 14, color: color.black, marginVertical: 10 }]}>Keterangan</Text>
+                                    <TextInputIcon
+                                        value={keterangan}
+                                        onChangeText={setKeterangam}
+                                    />
+                                </>
+                            )
+                        }
 
                         <Text style={[styles.txtGlobalBold, { fontSize: 14, color: color.black, marginVertical: 10 }]}>Upload Bukti Transfer</Text>
                         <UploadImageView
