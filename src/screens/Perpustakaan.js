@@ -47,7 +47,7 @@ export default function Perpustakaan(props) {
                 setListBuku([])
             }
             setIsLoading(false)
-            console.log("list", res.data)
+            console.log("list", res.data.data)
         }).catch((err) => {
             setIsLoading(false)
             Alert.alert("Informasi", "Server err dari api")

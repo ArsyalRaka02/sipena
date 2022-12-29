@@ -14,7 +14,7 @@ import color from "../utils/color"
 import { HttpRequest } from "../utils/http"
 import Toast from "../components/Toast"
 import app from "../config/app"
-import { setUser } from "../store/actions"
+import { setUser, setSimpanBuku } from "../store/actions"
 import TextInputIcon from "../components/TextInputIcon";
 import { fonts } from "../utils/fonts"
 import responseStatus from "../utils/responseStatus";
@@ -84,6 +84,7 @@ export default function Login({ navigation }) {
                     if (result.status == responseStatus.INSERT_SUKSES) {
                         // Toast.showSuccess("Berhasil Login")
                         dispatch(setUser(res.data.data));
+                        dispatch(setSimpanBuku([]));
                     }
                     if (result.status == responseStatus.INSERT_GAGAL) {
                         toogleGagalOpen()
