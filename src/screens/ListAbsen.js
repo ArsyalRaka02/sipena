@@ -48,7 +48,7 @@ export default function ListAbsen(props) {
                 // setSabtu(res.data.data.Sabtu)
             }
             if (status == responseStatus.INSERT_GAGAL) {
-                Alert.alert("Informasi", `${res.data.message}`) 
+                Alert.alert("Informasi", `${res.data.message}`)
                 setListJadwal([])
             }
             console.log("ini adalah jadwal matapelajaran", res.data.data)

@@ -48,19 +48,19 @@ export default function ListJadwalSiswa(props) {
             let data = await HttpRequest.jadwalBaruPerhariByKelas(id)
             let status = data.data.status
             if (status == responseStatus.INSERT_SUKSES) {
-                setListMapel(data.data.data)
+                setListJadwal(data.data.data)
             }
             if (status == responseStatus.INSERT_GAGAL) {
                 Alert.alert("Informasi", "Server err dari api")
-                setListMapel([])
+                setListJadwal([])
             }
             console.log("ini list mabel", data.data.data)
         } catch (error) {
-            setListMapel([])
+            setListJadwal([])
             console.log("err", error, error.response)
             Alert.alert("Informasi", "Server err dari api")
         }
-    }, [detail, user, selectedKelas])
+    }, [detail, user, selectedKelas, listJadwal])
 
     const loadKelas = useCallback(() => {
         HttpRequest.listMapel().then((res) => {

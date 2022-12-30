@@ -3,7 +3,7 @@ import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Ima
 import moment from 'moment'
 import color from '../utils/color'
 import HeaderBack from '../components/HeaderBack'
-import { useNavigation } from '@react-navigation/native'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
 import TextInputIcon from '../components/TextInputIcon'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { fonts } from '../utils/fonts'
@@ -20,6 +20,7 @@ const SCREEN_WIDTH = Dimensions.get("window").width
 export default function DetailKantin(props) {
     const navigation = useNavigation()
     const { params } = props.route.params
+    const isFocused = useIsFocused()
     const user = useSelector(state => state.user);
     // console.log("ini adalah params", params)
 
@@ -31,8 +32,10 @@ export default function DetailKantin(props) {
 
 
     useEffect(() => {
-        loadKantin()
-    }, [])
+        if (isFocused) {
+            loadKantin()
+        }
+    }, [isFocused])
 
     const loadKantin = useCallback(() => {
         HttpRequest.getListKantinbyId(params).then((res) => {
@@ -144,5 +147,5 @@ const styles = {
     },
     txtGlobal: { fontSize: 13, fontFamily: fonts.inter },
     txtGlobalBold: { fontSize: 15, fontFamily: fonts.interBold },
-    label: { fontSize: 14, color: color.black }
+    label: { fontSize: 14, color: color.black, marginVertical: 12 }
 }

@@ -734,7 +734,7 @@ export default function Dashboard(props) {
     }, [listJadwal])
 
     const loadListJadwalWalimurid = useCallback(() => {
-        let id = user.siswa.kelas_id
+        let id = user.siswa[0].kelas_id
         HttpRequest.jadwalBaruPerhariByKelas(id).then((res) => {
             let status = res.data.status
             if (status == responseStatus.INSERT_SUKSES) {
@@ -1195,7 +1195,7 @@ export default function Dashboard(props) {
                                 user.role_id == RoleResponse.walimurid && (
                                     <>
                                         {
-                                            user.siswa.id != undefined && (
+                                            user.siswa.length != 0 && (
                                                 dataWaliMurid.map((item, ilist) => {
                                                     return (
                                                         <>
@@ -1217,7 +1217,7 @@ export default function Dashboard(props) {
                                             )
                                         }
                                         {
-                                            user.siswa.id == undefined && (
+                                            user.siswa.length == 0 && (
                                                 waliMuridNonSiswa.map((item) => {
                                                     return (
                                                         <TouchableOpacity activeOpacity={1} onPress={() => {
@@ -1413,6 +1413,11 @@ export default function Dashboard(props) {
                                                     }}>
                                                         <Text style={[styles.txtGlobal, { color: "#75B4FF" }]}>Selengkapnya</Text>
                                                     </TouchableOpacity>
+                                                </View>
+
+
+                                                <View style={{ marginVertical: 12 }}>
+                                                    <Text style={[styles.txtBoldGlobal]}>{moment(new Date()).format("dddd")}</Text>
                                                 </View>
                                                 {
                                                     listJadwal.length == 0 && (

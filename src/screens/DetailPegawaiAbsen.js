@@ -3,7 +3,7 @@ import { Text, View, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, Ima
 import moment from 'moment'
 import color from '../utils/color'
 import HeaderBack from '../components/HeaderBack'
-import { useNavigation } from '@react-navigation/native'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
 import TextInputIcon from '../components/TextInputIcon'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { fonts } from '../utils/fonts'
@@ -12,6 +12,9 @@ import Toast from '../components/Toast'
 import responseStatus from '../utils/responseStatus'
 import NoData from '../components/NoData'
 import app from '../config/app'
+import { user } from '../store/reducers'
+import RoleResponse from '../utils/RoleResponse'
+import { useSelector } from 'react-redux'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height
 const SCREEN_WIDTH = Dimensions.get("window").width
@@ -19,8 +22,11 @@ const SCREEN_WIDTH = Dimensions.get("window").width
 export default function DetailPegawaiAbsen(props) {
     const navigation = useNavigation()
 
-    const { params } = props.route.params
+    const isFocused = useIsFocused()
 
+    const user = useSelector(state => state.user);
+    const { params } = props.route.params
+    console.log("params", params)
     useEffect(() => {
         loadData()
     }, [])
@@ -53,29 +59,34 @@ export default function DetailPegawaiAbsen(props) {
                             <Text style={[styles.txtGlobal]}>Keterangan Izin: </Text>
                             <Text style={[styles.txtGlobalBold, { color: color.black }]}>{params?.keterangan_izin ?? "Tidak izin"}</Text>
                         </View>
-                        <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
-                            <Text style={[styles.txtGlobal]}>Status Pegawai : </Text>
-                            {
-                                params.is_kantin == "Y" && (
-                                    <Text style={[styles.txtGlobalBold, { color: color.black }]}>Kantin</Text>
-                                )
-                            }
-                            {
-                                params.is_koperasi == "Y" && (
-                                    <Text style={[styles.txtGlobalBold, { color: color.black }]}>Kantin</Text>
-                                )
-                            }
-                            {
-                                params.is_perpus == "Y" && (
-                                    <Text style={[styles.txtGlobalBold, { color: color.black }]}>Perpustakaan</Text>
-                                )
-                            }
-                            {
-                                params.is_tata_usaha == "Y" && (
-                                    <Text style={[styles.txtGlobalBold, { color: color.black }]}>Tata Usaha</Text>
-                                )
-                            }
-                        </View>
+                        {
+                            user.role_id == RoleResponse.pegawai && (
+                                <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
+                                    <Text style={[styles.txtGlobal]}>Status Pegawai : </Text>
+
+                                    {
+                                        params.is_kantin == "Y" && (
+                                            <Text style={[styles.txtGlobalBold, { color: color.black }]}>Kantin</Text>
+                                        )
+                                    }
+                                    {
+                                        params.is_koperasi == "Y" && (
+                                            <Text style={[styles.txtGlobalBold, { color: color.black }]}>Kantin</Text>
+                                        )
+                                    }
+                                    {
+                                        params.is_perpus == "Y" && (
+                                            <Text style={[styles.txtGlobalBold, { color: color.black }]}>Perpustakaan</Text>
+                                        )
+                                    }
+                                    {
+                                        params.is_tata_usaha == "Y" && (
+                                            <Text style={[styles.txtGlobalBold, { color: color.black }]}>Tata Usaha</Text>
+                                        )
+                                    }
+                                </View>
+                            )
+                        }
                         <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
                             <Text style={[styles.txtGlobal]}>Terlambat : </Text>
                             <Text style={[styles.txtGlobalBold, { color: color.black }]}>{params?.terlambat == "Y" ? "Terlambat" : "Tepat Waktu" ?? " - "}</Text>

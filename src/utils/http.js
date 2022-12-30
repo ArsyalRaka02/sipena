@@ -283,7 +283,9 @@ export const HttpRequest = {
     getListTransaksiKantin() {
         return request().get("/transaksi-kantin")
     },
-
+    getMenuKantin(id) {
+        return request().get("/list-menu?kantin_id=" + id)
+    },
 
     getListKoperasiById(id) {
         return request().get("/transaksi-koperasi?id=" + id)
@@ -484,6 +486,10 @@ export const HttpRequest = {
     },
     laporanGuru() {
         return request().get("/listguru")
+    },
+
+    listAbsenByUserID(id) {
+        return request().get("/listabsensisiswa?userid=" + id)
     }
 
 

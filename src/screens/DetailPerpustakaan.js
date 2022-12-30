@@ -124,7 +124,11 @@ export default function DetailPerpustakaan(props) {
                         <Button
                             style={{ flex: 1 }}
                             onPress={() => {
-                                btnSave()
+                                if (params.stok_buku == 0) {
+                                    Alert.alert("Informasi", "Buku sedang kosong/tidak tersedia!!")
+                                } else {
+                                    btnSave()
+                                }
                             }}
                         >
                             Pinjam Buku

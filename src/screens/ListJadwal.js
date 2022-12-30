@@ -14,6 +14,7 @@ import NoData from '../components/NoData'
 import { useSelector } from 'react-redux'
 import RoleResponse from '../utils/RoleResponse'
 import Combobox from '../components/Combobox'
+import Button from '../components/Button'
 
 const SCREEN_HEIGHT = Dimensions.get("window").height
 const SCREEN_WIDTH = Dimensions.get("window").width
@@ -28,11 +29,15 @@ export default function ListJadwal(props) {
     const [listKelas, setListKelas] = useState([])
     const [selectedKelas, setSelectedKelas] = useState(null)
     const [listSekolah, setListSekolah] = useState([])
+    const [selectedSiswa, setSelectedSiswa] = useState(null)
+    const [listSiswa, setListSiswa] = useState([])
+    const [isShow, setIsShow] = useState(false)
 
     useEffect(() => {
         if (user) {
             // loadProfile()
-            loadListJadwal()
+            // loadListJadwal()
+            loadProfile()
             // loadKelas()
             // if (user.role_id == RoleResponse.guru) {
             //     loadJadwalSekolah()
@@ -40,40 +45,52 @@ export default function ListJadwal(props) {
         }
     }, [user])
 
-    // const loadProfile = useCallback(() => {
-    //     let id = user.id
-    //     HttpRequest.getProfile(id).then((res) => {
-    //         let result = res.data.data.data
-    //         let status = res.data.status
-    //         if (status == responseStatus.INSERT_SUKSES) {
-    //             setDetail(result)
-    //         }
-    //         if (status == responseStatus.INSERT_GAGAL) {
-    //             Alert.alert("Informasi", `${res.data.message}`)
-    //             setDetail([])
-    //         }
-    //     }).catch((err) => {
-    //         Alert.alert("Informasi", "Server err dari api")
-    //         console.log("err", err, err.response)
-    //     })
-    // }, [detail, user])
+    const loadProfile = useCallback(() => {
+        let id = user.id
+        HttpRequest.getProfile(id).then((res) => {
+            // let result = res.data.data.data
+            let status = res.data.status
+            if (status == responseStatus.INSERT_SUKSES) {
+                setDetail(res.data.data.data)
+                let loop = res.data.data.siswa.map((item) => {
+                    return {
+                        id: item.kelas.id,
+                        label: item.nama_lengkap
+                    }
+                })
+                setListSiswa(loop)
+                // console.log("a", loop)
+            }
+            if (status == responseStatus.INSERT_GAGAL) {
+                Alert.alert("Informasi", `${res.data.message}`)
+                setDetail([])
+            }
+            // console.log("user s ", result)
+        }).catch((err) => {
+            Alert.alert("Informasi", "Server err dari api")
+            console.log("err", err, err.response)
+        })
+    }, [detail, listSiswa])
 
     const loadListJadwal = useCallback(() => {
-        let id = user.siswa.kelas_id
+        let id = selectedSiswa
         HttpRequest.jadwalBaruPerhariByKelas(id).then((res) => {
             let status = res.data.status
             if (status == responseStatus.INSERT_SUKSES) {
                 setListJadwal(res.data.data)
+                setIsShow(true)
             }
             if (status == responseStatus.INSERT_GAGAL) {
                 Alert.alert("Informasi", `${res.data.message}`)
+                setIsShow(false)
             }
             console.log("list", res.data)
         }).catch((err) => {
+            setIsShow(false)
             console.log("err jadwal", err, err.response)
             setListJadwal([])
         })
-    }, [listJadwal])
+    }, [listJadwal, selectedSiswa, isShow])
 
     const loadKelas = useCallback(() => {
         HttpRequest.listMapel().then((res) => {
@@ -148,7 +165,7 @@ export default function ListJadwal(props) {
                     <View style={{ flex: 1 }}>
                         <ScrollView>
                             {/* <ListPelajaran data={listJadwal} /> */}
-                            {
+                            {/* {
                                 user.role_id == RoleResponse.guru && (
                                     <>
                                         {
@@ -199,9 +216,9 @@ export default function ListJadwal(props) {
                                                         listJadwal.map((item, iList) => {
                                                             return (
                                                                 <>
-                                                                    {/* <View style={{ marginVertical: 12 }}>
+                                                                    <View style={{ marginVertical: 12 }}>
                                                                         <Text style={[styles.txtGlobalBold]}>{item.jadwal_hari}</Text>
-                                                                    </View> */}
+                                                                    </View>
                                                                     <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: color.white, paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12 }}>
                                                                         <Text style={[styles.txtGlobalBold]}>{item.mapel_nama}</Text>
                                                                         <View style={{ flex: 1 }} />
@@ -220,35 +237,75 @@ export default function ListJadwal(props) {
                                         }
                                     </>
                                 )
-                            }
+                            } */}
+
+                            <View>
+                                <Text style={[styles.txtGlobalBold, { fontSize: 14, color: color.black, marginVertical: 10 }]}>Pilih Siswa</Text>
+                                <Combobox
+                                    value={selectedSiswa}
+                                    placeholder="Silahkan Pilih Siswa Anda"
+                                    theme={{
+                                        boxStyle: {
+                                            backgroundColor: color.white,
+                                            borderColor: color.Neutral20,
+                                        },
+                                        leftIconStyle: {
+                                            color: color.Neutral10,
+                                            marginRight: 14
+                                        },
+                                        rightIconStyle: {
+                                            color: color.Neutral10,
+                                        },
+                                    }}
+                                    jenisIconsRight="Ionicons"
+                                    iconNameRight="caret-down-outline"
+                                    showLeftIcons={false}
+                                    data={listSiswa}
+                                    onChange={(val) => {
+                                        setSelectedSiswa(val);
+                                    }}
+                                />
+                            </View>
+                            <View style={{ height: 20 }} />
+                            <Button onPress={() => {
+                                loadListJadwal()
+                            }}>
+                                Cari
+                            </Button>
 
                             {
-                                listJadwal.length == 0 && (
-                                    <NoData>Tidak ada jadwal harian</NoData>
-                                )
-                            }
-                            {
-                                listJadwal.length > 0 && (
+                                isShow == true && (
                                     <>
-                                        <View style={{ marginVertical: 12 }}>
-                                            <Text style={[styles.txtGlobalBold]}>{moment(new Date()).format("dddd")}</Text>
-                                        </View>
                                         {
-                                            listJadwal.map((item, iList) => {
-                                                return (
-                                                    <>
-                                                        <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: color.white, paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12 }}>
-                                                            <Text style={[styles.txtGlobalBold]}>{item.mapel_nama}</Text>
-                                                            <View style={{ flex: 1 }} />
-                                                            <View style={{ flexDirection: 'row' }}>
-                                                                <Ionicons name="time-outline" size={20} color={color.black} style={{ marginRight: 12 }} />
-                                                                <Text style={[styles.txtGlobal, { marginLeft: 12 }]}>{item.jadwal_waktu_mulai} - {item.jadwal_waktu_akhir}</Text>
-                                                            </View>
-                                                        </View>
-                                                        <View style={{ height: 20 }} />
-                                                    </>
-                                                )
-                                            })
+                                            listJadwal.length == 0 && (
+                                                <NoData>Tidak ada jadwal harian</NoData>
+                                            )
+                                        }
+                                        {
+                                            listJadwal.length > 0 && (
+                                                <>
+                                                    <View style={{ marginVertical: 12 }}>
+                                                        <Text style={[styles.txtGlobalBold]}>{moment(new Date()).format("dddd")}</Text>
+                                                    </View>
+                                                    {
+                                                        listJadwal.map((item, iList) => {
+                                                            return (
+                                                                <>
+                                                                    <View style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: color.white, paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12 }}>
+                                                                        <Text style={[styles.txtGlobalBold]}>{item.mapel_nama}</Text>
+                                                                        <View style={{ flex: 1 }} />
+                                                                        <View style={{ flexDirection: 'row' }}>
+                                                                            <Ionicons name="time-outline" size={20} color={color.black} style={{ marginRight: 12 }} />
+                                                                            <Text style={[styles.txtGlobal, { marginLeft: 12 }]}>{item.jadwal_waktu_mulai} - {item.jadwal_waktu_akhir}</Text>
+                                                                        </View>
+                                                                    </View>
+                                                                    <View style={{ height: 20 }} />
+                                                                </>
+                                                            )
+                                                        })
+                                                    }
+                                                </>
+                                            )
                                         }
                                     </>
                                 )

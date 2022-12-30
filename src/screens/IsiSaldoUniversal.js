@@ -237,6 +237,39 @@ export default function IsiSaldoUniversal(props) {
                                 </>
                             )
                         }
+                        {
+                            kategori == 2 && (
+                                <>
+                                    <Text style={[styles.txtGlobalBold, { fontSize: 14, color: color.black, marginVertical: 10 }]}>Bulan</Text>
+                                    <Combobox
+                                        value={selectedBulan}
+                                        placeholder="Silahkan pilih Bulan"
+                                        theme={{
+                                            boxStyle: {
+                                                backgroundColor: color.white,
+                                                borderColor: color.Neutral20,
+                                            },
+                                            leftIconStyle: {
+                                                color: color.Neutral10,
+                                                marginRight: 14
+                                            },
+                                            rightIconStyle: {
+                                                color: color.Neutral10,
+                                            },
+                                        }}
+                                        jenisIconsRight="Ionicons"
+                                        iconNameRight="caret-down-outline"
+                                        showLeftIcons={false}
+                                        data={bulan}
+                                        onChange={(val) => {
+                                            setSelectedBulan(val);
+                                            setKeterangam(val)
+                                            console.log("ini Bulan", val)
+                                        }}
+                                    />
+                                </>
+                            )
+                        }
 
                         {
                             kategori == 3 && (
